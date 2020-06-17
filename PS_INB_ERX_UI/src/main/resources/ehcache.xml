@@ -1,0 +1,44 @@
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://www.ehcache.org/v3'
+    xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+    xsi:schemaLocation="
+        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+                
+     <service>
+      <jsr107:defaults default-template="INB_ERX-Cache">
+     </jsr107:defaults>        
+    </service>
+    
+    <persistence directory="tmp/ehcache"/> 
+        
+    <cache-template name="INB_ERX-Cache">    
+    <expiry>
+     <ttl unit="minutes">20</ttl>     
+    </expiry>
+    
+    <resources>
+    <heap unit="entries">5000</heap>
+    <offheap unit="MB">50</offheap>
+    <disk unit="MB">100</disk>
+   </resources>  
+   
+  </cache-template>
+    
+</config>    
+<!--
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd" name="INB_ERX-Cache">
+  <diskStore path="tmp/ehcache"/>
+  <defaultCache
+    maxElementsInMemory="5000"
+    eternal="false"
+    timeToIdleSeconds="1200"
+    timeToLiveSeconds="1200"
+    overflowToDisk="true"
+    maxElementsOnDisk="10000000"
+    diskPersistent="true"
+    diskExpiryThreadIntervalSeconds="1200"
+    memoryStoreEvictionPolicy="LRU" />
+</ehcache>
+ -->

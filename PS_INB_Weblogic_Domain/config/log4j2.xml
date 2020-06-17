@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Configuration has an attribute named status that you can set to trace or debug to get configuration messages from Log4J2. -->
+<Configuration>
+	<Properties>
+		<Property name="logDir">INBERXLogs</Property>
+		<Property name="maxFileSize">100 MB</Property>
+		<Property name="maxRolloverFiles">10</Property>
+ 		<Property name="logPattern">%d{DEFAULT} %-5p [%t] [%c:%M] %m%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+		</Console>
+
+		<RollingFile name="ApacheAppender" filename="${logDir}/apache.log" filePattern="${logDir}/apache-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+		
+		<RollingFile name="INBERXAppender" fileName="${logDir}/inberx.log" filePattern="${logDir}/inberx-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+
+		<RollingFile name="INBERXHTMLAppender" fileName="${logDir}/inberx-all.html" filePattern="${logDir}/inberx-all-%i.html">
+			<HTMLLayout>
+ 				<LocationInfo>true</LocationInfo>
+ 				<Title>INB-ERX Log</Title>
+			</HTMLLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1000 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+
+		<RollingFile name="HibernateAppender" fileName="${logDir}/hibernate.log" filePattern="${logDir}/hibernate-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+
+	    <RollingFile name="ServerAppender" fileName="${logDir}/server.log" filePattern="${logDir}/server-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+	    </RollingFile>
+
+		<RollingFile name="SpringAppender" fileName="${logDir}/spring.log" filePattern="${logDir}/spring-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+
+	    <RollingFile name="VAAppender" fileName="${logDir}/other_va_software.log" filePattern="${logDir}/other_va_software-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+	    </RollingFile>
+	
+		<RollingFile name="INBERXPerformanceAppender"  fileName="${logDir}/inberxPerformance.log" filePattern="${logDir}/inberxPerformance-%i.log">
+			<PatternLayout>
+				<Pattern>${logPattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${maxFileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxRolloverFiles}"/>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<logger name="gov.va.med.pharmacy" level="debug" additivity="false" includeLocation="true">
+			<AppenderRef ref="INBERXAppender" />
+		</logger>
+
+		<logger name="gov.va.med" level="error" additivity="false">
+			<AppenderRef ref="VAAppender" />
+		</logger>
+
+		<logger name="org.apache" level="error" additivity="false">
+			<AppenderRef ref="ApacheAppender"/>
+		</logger>
+
+		<logger name="org.aspectj" level="error" additivity="false">
+			<AppenderRef ref="SpringAppender" />
+		</logger>
+
+		<logger name="org.dbunit" level="error" additivity="false">
+			<AppenderRef ref="INBERXAppender" />
+		</logger>
+
+		<logger name="org.hibernate" level="error" additivity="false">
+			<AppenderRef ref="HibernateAppender" />
+		</logger>
+
+		<logger name="org.springframework" level="error" additivity="false">
+			<AppenderRef ref="SpringAppender" />
+		</logger>
+
+		<logger name="net.sf.navigator" level="error" additivity="false">
+			<AppenderRef ref="INBERXAppender" />
+		</logger>
+
+		<logger name="net.sf.ehcache" level="error" additivity="false">
+			<AppenderRef ref="INBERXAppender" />
+		</logger>
+		
+		 <Logger name="gov.va.med.vistalink" level="all" additivity="false">
+         <AppenderRef ref="Console"/>
+       </Logger>
+
+		<!-- Special performance metrics Loggers -->
+		<!-- AOP-based -->
+		<logger
+			name="org.springframework.aop.interceptor.PerformanceMonitorInterceptor"
+			level="trace"
+			additivity="false">
+			<appender-ref ref="INBERXPerformanceAppender" />
+		</logger>
+		<logger
+			name="org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor"
+			level="trace"
+			additivity="false">
+			<appender-ref ref="INBERXPerformanceAppender" />
+		</logger>
+		<Root level="debug" additivity="true">
+			<AppenderRef ref="ConsoleAppender"/>
+			<AppenderRef ref="INBERXHTMLAppender" />
+		</Root>
+	</Loggers>
+</Configuration>

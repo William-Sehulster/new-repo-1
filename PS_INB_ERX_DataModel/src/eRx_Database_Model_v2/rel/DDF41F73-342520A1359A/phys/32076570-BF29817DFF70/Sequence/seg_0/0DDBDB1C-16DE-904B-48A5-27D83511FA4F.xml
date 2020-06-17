@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="IB_NCPDP_MSG_HIST_ID_SEQ" directorySegmentName="seg_0" id="0DDBDB1C-16DE-904B-48A5-27D83511FA4F">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>PRCSG_DTL_HIST_ID_SEQ</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 18:54:57 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<incrementBy>1</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<order>YES</order>
+<user>D9046BB6-4F49-0E5D-466F-6A8BD6405589</user>
+</SequenceOraclev10g>

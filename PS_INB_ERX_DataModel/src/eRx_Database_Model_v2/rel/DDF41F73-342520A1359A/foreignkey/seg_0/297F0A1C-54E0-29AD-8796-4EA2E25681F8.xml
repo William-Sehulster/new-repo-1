@@ -1,0 +1,14 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="297F0A1C-54E0-29AD-8796-4EA2E25681F8" containerWithKeyObject="194B889C-AD8D-FF52-A180-B52A016C9950" localFKIndex="9FCC12F7-6AB6-9838-D34A-766635CFB2F9" name="IB_NCPDP_MSG_ERX_STATUS_FK2">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 22:50:52 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>F7A36117-18C8-CBB3-3896-7281CCBB19CA</referredTableID>
+<keyObject>D79A1D69-9102-3BCD-8B4C-872361BEF5D7</keyObject>
+<referredKeyID>D79A1D69-9102-3BCD-8B4C-872361BEF5D7</referredKeyID>
+<mandatory>true</mandatory>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

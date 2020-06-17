@@ -1,0 +1,9 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<UserOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UserOraclev10g" name="ERX" directorySegmentName="seg_0" id="D9046BB6-4F49-0E5D-466F-6A8BD6405589">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjName>ERX</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 18:54:57 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+</UserOraclev10g>

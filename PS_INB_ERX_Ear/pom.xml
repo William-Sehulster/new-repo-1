@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>PS_INB_ERX_Ear</name>
+	<artifactId>PS_INB_ERX_Ear</artifactId>
+
+	<parent>
+		<groupId>gov.va.med.pharmacy</groupId>
+		<artifactId>PS_INB_ERX</artifactId>
+		<version>${version.number}</version>
+		<relativePath>../PS_INB_ERX/pom.xml</relativePath>
+	</parent>
+
+	<packaging>ear</packaging>
+
+	<properties>
+		<ear.file.name>INB_ERX-${version.number}</ear.file.name>
+		<skip.fullbuild>true</skip.fullbuild>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>/lib</defaultLibBundleDir>
+					<finalName>${ear.file.name}</finalName>
+
+					<modules>
+						<webModule>
+							<groupId>gov.va.med.pharmacy</groupId>
+							<artifactId>PS_INB_ERX_WS</artifactId>							
+							<bundleFileName>INB-ERX.war</bundleFileName>
+							<contextRoot>/INB-ERX</contextRoot>
+						</webModule>
+						<jarModule>
+							<groupId>gov.va.med.pharmacy</groupId>
+							<artifactId>PS_INB_ERX_Common</artifactId>
+							<bundleDir>/lib</bundleDir>
+						</jarModule>
+						<jarModule>
+							<groupId>gov.va.med.pharmacy</groupId>
+							<artifactId>PS_INB_ERX_Model</artifactId>
+							<bundleDir>/lib</bundleDir>
+						</jarModule>
+						<!-- 
+						<jarModule>
+							<groupId>gov.va.med.pharmacy</groupId>
+							<artifactId>PS_INB_ERX_Service</artifactId>
+							<bundleDir>/lib</bundleDir>
+						</jarModule>
+						 -->											
+					</modules>
+
+				</configuration>				
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>gov.va.med.pharmacy</groupId>
+			<artifactId>PS_INB_ERX_WS</artifactId>
+			<version>${version.number}</version>			
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.med.pharmacy</groupId>
+			<artifactId>PS_INB_ERX_Common</artifactId>		
+			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.med.pharmacy</groupId>
+			<artifactId>PS_INB_ERX_Model</artifactId>			
+			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>txw2</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>jaxb-runtime</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		 <dependency>
+		     <groupId>org.slf4j</groupId>
+			  <artifactId>slf4j-api</artifactId>
+			 <type>jar</type>
+	     </dependency>
+		 <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-simple</artifactId>
+	        <type>jar</type>	        
+	    </dependency>
+		<!-- 
+		<dependency>
+			<groupId>gov.va.med.pharmacy</groupId>
+			<artifactId>PS_INB_ERX_Service</artifactId>
+			<version>${version.number}</version>	
+			<type>jar</type>
+		</dependency>
+		 -->		
+	</dependencies>
+
+</project>

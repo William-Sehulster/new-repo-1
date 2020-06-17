@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="INBOUND_NCPDP_MSG_HIST" directorySegmentName="seg_0" id="6EE6D1B6-1F2B-1636-1243-A338AB44257A">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>3ACC9CE2-CD08-63FF-0D2F-6A27D5AC560D</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="DRUG_CHK_STATUS" id="0F17B3C4-945E-3B55-2DBA-5444E9DEA6AE">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="MESSAGE_STATUS" id="2121E72A-B715-098E-7D85-2CE97B21BF18">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PATIENT_CHK_STATUS" id="232C3D76-D564-40EA-2E2B-79D0D368BB2F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="INBOUND_NCPDP_MSG_ID" id="38755FEF-6856-285B-83AA-C98EBE1D1085">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="DRUG_MATCH_DETAILS" id="5922EE2C-3DB4-467C-FE68-B567B1644F71">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PROVIDER_CHK_STATUS" id="5AA24B7E-9C79-983C-793D-54087951E43C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PROVIDER_MATCH_DETAILS" id="6D0BED9D-3F5E-78B9-EE03-1A39D8EDD614">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="6F120F11-19AA-700E-BA31-A6F5D5C72FA4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PATIENT_MATCH_DETAILS" id="7C082EC9-1AB6-9263-C0FF-5B375481CABD">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="INBOUND_NCPDP_MSG_HIST_ID" id="A0690B3E-4FED-F705-FD84-91722B67E0AE">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CREATED_DATE" id="BB0A4B93-3C1C-D89D-85E1-EB759F2AD8B6">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IB_NCPDP_MSG_HIST_ID_IDX" id="3D57B5C1-00DD-E0A3-8B17-E9E909DC6782">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="INBOUND_NCPDP_MSG_FK" id="FB2F21F8-91CD-95C4-9A79-2E29AA27C47A">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="INBOUND_NCPDP_MSG_HIST_PK" id="A582349B-6427-50F2-DB1D-D3A33BD421B8">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<existingIndex>3D57B5C1-00DD-E0A3-8B17-E9E909DC6782</existingIndex>
+<indexSegment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

@@ -1,0 +1,358 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="194B889C-AD8D-FF52-A180-B52A016C9950" schemaObject="123E47A8-94FC-0B01-393B-5F55F731B670" name="INBOUND_NCPDP_MSG">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>PROCESSING_DETAIL</sourceObjName>
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-04 22:04:55 UTC</createdTime>
+<generatorID>3FD73A95-3E47-4DDB-D621-8A7C77995593</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<ordsAlias>erx_processing</ordsAlias>
+<afterCreate>&lt;br/&gt;&lt;br/&gt;</afterCreate>
+<shouldGeneratescript>true</shouldGeneratescript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="INBOUND_NCPDP_MSG_ID" id="71EA7F0C-6683-C5F6-A396-6FD52FF2B03F">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-16 20:09:06 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>CD860880-62AB-6262-FF3D-E477F020B216</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MESSAGE_ID" id="171602F5-7859-7353-228D-A5D3AF0297BD">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-04 22:04:55 UTC</createdTime>
+<generatorID>2926ED76-784E-01BB-E8CD-031560BDDCC4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>4A7CB86C-1DA8-2F91-9C31-4EDF1C633027</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REL_TO_MESSAGE_ID" id="19D19509-3463-ADFB-0628-E56E9BE6AB62">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-17 17:50:43 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>4A7CB86C-1DA8-2F91-9C31-4EDF1C633027</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MESSAGE_TYPE" id="997A6A10-1AF5-AFA8-7627-72F663876BA5">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-17 18:34:39 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>88955EB9-9C69-6564-0651-2C919C653EE2</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MESSAGE_FROM" id="3306757F-02B3-B6BB-5CC8-C5CBDAAC283B">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>INBOUND_NCPDP_MSG</sourceObjSchema>
+<sourceObjName>MESSAGE_FROM</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<importedID>E3F861F5-B5D5-2611-BA11-CB69B8845545</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>35 BYTE</dataTypeSize>
+<ownDataTypeParameters>35 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MESSAGE" id="8153E124-5BFF-4368-3EE3-444CB0164FEA">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 14:48:57 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT050</logicalDatatype>
+<domain>8D79ABBE-2049-801B-20BD-840D87D92D91</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PHARMACY_ID" id="71D4D3FE-6ABB-810B-E5BF-70C001A99805">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-08 22:11:07 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>CD860880-62AB-6262-FF3D-E477F020B216</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FA2BF583-68FA-2C62-19AA-4C308C796518" referredColumn="066B7533-778B-C117-6111-8C6820D6FB7F"/>
+</associations>
+</Column>
+<Column name="PATIENT_CHK_STATUS" id="A37E98E1-4016-E803-7351-A54DE6524641">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-17 17:55:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4121A0A5-7114-C797-E4DB-8A53F63A11D1" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+</associations>
+</Column>
+<Column name="PATIENT_MATCH_DETAILS" id="42389176-CCB0-DE6F-977E-F653B47F40FE">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-06-29 16:40:56 UTC</createdTime>
+<comment>Patient match data Sent with Inbound eRx to VistA</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PROVIDER_CHK_STATUS" id="E3D914CB-4B47-63F0-6D8E-A4AE0106AB90">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-17 18:37:11 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="297F0A1C-54E0-29AD-8796-4EA2E25681F8" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+<colAssociation fkAssociation="D545A3F0-8313-3D1F-843B-8D4D6098275F" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+</associations>
+</Column>
+<Column name="PROVIDER_MATCH_DETAILS" id="7E490427-5CD3-1835-3ECD-29047606B6AE">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-06-29 16:40:56 UTC</createdTime>
+<comment>Provider match data Sent with Inbound eRx to VistA</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DRUG_CHK_STATUS" id="23C6B631-D0E7-98C7-742E-08016B8246AC">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-17 18:37:11 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D545A3F0-8313-3D1F-843B-8D4D6098275F" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+<colAssociation fkAssociation="6944B5EE-46CA-C8A1-6E09-671040ED45E6" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+</associations>
+</Column>
+<Column name="DRUG_MATCH_DETAILS" id="F2809360-AB2A-0487-1C9A-7440DC708853">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-06-29 16:40:56 UTC</createdTime>
+<comment>Drug match data Sent with Inbound eRx to VistA</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MESSAGE_STATUS" id="70BBDC16-5D3C-3B18-51C8-AC19C028B5C0">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-06-30 15:19:51 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="297F0A1C-54E0-29AD-8796-4EA2E25681F8" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+<colAssociation fkAssociation="E5D46467-CDB7-EDF9-6D2B-6A0561487187" referredColumn="E0B6217D-099E-2887-9598-F9D337B098B6"/>
+</associations>
+</Column>
+<Column name="MESSAGE_STATUS_DETAILS" id="D96FA3C2-1F15-FCA7-6457-841EA573EE54">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>INBOUND_NCPDP_MSG</sourceObjSchema>
+<sourceObjName>MESSAGE_STATUS_DETAILS</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<importedID>F0497535-5384-A0CC-7938-A944ED7B7D20</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000 BYTE</dataTypeSize>
+<ownDataTypeParameters>2000 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="RECEIVED_DATE" id="CD703C9E-B1D1-3957-AECA-4BD24E5BCCB7">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-18 16:17:58 UTC</createdTime>
+<comment>date/time message is received</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>C8E424B9-639B-613C-5C03-BF3DABA9174F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UPDATED_DATE" id="5FF7DF32-7D8F-A5F2-5898-BD630F8BD63D">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-18 19:55:30 UTC</createdTime>
+<comment>Date of record update</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<sourceType>System</sourceType>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>C8E424B9-639B-613C-5C03-BF3DABA9174F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CREATED_DATE" id="DF53ACCE-9410-B154-3812-F993FCA7440B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-06-30 18:28:40 UTC</createdTime>
+<comment>Date of record creation</comment>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<domain>9B14A6CB-7E4A-CE55-2F07-D37A5A602B1D</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="04BF7FFC-C2F6-A251-3186-8795B885C1EE" name="INBOUND_NCPDP_MSG_PK">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-16 20:15:45 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="71EA7F0C-6683-C5F6-A396-6FD52FF2B03F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9F0CDF36-EB14-554E-710E-1A934B4FADE0" schemaObject="123E47A8-94FC-0B01-393B-5F55F731B670" name="IB_NCPDP_MSG_IDX">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 14:21:45 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="71D4D3FE-6ABB-810B-E5BF-70C001A99805"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="63CE552D-2167-8F93-2D5F-79F919B8E8E0" schemaObject="123E47A8-94FC-0B01-393B-5F55F731B670" name="IB_NCPDP_MSG_PK">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>PROCESSING_DETAIL_PK</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 18:57:12 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<importedID>9A200617-025D-606F-2279-492E431F6E6C</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="71EA7F0C-6683-C5F6-A396-6FD52FF2B03F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4628725D-FF13-7466-8911-D78805FAA389" name="IB_NCPDP_MSG_PHARMACY_FK">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 14:22:52 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="71D4D3FE-6ABB-810B-E5BF-70C001A99805"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B2E4E84B-E85B-3FB8-0CBA-7445253C8388" name="IB_NCPDP_MSG_ERX_STATUS_FK1">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 22:50:16 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A37E98E1-4016-E803-7351-A54DE6524641"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9FCC12F7-6AB6-9838-D34A-766635CFB2F9" name="IB_NCPDP_MSG_ERX_STATUS_FK2">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 22:50:52 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="70BBDC16-5D3C-3B18-51C8-AC19C028B5C0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C6EF77B4-F4C4-42F3-BAFC-12D88B55881A" name="IB_NCPDP_MSG_ERX_STATUS_FK3">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 22:51:06 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E3D914CB-4B47-63F0-6D8E-A4AE0106AB90"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E026B359-F2A8-1A52-821D-2868DF22DEBC" name="IB_NCPDP_MSG_ERX_STATUS_FK4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 22:51:15 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="70BBDC16-5D3C-3B18-51C8-AC19C028B5C0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="72CD92E2-9842-3598-B6A6-008211CBD38F" name="IB_NCPDP_MSG_ERX_STATUS_FK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="23C6B631-D0E7-98C7-742E-08016B8246AC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

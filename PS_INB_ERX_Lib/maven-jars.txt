@@ -1,0 +1,58 @@
+
+The vistalink related jars are third party and should be installed/deployed in your local maven repo.
+
+1-  Copy the jar files  in your project under PS_INB_ERX_Lib, for example C:\Data\Inbound_eRx_V4\PS_INB_ERX_Lib
+
+2 - Go the jar file folder and run one by one each command.
+
+
+2a-
+C:\Data\Inbound_eRx_V4\PS_INB_ERX_Lib\mavenrepo\gov\va\med\vistalink\vljConnector\1.6.1.010
+
+
+mvn deploy:deploy-file -Dfile=vljConnector-1.6.1.010.jar  -Durl=file://C://Data//MavenRepo -DgroupId=gov.va.med.vistalink -DartifactId=vljConnector -Dversion=1.6.1.010 -Dpackaging=jar
+
+
+2b-
+C:\Data\Inbound_eRx_V4\PS_INB_ERX_Lib\mavenrepo\gov\va\med\vistalink\vljFoundationsLib\1.6.1.010
+
+
+mvn deploy:deploy-file -Dfile=vljFoundationsLib-1.6.1.010.jar -Durl=file://C://Data//MavenRepo  -DgroupId=gov.va.med.vistalink -DartifactId=vljFoundationsLib -Dversion=1.6.1.010 -Dpackaging=jar
+
+
+2c-
+
+
+C:\Data\Inbound_eRx_V4\PS_INB_ERX_Lib\mavenrepo\gov\va\med\vistalink\vljSecurity\1.6.1.010
+
+
+If maven is successful, you will get a success message otherwise a build failed error message.
+
+
+mvn deploy:deploy-file -Dfile=vljSecurity-1.6.1.010.jar -Durl=file://C://Data//MavenRepo  -DgroupId=gov.va.med.vistalink -DartifactId=vljSecurity -Dversion=1.6.1.010 -Dpackaging=jar
+
+
+
+ 
+3-
+Please note the following are third party jars and should be installed in your local maven repo.
+
+Go to repo directory e.g.
+
+C:\Data\Inbound_eRx_V4\PS_INB_ERX_Lib\bin\mavenrepo
+
+
+
+3a-
+mvn install:install-file -Durl=file://C://Data//MavenRepo  -Dfile=//C://Data//Inbound_eRx_V4//PS_INB_ERX_Lib//mavenrepo//com//oracle//ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8  -Dversion=12.2.0.1 -Dpackaging=jar
+
+3b-
+mvn install:install-file -Durl=file://C://Data//MavenRepo  -Dfile=//C://Data//Inbound_eRx_V4//PS_INB_ERX_Lib//mavenrepo//com//oracle//xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6  -Dversion=12.2.0.1 -Dpackaging=jar
+
+3c-
+mvn install:install-file -Durl=file://C://Data//MavenRepo  -Dfile=//C://Data//Inbound_eRx_V4//PS_INB_ERX_Lib//mavenrepo//com//oracle//xmlparserv2.jar -DgroupId=com.oracle -DartifactId=xmlparserv2  -Dversion=11.1.1.2.0 -Dpackaging=jar
+
+
+
+
+

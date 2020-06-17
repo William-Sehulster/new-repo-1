@@ -1,0 +1,100 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="OUTBOUND_VISTA_MSG" directorySegmentName="seg_0" id="B190C912-F470-C334-80AE-563DA47A1B14">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>3ACC9CE2-CD08-63FF-0D2F-6A27D5AC560D</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="OUTBOUND_VISTA_MSG_ID" id="7EB7681D-DB57-B4C7-DE38-E89A1DFFEEAF">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="9419974B-F333-5166-AA76-4F3410E83F74">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 13:21:08 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="RELATED_TO_MSG_ID" id="9B1A4230-4E9C-5377-5C6A-437E0E0FA9F9">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PHARMACY_ID" id="A371519E-4287-8C5C-D005-F70BA88C3877">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CREATED_DATE" id="A936D365-4A81-1CD1-410F-8844AD3B7776">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 13:21:08 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="MESSAGE_ID" id="BA1A75CA-6D81-15E1-E946-248B7FE0077C">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="MESSAGE" id="FE79B779-FF23-0D6E-0A2C-BA9B7ACD45E5">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="OUTBOUND_VISTA_MSG_PK" id="2461085E-61F9-E2EB-B84F-0ECCB87AB51C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 18:57:12 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>655DE7D3-4E64-645C-749B-69687315BDDE</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="OUTBOUND_VISTA_MSG_IDXv1" id="A843D027-25F8-05FD-EBF4-600B06E96999">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="OUTB_VISTA_MSG_FK" id="C5CF2DAB-37DB-8593-D1F0-0E7CAB260460">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<lobStorages>
+<LobStorage class="oracle.dbtools.crest.model.design.storage.oracle.v11g.LobStorageOraclev11g" name="SYS_LOB0000021428C00004$$" id="7028517C-701A-3EAE-04AF-160B45DE2C42">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 18:57:12 UTC</createdTime>
+<ownerDesignName>eRx Database Model</ownerDesignName>
+<cache>NOCACHE</cache>
+<chunk>8192</chunk>
+<column>MESSAGE</column>
+<logging>YES</logging>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</LobStorage>
+</lobStorages>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="OUTBOUND_VISTA_MSG_PK" id="F79DD578-484B-1296-93D8-B969144A7A94">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-22 22:26:20 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<existingIndex>2461085E-61F9-E2EB-B84F-0ECCB87AB51C</existingIndex>
+<indexSegment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

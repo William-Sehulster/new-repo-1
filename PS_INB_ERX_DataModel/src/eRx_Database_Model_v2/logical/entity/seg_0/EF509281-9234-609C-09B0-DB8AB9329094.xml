@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="EF509281-9234-609C-09B0-DB8AB9329094" name="NCPDP CODE">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>3435164C-0A8A-44D2-2A93-C99B1B0A0864</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="NCIT SUBSET CODE" id="01A66461-AABA-3E76-C490-FF4326C1C623">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>CCDEDACF-ACAC-CF27-214C-054A74978C18</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>7 BYTE</dataTypeSize>
+<ownDataTypeParameters>7 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCPDP SUBSET PREF TERM" id="906EE5C7-ACCB-AE02-7946-8815132D389F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>57CC7DAE-3DAA-135E-BEAD-37217150F560</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCIT CODE" id="A21C60A8-0F37-2D21-4B7C-4B1E06AE291B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>0F7903E7-FAE1-E705-854C-60103BF10DB4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>7 BYTE</dataTypeSize>
+<ownDataTypeParameters>7 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCPDP PREF TERM" id="E5B82A5C-C40E-63F5-62AC-102290915081">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>186665E8-C2E1-3AF5-5651-E2EADF439A5D</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCPDP SYNONYM" id="AB1F10FD-0119-5DC2-9265-1AABFB22A004">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>30AA0EC9-43D8-3533-DCDE-792F9A94A0FB</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCIT PREF TERM" id="7453B7D1-21BB-C688-29AA-545F0BB3CFC6">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>213A01EF-EB79-09BF-9EE4-EA8C9A7117ED</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NCIT DEFINITION" id="7756885D-3377-C36F-BDCF-51D2DBC73D58">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>90EA3232-BA4E-A416-8AD5-E8E4336F6AB0</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000 BYTE</dataTypeSize>
+<ownDataTypeParameters>2000 BYTE,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

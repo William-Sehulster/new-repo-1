@@ -1,0 +1,1065 @@
+/** Global Styles � (body, paragraphs, lists, etc) **/
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	background: #f3f3f3;
+	color: #000;
+	font-family: Arial;
+	font-weight: normal;
+	font-size: 12px;
+	width: 1250px;
+	margin: 20px 0px 0px 20px;
+}
+
+#container {
+	padding: 20px;
+	border: 1px solid #ccc;
+	background: #fff;
+	margin: 0px auto;
+	width: 90%;
+	min-height: 300px;
+}
+
+#preloader {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #EFEFEF	url('/inbound/inb-erx/resources/dojox/image/resources/images/loading.gif')	no-repeat scroll center center;
+	position: fixed;
+	z-index: 999;
+	opacity: .7;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+#header {
+	background: #003366;
+	float: left;
+}
+
+a.headerLinks:link, a.headerLinks:VISITED {
+	color: #FFFFCC;
+}
+
+a.headerLinks:hover {
+	color: #E2144A;
+}
+/* banner image */
+.banner {
+	width: 700px;
+	height: 83px;
+	/* navy blue */
+	clear: left;
+	float: left;
+	margin: 0px;
+}
+
+h1 {
+	font-size: 16px;
+	line-height: 1.636em;
+	margin: 0px;
+}
+
+h2 {
+	font-size: 14px;
+	margin: 1em 0;
+	clear: both;
+}
+
+p {
+	margin: 5px 0px 5px 0px;
+}
+
+td .radio {
+	margin: 0px 5px 0px 5px;
+	text-align: center;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.error {
+	color: red;
+}
+
+.errorHeader {
+	color: red;
+	font-weight: bold;
+}
+
+.warning {
+	color: black;
+}
+
+.warningHeader {
+	color: black;
+	font-weight: bold;
+}
+
+.informational {
+	
+}
+
+.informationalHeader {
+	font-weight: bold;
+}
+
+/*
+ * Start Tab Navigation
+ */
+.tabNavigation {
+	height: 20px;
+	margin: 0;
+	margin-bottom: 5px;
+	background: url("/inbound/images/tab_bottom.gif") repeat-x bottom;
+	display: block;
+	clear: both;
+}
+
+.tabNavigation li {
+	display: inline;
+	list-style-type: none;
+}
+
+.tabNavigation a:link, .tabNavigation a:visited {
+	background: #990000;
+	border: 1px solid #ccc;
+	color: #FFF;
+	float: left;
+	font-weight: bold;
+	margin-right: 4px;
+	line-height: 1.0em;
+	padding: 2px 10px 2px 10px;
+	text-decoration: none;
+}
+
+/** Navigation highlighting for active tabs **/
+.tabNavigation a.activeTab:link, .tabNavigation a.activeTab:visited {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	color: #000;
+}
+
+.tabNavigation a:hover {
+	background: #fff;
+	color: #000;
+}
+
+/** End tab navigation **/
+.footerMenu {
+	margin: 1em 0;
+	text-align: center;
+}
+
+.footerMenu li {
+	display: inline;
+	list-style-type: none;
+	margin: 0 2em 0 2em;
+}
+
+.footerMenu a:link, .footerMenu a:visited {
+	font-weight: bold;
+	color: #003366;
+}
+
+#footerLinks {
+	height: 3em;
+}
+
+#footer {
+	border-top: 2px solid #fff;
+	margin: 20px 0px 15px 0px;
+	clear: both;
+}
+
+.tablesList {
+	margin: 10px 0px 10px 0px;
+	padding: 0px 10px 0px 10px;
+}
+
+.tablesList a:link, .tablesList a:visited {
+	color: #000000;
+	font-weight: normal;
+	text-decoration: normal;
+}
+
+.tablesList li {
+	border-collapse: collapse;
+	margin: 0px;
+	border: 1px solid #CCC;
+	list-style-type: none;
+	padding: 5px 0px 5px 20px;
+}
+
+.tablesList li.alt {
+	background-color: #edf5ff;
+}
+
+/** Links */
+.tablesList li a {
+	text-decoration: normal;
+}
+
+/* BUTTONS */
+div.buttons {
+	margin: 0px;
+	width: auto;
+}
+
+.buttons a, .buttons button {
+	display: block;
+	float: left;
+	margin: 10px 5px 5px 0px;
+	background-color: #3A558C;
+	border: 1px solid #dedede;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	font-family: Arial;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+}
+
+.buttons button {
+	width: auto;
+	overflow: visible;
+	padding: 4px 10px 3px 2px; /* IE6 */;
+}
+
+.buttons button[type] {
+	padding: 5px 10px 5px 7px; /* Firefox */
+	line-height: 17px; /* Safari */
+}
+
+* :first-child+html button[type] {
+	padding: 4px 10px 3px 7px; /* IE7 */
+}
+
+.buttons button img, .buttons a img {
+	margin: 0 3px -3px 0 !important;
+	padding: 0;
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+
+/* STANDARD */
+button:hover, .buttons a:hover {
+	background-color: #dff4ff;
+	border: 1px solid #c2e1ef;
+	color: #336699;
+}
+
+.buttons a:active {
+	background-color: #6299c5;
+	border: 1px solid #6299c5;
+	color: #fff;
+}
+
+/* POSITIVE */
+button.positive, .buttons a.positive {
+	color: #FFF;
+}
+
+.buttons a.positive:hover, button.positive:hover {
+	background-color: #3A558C;
+	border: 1px solid #C6D880;
+	color: #FFF;
+}
+
+.buttons a.positive:active {
+	background-color: #3A558C;
+	border: 1px solid #529214;
+	color: #fff;
+}
+
+/* NEGATIVE */
+.buttons a.negative, button.negative {
+	color: #FFF;
+}
+
+.buttons a.negative:hover, button.negative:hover {
+	background: #fbe3e4;
+	border: 1px solid #fbc2c4;
+	color: #FF0000;
+}
+
+.buttons a.negative:active {
+	background-color: #d12f19;
+	border: 1px solid #d12f19;
+	color: #FFF;
+}
+
+/* DISABLED */
+.buttons a.disabled, button.disabled {
+	background: #EDF5FF;
+	border: 1px solid #AFAFAF;
+	color: #BECEE0;
+}
+
+.buttons a.disabled, button.disabled:hover {
+	background: #EDF5FF;
+	border: 1px solid #AFAFAF;
+	color: #C8D0D8;
+}
+
+.buttons a.disabled:active {
+	background: #EDF5FF;
+	border: 1px solid #AFAFAF;
+	color: #C8D0D8;
+}
+
+/** History Buttons **/
+.historyButton {
+	float: left;
+	width: auto;
+}
+/** PRINT BUTTONS **/
+.print {
+	float: right !important;
+	width: auto;
+}
+
+.history {
+	width: auto;
+}
+
+.history-table {
+	width: auto;
+}
+
+/** INPUT BUTTONS **/
+div.inputbuttons {
+	margin: 7px;
+	width: auto;
+	float: none;
+	clear: right;
+}
+
+.inputbuttons input {
+	display: block;
+	float: left;
+	margin: 5px;
+	background-color: #3A558C;
+	border: 1px solid #dedede;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	font-family: Arial;
+	line-height: 130%;
+	text-decoration: none;
+	font-weight: bold;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 5px 10px 6px 7px; /* Links */
+}
+
+/** Query Builder **/
+#queryBuilder {
+	clear: both;
+	background-color: ACC5CE;
+	border-style: none;
+	float: left;
+	margin: 0px 0px 5px 0px;
+	width: 100%;
+}
+
+input#history {
+	display: inline;
+}
+
+label[for=history] {
+	display: inline-block !important;
+}
+
+.columns {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: 300px;
+}
+
+.constraints {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: 200px;
+}
+
+.values {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: 250px;
+}
+
+.andor {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: auto;
+}
+
+#butCtnr {
+	float: left;
+	width: auto;
+	margin: 6px 5px 10px 5px;
+}
+
+#saveQueryBtnCtnr {
+	margin: 6px;
+}
+
+.control {
+	clear: both;
+}
+
+#constraintsSelect, #columnsSelect, #valueText {
+	width: 225px;
+}
+
+#content form h2 a, tent form h2 a:active, #content form h2 a:visited {
+	border: 0pt none;
+	color: white;
+	letter-spacing: 0.005em;
+	padding-left: 20px;
+	display: block;
+	width: 97%;
+	text-decoration: none;
+	letter-spacing: 0.005em;
+}
+
+#content form h2 a.opened {
+	background: transparent url("/images/open_item.gif") no-repeat scroll
+		0pt 3px;
+}
+
+#content form h2 a.closed {
+	background: transparent url("/images/close_item.gif") no-repeat scroll
+		0pt 3px;
+}
+
+#content .hide {
+	display: none;
+}
+
+#content .show {
+	display: block;
+}
+
+/** Query Results Form Section **/
+#queryResultsForm {
+	clear: both;
+	margin-top: 20px;
+}
+
+form .req {
+	color: red !important;
+	float: none;
+	font-style: italic;
+	font-size: 12px;
+	margin: 0pt;
+}
+
+form .showDisabled {
+	font-weight: bold;
+}
+
+form #entries {
+	float: left;
+	width: 61%;
+}
+
+form #help {
+	float: right;
+	font-size: 12px;
+	color: #444444;
+	line-height: 130%;
+	border: 1px solid #666;
+	background-color: #EFEFEF;
+	width: 35%;
+	margin-top: 50px;
+}
+
+.titleBar {
+	background-color: #003366;
+	color: #FFFFFF;
+	line-height: 140%;
+	font-size: 16px;
+	border: 1px solid #000;
+	clear: both;
+	margin: 10px 0px 10px 0px;
+	float: left;
+	width: 100%;
+}
+
+.headerText {
+	float: left;
+}
+
+.h2title {
+	background-color: #003366;
+	color: #FFFFFF;
+	line-height: 110%;
+	font-size: 14px;
+	border: 1px solid #000;
+	clear: both;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding: 4px 0pt 4px 5px;
+}
+
+.actualTableName {
+	float: none;
+	font-style: italic;
+	font-size: 12px;
+	margin: 0pt;
+}
+
+#reports p {
+	clear: both;
+}
+
+.loadingHide { /*font-weight:bold;
+	text-align: center;
+	height: auto;
+  width: auto; */
+	display: none;
+}
+
+.loadingShow {
+	font-weight: bold;
+	text-align: center;
+	height: auto;
+	width: auto;
+	display: block;
+}
+
+.pagingDisplay {
+	text-align: center;
+}
+
+.loginBox {
+	padding: 20px;
+	border: 1px solid #ccc;
+	background: #fff;
+	font-size: 12px;
+	margin: 0px auto;
+	width: 250px;
+}
+
+.welcome {
+	float: right;
+	text-align: right;
+	color: #FFF;
+	width: 415px;
+	height: 30px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 40px;
+}
+
+.helpLink {
+	float: right;
+	text-align: right;
+}
+
+.helpLink a {
+	color: #FFF;
+	font-size: 12px;
+}
+
+.textCenterHeader {
+	text-align: center;
+}
+
+.show {
+	display: block;
+}
+
+#link508 {
+	float: right;
+	display: none;
+	border: 0pt none;
+	width: 415px;
+	height: 30px;
+	padding-right: 10px;
+	padding-bottom: 8px;
+}
+
+#removeAll {
+	float: right;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+#drugsDoseToCheck {
+	display: block;
+	width: 100%;
+	height: 20px;
+}
+
+#demographicinformationControls {
+	width: auto;
+}
+
+.smallconstraints {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: 200px;
+}
+
+.smallvalues {
+	margin: 0px 0px 10px 0px;
+	width: auto;
+}
+
+.testconstraints {
+	float: left;
+	margin: 0px 0px 10px 0px;
+	width: 300px;
+}
+
+.age {
+	float: left;
+	margin: 0px 0px 10px 5px;
+	width: 10em;
+}
+
+.heightweightSelect {
+	float: left;
+	margin: 0px 0px 10px 5px;
+	width: 4em;
+}
+
+.heightweight {
+	float: left;
+	margin: 0px 0px 10px 5px;
+	width: 8em;
+}
+
+.bsaresults {
+	float: left;
+	margin: 4px 0 10px 10px;
+	width: 10em;
+}
+
+#list {
+	clear: both;
+}
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+.even {
+	background: #FFF;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px;
+}
+
+.odd {
+	background-color: #edf5ff;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px;
+}
+
+/** roll over effect for table **/
+.sortable tr:HOVER {
+	color: #fff;
+	background-color: #BECEE0;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px;
+}
+
+.sortheader {
+	color: #003366;
+	font: 12px;
+	text-decoration: none;
+}
+
+img {
+	border: none;
+}
+
+.read-only {
+	width: 80%;
+	float: right;
+	white-space: pre-wrap;
+	word-wrap: break-word; /* IE */
+}
+
+div.comparisonreport {
+	float: right;
+	height: 100%;
+	width: 50%;
+}
+
+div.comparisonreportslist {
+	float: right;
+	width: 100%;
+	padding-left: 20px;
+}
+
+#userMessages {
+	clear: both;
+}
+
+#interactionTable {
+	clear: both;
+}
+
+form {
+	clear: both;
+}
+
+.donotdisplay {
+	position: absolute;
+	left: -999em;
+}
+
+pre {
+	background-color: #fff;
+	border: none;
+	padding: 0;
+}
+
+.instructionText {
+	clear: both;
+	background-color: #BECEE0;
+	border: 1px solid #D8D8D8;
+	color: #003366;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.filter-checkbox {
+	float: left;
+	padding-right: 11%;
+}
+
+.filter-qty {
+	float: left;
+	padding-right: 6%;
+}
+
+.button-container {
+	float: right;
+	width: 16%;
+}
+
+#skiptomain a:focus {
+	position: absolute;
+	left: 1100px;
+	top: 42px;
+	color: white;
+	border: 4px solid #000000 !important;
+}
+
+#skiptomain a {
+	position: absolute;
+	left: 1100px;
+	top: 42px;
+	color: white;
+}
+
+.user-comment {
+	float: left;
+	width: 79%;
+}
+
+.user-comment-SpecialMargin {
+	margin-top: 0px !important;
+	height: 75.5px;
+}
+
+.years {
+	clear: both;
+	list-style: none;
+}
+
+.months {
+	margin-left: 2em;
+	list-style: none;
+	font-size: 16px;
+	background-color: white;
+}
+
+.custom-updates {
+	margin-left: 3em;
+	list-style: none;
+}
+
+a.year {
+	color: white;
+}
+
+a.year:visited {
+	color: white;
+}
+
+a.year:active {
+	color: white;
+}
+
+a.month {
+	color: blue;
+}
+
+a.updatefiles {
+	color: blue;
+}
+
+.yearBar {
+	background-color: #003366;
+	border: 1px solid #000000;
+	clear: both;
+	color: #FFFFFF;
+	font-size: 16px;
+	line-height: 140%;
+	margin: 10px 0;
+	width: 100%;
+}
+
+.customInfo {
+	padding-left: 2em;
+	list-style
+	=none;
+}
+
+@import
+	url("dojo-release-1.9.1-src/dojo-release-1.9.1-src/dojox/rid/resources/Grid.css")
+	;
+
+.dojoxGridMasterHeader {
+	aria-describedby: Master Table Header;
+	color: red;
+}
+
+#manageUsersForm label {
+	float: left;
+	width: 11%;
+}
+
+div.manageUsersFields {
+	float: left;
+	margin: .5em 0;
+	width: 100%;
+}
+
+.manageusersSelect {
+	float: left;
+	width: 19%;
+}
+
+.manageusersStationSelect {
+	float: left;
+	width: 30%;
+	height: 18px;
+}
+
+.selectedStationdIdsLabelDiv {
+	position: relative;
+	top: 56px;
+	height: 2px;
+	margin-left: 650px;
+	margin-right: auto;
+}
+
+.manageusersStationSelected {
+	float: left;
+	top: 10px;
+	width: 30%;
+	height: 120px;
+	margin-left: 30px;
+}
+
+.manageusersAddBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersRemoveBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersStationSelectRow {
+	float: left;
+	position: relative;
+	width: 100%;
+	height: 60px;
+}
+
+span.manageusersRequiredField {
+	font-size: 11px;
+	color: #DF0000;
+	font-weight: bold;
+}
+
+.manageusersRequired {
+	color: #DF0000;
+}
+
+.divUserMgmtTable {
+	float: left;
+	margin: .5em 0;
+	width: 100%;
+	display: table;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+}
+
+.divUserMgmtTableHeaderRow {
+	display: table-row;
+	background-color: #9dcfff;
+	border-top: 1px solid transparent;
+	border-color: #F5F5F5;
+	font-weight: bold;
+	width: 150px;
+}
+
+.divUserMgmtTableRow {
+	display: table-row;
+}
+
+.divUserMgmtTableCell {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 1px 3px;
+}
+
+.divUserMgmtTableCellToggleUser {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 1px 3px;
+	width: 100px;
+}
+
+.divUserMgmtTableCellStatioinID {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 5px 2px;
+	width: 100px;
+}
+
+.divUserMgmtTableCellCheckbox {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 10px 10px 10px 6px;
+	margin: 10px 10px 10px 10px;
+}
+
+.divUserMgmtTableBody {
+	display: table-row-group;
+}
+
+#manageUsersForm label[for=selectedStationdIds] {
+	float: left;
+	width: 100%;
+}
+
+.dijitDialogPaneContent {
+	width: 1200px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#manageUsersForm label[for=updateStationId] {
+	float: left;
+	width: 100%;
+}
+
+.manageusersUpdateStationIdsAddBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersUpdateStationIdsRemoveBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersUpdateStationIdsUpdateBtn {
+	float: left;
+	position: relative;
+	top: 10px;
+	margin-left: -56px;
+}
+
+.manageusersUpdateStationIdsCancelBtn {
+	float: left;
+	position: relative;
+	top: 10px;
+	margin-left: 10px;
+}
+
+.selectedStationdIdsUpdateLabelDiv {
+	position: relative;
+	top: 11px;
+	height: 2px;
+	margin-left: 586px;
+	margin-right: auto;
+}
+
+/*
+input:focus {
+	border: 4px solid #000000 !important;
+}
+
+label:focus {
+	border: 4px solid #000000 !important;
+}
+*/

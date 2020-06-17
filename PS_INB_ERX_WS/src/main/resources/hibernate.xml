@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+    <bean id="inboundErxSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="packagesToScan">
+            <list>
+                <value>gov.va.med.pharmacy.persistence.model</value>
+            </list>
+        </property>
+        
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect"> org.hibernate.dialect.Oracle12cDialect
+                </prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.order_updates">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.WeblogicTransactionManagerLookup
+                </prop>
+                <prop key="hibernate.transaction.coordinator_class">jta</prop>
+                <prop key="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.WeblogicJtaPlatform</prop>
+                <prop key="hibernate.current_session_context_class">jta</prop>
+                <!-- Enable the second-level cache -->
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>                               
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</prop> 
+                <prop key="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</prop>  
+                <prop key="hibernate.javax.cache.missing_cache_strategy">create</prop>                          
+                <prop key="hibernate.javax.cache.uri">ehcache2.xml</prop>
+                <prop key="hibernate.jdbc.fetch_size">30</prop>
+                <prop key="hibernate.jdbc.batch_size">30</prop>
+              </props>  
+              </property>
+		  <property name="dataSource">   <ref bean="inboundErxDataSource" />
+        </property>
+    
+    </bean>
+
+
+</beans>

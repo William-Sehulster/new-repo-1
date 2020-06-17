@@ -1,0 +1,69 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="ERX_STATUS" directorySegmentName="seg_0" id="F7A36117-18C8-CBB3-3896-7281CCBB19CA">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>3ACC9CE2-CD08-63FF-0D2F-6A27D5AC560D</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="CODE_DESCRIPTION" id="31B4E95F-100A-D08F-599D-93957AA7D120">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ERX_STATUS_ID" id="3D516B89-8D74-089A-A38A-8613C7691AF4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="4C307EBF-00D9-05DE-BF02-3363F01008B5">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CREATED_DATE" id="660EC22D-97B7-A659-2CCE-B2C6B537D190">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="AUTO_CHECK" id="693C19EE-5D9E-7165-9AB0-7EBCF13C7468">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CODE" id="E0B6217D-099E-2887-9598-F9D337B098B6">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="ERX_STATUS_PK" id="F3428D0A-2202-21B2-6469-2C4848588B28">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="ERX_STATUS_PK" id="D79A1D69-9102-3BCD-8B4C-872361BEF5D7">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<existingIndex>F3428D0A-2202-21B2-6469-2C4848588B28</existingIndex>
+<indexSegment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

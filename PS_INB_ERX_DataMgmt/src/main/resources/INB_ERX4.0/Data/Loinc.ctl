@@ -1,0 +1,53 @@
+load data 
+infile 'Loinc.csv' "str '\r\n'"
+truncate
+into table ERX.LOINC_CODE
+fields terminated by ','
+OPTIONALLY ENCLOSED BY '"' AND '"'
+trailing nullcols
+           ( LOINC_NUM CHAR(26),
+             COMPONENT CHAR(500),
+             PROPERTY CHAR(50),
+             TIME_ASPCT CHAR(26),
+             SYSTEM CHAR(400),
+             SCALE_TYP CHAR(26),
+             METHOD_TYP CHAR(100),
+             CLASS CHAR(26),
+             VERSIONLASTCHANGED CHAR(50),
+             CHNG_TYPE CHAR(26),
+             DEFINITIONDESCRIPTION CHAR(10000),
+             STATUS CHAR(100),
+             CONSUMER_NAME CHAR(26),
+             CLASSTYPE CHAR(50),
+             FORMULA CHAR(500),
+             SPECIES CHAR(26),
+             EXMPL_ANSWERS CHAR(10000),
+             SURVEY_QUEST_TEXT CHAR(1000),
+             SURVEY_QUEST_SRC CHAR(50),
+             UNITSREQUIRED CHAR(26),
+             SUBMITTED_UNITS CHAR(150),
+             RELATEDNAMES2 CHAR(2000),
+             SHORTNAME CHAR(100),
+             ORDER_OBS CHAR(26),
+             CDISC_COMMON_TESTS CHAR(26),
+             HL7_FIELD_SUBFIELD_ID CHAR(26),
+             EXTERNAL_COPYRIGHT_NOTICE CHAR(3000),
+             EXAMPLE_UNITS CHAR(50),
+             LONG_COMMON_NAME CHAR(400),
+             UNITSANDRANGE CHAR(30),
+             EXAMPLE_UCUM_UNITS CHAR(100),
+             EXAMPLE_SI_UCUM_UNITS CHAR(26),
+             STATUS_REASON CHAR(26),
+             STATUS_TEXT CHAR(1000),
+             CHANGE_REASON_PUBLIC CHAR(1500),
+             COMMON_TEST_RANK CHAR(50),
+             COMMON_ORDER_RANK CHAR(50),
+             COMMON_SI_TEST_RANK CHAR(50),
+             HL7_ATTACHMENT_STRUCTURE CHAR(26),
+             EXTERNAL_COPYRIGHT_LINK CHAR(26),
+             PANELTYPE CHAR(26),
+             ASKATORDERENTRY CHAR(26),
+             ASSOCIATEDOBSERVATIONS CHAR(100),
+             VERSIONFIRSTRELEASED CHAR(26),
+             VALIDHL7ATTACHMENTREQUEST CHAR(26)
+           )
