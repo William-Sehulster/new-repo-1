@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+			http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+			http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	
+	<context:component-scan base-package="gov.va.med.pharmacy.jaxrs"/>
+	
+	<context:annotation-config />
+	
+	<import resource="classpath*:persistence-context.xml"/>	
+	
+    	
+	<!-- jdbcTemplate -->
+	
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="jdbc/InboundErxDataSource"/>
+	</bean>
+	
+   <!--  MVI Search -->
+	<bean id="PatientSearchDao"	class="gov.va.med.pharmacy.jaxrs.mvi.dao.impl.PatientSearchDaoImpl">
+	</bean>
+
+	<bean id="patientSearch" 	class="gov.va.med.pharmacy.jaxrs.mvi.service.impl.PatientSearchImpl">
+		<!-- <property name="patientLookupDAO" ref="PatientSearchDao"/> -->
+	</bean>
+
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+	
+	<bean id="jaxbXmlProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
+
+	<jaxrs:server id="mviREST" address="/rest">
+		<jaxrs:serviceBeans>
+			<ref bean="patientSearch" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />			
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <!--  bus config like logging and interceptors for inbound and outobund are applied to all the servers and clients. -->
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
+	
+	<!--  E&E  Search -->
+
+	<bean id="patientInfoDao"	class="gov.va.med.pharmacy.jaxrs.eAnde.dao.impl.PatientInfoWSDao">
+	</bean>
+
+	<bean id="patientInfoService"	class="gov.va.med.pharmacy.jaxrs.eAnde.services.impl.PatientInfoService">
+		<property name="patientInfoDao" ref="patientInfoDao" />
+	</bean>
+
+	<jaxrs:server id="eandeREST" address="/rest/eandeVerify">
+		<jaxrs:serviceBeans>
+			<ref bean="patientInfoService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!--  Provider Check -->
+	
+	<bean id="providerSearch"	 class="gov.va.med.pharmacy.jaxrs.provider.service.impl.ProviderSearchImpl">
+	</bean>
+	
+	<bean id="providerSearchDao" class="gov.va.med.pharmacy.jaxrs.provider.dao.impl.ProviderSearchDaoImpl">
+	</bean>
+
+	<jaxrs:server id="providerREST" address="/rest/provider">
+		<jaxrs:serviceBeans>
+			<ref bean="providerSearch" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>
+	</jaxrs:server>
+	
+	<!--  Drug Check -->
+	
+	<bean id="vistaLinkConnectionUtility" class="gov.va.med.pharmacy.utility.VistaLinkConnectionUtility">
+	</bean>
+	
+	<bean id="drugRpc" class="gov.va.med.pharmacy.jaxrs.drug.dao.impl.DrugRpc">
+	<property name='vistaLinkConnectionUtility' ref='vistaLinkConnectionUtility'/>
+	</bean>
+	
+	<bean id="drugSearchDao" class="gov.va.med.pharmacy.jaxrs.drug.dao.impl.DrugSearchDaoImpl">
+	<property name='drugRpc' ref='drugRpc'/>
+	</bean>
+	
+	<bean id="drugSearch" class="gov.va.med.pharmacy.jaxrs.drug.service.impl.DrugSearchImpl">
+	<property name='drugSearchDao' ref='drugSearchDao'/>
+	</bean>
+	
+	
+	<jaxrs:server id="drugREST" address="/rest/drug">
+		<jaxrs:serviceBeans>
+			<ref bean="drugSearch" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>
+	</jaxrs:server>
+	
+	<!--  Send Inbound Message to Vista -->
+	
+	<bean id="vistaInboundNcpdpMsgDao" class="gov.va.med.pharmacy.jaxrs.tovista.dao.impl.VistaInboundNcpdpMsgDaoImpl">
+    <constructor-arg>
+        <ref bean="dataSource" />
+    </constructor-arg>
+	</bean>
+	
+	<bean id="vistaInboundRpc" class="gov.va.med.pharmacy.jaxrs.tovista.dao.impl.VistaInboundRpc">
+	<property name='vistaLinkConnectionUtility' ref='vistaLinkConnectionUtility'/>
+	<property name='vistaInboundNcpdpMsgDao' ref='vistaInboundNcpdpMsgDao'/>
+	</bean>
+	
+	<bean id="vistaInboundDao" class="gov.va.med.pharmacy.jaxrs.tovista.dao.impl.VistaInboundDaoImpl">
+	<property name='vistaInboundRpc' ref='vistaInboundRpc'/>
+	</bean>
+	
+	<bean id="vistaInboundSend" class="gov.va.med.pharmacy.jaxrs.tovista.service.impl.VistaInboundSendImpl">
+	<property name='vistaInboundDao' ref='vistaInboundDao'/>
+	</bean>
+	
+	<jaxrs:server id="vistaInboundREST" address="/rest/sendInboundMessage">
+		<jaxrs:serviceBeans>
+			<ref bean="vistaInboundSend" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>
+	</jaxrs:server>
+	
+
+    <!--  Vista Outbound -->	
+		
+	<bean id="vistaOutbound" class="gov.va.med.pharmacy.jaxrs.vistaoutboundmsg.service.impl.VistaOutboundMsgImpl">	
+	</bean>
+	
+	
+	<jaxrs:server id="vistaOutboundREST" address="/rest/vistaoutboundMsg">
+		<jaxrs:serviceBeans>
+			<ref bean="vistaOutbound" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+			<ref bean='jaxbXmlProvider' />
+		</jaxrs:providers>		
+	</jaxrs:server>
+	
+	<!--  App Info -->	
+		
+	<bean id="buildProperties"  class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+  	<property name="locations">
+	    <list>
+	      <value>classpath*:BuildVersion.properties</value>
+	    </list>
+  	</property>
+	</bean>
+	
+	<bean id="appInfoDao" class="gov.va.med.pharmacy.jaxrs.admin.dao.impl.AppInfoDaoImpl">	
+	<property name='buildProperties' ref='buildProperties'/>
+	</bean>
+	
+	<bean id="appInfo" class="gov.va.med.pharmacy.jaxrs.admin.service.impl.AppInfoSearchImpl">	
+	<property name='appInfoDao' ref='appInfoDao'/>
+	</bean>
+		
+	<jaxrs:server id="appInfoREST" address="/rest/appInfo">
+		<jaxrs:serviceBeans>
+			<ref bean="appInfo" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+			<ref bean='jsonProvider' />
+		</jaxrs:providers>		
+	</jaxrs:server>
+	
+	
+	 <!--  Outbound NCPDP Message -->	
+		
+	<bean id="outboundNCPDPMessage" class="gov.va.med.pharmacy.jaxrs.outboundncpdpmessage.service.impl.OutboundNCPDPMessageServiceImpl">	
+	</bean>
+	
+	
+	<jaxrs:server id="outboundREST" address="/rest/outbound">
+		<jaxrs:serviceBeans>
+			<ref bean="outboundNCPDPMessage" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+			<ref bean='jaxbXmlProvider' />
+		</jaxrs:providers>		
+	</jaxrs:server>
+	
+     <!--  Inbound NCPDP Message -->   
+	<bean id="inboundNCPDPMessage" class="gov.va.med.pharmacy.jaxrs.inboundncpdpmessage.service.impl.InboundNCPDPMessageServiceImpl"/>	
+		
+	<jaxrs:server id="inboundREST" address="/rest/inbound">	
+		<jaxrs:serviceBeans>
+			<ref bean="inboundNCPDPMessage" />
+		</jaxrs:serviceBeans>		 
+		<jaxrs:providers>			
+			<ref bean='jaxbXmlProvider' />
+		</jaxrs:providers>
+		 		
+	</jaxrs:server>
+	
+	
+	
+
+</beans>

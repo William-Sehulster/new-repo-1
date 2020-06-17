@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="NCPDP_CODE" directorySegmentName="seg_0" id="3435164C-0A8A-44D2-2A93-C99B1B0A0864">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>23AD3D39-7E4F-0261-568A-2410162A54B6</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="NCIT_CODE" id="0F7903E7-FAE1-E705-854C-60103BF10DB4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCPDP_PREF_TERM" id="186665E8-C2E1-3AF5-5651-E2EADF439A5D">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCIT_PREF_TERM" id="213A01EF-EB79-09BF-9EE4-EA8C9A7117ED">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCPDP_SYNONYM" id="30AA0EC9-43D8-3533-DCDE-792F9A94A0FB">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCPDP_SUBSET_PREF_TERM" id="57CC7DAE-3DAA-135E-BEAD-37217150F560">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCIT_DEFINITION" id="90EA3232-BA4E-A416-8AD5-E8E4336F6AB0">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NCIT_SUBSET_CODE" id="CCDEDACF-ACAC-CF27-214C-054A74978C18">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+</TableProxyOraclev11g>

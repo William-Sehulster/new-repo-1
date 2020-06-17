@@ -1,0 +1,33 @@
+<slave_config>
+  <masters>
+
+    <slaveserver>
+      <name>master_8080</name>
+      <hostname>localhost</hostname>
+      <port>8080</port>
+      <username>cluster</username>
+      <password>cluster</password>
+      <master>Y</master>
+    </slaveserver>
+  </masters>
+
+  <report_to_masters>Y</report_to_masters>
+
+  
+  <slaveserver>
+    <name>slave2-8082</name>
+    <hostname>localhost</hostname>
+    <port>8082</port>
+    <username>cluster</username>
+    <password>cluster</password>
+    <master>N</master>
+  </slaveserver>
+  
+  <repository>
+	<name>inbound_erx_repo</name>
+	<username>admin</username>
+	<password>admin</password>
+  </repository>
+
+
+</slave_config>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>gov.va.med.vistalink</groupId>
+  <artifactId>vljFoundationsLib</artifactId>
+  <versioning>
+    <release>1.6.0.028</release>
+    <versions>
+      <version>1.6.0.028</version>
+    </versions>
+    <lastUpdated>20150611194351</lastUpdated>
+  </versioning>
+</metadata>

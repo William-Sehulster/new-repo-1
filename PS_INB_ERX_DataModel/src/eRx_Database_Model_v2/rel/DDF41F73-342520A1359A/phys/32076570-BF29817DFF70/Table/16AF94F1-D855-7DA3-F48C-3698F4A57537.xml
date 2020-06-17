@@ -1,0 +1,71 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="OUTBOUND_NCPDP_MSG_HIST" id="16AF94F1-D855-7DA3-F48C-3698F4A57537">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>3ACC9CE2-CD08-63FF-0D2F-6A27D5AC560D</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="CREATED_DATE" id="005820DA-C9BC-B1CC-C77A-179470D505B9">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OUTBOUND_NCPDP_MSG_ID" id="51B8E17F-F104-CFA0-2BAE-2A985A90F4A5">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="MESSAGE_STATUS" id="79736838-BE0F-7B44-40FB-9673E8A6BE9B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="A1E0E232-2391-F0AC-B63F-C8F1C974D98E">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OUTBOUND_NCPDP_MSG_HIST_ID" id="B7E775A1-5BA5-3035-AF1E-BF242E351A89">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="OB_NCPDP_MSG_HIST_ID_IDX" id="FE15E7C3-FE61-CBC0-3706-EF8A1EF7B310">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="OB_NCPDP_MSG_HIST_FK" id="5A24C345-FA7B-AE46-14C1-4A5F00C01BF2">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="OB_NCPDP_MSG_HIST_PK" id="9CFC2F7F-9E1D-0863-CF38-5F3B100805B4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 15:32:49 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<existingIndex>FE15E7C3-FE61-CBC0-3706-EF8A1EF7B310</existingIndex>
+<indexSegment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

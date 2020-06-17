@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="OUTBOUND_MSG_PHARMACY_ID_FK" directorySegmentName="seg_0" id="3CC24B06-C9D0-220B-9795-D38A46D2091B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>9E44B574-1D89-C22C-D924-A0635A7218AC</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<sourcePk>9BE4FEFB-D1B3-1EFA-80E4-F034392F7465</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>BB4D49ED-29AC-3F5C-0E2B-1EA8436E660E</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>34E0E74C-C729-A671-EF9C-9C94184B1571</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

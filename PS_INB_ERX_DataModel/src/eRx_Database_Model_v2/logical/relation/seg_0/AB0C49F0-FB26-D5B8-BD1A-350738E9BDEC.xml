@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="OUTBOUND_NCPDP_MSG_ERX_STATUS_FK" directorySegmentName="seg_0" id="AB0C49F0-FB26-D5B8-BD1A-350738E9BDEC">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>8051B03E-7B96-5C5D-319C-E340755E0262</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<sourcePk>C71F1046-0DE7-9DE0-CD01-083B33F60885</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>7E428F0C-0108-85A5-AC35-23F5A9D20331</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>34E0E74C-C729-A671-EF9C-9C94184B1571</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

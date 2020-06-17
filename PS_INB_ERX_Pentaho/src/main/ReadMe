@@ -1,0 +1,12 @@
+Pentaho Configuration
+
+-The xml job and transformation files are meant to be stored and run out of a database Kettle Database Repository
+called inbound_erx_repo.  They are exported into the xml format to bring under source control.  The Spoon tool
+is used to import/export these xml job/transformation definition files into the Kettle Database Repository.
+
+-The Kettle Database Repository connection is defined in the configuration\repositories.xml file.  This should be modified 
+for each environment leaving the name as inbound_erx_repo.  The repository.xml is normally located in the .kettle directory
+of the PDI software owner account.
+
+-The Carte configuration\*_server_config.xml files define the master slave and slave servers for the Carte clusters.  These should be
+modified for each environment.

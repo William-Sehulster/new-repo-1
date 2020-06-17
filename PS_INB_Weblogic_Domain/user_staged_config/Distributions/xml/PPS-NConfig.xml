@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<PPS-NConfigFile>
+	<NationalPort>7001</NationalPort>
+	<TransactionTimeout>1000</TransactionTimeout>
+	<NDFDivision>521</NDFDivision>
+	<NDFProxyUserIEN>360</NDFProxyUserIEN>
+	<ConnectionSpecName>DUZ</ConnectionSpecName>
+	<RPCTimeout>60000</RPCTimeout>
+    <FDBImageLocation>C:\\Temp\\FDB_Images\\</FDBImageLocation>
+    <STSWebServiceURL>http://islvsswls2.fo-slc.med.va.gov:9205/sts.webservice/ctService</STSWebServiceURL>
+ </PPS-NConfigFile>

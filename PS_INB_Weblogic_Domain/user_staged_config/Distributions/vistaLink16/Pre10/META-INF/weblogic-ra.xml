@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<weblogic-connector xmlns="http://www.bea.com/ns/weblogic/90" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
+http://www.bea.com/ns/weblogic/90/weblogic-ra.xsd">
+
+	<!-- Warning: The order the elements appear in complex elements is usually important. 
+	     It is a good idea to validate and test the weblogic-ra.xml document before committing. -->
+	
+	<!-- For new ADAPTER-level jndi-name, recommend using value of connection instance JNDI name, appended with "Adapter" -->
+	<jndi-name>vistaLinkConnectorAdapter</jndi-name>
+
+	<enable-global-access-to-classes>true</enable-global-access-to-classes>
+
+	<outbound-resource-adapter>
+		<connection-definition-group>
+			<connection-factory-interface>javax.resource.cci.ConnectionFactory</connection-factory-interface>
+
+			<default-connection-properties>
+				<pool-params>
+					<initial-capacity>1</initial-capacity>
+					<max-capacity>5</max-capacity>
+					<capacity-increment>1</capacity-increment>
+					<shrinking-enabled>true</shrinking-enabled>
+					<shrink-frequency-seconds>1800</shrink-frequency-seconds>
+					<highest-num-waiters>2147483647</highest-num-waiters>
+					<connection-creation-retry-frequency-seconds>30</connection-creation-retry-frequency-seconds>
+					<connection-reserve-timeout-seconds>0</connection-reserve-timeout-seconds>
+					<test-frequency-seconds>3600</test-frequency-seconds>
+					<profile-harvest-frequency-seconds>30</profile-harvest-frequency-seconds>
+					<ignore-in-use-connections-enabled>false</ignore-in-use-connections-enabled>
+					<match-connections-supported>true</match-connections-supported>
+				</pool-params>
+				<transaction-support>NoTransaction</transaction-support>
+				<reauthentication-support>false</reauthentication-support>
+			</default-connection-properties>
+
+		   	  <connection-instance>
+				<description>This is the connection and JNDI name that applications will be accessing.</description>
+				<jndi-name>vlj741</jndi-name>
+				<connection-properties>
+					<properties>
+						<property>
+							<!-- connectorJndiName value should be the same value as connection instance jndi-name a few lines above -->
+							<name>connectorJndiName</name>
+							<value>vlj741</value>
+						</property>
+					</properties>
+				</connection-properties>
+			</connection-instance>	
+		
+
+
+		</connection-definition-group>
+	</outbound-resource-adapter>
+</weblogic-connector>

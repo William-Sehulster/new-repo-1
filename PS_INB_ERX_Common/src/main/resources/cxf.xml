@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://cxf.apache.org/transports/http/configuration
+           http://cxf.apache.org/schemas/configuration/http-conf.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+ 		   http://cxf.apache.org/jaxws
+           http://cxf.apache.org/schemas/jaxws.xsd">
+ 
+    <http-conf:conduit
+           name="{http://jaxws.webservices.esr.med.va.gov/schemas}eeSummaryPortSoap11.http-conduit">
+      <http-conf:client AllowChunking="false" ConnectionTimeout="120000" ReceiveTimeout="240000"/>  
+  </http-conf:conduit>
+  
+ <!--   <bean id="myPasswordCallback"
+      class="gov.va.med.pharmacy.wsclients.eAnde.ClientPasswordCallback"/>
+      
+    <jaxws:client id="eeSummaryClient" name="{http://jaxws.webservices.esr.med.va.gov/schemas}eeSummaryPortSoap11"
+     address="https://vaww.esrdev30.aac.va.gov:8443/esr-ws/spring-ws/getEESummary/eeSummary"
+                  serviceClass="gov.va.med.pharmacy.wsclients.eAnde.EeSummaryPortService" 
+                  wsdlLocation="https://vaww.esrdev30.aac.va.gov:8443/esr-ws/spring-ws/getEESummary/eeSummary.wsdl"
+                  serviceName="EeSummaryPortService" endpointName="eeSummaryPortSoap11">
+         
+          <jaxws:outInterceptors>
+          <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+         <constructor-arg>
+            <map>
+               <entry key="action" value="UsernameToken"/>
+               <entry key="passwordType" value="PasswordText"/>
+               <entry key="passwordCallbackRef">
+                  <ref bean="myPasswordCallback"/>
+               </entry>
+            </map>
+         </constructor-arg>
+      </bean>
+
+        </jaxws:outInterceptors>
+    </jaxws:client> 
+
+   -->
+    
+</beans>
+
+
+

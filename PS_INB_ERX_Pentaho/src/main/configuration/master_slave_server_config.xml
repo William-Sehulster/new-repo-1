@@ -1,0 +1,19 @@
+<slave_config>
+ 
+
+    <slaveserver>
+      <name>master_8080</name>
+      <hostname>localhost</hostname>
+      <port>8080</port>
+      <username>cluster</username>
+      <password>cluster</password>
+      <master>Y</master>
+    </slaveserver>
+
+	<repository>
+	<name>inbound_erx_repo</name>
+	<username>admin</username>
+	<password>admin</password>
+	</repository>
+
+</slave_config>

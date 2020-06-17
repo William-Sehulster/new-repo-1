@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connectors encryptionScoped="false" xsi:schemaLocation="http://med.va.gov/vistalink/adapter/config ./connectorConfig.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://med.va.gov/vistalink/adapter/config">
+     
+<!-- vlj521 points to NDFA (VistA name) -->
+<!--
+<connector timestamp="2014-03-04T14:57:58.089-06:00" encrypted="true" enabled="true" always-use-default-as-min="false" timeout="30" verify-code="MDMj2jVHVYaxqWVZv0pq/g==" access-code="8D8nnmnFtrUASAVVXHZErQ==" port="18149" ip="10.226.84.153" primaryStation="521" jndiName="vlj521"/>
+
+
+<connector jndiName="vlj200" always-use-default-as-min="false" access-code="BiFs/qCAVsRgmJ5jArfiFA==" verify-code="krvS5cdVtUZV3RIgD+wc1w==" encrypted="true" enabled="true" timeout="30" ip="10.1.19.7" port="18021" primaryStation="500" timestamp="2016-08-04T14:57:58.089-06:00"/>
+
+PREMV
+-->
+
+<!--
+DAYTSHR
+
+
+<connector jndiName="vlj200" always-use-default-as-min="false" access-code="runoLLGU6EQ=" verify-code="lOFWsuCqwTy2wOkiSt54tA==" encrypted="true" enabled="true" timeout="15" ip="ISPA04.fo-baypines.med.va.gov" port="24621" primaryStation="984" timestamp="2016-08-18T15:54:22.976-05:00"/>
+
+CHYSHR
+-->
+
+<!-- BHSVISTA 
+<connector jndiName="vlj523" always-use-default-as-min="false" access-code="q0Zj6LIY+B0=" verify-code="3QWZEfyRKNltIm6n6m+twldce7ja58y0" encrypted="true" enabled="true" timeout="15" ip="ecp.boston.preprod.med.va.gov" port="6090" primaryStation="523" timestamp="2016-08-18T15:54:22.976-05:00"/>
+-->
+<!-- DAYVISTA 
+<connector jndiName="vlj552" always-use-default-as-min="false" access-code="q0Zj6LIY+B0=" verify-code="3QWZEfyRKNltIm6n6m+twldce7ja58y0" encrypted="true" enabled="true" timeout="15" ip="ecp.dayton.preprod.med.va.gov" port="6090" primaryStation="552" timestamp="2016-08-18T15:54:22.976-05:00"/>
+-->
+<!-- CTXVISTA 
+<connector jndiName="vlj674" always-use-default-as-min="false" access-code="q0Zj6LIY+B0=" verify-code="3QWZEfyRKNltIm6n6m+twldce7ja58y0" encrypted="true" enabled="true" timeout="15" ip="ecp.central-texas.preprod.med.va.gov" port="6090" primaryStation="674" timestamp="2016-08-18T15:54:22.976-05:00"/>
+-->
+<!-- MUSVISTA 
+<connector jndiName="vlj623" always-use-default-as-min="false" access-code="q0Zj6LIY+B0=" verify-code="3QWZEfyRKNltIm6n6m+twldce7ja58y0" encrypted="true" enabled="true" timeout="15" ip="ecp.muskogee.preprod.med.va.gov" port="6090" primaryStation="623" timestamp="2016-08-18T15:54:22.976-05:00"/>
+-->
+<!-- CHMERX - MBM Test 
+<connector jndiName="vlj741" always-use-default-as-min="false" access-code="PcUuniAzXR0=" verify-code="JaBswd6QozUwigzhmOz4+Q==" encrypted="true" enabled="true" timeout="15" ip="test.hac.med.va.gov" port="8000" primaryStation="741" timestamp="2017-04-18T15:54:22.976-05:00"/>
+-->
+
+</connectors>

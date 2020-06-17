@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="eRx Database Model v2" id="5CFE0F1B-F8C6-3D00-7D41-A930C3F0BF7B" version="3.5">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-04 14:52:13 UTC</createdTime>
+<ownerDesignName>eRx Database Model</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>5CFE0F1B-F8C6-3D00-7D41-A930C3F0BF7B</designId>
+<usedDesignStorageDescriptors>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="8DFD6E72-E378-8802-ABCF-09FAADB48EDD">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="F14A1AA8-2FE4-3E3D-E8EC-83B619FA890D">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="0F8FDE25-F00F-722D-75E2-C807A158C3B0">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="34D69960-F811-802D-BA06-B54488CC1CA7">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="C991FD87-3A66-719D-D5F9-95842F59C5DF">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project\eRx Database Model v2</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="761D332D-96CB-52EA-AD91-8C8C8B8E7ACD">
+<designStoragePath>C:\Data\RTC_Database\PS_INB_ERX_DataModel\Oracle SQLDeveloper Data Modeler Project\eRx Database Model v2</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="276E84F8-C5C3-3EF8-C1C9-8C9D7B4DC145">
+<designStoragePath>C:\Data\Inbound_eRx\PS_INB_ERX_DataModel\src</designStoragePath>
+</designDescr>
+</usedDesignStorageDescriptors>
+</OSDM_Design>

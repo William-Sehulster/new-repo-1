@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+      
+    <http auto-config="true" >        
+        <!-- 
+        <intercept-url pattern="/**" access="permitAll" />
+        -->
+        
+        <access-denied-handler error-page="/inb-erx/AccessDenied"/>        
+        
+        <!-- ROLE_  prefix is added by spring by default. -->
+        <intercept-url pattern="/inb-erx/managePharm/**" access="hasAnyRole('SYSTEM_ADMN','PHARM_MGR','PBM_ADMN')" />
+        <intercept-url pattern="/inb-erx/track/**" access="hasAnyRole('SYSTEM_ADMN','PHARM_MGR','PBM_ADMN','PHARM_USER')" />
+        <intercept-url pattern="/inb-erx/manageUsers/**" access="hasAnyRole('SYSTEM_ADMN')" />
+        <intercept-url pattern="/inb-erx/reports/**" access="hasAnyRole('SYSTEM_ADMN','PHARM_MGR','PBM_ADMN','PHARM_USER','READONLY')" />
+        
+        <!-- The following is needed if the user tries to access any url directly it will redirect to the landing page 
+         <form-login  login-page="/"  username-parameter="userId"  password-parameter="password"   authentication-failure-url="/inb-erx/AccessDenied" />
+         -->
+        <csrf disabled ="false"/>
+        
+    </http>
+  
+    <authentication-manager >
+        <authentication-provider user-service-ref="inboundUserDetailsService"/>
+    </authentication-manager>
+      
+    <beans:bean id="inboundUserDetailsService" class="gov.va.med.pharmacy.web.service.InboundUserDetailsService" />
+     
+</beans:beans>
+

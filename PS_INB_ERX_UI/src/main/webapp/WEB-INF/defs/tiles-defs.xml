@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+<!-- <add-attribute value="inbound.js" /> should be added on javascript definitions as it's needed. -->
+
+	<definition name="inberx.template" template="/WEB-INF/layouts/basicLayout.jsp">
+		<put-attribute name="title" value="Tiles dummy homepage" />
+		<put-attribute name="css">
+			<definition template="/WEB-INF/includes/css.jsp">
+				<put-list-attribute name="stylesheets">
+					<add-attribute value="main.css" />
+					<add-attribute value="forms.css" />
+					<add-attribute value="tables.css" />
+				</put-list-attribute>
+			</definition>
+		</put-attribute>
+		 <put-attribute name="javascripts">
+            <definition template="/WEB-INF/includes/javascripts.jsp">
+                <put-list-attribute name="scripts">
+                <add-attribute value="inbound.js" /> 
+                </put-list-attribute>
+            </definition>
+        </put-attribute>
+         <put-attribute name="skipnavigation" value="/WEB-INF/includes/skipnavigation.jsp" />		
+		<put-attribute name="header" value="/WEB-INF/includes/header.jsp" />		
+		<put-attribute name="navigation" value="/WEB-INF/includes/navigation.jsp" />
+		<put-attribute name="content" value="/WEB-INF/includes/content.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/includes/footer.jsp" />
+
+	</definition>
+	
+	
+	<!-- Landing page with errors -->
+	<definition name="inberx.landingPageWithErrors" template="/WEB-INF/loginErrorLayout.jsp">  
+	  
+	</definition>
+
+    <!-- Homepage -->
+	<definition name="inberx.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		<put-list-attribute name="scripts">			
+			<add-attribute value="inbound.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="inberx.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/index.jsp" />
+		<put-attribute name="javascripts" value="inberx.js.homepage" />
+	</definition>
+
+	<!--  View eRx -->
+    <definition name="vieweRx.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		<put-list-attribute name="scripts">
+			<add-attribute value="component/dataGridSupport.js" />
+			<add-attribute value="component/dataGrid.js" />
+			<add-attribute value="inbound.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="vieweRx.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/vieweRx.jsp" />
+		<put-attribute name="javascripts" value="help.js.homepage" />
+	</definition>
+
+   <!--  Pharmacy -->
+    <definition name="managepharmacy.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		<put-list-attribute name="scripts">			
+			<add-attribute value="component/dataGridSupport.js" />
+			<add-attribute value="component/dataGrid.js" />
+			<add-attribute value="component/pharmacyDataGrid.js" />
+			<add-attribute value="component/formSelect.js" />
+			<add-attribute value="managepharmacy.js" />	
+			<add-attribute value="inbound.js" />		
+		</put-list-attribute>
+	</definition>
+	
+		
+	<definition name="managepharmacy.stylesheets" template="/WEB-INF/includes/css.jsp">
+        <put-list-attribute name="stylesheets">
+            <add-attribute value="main.css" />            
+            <add-attribute value="tables.css" />
+            <add-attribute value="reports.css" />
+        </put-list-attribute>
+    </definition>
+
+	<definition name="managepharmacy.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/managepharmacy.jsp" />
+		<put-attribute name="javascripts" value="managepharmacy.js.homepage" />
+	</definition>
+	
+	<!--  Edit Pharmacy -->
+	<definition name="editpharmacy.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		<put-list-attribute name="scripts">			
+			<add-attribute value="editpharmacy.js" />
+			<add-attribute value="inbound.js" />
+		</put-list-attribute>
+	</definition>
+	
+	
+	<definition name="editpharmacy.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/editpharmacy.jsp" />
+		<put-attribute name="javascripts" value="editpharmacy.js.homepage" />
+	</definition>
+	
+	
+	<!--  Add Pharmacy -->
+	<definition name="addpharmacy.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/addpharmacy.jsp" />	
+		<put-attribute name="javascripts" value="editpharmacy.js.homepage" />	
+	</definition>
+	
+	
+	<!--  Track, Audit eRx-->
+    <definition name="trackeRx.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		<put-list-attribute name="scripts">
+			<add-attribute value="component/dataGridSupport.js" />
+			<add-attribute value="component/dataGrid.js" />
+			<add-attribute value="component/trackDataGrid.js" />
+			<add-attribute value="trackeRx.js" />
+			<add-attribute value="inbound.js" />
+			
+		</put-list-attribute>
+	</definition>
+
+	<definition name="trackeRx.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/trackeRx.jsp" />
+		<put-attribute name="javascripts" value="trackeRx.js.homepage" />
+	</definition>
+	
+	<!--  Reports-->	
+	<definition name="reports.stylesheets" template="/WEB-INF/includes/css.jsp">
+        <put-list-attribute name="stylesheets">
+            <add-attribute value="main.css" />            
+            <add-attribute value="tables.css" />
+            <add-attribute value="reports.css" />
+        </put-list-attribute>
+    </definition>
+	
+	
+    <definition name="reports.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+		 <put-list-attribute name="scripts">
+		    <add-attribute value="component/dataGridSupport.js" />
+			<add-attribute value="component/dataGrid.js" />		    
+			<add-attribute value="component/formSelect.js" />
+            <add-attribute value="reports.js" />
+            <add-attribute value="inbound.js" />
+        </put-list-attribute>
+	</definition>
+	
+
+	<definition name="reports.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/reports.jsp" />
+		<put-attribute name="javascripts" value="reports.js.homepage" />
+		<put-attribute name="css" value="reports.stylesheets" />
+	</definition>
+	
+	
+	<definition name="inberx.excludeformscss" template="/WEB-INF/includes/css.jsp">
+        <put-list-attribute name="stylesheets">
+            <add-attribute value="main.css" />
+            <add-attribute value="tables.css" />
+        </put-list-attribute>
+    </definition>
+    
+    <!-- User Management -->    
+     <definition name="manageusers.js.homepage" template="/WEB-INF/includes/javascripts.jsp">
+        <put-list-attribute name="scripts">
+            <add-attribute value="manageusers.js" />
+            <add-attribute value="inbound.js" />
+        </put-list-attribute>
+    </definition>
+    
+    <definition name="manageusers.homepage" extends="inberx.template">
+		<put-attribute name="content" value="/WEB-INF/manageusers.jsp" />
+		 <put-attribute name="css" value="inberx.excludeformscss" />
+		<put-attribute name="javascripts" value="manageusers.js.homepage" />
+	</definition>
+
+    <!--  Help -->    
+	<definition name="help.homepage" template="/WEB-INF/help.jsp">		
+	</definition>
+
+     <!--  AccessDenied -->    
+	<definition name="accessDenied.page" template="/WEB-INF/accessDenied.jsp">		
+	</definition>
+
+</tiles-definitions>

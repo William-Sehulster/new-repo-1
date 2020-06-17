@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="PHARMACY_USERS_CREATED_FK" directorySegmentName="seg_0" id="E420A7C6-661D-FFCD-F023-19E30F9228AC">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>5D3D471F-F2EF-9216-6B5B-80B2E2C97938</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<sourcePk>9CE9537E-7944-5117-F371-E312129D12FE</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>9D2548BB-0002-177B-76DA-7E00ABC519D7</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>BB4D49ED-29AC-3F5C-0E2B-1EA8436E660E</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

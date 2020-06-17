@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <name>PS_INB_ERX_Service</name>
+  <artifactId>PS_INB_ERX_Service</artifactId>
+  <packaging>jar</packaging>  
+  
+  <parent>
+		<groupId>gov.va.med.pharmacy</groupId>
+		<artifactId>PS_INB_ERX</artifactId>
+		<version>${version.number}</version>
+		<relativePath>../PS_INB_ERX/pom.xml</relativePath>
+ </parent>
+    
+    	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/../PS_INB_ERX_Lib/mavenrepo</url>
+			<releases>
+				<checksumPolicy>false</checksumPolicy>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+    
+ 	<properties>
+		<skipTests>true</skipTests>
+		<build.version.full>${version.number}</build.version.full>
+		<build.date>${maven.build.timestamp}</build.date>
+		<baseline.name>${project.artifactId}-${project.version}.${build.number}</baseline.name>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+	</properties>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<configuration>
+						<skipTests>${skipTests}</skipTests>
+						<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+						<includes>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>	
+</project>

@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vobs\PHARMO_CT_depl\lib\bea_kaajee\user_staged_config\Distributions\vistaLink16\customTablesConnector\lib
+2
+4
+e:jaxen-core.jar|1|126dd8efdfa|274c7|ee9a5c6f|e9266a03c3ef4703a68c2c9750d981d5|0
+e:saxpath-va.jar|1|126dd8f08f7|5bf8|64becf81|90cc904e1f26439eb226b2cb8718ac36|0
+10:log4j-1.2.13.jar|1|126dd8f085a|57724|12185865|30ec110509174c959541c397c979c50a|0
+d:jaxen-dom.jar|1|126dd8efe68|358b|fa32dfc2|570563ddefc74843a6d1110d9d1f695f|0

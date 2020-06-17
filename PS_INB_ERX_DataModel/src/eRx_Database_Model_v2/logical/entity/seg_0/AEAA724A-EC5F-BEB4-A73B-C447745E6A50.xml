@@ -1,0 +1,344 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="AEAA724A-EC5F-BEB4-A73B-C447745E6A50" name="INBOUND NCPDP MSGv2">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>194B889C-AD8D-FF52-A180-B52A016C9950</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="INBOUND NCPDP MSG ID" id="68A26D60-B560-B9CF-76DA-6E77EC84D06A">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>71EA7F0C-6683-C5F6-A396-6FD52FF2B03F</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>CD860880-62AB-6262-FF3D-E477F020B216</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE ID" id="1ADE8CC2-E044-A162-964E-4DC6E5F8376B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>171602F5-7859-7353-228D-A5D3AF0297BD</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>4A7CB86C-1DA8-2F91-9C31-4EDF1C633027</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="REL TO MESSAGE ID" id="168A0B9E-995E-5F5F-40E2-FD0A443B0680">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>19D19509-3463-ADFB-0628-E56E9BE6AB62</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>4A7CB86C-1DA8-2F91-9C31-4EDF1C633027</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE TYPE" id="4ED7375F-E8C3-EAB0-A84F-878E43EE3665">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>997A6A10-1AF5-AFA8-7627-72F663876BA5</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>88955EB9-9C69-6564-0651-2C919C653EE2</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE" id="17EF1E22-9287-7A6A-CD39-C67A9BDC3A92">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>8153E124-5BFF-4368-3EE3-444CB0164FEA</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT050</logicalDatatype>
+<domain>8D79ABBE-2049-801B-20BD-840D87D92D91</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PHARMACY ID" id="7F2785FC-77F5-FB02-3DD6-002B4CAA9719">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>B1CCCDF3-D123-A82C-3A29-43C7E7E72563</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<referedAttribute>FD4ADA92-9A2E-FF79-B1E5-1C1DE3CFC1B5</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>CD860880-62AB-6262-FF3D-E477F020B216</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PATIENT CHK STATUS" id="6D06BDD8-6551-D6B3-C291-A3CDDCD01B8F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>07675828-58A5-09F1-9C49-2D5C9D041F66</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<referedAttribute>422FB3AE-5D83-0F23-BE60-374B850E7276</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PATIENT MATCH DETAILS" id="47D00A9E-398B-BB3E-2AAF-03A9C64C0E50">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>Patient match data Sent with Inbound eRx to VistA</comment>
+<generatorID>42389176-CCB0-DE6F-977E-F653B47F40FE</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PROVIDER CHK STATUS" id="63BE8648-6A8D-8ED9-C022-50D54F619586">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>70AEE030-15BD-BB27-B6EA-B961FF60744E</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<referedAttribute>422FB3AE-5D83-0F23-BE60-374B850E7276</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PROVIDER MATCH DETAILS" id="41063ABF-FEA0-8A6D-623A-CCEEC633FCCA">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>Provider match data Sent with Inbound eRx to VistA</comment>
+<generatorID>7E490427-5CD3-1835-3ECD-29047606B6AE</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DRUG CHK STATUS" id="3EFCEFC3-6269-5984-BBAD-5EB1B3433E0C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>C252A33D-E344-5211-4317-70813F369944</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<referedAttribute>422FB3AE-5D83-0F23-BE60-374B850E7276</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DRUG MATCH DETAILS" id="77BD78AB-5EA9-DF57-023E-8B8B005E9398">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>Drug match data Sent with Inbound eRx to VistA</comment>
+<generatorID>F2809360-AB2A-0487-1C9A-7440DC708853</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000</dataTypeSize>
+<domain>4F6F7B6C-833A-B3EC-5CAB-FB7F5491514D</domain>
+<ownDataTypeParameters>2000,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE STATUS" id="F0BA0AEF-7FC1-E459-D087-BCB611E03DAF">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>026BF299-AD0D-A288-8D7B-B42B7DCC2CDB</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<referedAttribute>422FB3AE-5D83-0F23-BE60-374B850E7276</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<defaultValue>0000</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE STATUS DETAILS" id="619360A4-9F98-12B4-D225-5107E74EBB76">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>D96FA3C2-1F15-FCA7-6457-841EA573EE54</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000 BYTE</dataTypeSize>
+<ownDataTypeParameters>2000 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RECEIVED DATE" id="35C13958-5E3E-3398-CB7F-C1D588A97368">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>date/time message is received</comment>
+<generatorID>CD703C9E-B1D1-3957-AECA-4BD24E5BCCB7</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>C8E424B9-639B-613C-5C03-BF3DABA9174F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="UPDATED DATE" id="C7C90DFD-A663-985E-B874-6E5460AC867D">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>Date of record update</comment>
+<generatorID>5FF7DF32-7D8F-A5F2-5898-BD630F8BD63D</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<sourceType>System</sourceType>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>C8E424B9-639B-613C-5C03-BF3DABA9174F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CREATED DATE" id="0AC36139-4778-B57C-643E-F103310FF441">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<comment>Date of record creation</comment>
+<generatorID>DF53ACCE-9410-B154-3812-F993FCA7440B</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<domain>9B14A6CB-7E4A-CE55-2F07-D37A5A602B1D</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="MESSAGE FROM" id="48A11828-EA37-6F02-A4C4-AAB1A75ECE69">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>3306757F-02B3-B6BB-5CC8-C5CBDAAC283B</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>35 BYTE</dataTypeSize>
+<ownDataTypeParameters>35 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CODE" id="1A403BFD-0204-72DB-EB5C-F80DF0C0895F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>B31B65FE-5CC1-6328-7C30-FC646D5C6204</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<referedAttribute>422FB3AE-5D83-0F23-BE60-374B850E7276</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="0FF11539-E659-BCB2-8831-30750AC5A0F5" name="INBOUND NCPDP MSG PK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>04BF7FFC-C2F6-A251-3186-8795B885C1EE</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>68A26D60-B560-B9CF-76DA-6E77EC84D06A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

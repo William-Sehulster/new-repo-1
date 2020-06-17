@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="6A2EE754-0E0C-3C5A-1FCB-2188A653F9FF">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-04 14:52:13 UTC</createdTime>
+<ownerDesignName>eRx Database Model</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</ProcessModel>
