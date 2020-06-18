@@ -134,13 +134,6 @@ function getSummaryReport() {
 		endDate.constraints.max = new Date();
 	}
 	
-	// onload and for first time only set the default dates.
-	if(neweRxSummaryReportDefaultDate == false){
-	
-		setYesterdaysDefaultDate();
-		neweRxSummaryReportDefaultDate = true;
-	}
-	
 	//validate Dates
     if(startDate!=null && endDate!=null){
 		
@@ -503,15 +496,7 @@ function getRejectReasonsReport() {
 		
 		endDate.constraints.max = new Date();
 	}
-	
-	
-	// onload and for first time only set the default dates.
-	if(rejectReportDefaultDate == false){
-	
-		setYesterdaysDefaultDate();
-		rejectReportDefaultDate = true;
-	}
-	
+		
 	//validate Dates
     if(startDate!=null && endDate!=null){
 		
@@ -551,13 +536,6 @@ function getAutoCheckReport() {
 	{	
 		
 		endDate.constraints.max = new Date();
-	}
-	
-	// onload and for first time only set the default dates.
-	if(autoCheckReportDefaultDate == false){
-	
-		setYesterdaysDefaultDate();
-		autoCheckReportDefaultDate = true;
 	}
 	
 	//validate Dates
@@ -601,14 +579,7 @@ function getErxSummaryReport() {
 		
 		endDate.constraints.max = new Date();
 	}
-	
-	// onload and for first time only set the default dates.
-	if(summaryReportDefaultDate == false){
-	
-		setYesterdaysDefaultDate();
-		summaryReportDefaultDate = true;
-	}
-	
+		
 	//validate Dates
     if(startDate!=null && endDate!=null){
 		
