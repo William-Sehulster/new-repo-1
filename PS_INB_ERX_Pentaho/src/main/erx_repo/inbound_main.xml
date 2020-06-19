@@ -6106,7 +6106,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/05/19 09:53:14.000</modified_date>
+    <modified_date>2020/06/09 09:47:06.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -6465,16 +6465,6 @@ from erx.inbound_ncpdp_msg t
     <hop>
       <from>Check for Med Prescribed Segment (Replace, Approved, AwC)</from>
       <to>Update Message Med Prescribed Check Failed</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Update Message Date Validation Failed</from>
-      <to>Write to log 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Update Message Prepare for Auto Checks</from>
-      <to>Write to log 2 3</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -7345,7 +7335,7 @@ to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.
 sysdate receive_date,
 x.rx_ref_num rx_ref_num,
 x.pon pon,
-nvl2(x.med_pres_drug_desc, 'true', 'false') med_prescribed_exists
+nvl2(nvl(x.med_pres_drug_desc,x.med_resp_drug_desc), 'true', 'false') med_prescribed_exists
 from inbound_ncpdp_msg t, xmltable('/Message'
     passing t.message
     columns 
@@ -7364,7 +7354,8 @@ from inbound_ncpdp_msg t, xmltable('/Message'
 	written_date varchar2(35) path '//Body/*/*/WrittenDate/Date',
     other_med_date varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDate',
     other_med_date_qual varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDateQualifier',
-    med_pres_drug_desc varchar2(35) path '//Body/*/MedicationPrescribed/DrugDescription') x
+    med_pres_drug_desc varchar2(35) path '//Body/*/MedicationPrescribed/DrugDescription',
+    med_resp_drug_desc varchar2(35) path '//Body/*/MedicationResponse/DrugDescription') x
     where
     t.message_status = '0000'
     and t.message is not null</sql>
@@ -8958,7 +8949,7 @@ commit;</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
+    <loglevel>log_level_error</loglevel>
     <displayHeader>Y</displayHeader>
     <limitRows>N</limitRows>
     <limitRowsNumber>-1</limitRowsNumber>
@@ -8986,44 +8977,6 @@ commit;</sql>
     </GUI>
   </step>
   <step>
-    <name>Write to log 2</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>-1</limitRowsNumber>
-    <logmessage>AFTER Written Date Check</logmessage>
-    <fields>
-      <field>
-        <name>WRITTEN_DATE_TEST</name>
-      </field>
-      <field>
-        <name>EFFECTIVE_DATE_TEST</name>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1184</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Write to log 2 2</name>
     <type>WriteToLog</type>
     <description/>
@@ -9034,7 +8987,7 @@ commit;</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
+    <loglevel>log_level_error</loglevel>
     <displayHeader>Y</displayHeader>
     <limitRows>N</limitRows>
     <limitRowsNumber>-1</limitRowsNumber>
@@ -9058,44 +9011,6 @@ commit;</sql>
     <GUI>
       <xloc>1440</xloc>
       <yloc>592</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log 2 3</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>-1</limitRowsNumber>
-    <logmessage>AFTER Prepare for Auto CHECK</logmessage>
-    <fields>
-      <field>
-        <name>WRITTEN_DATE_TEST</name>
-      </field>
-      <field>
-        <name>EFFECTIVE_DATE_TEST</name>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>2032</xloc>
-      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

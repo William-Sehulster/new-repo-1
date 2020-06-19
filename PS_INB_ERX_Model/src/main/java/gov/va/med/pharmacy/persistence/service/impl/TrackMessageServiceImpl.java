@@ -2,6 +2,7 @@ package gov.va.med.pharmacy.persistence.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class TrackMessageServiceImpl implements TrackMessageService {
 
 		NcpdpMessageModel ncpdpModel = ncpdpMessagesDao.findById(id, inboundOutbound, relatedMsgSearch);
 
-		if ((null != ncpdpModel && null != ncpdpModel.getMessageType())		&& ("RXCHANGERESPONSE".equals(ncpdpModel.getMessageType().toUpperCase()))) {
+		if ((null != ncpdpModel && null != ncpdpModel.getMessageType())		&& (ncpdpModel.getMessageType().toUpperCase(Locale.ENGLISH).equals("RXCHANGERESPONSE"))) {
 			
 			String prrFlag = ncpdpMessagesDao.findPrrFlagById(ncpdpModel.getRxMessageId());
 

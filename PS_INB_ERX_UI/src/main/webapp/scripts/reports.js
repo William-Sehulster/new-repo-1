@@ -50,7 +50,6 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				getStationIdSelect();
 				toggleDivs(selected);
 				
 			}
@@ -62,7 +61,6 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				getStationIdSelect();
 				toggleDivs(selected);
 			}
 
@@ -74,7 +72,6 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				getStationIdSelect();
 				toggleDivs(selected);
 			}
 
@@ -85,7 +82,6 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				getStationIdSelect();
 				toggleDivs(selected);
 			}
 
