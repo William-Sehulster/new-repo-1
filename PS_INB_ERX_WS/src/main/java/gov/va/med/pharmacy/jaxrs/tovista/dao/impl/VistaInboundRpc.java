@@ -160,11 +160,19 @@ public class VistaInboundRpc {
            		    	}
         	
 
-        	xmlList = sb.toString(); 	
-            xmlList2 = sb2.toString();
-            xmlList3 = sb3.toString();
+        	xmlList = sb.toString(); 
+        	
+        	//If messageType is Error or Verify then send empty xml2 and xml3 parameters
+			if (messageType.equalsIgnoreCase("Error") || messageType.equalsIgnoreCase("Verify")) {
+				xmlList2 = "";
+				xmlList3 = "";
+			} else {
+				xmlList2 = sb2.toString();
+				xmlList3 = sb3.toString();
+			}
 
         }
+        
         finally{
         		StreamUtilities.safeClose(br);
 
