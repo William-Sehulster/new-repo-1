@@ -1601,7 +1601,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"     	       		vital_sign varchar2(10) path '//VitalSign',  \r\n" +
         		"      	       		unit_of_measure varchar2(10) path '//UnitOfMeasure', \r\n" +
         		"      	       		value varchar2(10)  path '//Value') patient_height_values  \r\n" +
-        		"     	       		where vital_sign in (select loinc_num from loinc_code where component = 'Body height') and rownum < 2) patient_height_val,  \r\n" +
+        		"     	       		where vital_sign in (select loinc_num from loinc_code where component = 'Body height') ) patient_height_val,  \r\n" +
         		"					(select patient_weight_values.value weight,   \r\n" + 
         		"        	      	patient_weight_values.unit_of_measure unit_of_measure,  \r\n" + 
         		"       	       	t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id  \r\n" + 
@@ -1614,7 +1614,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"     	       		vital_sign varchar2(10) path '//VitalSign',  \r\n" + 
         		"      	       		unit_of_measure varchar2(10) path '//UnitOfMeasure', \r\n" + 
         		"      	       		value varchar2(10)  path '//Value') patient_weight_values  \r\n" + 
-        		"     	       		where vital_sign in (select loinc_num from loinc_code where component = 'Body weight') and rownum < 2) patient_weight_val,  \r\n" +
+        		"     	       		where vital_sign in (select loinc_num from loinc_code where component = 'Body weight') ) patient_weight_val,  \r\n" +
         		"					(select benefits.cardholder_id cardholder_id ,  \r\n" + 
         		"        		    benefits.groupID groupID, \r\n" + 
         		"                   benefits.rx_Pcn,\r\n" + 
