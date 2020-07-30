@@ -1,6 +1,7 @@
 /bin/
 /target/
-WebContent/**
+/WebContent/**
+/WebContent/WEB-INF/**
 .project
 .settings
 .classpath
