@@ -1,6 +1,11 @@
 /bin/
 /target/
 /WebContent/
+/WebContent/images/
+/WebContent/META-INF/
+/WebContent/scripts/
+/WebContent/style/
+/WebContent/WEB-INF/
 .project
 .settings
 .classpath
