@@ -1,6 +1,11 @@
 dojo.require("dojo.hash");
 dojo.require("dijit.registry");
 dojo.require("dojo.date");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.Deferred");
+dojo.require("dojo.parser");
+
+var reportsLoadingDialog;
 
 function scrollFunction() {
 	var topGrid = null;
@@ -145,6 +150,8 @@ function getSummaryReport() {
 	var selectBox = dojo.byId("reportSelection");
 
 	selected = getSelected(selectBox);
+	
+		showModalWin();
 		
 		if (selected == "SUMMRPT") {
 			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
@@ -176,6 +183,8 @@ function getSummaryReport() {
 			
 		}
 		
+		hideModalWin();
+				
 		return true;
 }
 
@@ -343,7 +352,8 @@ function getReportCSV(){
 function getSummaryReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	
+	showModalWin();
+	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/summaryReport/getSummaryReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
 }
@@ -351,7 +361,8 @@ function getSummaryReportCSV() {
 function getAutoCheckReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	
+	showModalWin();
+	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/autoCheckReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
 }
@@ -359,7 +370,8 @@ function getAutoCheckReportCSV() {
 function getRejectReasonsReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	
+	showModalWin();
+	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/rejectReasonsReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
 }
@@ -367,7 +379,8 @@ function getRejectReasonsReportCSV() {
 function getErxSummaryReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	
+	showModalWin();
+	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/erxSummaryReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
 }
@@ -504,10 +517,13 @@ function getRejectReasonsReport() {
 		
 	}
 	
+    showModalWin();
+    
 	rejectReasonsReportDataGridInit("inb-erx","summaryReport", "rejectReasonsReport/getReport?json=" + dojo.toJson(formObject) );
 	buildRejectReasonsReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
+	hideModalWin();
 	return true;
 		
 }
@@ -545,10 +561,13 @@ function getAutoCheckReport() {
 		
 	}
 	
+    showModalWin();
+    
 	autoCheckReportDataGridInit("inb-erx","summaryReport", "autoCheckReport/getReport?json=" + dojo.toJson(formObject) );
 	buildAutoCheckReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
+	hideModalWin();
 	return true;
 		
 }
@@ -588,9 +607,13 @@ function getErxSummaryReport() {
 	}
 	
 	
+    showModalWin();
+    
 	erxSummaryReportDataGridInit("inb-erx","summaryReport", "erxSummaryReport/getReport?json=" + dojo.toJson(formObject) );
 	buildErxSummaryReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
+	
+	hideModalWin();
 	
 	return true;
 }
@@ -649,5 +672,37 @@ function validateDates(startDateVal, endDateVal) {
 	
 	
 }
+
+function showModalWin() {
+	
+	 reportsLoadingDialog = new dijit.Dialog({	            
+	        title: "Search Status",
+			content: "Search in progress, please wait...",
+	        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+	        draggable: false,
+	        closable: false,
+	        onHide: function(){
+	        	reportsLoadingDialog.destroy()
+	        }
+	        
+	    });
+	    
+	    	
+	 reportsLoadingDialog.show();
+	
+}
+
+function hideModalWin() {
+
+	setTimeout(function(){ reportsLoadingDialog.hide(); }, 1000);
+}
+	
+
+
+function hideCSVModalWin() {
+
+	setTimeout(function(){ reportsLoadingDialog.hide(); }, 5000);
+}
+
 
 
