@@ -151,12 +151,16 @@ function getSummaryReport() {
 
 	selected = getSelected(selectBox);
 	
-		showModalWin();
+		
 		
 		if (selected == "SUMMRPT") {
+			showModalWin();
+			
 			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
 			buildSummaryReportTotalsGrid("summaryReportTotals");
 			dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
+			
+			hideModalWin();
 		}
 		if (selected == "AUTOCHECKRPT") {
 			var valid = getAutoCheckReport();
@@ -183,7 +187,7 @@ function getSummaryReport() {
 			
 		}
 		
-		hideModalWin();
+		
 				
 		return true;
 }
