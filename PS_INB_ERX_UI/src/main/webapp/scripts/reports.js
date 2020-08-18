@@ -356,7 +356,7 @@ function getReportCSV(){
 function getSummaryReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	showModalWin();
+	showCSVModalWin();
 	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/summaryReport/getSummaryReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
@@ -365,7 +365,7 @@ function getSummaryReportCSV() {
 function getAutoCheckReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	showModalWin();
+	showCSVModalWin();
 	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/autoCheckReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
@@ -374,7 +374,7 @@ function getAutoCheckReportCSV() {
 function getRejectReasonsReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	showModalWin();
+	showCSVModalWin();
 	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/rejectReasonsReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
@@ -383,7 +383,7 @@ function getRejectReasonsReportCSV() {
 function getErxSummaryReportCSV() {
 	var formId = "summaryReportForm";
 	var formObject = dojo.formToObject(formId);
-	showModalWin();
+	showCSVModalWin();
 	hideCSVModalWin();
 	var getCSVUrl ="/inbound/inb-erx/erxSummaryReport/getReportCSV?json=" + dojo.toJson(formObject);
 	location.href= getCSVUrl;	
@@ -702,6 +702,25 @@ function hideModalWin() {
 }
 	
 
+
+function showCSVModalWin() {
+	
+	 reportsLoadingDialog = new dijit.Dialog({	            
+	        title: "Export Status",
+			content: "Export in progress, please wait...",
+	        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+	        draggable: false,
+	        closable: false,
+	        onHide: function(){
+	        	reportsLoadingDialog.destroy()
+	        }
+	        
+	    });
+	    
+	    	
+	 reportsLoadingDialog.show();
+	
+}
 
 function hideCSVModalWin() {
 
