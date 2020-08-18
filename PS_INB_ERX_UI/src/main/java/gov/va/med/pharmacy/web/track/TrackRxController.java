@@ -48,6 +48,8 @@ public class TrackRxController {
 	private static final String MBM_741DUB = "741DUB";
 
 	private static final String ALL_VALUE = "All";
+	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(TrackRxController.class);
 
 	@Autowired
 	private TrackMessageService trackMessageService;
@@ -260,21 +262,18 @@ public class TrackRxController {
 	}
 
 	
-	@RequestMapping(value = "/getTrackAuditListCSV", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/getTrackAuditListCSV", method = {RequestMethod.GET})
 	public void csvExport(HttpServletRequest request, @RequestParam("json") String json,HttpServletResponse response) 
 			throws JsonParseException, JsonMappingException, IOException{
 		
 		try {
 			
+					
 			String csvFileName = "TrackAudit.csv";
 			
 			String responseHeaderKey = "Content-Disposition";
 			
 			String responseHeaderValue = String.format("attachment; filename=\"%s\"",   csvFileName);
-			
-			//response.setContentType("text/csv");
-			
-			//response.setHeader(responseHeaderKey, responseHeaderValue);
 			
 			List<NcpdpMessageListModel> eRxMessageList = trackAuditSearch(request,json);
 			
@@ -315,14 +314,19 @@ public class TrackRxController {
 
 			String data = view.getStringRepresentation(csvModel);
 
-			response.getOutputStream().print(data);
+			response.getOutputStream().print(data);			
 
-			response.getOutputStream().flush();
+			response.getOutputStream().flush();		
+			
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			
+			LOG.error("Error while generating Track Audit CSV", e.getMessage());
 		}
+		
 		
 	}
 	

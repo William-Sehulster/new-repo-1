@@ -10,6 +10,13 @@ dojo.require("dojo.keys");
 dojo.require("dojo.query");
 dojo.require("dijit.Dialog");
 dojo.require("dojo.Deferred");
+dojo.require("dojo.parser");
+
+var csvLoadingDialog;
+
+
+
+
 function buildTrackGridDataSource(dataSourceURL, query) {
 	try {
 		var dataSource = new dojox.data.JsonQueryRestStore({
@@ -459,14 +466,40 @@ function getTrackGrid() {
 
 
 function getTrackAuditListCSV() {
+	
+	
+	  csvLoadingDialog = new dijit.Dialog({	            
+	        title: "Export Status",
+			content: "Export in progress, please wait...",
+	        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+	        draggable: false,
+	        closable: false,
+	        onHide: function(){
+	        	csvLoadingDialog.destroy()
+	        }
+	        
+	    });
+	 
+	 
+	var pharmVisnSelect = dojo.byId("csvRequestParam");
+	
+	setTimeout(function(){ csvLoadingDialog.hide(); }, 5000);
+	
 	var formId = "searchCriteriaForm";
+	
 	var formObject = dojo.formToObject(formId);
 	
 	var getCSVUrl ="/inbound/inb-erx/track/getTrackAuditListCSV?json=" + dojo.toJson(formObject);
 	
 	location.href= getCSVUrl;
 	
+	
+	
+	csvLoadingDialog.show();
+		
 }
+
+
 
 
 function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData) {

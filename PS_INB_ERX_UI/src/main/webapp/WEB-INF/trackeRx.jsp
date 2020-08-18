@@ -1302,7 +1302,7 @@ Number of Records:
     <input id="trackHubMsgIdHidden" name="trackHubMsgIdHidden"  type="hidden" value="" style="display: none;"></input> 
      <input id="trackMsgTypeHidden" name="trackMsgTypeHidden"  type="hidden" value="" style="display: none;"></input>
      <input id="trackParentMsgStatusHidden" name="trackParentMsgStatusHidden"  type="hidden" value="" style="display: none;"></input>   
-    </div><%--result1 div end --%>
+    </div><%--result1 div end --%>   
     
 <%-- end body --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutEnd.jsp" />
