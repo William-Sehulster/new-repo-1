@@ -6,20 +6,6 @@ dojo.require("dojo._base.array");
 
 var clearClicked = false;
 
-// defect 792109 fix.
-dojo.addOnLoad(function() {
-	
-	var path = location.pathname;
-	
-	if (path.match("addNewPharmacy") != null) 
-	{
-		var url = "/inbound/inb-erx/managePharm/main";
-		
-		location.href = url;
-    } 
-	
-	
-});
 
 require(["dijit/Tooltip", "dojo/domReady!"], function(Tooltip){
     new Tooltip({
