@@ -54,7 +54,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<!-- Apache CXF -->
-		<cxf.version>3.1.7</cxf.version>
+		<cxf.version>3.3.7</cxf.version>
 
 		<!-- Apache Commons -->
 		<commons.io.version>2.5</commons.io.version>
@@ -62,7 +62,7 @@
 		<commons.lang3.version>3.5</commons.lang3.version>
 
 		<!-- Apache log4j -->
-		<log4j.version>2.12.0</log4j.version>		
+		<log4j.version>2.13.3</log4j.version>		
 
 		<!-- Spring Framework -->
 
@@ -84,7 +84,7 @@
 		<jaxws.version>2.2.11</jaxws.version>
 
 		<!-- SLF4J -->
-		<slf4j.version>1.7.6</slf4j.version>
+		<slf4j.version>2.0.0-alpha1</slf4j.version>
 
 		<!-- VistALink -->
 		<vistalink.version>1.6.1.010</vistalink.version>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="INB_ERX_UI-4.0.3.012">
+    <wb-module deploy-name="INB_ERX_UI-4.0.4.003">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
         <dependent-module archiveName="PS_INB_ERX_UI.war" deploy-path="/" handle="module:/resource/PS_INB_ERX_UI/PS_INB_ERX_UI">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Common-4.0.3.012.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
+        <dependent-module archiveName="PS_INB_ERX_Common-4.0.4.003.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Model-4.0.3.012.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
+        <dependent-module archiveName="PS_INB_ERX_Model-4.0.4.003.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-lang3-3.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar">
@@ -62,19 +62,19 @@
         <dependent-module archiveName="xmlparserv2-11.1.1.2.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/oracle/xmlparserv2/11.1.1.2.0/xmlparserv2-11.1.1.2.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-api-2.12.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-api/2.12.0/log4j-api-2.12.0.jar">
+        <dependent-module archiveName="log4j-api-2.13.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-core-2.12.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-core/2.12.0/log4j-core-2.12.0.jar">
+        <dependent-module archiveName="log4j-core-2.13.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-web-2.12.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-web/2.12.0/log4j-web-2.12.0.jar">
+        <dependent-module archiveName="log4j-web-2.13.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-web/2.13.3/log4j-web-2.13.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-api-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar">
+        <dependent-module archiveName="slf4j-api-2.0.0-alpha1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/2.0.0-alpha1/slf4j-api-2.0.0-alpha1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-simple-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-simple/1.7.6/slf4j-simple-1.7.6.jar">
+        <dependent-module archiveName="slf4j-simple-2.0.0-alpha1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-simple/2.0.0-alpha1/slf4j-simple-2.0.0-alpha1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="spring-beans-5.2.0.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-beans/5.2.0.RELEASE/spring-beans-5.2.0.RELEASE.jar">
