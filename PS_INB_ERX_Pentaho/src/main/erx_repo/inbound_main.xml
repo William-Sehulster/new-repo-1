@@ -6106,7 +6106,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/06/09 09:47:06.000</modified_date>
+    <modified_date>2020/08/19 16:10:38.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -6419,11 +6419,11 @@ from erx.inbound_ncpdp_msg t
     </hop>
     <hop>
       <from>Concat Message Details 1</from>
-      <to>Check for Response Type (Replace, Approved, AwC)</to>
+      <to>Check for Response Type (Replace, Approved, AwC, Validated)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check for Response Type (Replace, Approved, AwC)</from>
+      <from>Check for Response Type (Replace, Approved, AwC, Validated)</from>
       <to>Update Message No Auto Checks</to>
       <enabled>Y</enabled>
     </hop>
@@ -6438,12 +6438,12 @@ from erx.inbound_ncpdp_msg t
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check for Response Type (Replace, Approved, AwC)</from>
-      <to>Check for Med Prescribed Segment (Replace, Approved, AwC)</to>
+      <from>Check for Response Type (Replace, Approved, AwC, Validated)</from>
+      <to>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check for Med Prescribed Segment (Replace, Approved, AwC)</from>
+      <from>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</from>
       <to>Update Message Prepare for Auto Checks - Renewal and Chng Response</to>
       <enabled>Y</enabled>
     </hop>
@@ -6463,7 +6463,7 @@ from erx.inbound_ncpdp_msg t
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check for Med Prescribed Segment (Replace, Approved, AwC)</from>
+      <from>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</from>
       <to>Update Message Med Prescribed Check Failed</to>
       <enabled>Y</enabled>
     </hop>
@@ -6554,7 +6554,7 @@ from erx.inbound_ncpdp_msg t
     </GUI>
   </step>
   <step>
-    <name>Check for Med Prescribed Segment (Replace, Approved, AwC)</name>
+    <name>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>N</distribute>
@@ -6590,7 +6590,7 @@ from erx.inbound_ncpdp_msg t
       </output>
     </remotesteps>
     <GUI>
-      <xloc>2048</xloc>
+      <xloc>2064</xloc>
       <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
@@ -6634,7 +6634,7 @@ from erx.inbound_ncpdp_msg t
     </GUI>
   </step>
   <step>
-    <name>Check for Response Type (Replace, Approved, AwC)</name>
+    <name>Check for Response Type (Replace, Approved, AwC, Validated)</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>N</distribute>
@@ -6654,15 +6654,19 @@ from erx.inbound_ncpdp_msg t
     <cases>
       <case>
         <value>Replace-Check</value>
-        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC)</target_step>
+        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</target_step>
       </case>
       <case>
         <value>ChangeApproved-Check</value>
-        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC)</target_step>
+        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</target_step>
       </case>
       <case>
         <value>ChangeApprovedWithChanges-Check</value>
-        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC)</target_step>
+        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</target_step>
+      </case>
+      <case>
+        <value>ChangeValidated-Check</value>
+        <target_step>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</target_step>
       </case>
     </cases>
     <attributes/>
@@ -6675,7 +6679,7 @@ from erx.inbound_ncpdp_msg t
     </remotesteps>
     <GUI>
       <xloc>1792</xloc>
-      <yloc>400</yloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
