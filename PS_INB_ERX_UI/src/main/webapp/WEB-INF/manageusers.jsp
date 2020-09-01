@@ -154,7 +154,7 @@
 		<label for="userRolesSelect" aria-labelledby="User Roles">
 		User Roles:		
 		</label> 		
-		<select multiple="multiple" id="userRolesSelect"  class="manageusersSelect" name="userRolesSelect" role="listbox" aria-labelledby="User Roles" aria-multiselectable="true" onchange="setUserRoleSelectAria(this);">	  
+		<select multiple="multiple" id="userRolesSelect"  class="manageusersSelect" name="userRolesSelect" role="listbox" aria-labelledby="User Roles multiple listbox" aria-multiselectable="true" onchange="setUserRoleSelectAria(this);">	  
 	        <option value="pharmMgr" role="option">Pharmacy Manager</option> 
 	        <option value="pbmAdmn" role="option">PBM Admin</option> 
 	        <option value="pharmUser" role="option">Pharmacy User</option> 
@@ -172,7 +172,7 @@
 	<div class="manageUsersFields">      
       <label for="addStationId">Station ID:     
 	  </label>
-		   <select multiple="multiple"  id="addStationId"  name="addStationId" onchange="stationIdValueSelected();" style="float: left;" size="8" aria-labelledby="Station Ids" aria-multiselectable="true" role="listbox">
+		   <select multiple="multiple"  id="addStationId"  name="addStationId" onchange="stationIdValueSelected();" style="float: left;" size="8" aria-labelledby="Station Ids multiple listbox" aria-multiselectable="true" role="listbox">
 			  <c:forEach var="item" items="${userMgmtStationIds}">
 		        <option value="${item.id}">${item.label}</option>
 		     </c:forEach>
