@@ -258,7 +258,7 @@
 	</div>
 		
 	<div id="EAndE_CHECK_ENABLED" class="displayable" style="display: block; opacity: 1;" title="Disable or enable enrollment and eligibility check.">
-	<label for="pharmacyEnabledDisabled">
+	<label for="eAndeCheckEnabled">
 	Enrollment and Eligibility Check Enabled:
 	</label>
 	
