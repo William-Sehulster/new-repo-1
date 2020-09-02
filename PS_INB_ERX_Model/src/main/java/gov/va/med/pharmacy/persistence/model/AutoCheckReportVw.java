@@ -11,7 +11,7 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "AUTO_CHECK_REPORT_VW", schema = "ERX")
+@Table(name = "AUTO_CHECK_REPORT_MVW", schema = "ERX")
 @Immutable
 public class AutoCheckReportVw implements java.io.Serializable {
 
