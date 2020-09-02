@@ -12,21 +12,34 @@ dojo.ready(function() {
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
 	        if (event.keyCode == '13'){
-		        var searchCritForm = dijit.byId("searchCriteriaForm");
-		        if(searchCritForm.validate()){
-
-		        	
-		        	dojo.style(dojo.byId('messageList'), "display", "block");
-		        	
-		        	getTrackGrid();
-		        	
-		        	
-		        	
-		        }else{
-		        	alert('Search form contains invalid values. Please correct and try your search again.')
-		        	return false;
-		        }
-		        return true;
+	        	
+	        
+	        	var triggeringElementTagName = event.target.tagName;
+	        	
+	        	//console.log(triggeringElementTagName);
+	        	
+	        	if(triggeringElementTagName =="INPUT" || triggeringElementTagName =="SPAN" ){
+	        		
+	        	  var searchCritForm = dijit.byId("searchCriteriaForm");
+	        	  
+	 		        if(searchCritForm.validate()){
+	 		        	
+	 		        	
+	 		        	
+	 		        	dojo.style(dojo.byId('messageList'), "display", "block");
+	 		        	
+	 		        	getTrackGrid();
+	 		        	
+	 		        	
+	 		        	
+	 		        }else{
+	 		        	alert('Search form contains invalid values. Please correct and try your search again.')
+	 		        	return false;
+	 		        }
+	 		        return true;
+	        	}
+	        	
+		       
 	        }
 	    });
 	});

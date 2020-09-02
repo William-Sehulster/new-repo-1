@@ -18,8 +18,16 @@ function createLink(entry) {
 	}
 	
 	var newEntry= "/inbound/inb-erx/managePharm/editPharmacy/"+entry;
-	return "<a href=\"" + encodeURI(newEntry) + "\" >" + entry	+ "</a>";
-};
+	
+	return "<a href=\"" + encodeURI(newEntry) + "\" onkeyup=gotoEditPharm(this,\"" + newEntry+ "\"); id=\""+newEntry+"\">" + entry	+ "</a>";
+}
+
+
+function gotoEditPharm(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
+
 
 function buildPharmacyGridLayout(servlet, target) {
 	var layout = new Array();
@@ -232,6 +240,6 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 		alert(txt);
 	}
 
-};
+}
 
 

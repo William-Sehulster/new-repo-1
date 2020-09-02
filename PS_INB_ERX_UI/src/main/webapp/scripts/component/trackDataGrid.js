@@ -44,10 +44,16 @@ function createLinkRefNum(entry) {
 	
 	inboundOutbound = inboundOutboundBox2.get("value");
 
-	var relatedMsg = null;
+	var relatedMsg = null; 
 		
-	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\" onkeyup=gotoMessageDetails(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
+
+function gotoMessageDetails(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
+
 
 
 function createRelatedMsgLinkRefNum(entry,index) {
@@ -59,9 +65,14 @@ function createRelatedMsgLinkRefNum(entry,index) {
 	var relatedMsg = true;
 
 	
-	return "<a aria-label=\"Relates to Message ID "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	return "<a aria-label=\"Relates to Message ID "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessageDetails(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
 
+
+function gotoRelatedMessageDetails(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
 
 function createLinkRefNumRelated(entry, index) {
 	if (entry == null || entry == "null" || entry == "") {
@@ -84,9 +95,14 @@ function createLinkRefNumRelated(entry, index) {
 	}
 	var relatedMsg = null;
 	
-	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessages(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
 
+
+function gotoRelatedMessages(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
 
 
 function buildTrackGridLayout(servlet, target) {
@@ -319,6 +335,8 @@ function trackDataGridInit(servlet, parentContainer, responseData) {
 				case dojo.keys.ENTER:
 				case dojo.keys.SPACE:
 					
+
+					
 					var gridItem = grid.getItem(e.rowIndex);
 					
 					var cell = grid.getCell(e.cellIndex);
@@ -351,7 +369,12 @@ function trackDataGridInit(servlet, parentContainer, responseData) {
 					
 					var sortedColumn = dojo.query('.dojoxGridColCaption')[0];
 					
-					sortedColumn.setAttribute("aria-label", sortedInfo);
+					if(sortedColumn!=null){
+					
+						sortedColumn.setAttribute("aria-label", sortedInfo);
+					}
+					
+					
 					
 					//console.dir(grid.getSortProps());
 			}
