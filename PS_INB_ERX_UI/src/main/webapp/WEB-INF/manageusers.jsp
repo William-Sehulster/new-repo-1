@@ -50,8 +50,10 @@
 	 <form:hidden   path="enableDisableRecords" value="" />     
 	 <form:hidden   path="stationIdsSelected" value="" />   
 	 <form:hidden   path="modifiedStationIds" value="" />
-      
-		 <div class="divUserMgmtTable" tabindex="0" role="table" aria-label="Users" aria-describedby="current users in the system.">		
+         <div id="divUserMgmtTableInfo" style="display: none;">
+         current users in the system.
+         </div>
+		 <div class="divUserMgmtTable" tabindex="0" role="table" aria-label="Users" aria-describedby="divUserMgmtTableInfo">		
 			<div class="divUserMgmtTableBody">
 				<div class="divUserMgmtTableHeaderRow" role="row">
 					<div role="columnheader" class="divUserMgmtTableCellToggleUser">Enable/Disable&nbsp;User</div>
@@ -150,11 +152,14 @@
 	  </label>
 		<form:input path="addLastNameText" maxlength="50" title="Last name of user" />
       </div>      
+      <div id="userRolesListBoxInfo" style="display: none;">
+        User Roles multiple select listbox.
+      </div>
      <div  class="manageUsersFields show" title="Application user roles. To assign a role to the user, click a role in the User Roles check box. The role will be checked or unchecked.">	
-		<label for="userRolesSelect" aria-labelledby="User Roles">
+		<label for="userRolesSelect" aria-labelledby="User Roles" id="userrolelabel">
 		User Roles:		
 		</label> 		
-		<select multiple="multiple" id="userRolesSelect"  class="manageusersSelect" name="userRolesSelect" role="listbox" aria-labelledby="User Roles multiple listbox" aria-multiselectable="true" onchange="setUserRoleSelectAria(this);">	  
+		<select multiple="multiple" id="userRolesSelect"  class="manageusersSelect" name="userRolesSelect" role="listbox" aria-describedby="userRolesListBoxInfo" aria-multiselectable="true" onchange="setUserRoleSelectAria(this);">	  
 	        <option value="pharmMgr" role="option">Pharmacy Manager</option> 
 	        <option value="pbmAdmn" role="option">PBM Admin</option> 
 	        <option value="pharmUser" role="option">Pharmacy User</option> 
@@ -169,10 +174,13 @@
       </div>  
 	</div>	
 	
+	 <div id="stationIdsListBoxInfo" style="display: none;">
+        Station Ids multiple select listbox.
+      </div>
 	<div class="manageUsersFields">      
-      <label for="addStationId">Station ID:     
+      <label for="addStationId" id="stationIdlabel">Station ID:     
 	  </label>
-		   <select multiple="multiple"  id="addStationId"  name="addStationId" onchange="stationIdValueSelected();" style="float: left;" size="8" aria-labelledby="Station Ids multiple listbox" aria-multiselectable="true" role="listbox">
+		   <select multiple="multiple"  id="addStationId"  name="addStationId" onchange="stationIdValueSelected();" style="float: left;" size="8" aria-describedby="stationIdsListBoxInfo" aria-multiselectable="true" role="listbox">
 			  <c:forEach var="item" items="${userMgmtStationIds}">
 		        <option value="${item.id}">${item.label}</option>
 		     </c:forEach>
@@ -221,11 +229,13 @@
 		     	 </span>      
 			    </label>
 		      </div>  
-		       		        
+		     <div id="stationIdsUpdateListBoxInfo" style="display: none;">
+      		  Station Ids multiple select listbox.
+      		</div>	        
 		        <div   id="stationIdsUpdateIDiv" style="margin-top: 25px; display: block;">      
 			      <label for="updateStationId" style="float: left;width: 5%;">Station ID:     
 				  </label>
-					   <select multiple="multiple"  id="updateStationId"  name="updateStationId" onchange="stationIdValueSelectedUpdate();" style="float: left;" size="8" aria-multiselectable="true" role="listbox">
+					   <select multiple="multiple"  id="updateStationId"  name="updateStationId" onchange="stationIdValueSelectedUpdate();" style="float: left;" size="8" aria-describedby="stationIdsUpdateListBoxInfo" aria-multiselectable="true" role="listbox">
 						  <c:forEach var="item" items="${userMgmtStationIds}">
 					        <option value="${item.id}">${item.label}</option>
 					     </c:forEach>
