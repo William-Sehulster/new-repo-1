@@ -42,7 +42,7 @@
 	<properties>
 		<version.major>4</version.major>
 		<version.minor>0</version.minor>
-		<version.revision>4</version.revision>
+		<version.revision>5</version.revision>
 		<version.number>${version.major}.${version.minor}.${version.revision}.${build.number}</version.number>
 		<inberx.build.timestamp>${maven.build.timestamp}</inberx.build.timestamp>
 		<inberx.baseline.name>PS_INB_ERX_BASELINE</inberx.baseline.name>
@@ -57,21 +57,21 @@
 		<cxf.version>3.3.7</cxf.version>
 
 		<!-- Apache Commons -->
-		<commons.io.version>2.5</commons.io.version>
+		<commons.io.version>2.7</commons.io.version>
 
-		<commons.lang3.version>3.5</commons.lang3.version>
+		<commons.lang3.version>3.11</commons.lang3.version>
 
 		<!-- Apache log4j -->
-		<log4j.version>2.12.0</log4j.version>		
+		<log4j.version>2.13.3</log4j.version>		
 
 		<!-- Spring Framework -->
 
-		<spring.version>5.2.0.RELEASE</spring.version>
+		<spring.version>5.2.8.RELEASE</spring.version>
 		<spring.download.sources>true</spring.download.sources>
 		<spring.download.javadocs>true</spring.download.javadocs>
 
 		<!-- Spring Security -->
-		<spring.security.version>5.2.0.RELEASE</spring.security.version>
+		<spring.security.version>5.3.4.RELEASE</spring.security.version>
 
 		<!-- Jackson JSON -->
 		<jackson.version>2.10.0</jackson.version>
@@ -79,12 +79,12 @@
 		<jstl.version>1.2</jstl.version>
 
 		<!-- javax -->
-		<javaee.version>7.0</javaee.version>
+		<javaee.version>8.0</javaee.version>
 		<!-- JAX WS -->
-		<jaxws.version>2.2.11</jaxws.version>
+		<jaxws.version>2.3.1</jaxws.version>
 
 		<!-- SLF4J -->
-		<slf4j.version>1.7.6</slf4j.version>
+		<slf4j.version>2.0.0-alpha1</slf4j.version>
 
 		<!-- VistALink -->
 		<vistalink.version>1.6.1.010</vistalink.version>
@@ -103,14 +103,14 @@
 		<ehcache.web.version>2.0.4</ehcache.web.version>
 
 		<!-- Xerces -->
-		<xerces.version>2.11.0</xerces.version>
+		<xerces.version>2.12.0</xerces.version>
 
 		<!-- <build.number>DEV</build.number> -->
 
 		<!-- Javax cache -->
 		<javax.cache.version>1.1.1</javax.cache.version>
 
-		<build.number>006</build.number>
+		<build.number>001</build.number>
 
 	</properties>
 
@@ -203,6 +203,11 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
 				<version>${slf4j.version}</version>
+			</dependency>			
+			<dependency>
+		    	<groupId>org.slf4j</groupId>
+		    	<artifactId>log4j-over-slf4j</artifactId>
+		    	<version>${slf4j.version}</version>
 			</dependency>
 
 			<!-- Spring -->
