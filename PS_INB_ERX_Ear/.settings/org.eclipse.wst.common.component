@@ -458,10 +458,10 @@
         <dependent-module archiveName="xmlparserv2-11.1.1.2.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/oracle/xmlparserv2/11.1.1.2.0/xmlparserv2-11.1.1.2.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-api-2.0.0-alpha1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/2.0.0-alpha1/slf4j-api-2.0.0-alpha1.jar">
+        <dependent-module archiveName="slf4j-api-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-simple-2.0.0-alpha1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-simple/2.0.0-alpha1/slf4j-simple-2.0.0-alpha1.jar">
+        <dependent-module archiveName="slf4j-simple-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-simple/1.7.6/slf4j-simple-1.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

@@ -221,7 +221,7 @@
         <dependent-module archiveName="jetty-http-9.4.29.v20200521.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-http/9.4.29.v20200521/jetty-http-9.4.29.v20200521.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-api-2.0.0-alpha1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/2.0.0-alpha1/slf4j-api-2.0.0-alpha1.jar">
+        <dependent-module archiveName="slf4j-api-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cxf-rt-rs-client-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-rs-client/3.3.7/cxf-rt-rs-client-3.3.7.jar">
