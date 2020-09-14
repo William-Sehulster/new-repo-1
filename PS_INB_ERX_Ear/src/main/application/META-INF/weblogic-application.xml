@@ -5,7 +5,7 @@
      </prefer-application-resources>
           
     <prefer-application-packages>
-        <package-name>javax.jws.*</package-name>
+      <!--  <package-name>javax.jws.*</package-name> -->
           <package-name>org.jboss.logging.*</package-name>
           <package-name>com.fasterxml.jackson.*</package-name>
           <package-name>org.slf4j.*</package-name>
