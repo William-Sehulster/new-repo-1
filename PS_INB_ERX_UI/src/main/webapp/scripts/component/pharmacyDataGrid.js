@@ -174,7 +174,7 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 				canSort : function(index) {
 					return true;
 				},
-				plugins : {nestedSorting: false,indirectSelection: false}				
+				plugins : {nestedSorting: false}				
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);
 			
