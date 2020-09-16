@@ -79,29 +79,21 @@ public class SummaryReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<SummaryReportVw> summaryReportVwList = new ArrayList<SummaryReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		summaryReportVwList.addAll(summaryReportService.find(visn));
-
-		int i = 0;
-		while (i < summaryReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			
-			stationIdSelectModel.setId(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
 		return stationIdSelectModelList;
 	}

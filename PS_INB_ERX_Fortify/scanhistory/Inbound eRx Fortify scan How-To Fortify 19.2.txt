@@ -1,0 +1,46 @@
+﻿Running Fortify scan using Fortify Maven plugin
+
+Prerequisites - Maven 3.3.x installed, M2_HOME is set, mvn is on Windows Path, and HP Fortify SCA installed to C:\Fortify\Fortify_SCA_and_Apps_19.2.3. Note: Check SwA Wiki to make sure you are using the latest approved version of Fortify SCA.
+
+The latest software can be downloaded here if you have already obtained a license file:
+\\vagweswafs1.vha.med.va.gov\OISSWA\_Authenticated_Users_Dropbox\Fortify_Software 
+
+1) Install Fortify into C:\Fortify and install Fortify Maven Plugin into your local maven repo. 
+
+To install Maven Plugin from Windows Explorer:
+"cd" to this directory:  C:\Fortify\Fortify_SCA_and_Apps_19.2.3\plugins\maven\
+
+extract maven-plugin-bin.zip to maven-plugin-bin
+
+Run:
+C:\Fortify\Fortify_SCA_and_Apps_19.2.3\plugins\maven\maven-plugin-bin\install.bat
+
+
+2) before each scan it's a good idea to check for a new Rule Pack. 
+   cd to C:\Fortify\Fortify_SCA_and_Apps_19.2.3\bin and run fortifyupdate.cmd  This updates the Fortify rulepacks
+3) Now any maven project can be scanned either inside Eclipse or by lauching the following commands from the directory containing
+   the parent POM.xml for the project. For to scan the entire Inbound project launch, run commands below from here:
+   C:\{project_root}\PS_INB_ERX_Fortify
+
+set MAVEN_OPTS=-Xmx1024m
+mvn clean install -Dmaven.test.skip="true"
+mvn -Dfortify.sca.buildId=Inbound com.fortify.sca.plugins.maven:sca-maven-plugin:clean
+mvn -Dfortify.sca.buildId=Inbound package -Dmaven.test.skip="true"  -Dfortify.sca.source=1.8 com.fortify.sca.plugins.maven:sca-maven-plugin:translate
+mvn -Dfortify.sca.buildId=Inbound -Dfortify.sca.source=1.8  com.fortify.sca.plugins.maven:sca-maven-plugin:scan 
+
+
+4)  ZIP file assembly for SwA source code submission with FPRs and possible README files
+
+Zip Method using 7-ZIP:
+
+1) cd to the directory containing the @filelist.txt file 
+2) run >C:\Data\7-Zip\7z a -tzip archive.zip @filelist.txt -spf
+3) Note: A file list based on the FPR sources scanned from each FPR exists.  The list of files (filelist.txt) is passed into 7zip and used a 7zip command to zip (above).
+If additional packages/classes are added to projects, verify that this file list captures all scanned code. The zipped file count
+must match the files scanned count from the FPR project overview window.
+4) After the 7-zip procedure above, the zip file must be opened using 7zip File Manager, copied to the file system and then re-zipped into a Windows compressed folder.
+This step allows the zip/compressed folder to be opened in Windows.
+
+
+Drop zipped up code and FPR here:  \\vagweswafs1.vha.med.va.gov\OISSWA\E4A0E097-C4D1-411a-A1CF-ECEDB3940A0C
+Submit request to SwA to perform A&A here:  https://wiki.mobilehealth.va.gov/pages/viewpage.action?pageId=26774489
