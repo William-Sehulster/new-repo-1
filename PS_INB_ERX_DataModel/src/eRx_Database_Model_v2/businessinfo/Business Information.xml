@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<BusinessInfoDesign class="oracle.dbtools.crest.model.businessinfo.BusinessInfoDesign" name="Business Information" id="3FBA9141-5B34-1CD5-4D47-4F8F66DDBDA4">
-<createdBy>jwandling</createdBy>
-<createdTime>2016-03-04 14:52:14 UTC</createdTime>
-<ownerDesignName>eRx Database Model</ownerDesignName>
-<shouldBeOpen>false</shouldBeOpen>
-</BusinessInfoDesign>

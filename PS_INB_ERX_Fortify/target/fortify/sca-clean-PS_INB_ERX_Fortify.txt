@@ -1,1 +1,0 @@
-"-version" "-b" "Inbound" "-clean" "-logfile" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\target\fortify\sca-clean.log"

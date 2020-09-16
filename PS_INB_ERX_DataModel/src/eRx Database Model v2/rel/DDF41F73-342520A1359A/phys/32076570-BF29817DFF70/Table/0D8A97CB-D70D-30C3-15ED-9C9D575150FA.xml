@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="APP_CONFIGURATION" directorySegmentName="seg_0" id="0D8A97CB-D70D-30C3-15ED-9C9D575150FA">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>3ACC9CE2-CD08-63FF-0D2F-6A27D5AC560D</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="KEY" id="3AB4B3B5-756A-BD88-0400-09C863F531A4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="VALUE" id="8395408B-7613-F5D0-8F58-BC65204D74A4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CREATED_DATE" id="9FC8DFB6-7D7A-67F2-192E-1DC3DAB11CB1">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="BE8C3EEE-F4CF-407B-236F-18F90FBD206C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="APP_CONFIGURATION_PK" id="32027BFA-9AD5-24A1-7C23-EEA6F715C512">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="APP_CONFIGURATION_PK" id="3C20A27B-C59E-C125-F008-B2BD3EE9082A">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-08 13:10:26 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</segment>
+<tableSpace>71466E6A-E95E-05CD-A9CC-2A23D0D57CBE</tableSpace>
+<existingIndex>32027BFA-9AD5-24A1-7C23-EEA6F715C512</existingIndex>
+<indexSegment>D9CAE1A1-A05A-EC8D-321D-D544BDBAA214</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

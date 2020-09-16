@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="VA_USER" directorySegmentName="seg_0" id="DD8A9F87-BFC5-C1F2-EA95-46528FA7C7AA">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>23AD3D39-7E4F-0261-568A-2410162A54B6</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="UPDATED_DATE" id="1AC51C51-8F9D-4633-0E22-48A23F891DB4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="IS_PHARM_MGR" id="59800D8B-87E9-BA5B-2B9F-D426A71CB6FF">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<defaultValue>&apos;N&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="CREATED_BY" id="5CC3C206-DF20-545B-0154-4EA91DDFCBB7">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="IS_SYSTEM_ADMN" id="66482467-29D3-EB3F-9D73-323CA8C29290">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<defaultValue>&apos;N&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="IS_PHARM_TECH" id="936D7784-DFB2-DE4B-0DBC-56311C844054">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<defaultValue>&apos;N&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="VA_USERID" id="9865F9DD-5874-7993-138D-C6DB4F846465">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="FIRST_NAME" id="AE091972-F994-574C-E893-B6E20AD419F4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="CREATED_DATE" id="C2339254-D877-5B3E-9D9B-4A2E77711837">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="LAST_NAME" id="C2A284FA-9664-467A-0636-53719AF3124C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATED_BY" id="E8095713-58A8-A3D8-45C2-3F53D9138A97">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="IS_PBM_ADMN" id="E84F6A4B-1B90-583B-FC1F-0B308D9E2731">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<defaultValue>&apos;N&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="USERS_ID" id="F0FEEF19-8593-5BB9-80F4-CCF8B27D851C">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="VA_USERID_UK" id="85CA12F5-1A44-83AF-6572-A3035851C946">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>655DE7D3-4E64-645C-749B-69687315BDDE</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="USERS_PK" id="EF2736FA-515C-DE25-C81A-6E1435E9B2B0">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<schemaObject>123E47A8-94FC-0B01-393B-5F55F731B670</schemaObject>
+<segment>655DE7D3-4E64-645C-749B-69687315BDDE</segment>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="USERS_PK" id="D023DB1F-4853-4D56-B7EF-04C6104B5654">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>655DE7D3-4E64-645C-749B-69687315BDDE</segment>
+<existingIndex>EF2736FA-515C-DE25-C81A-6E1435E9B2B0</existingIndex>
+<indexSegment>655DE7D3-4E64-645C-749B-69687315BDDE</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="VA_USERID_UK" id="66354A10-C4DE-F152-FA19-D18750C03F65">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<segment>655DE7D3-4E64-645C-749B-69687315BDDE</segment>
+<existingIndex>85CA12F5-1A44-83AF-6572-A3035851C946</existingIndex>
+<indexSegment>655DE7D3-4E64-645C-749B-69687315BDDE</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev11g>

@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<SchemaObject class="oracle.dbtools.crest.model.design.relational.SchemaObject" name="erx" directorySegmentName="seg_0" id="123E47A8-94FC-0B01-393B-5F55F731B670">
-<createdBy>VHAHAMWandlJ</createdBy>
-<createdTime>2016-07-06 16:07:37 UTC</createdTime>
-<ownerDesignName>eRx Database Model</ownerDesignName>
-<ordsAlias>schema_1</ordsAlias>
-</SchemaObject>

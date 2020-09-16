@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="CCBD4B56-0B56-748D-B403-F2341C65DACB" containerWithKeyObject="8DF392F1-05ED-243E-53A7-2D243934B2CE" localFKIndex="EAC92C4E-5447-49FE-EB07-2BB8C27ACDDA" name="PHARMACY_USERS_UPDATED_FK">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>PHARMACY_USERS_UPDATED_FK</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<importedID>3888468F-9D74-B849-DA16-64D84AA314BF</importedID>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>DD8A9F87-BFC5-C1F2-EA95-46528FA7C7AA</referredTableID>
+<keyObject>66354A10-C4DE-F152-FA19-D18750C03F65</keyObject>
+<referredKeyID>66354A10-C4DE-F152-FA19-D18750C03F65</referredKeyID>
+<mandatory>false</mandatory>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

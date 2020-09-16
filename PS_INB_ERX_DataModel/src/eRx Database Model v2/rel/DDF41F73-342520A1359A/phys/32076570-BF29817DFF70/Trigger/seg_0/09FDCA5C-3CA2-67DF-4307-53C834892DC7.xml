@@ -1,0 +1,14 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TriggerOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TriggerOraclev10g" name="OB_NCPDP_MSG_INS_TRG" directorySegmentName="seg_0" id="09FDCA5C-3CA2-67DF-4307-53C834892DC7">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>OB_NCPDP_MSG_INS_TRG</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:19:34 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<actions>UPDATE</actions>
+<body>DECLARE rec OUTBOUND_NCPDP_MSG_HIST%ROWTYPE;&lt;br/&gt;  blank OUTBOUND_NCPDP_MSG_HIST%ROWTYPE;&lt;br/&gt;  BEGIN&lt;br/&gt;    rec := blank;&lt;br/&gt;    IF UPDATING THEN&lt;br/&gt;      rec.OUTBOUND_NCPDP_MSG_ID   := :NEW.OUTBOUND_NCPDP_MSG_ID;&lt;br/&gt;      rec.MESSAGE_STATUS         := :NEW.MESSAGE_STATUS;&lt;br/&gt;      rec.UPDATED_DATE            := :NEW.UPDATED_DATE;&lt;br/&gt;      rec.CREATED_DATE           := :NEW.CREATED_DATE;&lt;br/&gt;    END IF;&lt;br/&gt;    INSERT INTO OUTBOUND_NCPDP_MSG_HIST VALUES rec;&lt;br/&gt;  END;</body>
+<triggerTime>AFTER</triggerTime>
+<owner>D9046BB6-4F49-0E5D-466F-6A8BD6405589</owner>
+<table>9766F42D-B453-BE45-3C62-A8A38477669E</table>
+</TriggerOraclev10g>

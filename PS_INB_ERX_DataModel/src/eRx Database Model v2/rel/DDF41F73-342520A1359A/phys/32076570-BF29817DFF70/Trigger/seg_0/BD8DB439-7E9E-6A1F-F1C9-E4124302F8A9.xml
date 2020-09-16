@@ -1,0 +1,14 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TriggerOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TriggerOraclev10g" name="IB_NCPDP_MSG_TRG" directorySegmentName="seg_0" id="BD8DB439-7E9E-6A1F-F1C9-E4124302F8A9">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjSchema>ERX</sourceObjSchema>
+<sourceObjName>PROCESSING_DTL_TRG</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-07-06 19:35:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<actions>INSERT, UPDATE</actions>
+<body>DECLARE&lt;br/&gt;    xml_status NUMBER;&lt;br/&gt;BEGIN&lt;br/&gt;IF UPDATING THEN&lt;br/&gt;  :NEW.UPDATED_DATE := SYSDATE;&lt;br/&gt;ELSE&lt;br/&gt;  :NEW.CREATED_DATE := SYSDATE;&lt;br/&gt;   IF :NEW.INBOUND_NCPDP_MSG_ID IS NULL THEN&lt;br/&gt;    :NEW.INBOUND_NCPDP_MSG_ID := IB_NCPDP_MSG_ID_SEQ.NEXTVAL;&lt;br/&gt;   END IF;&lt;br/&gt;END IF;&lt;br/&gt;END;</body>
+<triggerTime>BEFORE</triggerTime>
+<owner>D9046BB6-4F49-0E5D-466F-6A8BD6405589</owner>
+<table>194B889C-AD8D-FF52-A180-B52A016C9950</table>
+</TriggerOraclev10g>

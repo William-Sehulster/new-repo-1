@@ -1,0 +1,78 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<RoleOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.RoleOraclev10g" name="ERX_READ_ROLE" directorySegmentName="seg_0" id="5A3026E6-8D41-7577-114A-0D836242D32E">
+<sourceConnName>local_erx</sourceConnName>
+<sourceObjName>ERX_READ_ROLE</sourceObjName>
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:19:34 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<permissions>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions11" id="2FE03062-4693-0C77-E373-99ABCD81AEB5">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>194B889C-AD8D-FF52-A180-B52A016C9950</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions13" id="BB878DFE-2AF9-EE00-C6E2-82A92934EB10">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions15" id="D5754DA0-DF4A-0DE9-33D7-83E2EB498A32">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>3435164C-0A8A-44D2-2A93-C99B1B0A0864</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions17" id="99095A11-7A59-AA29-D505-531040446039">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>9766F42D-B453-BE45-3C62-A8A38477669E</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions19" id="33495114-A651-94AD-D131-BF8FAF73590E">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions21" id="9E3FF913-6D2A-F20B-898E-BC44B47472C7">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>8DF392F1-05ED-243E-53A7-2D243934B2CE</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions23" id="854CA0C4-93F4-DBCD-691A-A7F6BF6F4BAD">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>DD8A9F87-BFC5-C1F2-EA95-46528FA7C7AA</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions5" id="63ADF62C-A0F9-CC06-9743-B3BBCFC1D11F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>0D8A97CB-D70D-30C3-15ED-9C9D575150FA</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions7" id="34982B6E-163D-CA96-90A9-37C65CE8B51D">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>F7DFADB7-7131-922B-9B35-D819EBF68CA2</table>
+</Permission>
+<Permission class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PermissionsOraclev10g" name="Permissions9" id="CF7DC7B8-1BF2-D676-4F52-C55DD6BC7AFF">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 12:22:04 UTC</createdTime>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<privileges>SELECT</privileges>
+<table>F7A36117-18C8-CBB3-3896-7281CCBB19CA</table>
+</Permission>
+</permissions>
+</RoleOraclev10g>

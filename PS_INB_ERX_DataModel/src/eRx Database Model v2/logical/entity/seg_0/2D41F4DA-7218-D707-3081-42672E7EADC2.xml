@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="2D41F4DA-7218-D707-3081-42672E7EADC2" name="APP CONFIGURATION">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>0D8A97CB-D70D-30C3-15ED-9C9D575150FA</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="KEY" id="ADAEB81E-B62B-0774-382A-5A16A78B812D">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>3AB4B3B5-756A-BD88-0400-09C863F531A4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A1AD9C56-2884-0F3B-5333-FA312FE54359</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="VALUE" id="B32EB566-C231-56B4-1F35-BFDD21596B5B">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>8395408B-7613-F5D0-8F58-BC65204D74A4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>101BDCF3-0F0F-3119-6B65-7786F904CD87</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="UPDATED DATE" id="86D001B0-9569-5B4A-F20A-00D0D3F8D33F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>BE8C3EEE-F4CF-407B-236F-18F90FBD206C</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0FC4AF37-1118-1079-1AB1-071361FB8249</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CREATED DATE" id="FBB00338-8DDE-D50A-0F12-6417D4CA7C23">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>9FC8DFB6-7D7A-67F2-192E-1DC3DAB11CB1</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0FC4AF37-1118-1079-1AB1-071361FB8249</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="182FBC95-15CD-5F00-FC07-B037DB510D91" name="APP CONFIGURATION PK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>3C20A27B-C59E-C125-F008-B2BD3EE9082A</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>ADAEB81E-B62B-0774-382A-5A16A78B812D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

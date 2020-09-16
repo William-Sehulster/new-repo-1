@@ -1,0 +1,224 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9D2548BB-0002-177B-76DA-7E00ABC519D7" name="VA USER">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>DD8A9F87-BFC5-C1F2-EA95-46528FA7C7AA</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="USERS ID" id="E528D1EA-EE99-0AA8-4204-BD78E35BB959">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>F0FEEF19-8593-5BB9-80F4-CCF8B27D851C</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="VA USERID" id="2EF5AC47-D94C-5E55-0302-43F6A034041F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>9865F9DD-5874-7993-138D-C6DB4F846465</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="FIRST NAME" id="BC03BDC6-FC65-A404-D52E-AE759711828F">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>AE091972-F994-574C-E893-B6E20AD419F4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 BYTE</dataTypeSize>
+<ownDataTypeParameters>50 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="LAST NAME" id="872C69DB-75A7-A7A2-FEFB-ED080E482974">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>C2A284FA-9664-467A-0636-53719AF3124C</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 BYTE</dataTypeSize>
+<ownDataTypeParameters>50 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IS PHARM MGR" id="C6F183C6-E6E8-07F9-A51D-4B5EDE26B969">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>59800D8B-87E9-BA5B-2B9F-D426A71CB6FF</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IS PBM ADMN" id="9EBB86A4-CF9D-DFAE-9D32-A83134D50AA6">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>E84F6A4B-1B90-583B-FC1F-0B308D9E2731</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IS PHARM TECH" id="A9B6BC78-77BE-8CAA-F63B-76042BF14858">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>936D7784-DFB2-DE4B-0DBC-56311C844054</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IS SYSTEM ADMN" id="E6C94DC5-7B18-3F7D-5D9A-272B413573F2">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>66482467-29D3-EB3F-9D73-323CA8C29290</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="UPDATED DATE" id="A28D8DA4-23FE-0553-7974-87953384126A">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>1AC51C51-8F9D-4633-0E22-48A23F891DB4</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CREATED DATE" id="8D1A9966-CC39-6278-7117-C6E51AC67688">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>C2339254-D877-5B3E-9D9B-4A2E77711837</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CREATED BY" id="AA41B2D7-6432-13B6-4805-FA01B8C0ABB4">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>5CC3C206-DF20-545B-0154-4EA91DDFCBB7</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="UPDATED BY" id="41571C1C-A21F-43BD-AB06-A3008B6A5B37">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>E8095713-58A8-A3D8-45C2-3F53D9138A97</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="46902E6C-7A71-854C-4182-97B58477760D" name="USERS PK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>D023DB1F-4853-4D56-B7EF-04C6104B5654</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>E528D1EA-EE99-0AA8-4204-BD78E35BB959</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="9CE9537E-7944-5117-F371-E312129D12FE" name="VA USERID UK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2017-06-20 13:55:40 UTC</createdTime>
+<generatorID>66354A10-C4DE-F152-FA19-D18750C03F65</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<usedAttributes>
+<attributeRef>2EF5AC47-D94C-5E55-0302-43F6A034041F</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
