@@ -436,6 +436,7 @@ public class PharmacyManagementController {
 		statesMap.put("OK","Oklahoma");
 		statesMap.put("OR","Oregon");
 		statesMap.put("PA","Pennsylvania");
+		statesMap.put("PR","Puerto Rico");
 		statesMap.put("RI","Rhode Island");
 		statesMap.put("SC","South Carolina");
 		statesMap.put("SD","South Dakota");
