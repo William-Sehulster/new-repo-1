@@ -527,7 +527,7 @@ Number of Records:
 		</div>
 	    <div role="row" class="trackRowGroup">
 	    <div class="ColumnLbls"> 
-	    <div role="rowheader" class="trackLbl">Req Ref Num: </div> <div role="cell" id="reqRefNum" class="trackDataLeft"></div>
+	    <div role="rowheader" class="trackLbl">Rel Ref Num: </div> <div role="cell" id="reqRefNum" class="trackDataLeft"></div>
 	    </div>   
 	    </div>
 	    </div>
@@ -1246,7 +1246,7 @@ Number of Records:
     </div>
 	<div role="row" class="trackRowGroup">
     <div class="ColumnLbls">     
-    <div role="rowheader" class="trackLbl">Req Ref Num: </div><div id="requestReferenceNumber" class="trackDataLeft"></div>
+    <div role="rowheader" class="trackLbl">Rel Ref Num: </div><div id="requestReferenceNumber" class="trackDataLeft"></div>
     </div>  
     </div>	
    </div>
