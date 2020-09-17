@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -77,6 +78,9 @@ public class RejectReasonsReportController {
 	public List<StationIdSelectModel> getStationIdSelect(HttpServletRequest request, @RequestParam("visn") String visn)
 			throws JsonParseException, JsonMappingException, IOException {
 
+		// Sanitize the visn coming from client
+		//visn =  ESAPIValidator.validateStringInput((String) visn, ESAPIValidationType.CROSS_SITE_SCRIPTING_REFLECTED);
+
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
 		List<RejectReasonsReportVw> rejectReasonsReportVwList = new ArrayList<RejectReasonsReportVw>();
@@ -90,9 +94,9 @@ public class RejectReasonsReportController {
 		int i = 0;
 		while (i < rejectReasonsReportVwList.size()) {
 			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(rejectReasonsReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(rejectReasonsReportVwList.get(i).getPharmacyVaStationId());
+			String pharmacyStationId = HtmlUtils.htmlEscape(rejectReasonsReportVwList.get(i).getPharmacyVaStationId());
+			stationIdSelectModel.setId(pharmacyStationId);
+			stationIdSelectModel.setLabel(pharmacyStationId);
 			stationIdSelectModelList.add(i, stationIdSelectModel);
 			i++;
 		}

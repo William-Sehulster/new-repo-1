@@ -670,6 +670,7 @@ function summaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				selectable : false,
 				showFooter: false,
 				sort : false,
+				escapeHTMLInData : false,
 				onKeyEvent : onKeyEvent
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);
@@ -830,6 +831,7 @@ function autoCheckReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				selectable : false,
 				showFooter: false,
 				sort : false,
+				escapeHTMLInData : false,
 				onKeyEvent : onKeyEvent
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);
@@ -1009,6 +1011,7 @@ function rejectReasonsReportDataGridInit(servlet, parentContainer, dataSourceURL
 				selectable : false,
 				showFooter: false,
 				sort : false,
+				escapeHTMLInData : false,
 				onKeyEvent : onKeyEvent
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);
@@ -1156,6 +1159,7 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				selectable : false,
 				showFooter: false,
 				sort : false,
+				escapeHTMLInData : false,
 				onKeyEvent : onKeyEvent
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);

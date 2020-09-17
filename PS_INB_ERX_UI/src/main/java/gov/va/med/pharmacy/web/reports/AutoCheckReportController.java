@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -90,9 +91,9 @@ public class AutoCheckReportController {
 		int i = 0;
 		while (i < autoCheckReportVwList.size()) {
 			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(autoCheckReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(autoCheckReportVwList.get(i).getPharmacyVaStationId());
+			String pharmacyStationId = HtmlUtils.htmlEscape( autoCheckReportVwList.get(i).getPharmacyVaStationId());
+			stationIdSelectModel.setId(pharmacyStationId);
+			stationIdSelectModel.setLabel(pharmacyStationId);
 			stationIdSelectModelList.add(i, stationIdSelectModel);
 			i++;
 		}

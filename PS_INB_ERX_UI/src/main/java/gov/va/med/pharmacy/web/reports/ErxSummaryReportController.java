@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
 import gov.va.med.pharmacy.persistence.model.ErxSummaryReportVw;
-import gov.va.med.pharmacy.persistence.model.RejectReasonsReportVw;
 import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
@@ -90,9 +90,9 @@ public class ErxSummaryReportController {
 		int i = 0;
 		while (i < summaryReportVwList.size()) {
 			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(summaryReportVwList.get(i).getPharmacyVaStationId());
+			String pharmacyStationId = HtmlUtils.htmlEscape(summaryReportVwList.get(i).getPharmacyVaStationId());
+			stationIdSelectModel.setId(pharmacyStationId);
+			stationIdSelectModel.setLabel(pharmacyStationId);
 			stationIdSelectModelList.add(i, stationIdSelectModel);
 			i++;
 		}

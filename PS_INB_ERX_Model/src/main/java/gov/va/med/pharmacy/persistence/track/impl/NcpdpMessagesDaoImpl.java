@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 
 import gov.va.med.pharmacy.persistence.track.NcpdpMessageListModel;
 import gov.va.med.pharmacy.persistence.track.NcpdpMessageModel;
@@ -40,27 +41,26 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		{
 			public NcpdpMessageListModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 				NcpdpMessageListModel ncpdpMessageListModel = new NcpdpMessageListModel();
-
 				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getLong("inbound_ncpdp_msg_id")));
-				ncpdpMessageListModel.setRxMessageId(rs.getString("rx_messageId"));
-				ncpdpMessageListModel.setRelToMessageid(rs.getString("rel_to_message_id"));
-				ncpdpMessageListModel.setMessageType(rs.getString("message_type"));
-				ncpdpMessageListModel.setReceivedDate(rs.getString("received_date"));
+				ncpdpMessageListModel.setRxMessageId(HtmlUtils.htmlEscape(rs.getString("rx_messageId")));				
+				ncpdpMessageListModel.setRelToMessageid(HtmlUtils.htmlEscape(rs.getString("rel_to_message_id")));
+				ncpdpMessageListModel.setMessageType(HtmlUtils.htmlEscape(rs.getString("message_type")));
+				ncpdpMessageListModel.setReceivedDate(HtmlUtils.htmlEscape(rs.getString("received_date")));
 				ncpdpMessageListModel.setVisn((rs.getInt("visn")));
-				ncpdpMessageListModel.setVaStationId(rs.getString("va_station_id"));
-				ncpdpMessageListModel.setPharmacyName(rs.getString("pharmacy_name"));
-				ncpdpMessageListModel.setPharmacyAddr1(rs.getString("pharmacy_addr_1"));
-				ncpdpMessageListModel.setPrescriberName(rs.getString("prescriber_Name"));
-				ncpdpMessageListModel.setPrescriberNpi(rs.getString("prescriber_npi"));
-				ncpdpMessageListModel.setPrescriberDEA(rs.getString("prescriber_DEA"));
-				ncpdpMessageListModel.setPatientName(rs.getString("patient_Name"));
-				ncpdpMessageListModel.setRxDrugPrescribed(rs.getString("rx_Drug_Prescribed"));
-				ncpdpMessageListModel.setPatient_chk_status(rs.getString("patient_chk_status"));
-				ncpdpMessageListModel.setProvider_chk_status(rs.getString("provider_chk_status"));
-				ncpdpMessageListModel.setDrug_chk_status(rs.getString("drug_chk_status"));
-				ncpdpMessageListModel.setMessage_status(rs.getString("message_status"));
-				ncpdpMessageListModel.setPatientDob(rs.getString("patient_dob"));
-				ncpdpMessageListModel.setPatientSsn(rs.getString("patient_ssn"));
+				ncpdpMessageListModel.setVaStationId(HtmlUtils.htmlEscape(rs.getString("va_station_id")));
+				ncpdpMessageListModel.setPharmacyName(HtmlUtils.htmlEscape(rs.getString("pharmacy_name")));
+				ncpdpMessageListModel.setPharmacyAddr1(HtmlUtils.htmlEscape(rs.getString("pharmacy_addr_1")));
+				ncpdpMessageListModel.setPrescriberName(HtmlUtils.htmlEscape(rs.getString("prescriber_Name")));
+				ncpdpMessageListModel.setPrescriberNpi(HtmlUtils.htmlEscape(rs.getString("prescriber_npi")));
+				ncpdpMessageListModel.setPrescriberDEA(HtmlUtils.htmlEscape(rs.getString("prescriber_DEA")));
+				ncpdpMessageListModel.setPatientName(HtmlUtils.htmlEscape(rs.getString("patient_Name")));
+				ncpdpMessageListModel.setRxDrugPrescribed(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Prescribed")));
+				ncpdpMessageListModel.setPatient_chk_status(HtmlUtils.htmlEscape(rs.getString("patient_chk_status")));
+				ncpdpMessageListModel.setProvider_chk_status(HtmlUtils.htmlEscape(rs.getString("provider_chk_status")));
+				ncpdpMessageListModel.setDrug_chk_status(HtmlUtils.htmlEscape(rs.getString("drug_chk_status")));
+				ncpdpMessageListModel.setMessage_status(HtmlUtils.htmlEscape(rs.getString("message_status")));
+				ncpdpMessageListModel.setPatientDob(HtmlUtils.htmlEscape(rs.getString("patient_dob")));
+				ncpdpMessageListModel.setPatientSsn(HtmlUtils.htmlEscape(rs.getString("patient_ssn")));
 
 	    		return ncpdpMessageListModel;
 			}
@@ -70,231 +70,229 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	{
 		public NcpdpMessageModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 			NcpdpMessageModel ncpdpMessageModel = new NcpdpMessageModel();
-
-			
 			ncpdpMessageModel.setInboundNcpdpMsgId(Long.parseUnsignedLong((rs.getString("inbound_ncpdp_msg_id"))));
-			ncpdpMessageModel.setRxMessageId(rs.getString("rx_messageId"));
-			ncpdpMessageModel.setRelToMessageid(rs.getString("rel_to_message_id"));
-			ncpdpMessageModel.setMessage_status(rs.getString("message_status"));
-			ncpdpMessageModel.setMessageType(rs.getString("message_type"));
-			ncpdpMessageModel.setReceivedDate(rs.getString("received_date"));
-			ncpdpMessageModel.setPharmacyName(rs.getString("pharmacy_name"));
-			ncpdpMessageModel.setPharmacyAddr1(rs.getString("pharmacy_addr_1"));
-			ncpdpMessageModel.setPharmacyAddr2(rs.getString("pharmacy_addr_2"));
-			ncpdpMessageModel.setPharmacyPhone(rs.getString("pharmacy_phone"));
-			ncpdpMessageModel.setPharmacyNcpdpid(rs.getString("pharmacy_ncpdpid")); 
-			ncpdpMessageModel.setPrescriberFirstName(rs.getString("prescriber_First_Name"));
-			ncpdpMessageModel.setPrescriberMidName(rs.getString("prescriber_Mid_Name"));
-			ncpdpMessageModel.setPrescriberLastName(rs.getString("prescriber_Last_Name"));
-			ncpdpMessageModel.setPrescriberAddr1(rs.getString("prescriber_addr_1"));
-			ncpdpMessageModel.setPrescriberAddr2(rs.getString("prescriber_addr_2"));
-			ncpdpMessageModel.setPrescriberNPI(rs.getString("prescriber_NPI"));
-			ncpdpMessageModel.setPrescriberDEA(rs.getString("prescriber_DEA"));
-			ncpdpMessageModel.setPrescriberStateLic(rs.getString("prescriber_State_Lic"));
-			ncpdpMessageModel.setPrescriberPhone(rs.getString("prescriber_phone"));
-			ncpdpMessageModel.setPrescriberFax(rs.getString("prescriber_fax"));
-			ncpdpMessageModel.setPrescriberAgent(rs.getString("prescriber_Agent"));
-			ncpdpMessageModel.setPatientFirstName(rs.getString("patient_First_Name"));
-			ncpdpMessageModel.setPatientMidName(rs.getString("patient_Mid_Name"));
-			ncpdpMessageModel.setPatientLastName(rs.getString("patient_Last_Name"));
-			ncpdpMessageModel.setPatientAddr1(rs.getString("patient_addr_1"));
-			ncpdpMessageModel.setPatientAddr2(rs.getString("patient_addr_2"));
-			ncpdpMessageModel.setPatientDob(rs.getString("patient_dob"));
-			ncpdpMessageModel.setPatientSocSn(rs.getString("patient_ssn"));
-			ncpdpMessageModel.setPatientGender(rs.getString("patient_gender"));
-			ncpdpMessageModel.setRxDrugPrescribed(rs.getString("rx_Drug_Prescribed"));
-			ncpdpMessageModel.setRxQuantity(rs.getString("rx_Quantity"));
-			ncpdpMessageModel.setRxDaysSupply(rs.getString("rx_Days_Supply"));
-			ncpdpMessageModel.setRxDateWritten(rs.getString("rx_Date_Written"));
-			ncpdpMessageModel.setRxPotencyUnitCode(rs.getString("rx_Potency_Unit_Code"));
-			ncpdpMessageModel.setRxDrugForm(rs.getString("rx_Drug_Form"));
-			ncpdpMessageModel.setRxDrugStrength(rs.getString("rx_Drug_Strength"));
-			ncpdpMessageModel.setRxRefills(rs.getString("rx_Refills"));
-			ncpdpMessageModel.setRxSig(rs.getString("rx_Sig"));
-			ncpdpMessageModel.setRxDispenseNotes(rs.getString("rx_Dispense_Notes"));
-			ncpdpMessageModel.setRxComments(rs.getString("rx_Comments"));
+			ncpdpMessageModel.setRxMessageId(HtmlUtils.htmlEscape(rs.getString("rx_messageId")));
+			ncpdpMessageModel.setRelToMessageid(HtmlUtils.htmlEscape(rs.getString("rel_to_message_id")));
+			ncpdpMessageModel.setMessage_status(HtmlUtils.htmlEscape(rs.getString("message_status")));
+			ncpdpMessageModel.setMessageType(HtmlUtils.htmlEscape(rs.getString("message_type")));
+			ncpdpMessageModel.setReceivedDate(HtmlUtils.htmlEscape(rs.getString("received_date")));
+			ncpdpMessageModel.setPharmacyName(HtmlUtils.htmlEscape(rs.getString("pharmacy_name")));
+			ncpdpMessageModel.setPharmacyAddr1(HtmlUtils.htmlEscape(rs.getString("pharmacy_addr_1")));
+			ncpdpMessageModel.setPharmacyAddr2(HtmlUtils.htmlEscape(rs.getString("pharmacy_addr_2")));
+			ncpdpMessageModel.setPharmacyPhone(HtmlUtils.htmlEscape(rs.getString("pharmacy_phone")));
+			ncpdpMessageModel.setPharmacyNcpdpid(HtmlUtils.htmlEscape(rs.getString("pharmacy_ncpdpid"))); 
+			ncpdpMessageModel.setPrescriberFirstName(HtmlUtils.htmlEscape(rs.getString("prescriber_First_Name")));
+			ncpdpMessageModel.setPrescriberMidName(HtmlUtils.htmlEscape(rs.getString("prescriber_Mid_Name")));
+			ncpdpMessageModel.setPrescriberLastName(HtmlUtils.htmlEscape(rs.getString("prescriber_Last_Name")));
+			ncpdpMessageModel.setPrescriberAddr1(HtmlUtils.htmlEscape(rs.getString("prescriber_addr_1")));
+			ncpdpMessageModel.setPrescriberAddr2(HtmlUtils.htmlEscape(rs.getString("prescriber_addr_2")));
+			ncpdpMessageModel.setPrescriberNPI(HtmlUtils.htmlEscape(rs.getString("prescriber_NPI")));
+			ncpdpMessageModel.setPrescriberDEA(HtmlUtils.htmlEscape(rs.getString("prescriber_DEA")));
+			ncpdpMessageModel.setPrescriberStateLic(HtmlUtils.htmlEscape(rs.getString("prescriber_State_Lic")));
+			ncpdpMessageModel.setPrescriberPhone(HtmlUtils.htmlEscape(rs.getString("prescriber_phone")));
+			ncpdpMessageModel.setPrescriberFax(HtmlUtils.htmlEscape(rs.getString("prescriber_fax")));
+			ncpdpMessageModel.setPrescriberAgent(HtmlUtils.htmlEscape(rs.getString("prescriber_Agent")));
+			ncpdpMessageModel.setPatientFirstName(HtmlUtils.htmlEscape(rs.getString("patient_First_Name")));
+			ncpdpMessageModel.setPatientMidName(HtmlUtils.htmlEscape(rs.getString("patient_Mid_Name")));
+			ncpdpMessageModel.setPatientLastName(HtmlUtils.htmlEscape(rs.getString("patient_Last_Name")));
+			ncpdpMessageModel.setPatientAddr1(HtmlUtils.htmlEscape(rs.getString("patient_addr_1")));
+			ncpdpMessageModel.setPatientAddr2(HtmlUtils.htmlEscape(rs.getString("patient_addr_2")));
+			ncpdpMessageModel.setPatientDob(HtmlUtils.htmlEscape(rs.getString("patient_dob")));
+			ncpdpMessageModel.setPatientSocSn(HtmlUtils.htmlEscape(rs.getString("patient_ssn")));
+			ncpdpMessageModel.setPatientGender(HtmlUtils.htmlEscape(rs.getString("patient_gender")));
+			ncpdpMessageModel.setRxDrugPrescribed(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Prescribed")));
+			ncpdpMessageModel.setRxQuantity(HtmlUtils.htmlEscape(rs.getString("rx_Quantity")));
+			ncpdpMessageModel.setRxDaysSupply(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply")));
+			ncpdpMessageModel.setRxDateWritten(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written")));
+			ncpdpMessageModel.setRxPotencyUnitCode(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code")));
+			ncpdpMessageModel.setRxDrugForm(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form")));
+			ncpdpMessageModel.setRxDrugStrength(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength")));
+			ncpdpMessageModel.setRxRefills(HtmlUtils.htmlEscape(rs.getString("rx_Refills")));
+			ncpdpMessageModel.setRxSig(HtmlUtils.htmlEscape(rs.getString("rx_Sig")));
+			ncpdpMessageModel.setRxDispenseNotes(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes")));
+			ncpdpMessageModel.setRxComments(HtmlUtils.htmlEscape(rs.getString("rx_Comments")));
 			//Autocheck Status
-			ncpdpMessageModel.setRxPatientCheck(rs.getString("rx_Patient_Check"));
-			ncpdpMessageModel.setRxProviderCheck(rs.getString("rx_Provider_Check"));
-			ncpdpMessageModel.setRxDrugCheck(rs.getString("rx_Drug_Check"));
+			ncpdpMessageModel.setRxPatientCheck(HtmlUtils.htmlEscape(rs.getString("rx_Patient_Check")));
+			ncpdpMessageModel.setRxProviderCheck(HtmlUtils.htmlEscape(rs.getString("rx_Provider_Check")));
+			ncpdpMessageModel.setRxDrugCheck(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Check")));
 			// Medication Dispensed
-			ncpdpMessageModel.setRxDrugDispensed(rs.getString("rx_Drug_Dispensed"));
-			ncpdpMessageModel.setRxDrugDispensedNdc(rs.getString("rx_Drug_Dispensed_Ndc"));
-			ncpdpMessageModel.setRxDrugDispensedQualifier(rs.getString("rx_Drug_Dispensed_Qualifier"));
-			ncpdpMessageModel.setRxQuantityDispensed(rs.getString("rx_Quantity_Dispensed"));
-			ncpdpMessageModel.setRxDaysSupplyDispensed(rs.getString("rx_Days_Supply_Dispensed"));
-			ncpdpMessageModel.setRxDateWrittenDispensed(rs.getString("rx_Date_Written_Dispensed"));
-			ncpdpMessageModel.setRxPotencyUnitCodeDispensed(rs.getString("rx_Potency_Unit_Code_Dispensed"));
-			ncpdpMessageModel.setRxDrugFormDispensed(rs.getString("rx_Drug_Form_Dispensed"));
-			ncpdpMessageModel.setRxDrugStrengthDispensed(rs.getString("rx_Drug_Strength_Dispensed"));
-			ncpdpMessageModel.setRxRefillsDispensed(rs.getString("rx_Refills_Dispensed"));
-			ncpdpMessageModel.setRxSigDispensed(rs.getString("rx_Sig_Dispensed"));
-			ncpdpMessageModel.setRxDispenseNotesDispensed(rs.getString("rx_Dispense_Notes_Dispensed"));
-			ncpdpMessageModel.setRxCommentsDispensed(rs.getString("rx_Comments_Dispensed"));
+			ncpdpMessageModel.setRxDrugDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Dispensed")));
+			ncpdpMessageModel.setRxDrugDispensedNdc(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Dispensed_Ndc")));
+			ncpdpMessageModel.setRxDrugDispensedQualifier(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Dispensed_Qualifier")));
+			ncpdpMessageModel.setRxQuantityDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Dispensed")));
+			ncpdpMessageModel.setRxDaysSupplyDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Dispensed")));
+			ncpdpMessageModel.setRxDateWrittenDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Dispensed")));
+			ncpdpMessageModel.setRxPotencyUnitCodeDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Dispensed")));
+			ncpdpMessageModel.setRxDrugFormDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Dispensed")));
+			ncpdpMessageModel.setRxDrugStrengthDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Dispensed")));
+			ncpdpMessageModel.setRxRefillsDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Dispensed")));
+			ncpdpMessageModel.setRxSigDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Dispensed")));
+			ncpdpMessageModel.setRxDispenseNotesDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Dispensed")));
+			ncpdpMessageModel.setRxCommentsDispensed(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Dispensed")));
 			
-			ncpdpMessageModel.setPlanId(rs.getString("plan_id"));
-			ncpdpMessageModel.setRxGrp(rs.getString("rx_Grp"));
-			ncpdpMessageModel.setRxBinNum(rs.getString("rx_Bin_Num"));
-			ncpdpMessageModel.setRxPcn(rs.getString("rx_Pcn"));
-			ncpdpMessageModel.setReqRefno(rs.getString("req_refno"));
-			ncpdpMessageModel.setResType(rs.getString("res_type"));
-			ncpdpMessageModel.setResAprvReasonCd(rs.getString("res_aprv_reason_cd")); 
-			ncpdpMessageModel.setResAprvRefno(rs.getString("res_aprv_refno")); 
-			ncpdpMessageModel.setResAprvNote(rs.getString("res_aprv_note")); 
-			ncpdpMessageModel.setResAprvWthChngReasonCd(rs.getString("res_aprv_w_chng_reason_cd")); 
-			ncpdpMessageModel.setResAprvWthChngRefno(rs.getString("res_aprv_w_chng_refno")); 
-			ncpdpMessageModel.setResAprvWthChngNote(rs.getString("res_aprv_w_chng_note"));
-			ncpdpMessageModel.setResDenialReasonCd(rs.getString("res_denial_reason_cd")); 
-			ncpdpMessageModel.setResDenialRefno(rs.getString("res_denial_refno"));
-			ncpdpMessageModel.setResDenialReason(rs.getString("res_denial_reason")); 
-			ncpdpMessageModel.setResDenialNrxReasonCd(rs.getString("res_denial_nrx_reason_cd")); 
-			ncpdpMessageModel.setResDenialNrxRefno(rs.getString("res_denial_nrx_refno")); 
-			ncpdpMessageModel.setResDenialNrxReason(rs.getString("res_denial_nrx_reason")); 	
-			ncpdpMessageModel.setEsvDescriptionCode(rs.getString("esv_description_code")); 
-			ncpdpMessageModel.setEsvCode(rs.getString("esv_code")); 
-			ncpdpMessageModel.setEsvDescription(rs.getString("esv_description")); 
-			ncpdpMessageModel.setClinicId(rs.getString("clinic_id"));
+			ncpdpMessageModel.setPlanId(HtmlUtils.htmlEscape(rs.getString("plan_id")));
+			ncpdpMessageModel.setRxGrp(HtmlUtils.htmlEscape(rs.getString("rx_Grp")));
+			ncpdpMessageModel.setRxBinNum(HtmlUtils.htmlEscape(rs.getString("rx_Bin_Num")));
+			ncpdpMessageModel.setRxPcn(HtmlUtils.htmlEscape(rs.getString("rx_Pcn")));
+			ncpdpMessageModel.setReqRefno(HtmlUtils.htmlEscape(rs.getString("req_refno")));
+			ncpdpMessageModel.setResType(HtmlUtils.htmlEscape(rs.getString("res_type")));
+			ncpdpMessageModel.setResAprvReasonCd(HtmlUtils.htmlEscape(rs.getString("res_aprv_reason_cd"))); 
+			ncpdpMessageModel.setResAprvRefno(HtmlUtils.htmlEscape(rs.getString("res_aprv_refno"))); 
+			ncpdpMessageModel.setResAprvNote(HtmlUtils.htmlEscape(rs.getString("res_aprv_note"))); 
+			ncpdpMessageModel.setResAprvWthChngReasonCd(HtmlUtils.htmlEscape(rs.getString("res_aprv_w_chng_reason_cd"))); 
+			ncpdpMessageModel.setResAprvWthChngRefno(HtmlUtils.htmlEscape(rs.getString("res_aprv_w_chng_refno"))); 
+			ncpdpMessageModel.setResAprvWthChngNote(HtmlUtils.htmlEscape(rs.getString("res_aprv_w_chng_note")));
+			ncpdpMessageModel.setResDenialReasonCd(HtmlUtils.htmlEscape(rs.getString("res_denial_reason_cd"))); 
+			ncpdpMessageModel.setResDenialRefno(HtmlUtils.htmlEscape(rs.getString("res_denial_refno")));
+			ncpdpMessageModel.setResDenialReason(HtmlUtils.htmlEscape(rs.getString("res_denial_reason"))); 
+			ncpdpMessageModel.setResDenialNrxReasonCd(HtmlUtils.htmlEscape(rs.getString("res_denial_nrx_reason_cd"))); 
+			ncpdpMessageModel.setResDenialNrxRefno(HtmlUtils.htmlEscape(rs.getString("res_denial_nrx_refno"))); 
+			ncpdpMessageModel.setResDenialNrxReason(HtmlUtils.htmlEscape(rs.getString("res_denial_nrx_reason"))); 	
+			ncpdpMessageModel.setEsvDescriptionCode(HtmlUtils.htmlEscape(rs.getString("esv_description_code"))); 
+			ncpdpMessageModel.setEsvCode(HtmlUtils.htmlEscape(rs.getString("esv_code"))); 
+			ncpdpMessageModel.setEsvDescription(HtmlUtils.htmlEscape(rs.getString("esv_description"))); 
+			ncpdpMessageModel.setClinicId(HtmlUtils.htmlEscape(rs.getString("clinic_id")));
 			
-			ncpdpMessageModel.setRxReferenceNumber(rs.getString("rx_reference_number")); 
-			ncpdpMessageModel.setPrescriberOrderNumber(rs.getString("prescriber_order_number"));
-			ncpdpMessageModel.setRxDrugPrescribedNdc(rs.getString("rx_Drug_Prescribed_Ndc"));
-			ncpdpMessageModel.setRxDrugPrescribedQualifier(rs.getString("rx_Drug_Prescribed_Qualifier"));
-			ncpdpMessageModel.setChangeofPrescrStatFlg(rs.getString("changeof_Prescr_Stat_Flg"));
+			ncpdpMessageModel.setRxReferenceNumber(HtmlUtils.htmlEscape(rs.getString("rx_reference_number"))); 
+			ncpdpMessageModel.setPrescriberOrderNumber(HtmlUtils.htmlEscape(rs.getString("prescriber_order_number")));
+			ncpdpMessageModel.setRxDrugPrescribedNdc(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Prescribed_Ndc")));
+			ncpdpMessageModel.setRxDrugPrescribedQualifier(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Prescribed_Qualifier")));
+			ncpdpMessageModel.setChangeofPrescrStatFlg(HtmlUtils.htmlEscape(rs.getString("changeof_Prescr_Stat_Flg")));
 			
 			//RxFill
-			ncpdpMessageModel.setRxFillStatus(rs.getString("rx_fill_status")); 
-			ncpdpMessageModel.setRxFillRefNum(rs.getString("rx_fill_ref_num"));
-			ncpdpMessageModel.setRxFillNote(rs.getString("rx_fill_note"));
-			ncpdpMessageModel.setRxFillReasonCd(rs.getString("rx_fill_reason_cd"));
+			ncpdpMessageModel.setRxFillStatus(HtmlUtils.htmlEscape(rs.getString("rx_fill_status"))); 
+			ncpdpMessageModel.setRxFillRefNum(HtmlUtils.htmlEscape(rs.getString("rx_fill_ref_num")));
+			ncpdpMessageModel.setRxFillNote(HtmlUtils.htmlEscape(rs.getString("rx_fill_note")));
+			ncpdpMessageModel.setRxFillReasonCd(HtmlUtils.htmlEscape(rs.getString("rx_fill_reason_cd")));
 			
 			//RXCHANGEREQUEST
-			ncpdpMessageModel.setChangeRequestType(rs.getString("change_request_type")); 
-			ncpdpMessageModel.setRequestReferenceNumber(rs.getString("request_reference_number"));
+			ncpdpMessageModel.setChangeRequestType(HtmlUtils.htmlEscape(rs.getString("change_request_type"))); 
+			ncpdpMessageModel.setRequestReferenceNumber(HtmlUtils.htmlEscape(rs.getString("request_reference_number")));
 			
 			// Medication Requested
-			ncpdpMessageModel.setRxDrugRequested(rs.getString("rx_Drug_Requested"));
-			ncpdpMessageModel.setRxDrugRequestedNdc(rs.getString("rx_Drug_Requested_Ndc"));
-			ncpdpMessageModel.setRxQuantityRequested(rs.getString("rx_Quantity_Requested"));
-			ncpdpMessageModel.setRxDaysSupplyRequested(rs.getString("rx_Days_Supply_Requested"));
-			ncpdpMessageModel.setRxDateWrittenRequested(rs.getString("rx_Date_Written_Requested"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested(rs.getString("rx_Potency_Unit_Code_Req"));
-			ncpdpMessageModel.setRxDrugFormRequested(rs.getString("rx_Drug_Form_Requested"));
-			ncpdpMessageModel.setRxDrugStrengthRequested(rs.getString("rx_Drug_Strength_Requested"));
-			ncpdpMessageModel.setRxRefillsRequested(rs.getString("rx_Refills_Requested"));
-			ncpdpMessageModel.setRxSigRequested(rs.getString("rx_Sig_Requested"));
-			ncpdpMessageModel.setRxDispenseNotesRequested(rs.getString("rx_Dispense_Notes_Requested"));
-			ncpdpMessageModel.setRxCommentsRequested(rs.getString("rx_Comments_Requested"));
+			ncpdpMessageModel.setRxDrugRequested(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested")));
+			ncpdpMessageModel.setRxDrugRequestedNdc(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc")));
+			ncpdpMessageModel.setRxQuantityRequested(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested")));
+			ncpdpMessageModel.setRxDaysSupplyRequested(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested")));
+			ncpdpMessageModel.setRxDateWrittenRequested(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req")));
+			ncpdpMessageModel.setRxDrugFormRequested(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested")));
+			ncpdpMessageModel.setRxDrugStrengthRequested(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested")));
+			ncpdpMessageModel.setRxRefillsRequested(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested")));
+			ncpdpMessageModel.setRxSigRequested(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested")));
+			ncpdpMessageModel.setRxDispenseNotesRequested(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested")));
+			ncpdpMessageModel.setRxCommentsRequested(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested")));
 			
 			//2
-			ncpdpMessageModel.setRxDrugRequested2(rs.getString("rx_Drug_Requested2"));
-			ncpdpMessageModel.setRxDrugRequestedNdc2(rs.getString("rx_Drug_Requested_Ndc2"));
-			ncpdpMessageModel.setRxQuantityRequested2(rs.getString("rx_Quantity_Requested2"));
-			ncpdpMessageModel.setRxDaysSupplyRequested2(rs.getString("rx_Days_Supply_Requested2"));
-			ncpdpMessageModel.setRxDateWrittenRequested2(rs.getString("rx_Date_Written_Requested2"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested2(rs.getString("rx_Potency_Unit_Code_Req2"));
-			ncpdpMessageModel.setRxDrugFormRequested2(rs.getString("rx_Drug_Form_Requested2"));
-			ncpdpMessageModel.setRxDrugStrengthRequested2(rs.getString("rx_Drug_Strength_Requested2"));
-			ncpdpMessageModel.setRxRefillsRequested2(rs.getString("rx_Refills_Requested2"));
-			ncpdpMessageModel.setRxSigRequested2(rs.getString("rx_Sig_Requested2"));
-			ncpdpMessageModel.setRxDispenseNotesRequested2(rs.getString("rx_Dispense_Notes_Requested2"));
-			ncpdpMessageModel.setRxCommentsRequested2(rs.getString("rx_Comments_Requested2"));
+			ncpdpMessageModel.setRxDrugRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested2")));
+			ncpdpMessageModel.setRxDrugRequestedNdc2(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc2")));
+			ncpdpMessageModel.setRxQuantityRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested2")));
+			ncpdpMessageModel.setRxDaysSupplyRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested2")));
+			ncpdpMessageModel.setRxDateWrittenRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested2")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req2")));
+			ncpdpMessageModel.setRxDrugFormRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested2")));
+			ncpdpMessageModel.setRxDrugStrengthRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested2")));
+			ncpdpMessageModel.setRxRefillsRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested2")));
+			ncpdpMessageModel.setRxSigRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested2")));
+			ncpdpMessageModel.setRxDispenseNotesRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested2")));
+			ncpdpMessageModel.setRxCommentsRequested2(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested2")));
 			//3
-			ncpdpMessageModel.setRxDrugRequested3(rs.getString("rx_Drug_Requested3"));
-			ncpdpMessageModel.setRxDrugRequestedNdc3(rs.getString("rx_Drug_Requested_Ndc3"));
-			ncpdpMessageModel.setRxQuantityRequested3(rs.getString("rx_Quantity_Requested3"));
-			ncpdpMessageModel.setRxDaysSupplyRequested3(rs.getString("rx_Days_Supply_Requested3"));
-			ncpdpMessageModel.setRxDateWrittenRequested3(rs.getString("rx_Date_Written_Requested3"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested3(rs.getString("rx_Potency_Unit_Code_Req3"));
-			ncpdpMessageModel.setRxDrugFormRequested3(rs.getString("rx_Drug_Form_Requested3"));
-			ncpdpMessageModel.setRxDrugStrengthRequested3(rs.getString("rx_Drug_Strength_Requested3"));
-			ncpdpMessageModel.setRxRefillsRequested3(rs.getString("rx_Refills_Requested3"));
-			ncpdpMessageModel.setRxSigRequested3(rs.getString("rx_Sig_Requested3"));
-			ncpdpMessageModel.setRxDispenseNotesRequested3(rs.getString("rx_Dispense_Notes_Requested3"));
-			ncpdpMessageModel.setRxCommentsRequested3(rs.getString("rx_Comments_Requested3"));
+			ncpdpMessageModel.setRxDrugRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested3")));
+			ncpdpMessageModel.setRxDrugRequestedNdc3(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc3")));
+			ncpdpMessageModel.setRxQuantityRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested3")));
+			ncpdpMessageModel.setRxDaysSupplyRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested3")));
+			ncpdpMessageModel.setRxDateWrittenRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested3")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req3")));
+			ncpdpMessageModel.setRxDrugFormRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested3")));
+			ncpdpMessageModel.setRxDrugStrengthRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested3")));
+			ncpdpMessageModel.setRxRefillsRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested3")));
+			ncpdpMessageModel.setRxSigRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested3")));
+			ncpdpMessageModel.setRxDispenseNotesRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested3")));
+			ncpdpMessageModel.setRxCommentsRequested3(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested3")));
 			//4
-			ncpdpMessageModel.setRxDrugRequested4(rs.getString("rx_Drug_Requested4"));
-			ncpdpMessageModel.setRxDrugRequestedNdc4(rs.getString("rx_Drug_Requested_Ndc4"));
-			ncpdpMessageModel.setRxQuantityRequested4(rs.getString("rx_Quantity_Requested4"));
-			ncpdpMessageModel.setRxDaysSupplyRequested4(rs.getString("rx_Days_Supply_Requested4"));
-			ncpdpMessageModel.setRxDateWrittenRequested4(rs.getString("rx_Date_Written_Requested4"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested4(rs.getString("rx_Potency_Unit_Code_Req4"));
-			ncpdpMessageModel.setRxDrugFormRequested4(rs.getString("rx_Drug_Form_Requested4"));
-			ncpdpMessageModel.setRxDrugStrengthRequested4(rs.getString("rx_Drug_Strength_Requested4"));
-			ncpdpMessageModel.setRxRefillsRequested4(rs.getString("rx_Refills_Requested4"));
-			ncpdpMessageModel.setRxSigRequested4(rs.getString("rx_Sig_Requested4"));
-			ncpdpMessageModel.setRxDispenseNotesRequested4(rs.getString("rx_Dispense_Notes_Requested4"));
-			ncpdpMessageModel.setRxCommentsRequested4(rs.getString("rx_Comments_Requested4"));
+			ncpdpMessageModel.setRxDrugRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested4")));
+			ncpdpMessageModel.setRxDrugRequestedNdc4(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc4")));
+			ncpdpMessageModel.setRxQuantityRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested4")));
+			ncpdpMessageModel.setRxDaysSupplyRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested4")));
+			ncpdpMessageModel.setRxDateWrittenRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested4")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req4")));
+			ncpdpMessageModel.setRxDrugFormRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested4")));
+			ncpdpMessageModel.setRxDrugStrengthRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested4")));
+			ncpdpMessageModel.setRxRefillsRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested4")));
+			ncpdpMessageModel.setRxSigRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested4")));
+			ncpdpMessageModel.setRxDispenseNotesRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested4")));
+			ncpdpMessageModel.setRxCommentsRequested4(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested4")));
 			//5
-			ncpdpMessageModel.setRxDrugRequested5(rs.getString("rx_Drug_Requested5"));
-			ncpdpMessageModel.setRxDrugRequestedNdc5(rs.getString("rx_Drug_Requested_Ndc5"));
-			ncpdpMessageModel.setRxQuantityRequested5(rs.getString("rx_Quantity_Requested5"));
-			ncpdpMessageModel.setRxDaysSupplyRequested5(rs.getString("rx_Days_Supply_Requested5"));
-			ncpdpMessageModel.setRxDateWrittenRequested5(rs.getString("rx_Date_Written_Requested5"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested5(rs.getString("rx_Potency_Unit_Code_Req5"));
-			ncpdpMessageModel.setRxDrugFormRequested5(rs.getString("rx_Drug_Form_Requested5"));
-			ncpdpMessageModel.setRxDrugStrengthRequested5(rs.getString("rx_Drug_Strength_Requested5"));
-			ncpdpMessageModel.setRxRefillsRequested5(rs.getString("rx_Refills_Requested5"));
-			ncpdpMessageModel.setRxSigRequested5(rs.getString("rx_Sig_Requested5"));
-			ncpdpMessageModel.setRxDispenseNotesRequested5(rs.getString("rx_Dispense_Notes_Requested5"));
-			ncpdpMessageModel.setRxCommentsRequested5(rs.getString("rx_Comments_Requested5"));
+			ncpdpMessageModel.setRxDrugRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested5")));
+			ncpdpMessageModel.setRxDrugRequestedNdc5(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc5")));
+			ncpdpMessageModel.setRxQuantityRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested5")));
+			ncpdpMessageModel.setRxDaysSupplyRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested5")));
+			ncpdpMessageModel.setRxDateWrittenRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested5")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req5")));
+			ncpdpMessageModel.setRxDrugFormRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested5")));
+			ncpdpMessageModel.setRxDrugStrengthRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested5")));
+			ncpdpMessageModel.setRxRefillsRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested5")));
+			ncpdpMessageModel.setRxSigRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested5")));
+			ncpdpMessageModel.setRxDispenseNotesRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested5")));
+			ncpdpMessageModel.setRxCommentsRequested5(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested5")));
 			//6
-			ncpdpMessageModel.setRxDrugRequested6(rs.getString("rx_Drug_Requested6"));
-			ncpdpMessageModel.setRxDrugRequestedNdc6(rs.getString("rx_Drug_Requested_Ndc6"));
-			ncpdpMessageModel.setRxQuantityRequested6(rs.getString("rx_Quantity_Requested6"));
-			ncpdpMessageModel.setRxDaysSupplyRequested6(rs.getString("rx_Days_Supply_Requested6"));
-			ncpdpMessageModel.setRxDateWrittenRequested6(rs.getString("rx_Date_Written_Requested6"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested6(rs.getString("rx_Potency_Unit_Code_Req6"));
-			ncpdpMessageModel.setRxDrugFormRequested6(rs.getString("rx_Drug_Form_Requested6"));
-			ncpdpMessageModel.setRxDrugStrengthRequested6(rs.getString("rx_Drug_Strength_Requested6"));
-			ncpdpMessageModel.setRxRefillsRequested6(rs.getString("rx_Refills_Requested6"));
-			ncpdpMessageModel.setRxSigRequested6(rs.getString("rx_Sig_Requested6"));
-			ncpdpMessageModel.setRxDispenseNotesRequested6(rs.getString("rx_Dispense_Notes_Requested6"));
-			ncpdpMessageModel.setRxCommentsRequested6(rs.getString("rx_Comments_Requested6"));
+			ncpdpMessageModel.setRxDrugRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested6")));
+			ncpdpMessageModel.setRxDrugRequestedNdc6(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc6")));
+			ncpdpMessageModel.setRxQuantityRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested6")));
+			ncpdpMessageModel.setRxDaysSupplyRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested6")));
+			ncpdpMessageModel.setRxDateWrittenRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested6")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req6")));
+			ncpdpMessageModel.setRxDrugFormRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested6")));
+			ncpdpMessageModel.setRxDrugStrengthRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested6")));
+			ncpdpMessageModel.setRxRefillsRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested6")));
+			ncpdpMessageModel.setRxSigRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested6")));
+			ncpdpMessageModel.setRxDispenseNotesRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested6")));
+			ncpdpMessageModel.setRxCommentsRequested6(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested6")));
 			//7
-			ncpdpMessageModel.setRxDrugRequested7(rs.getString("rx_Drug_Requested7"));
-			ncpdpMessageModel.setRxDrugRequestedNdc7(rs.getString("rx_Drug_Requested_Ndc7"));
-			ncpdpMessageModel.setRxQuantityRequested7(rs.getString("rx_Quantity_Requested7"));
-			ncpdpMessageModel.setRxDaysSupplyRequested7(rs.getString("rx_Days_Supply_Requested7"));
-			ncpdpMessageModel.setRxDateWrittenRequested7(rs.getString("rx_Date_Written_Requested7"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested7(rs.getString("rx_Potency_Unit_Code_Req7"));
-			ncpdpMessageModel.setRxDrugFormRequested7(rs.getString("rx_Drug_Form_Requested7"));
-			ncpdpMessageModel.setRxDrugStrengthRequested7(rs.getString("rx_Drug_Strength_Requested7"));
-			ncpdpMessageModel.setRxRefillsRequested7(rs.getString("rx_Refills_Requested7"));
-			ncpdpMessageModel.setRxSigRequested7(rs.getString("rx_Sig_Requested7"));
-			ncpdpMessageModel.setRxDispenseNotesRequested7(rs.getString("rx_Dispense_Notes_Requested7"));
-			ncpdpMessageModel.setRxCommentsRequested7(rs.getString("rx_Comments_Requested7"));
+			ncpdpMessageModel.setRxDrugRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested7")));
+			ncpdpMessageModel.setRxDrugRequestedNdc7(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc7")));
+			ncpdpMessageModel.setRxQuantityRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested7")));
+			ncpdpMessageModel.setRxDaysSupplyRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested7")));
+			ncpdpMessageModel.setRxDateWrittenRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested7")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req7")));
+			ncpdpMessageModel.setRxDrugFormRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested7")));
+			ncpdpMessageModel.setRxDrugStrengthRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested7")));
+			ncpdpMessageModel.setRxRefillsRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested7")));
+			ncpdpMessageModel.setRxSigRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested7")));
+			ncpdpMessageModel.setRxDispenseNotesRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested7")));
+			ncpdpMessageModel.setRxCommentsRequested7(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested7")));
 			//8
-			ncpdpMessageModel.setRxDrugRequested8(rs.getString("rx_Drug_Requested8"));
-			ncpdpMessageModel.setRxDrugRequestedNdc8(rs.getString("rx_Drug_Requested_Ndc8"));
-			ncpdpMessageModel.setRxQuantityRequested8(rs.getString("rx_Quantity_Requested8"));
-			ncpdpMessageModel.setRxDaysSupplyRequested8(rs.getString("rx_Days_Supply_Requested8"));
-			ncpdpMessageModel.setRxDateWrittenRequested8(rs.getString("rx_Date_Written_Requested8"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested8(rs.getString("rx_Potency_Unit_Code_Req8"));
-			ncpdpMessageModel.setRxDrugFormRequested8(rs.getString("rx_Drug_Form_Requested8"));
-			ncpdpMessageModel.setRxDrugStrengthRequested8(rs.getString("rx_Drug_Strength_Requested8"));
-			ncpdpMessageModel.setRxRefillsRequested8(rs.getString("rx_Refills_Requested8"));
-			ncpdpMessageModel.setRxSigRequested8(rs.getString("rx_Sig_Requested8"));
-			ncpdpMessageModel.setRxDispenseNotesRequested8(rs.getString("rx_Dispense_Notes_Requested8"));
-			ncpdpMessageModel.setRxCommentsRequested8(rs.getString("rx_Comments_Requested8"));
+			ncpdpMessageModel.setRxDrugRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested8")));
+			ncpdpMessageModel.setRxDrugRequestedNdc8(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc8")));
+			ncpdpMessageModel.setRxQuantityRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested8")));
+			ncpdpMessageModel.setRxDaysSupplyRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested8")));
+			ncpdpMessageModel.setRxDateWrittenRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested8")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req8")));
+			ncpdpMessageModel.setRxDrugFormRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested8")));
+			ncpdpMessageModel.setRxDrugStrengthRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested8")));
+			ncpdpMessageModel.setRxRefillsRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested8")));
+			ncpdpMessageModel.setRxSigRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested8")));
+			ncpdpMessageModel.setRxDispenseNotesRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested8")));
+			ncpdpMessageModel.setRxCommentsRequested8(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested8")));
 			//9
-			ncpdpMessageModel.setRxDrugRequested9(rs.getString("rx_Drug_Requested9"));
-			ncpdpMessageModel.setRxDrugRequestedNdc9(rs.getString("rx_Drug_Requested_Ndc9"));
-			ncpdpMessageModel.setRxQuantityRequested9(rs.getString("rx_Quantity_Requested9"));
-			ncpdpMessageModel.setRxDaysSupplyRequested9(rs.getString("rx_Days_Supply_Requested9"));
-			ncpdpMessageModel.setRxDateWrittenRequested9(rs.getString("rx_Date_Written_Requested9"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested9(rs.getString("rx_Potency_Unit_Code_Req9"));
-			ncpdpMessageModel.setRxDrugFormRequested9(rs.getString("rx_Drug_Form_Requested9"));
-			ncpdpMessageModel.setRxDrugStrengthRequested9(rs.getString("rx_Drug_Strength_Requested9"));
-			ncpdpMessageModel.setRxRefillsRequested9(rs.getString("rx_Refills_Requested9"));
-			ncpdpMessageModel.setRxSigRequested9(rs.getString("rx_Sig_Requested9"));
-			ncpdpMessageModel.setRxDispenseNotesRequested9(rs.getString("rx_Dispense_Notes_Requested9"));
-			ncpdpMessageModel.setRxCommentsRequested9(rs.getString("rx_Comments_Requested9"));
+			ncpdpMessageModel.setRxDrugRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested9")));
+			ncpdpMessageModel.setRxDrugRequestedNdc9(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Requested_Ndc9")));
+			ncpdpMessageModel.setRxQuantityRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Quantity_Requested9")));
+			ncpdpMessageModel.setRxDaysSupplyRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Days_Supply_Requested9")));
+			ncpdpMessageModel.setRxDateWrittenRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Date_Written_Requested9")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Potency_Unit_Code_Req9")));
+			ncpdpMessageModel.setRxDrugFormRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Form_Requested9")));
+			ncpdpMessageModel.setRxDrugStrengthRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Drug_Strength_Requested9")));
+			ncpdpMessageModel.setRxRefillsRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Refills_Requested9")));
+			ncpdpMessageModel.setRxSigRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Sig_Requested9")));
+			ncpdpMessageModel.setRxDispenseNotesRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Dispense_Notes_Requested9")));
+			ncpdpMessageModel.setRxCommentsRequested9(HtmlUtils.htmlEscape(rs.getString("rx_Comments_Requested9")));
     		return ncpdpMessageModel;
 		}
 	}
 	
 	@Override
-	public NcpdpMessageModel findById(String id, String inboundOutbound, String relatedMsgSearch) {
+	public NcpdpMessageModel findById(String id, String inboundOutbound, String relatedMsgSearch) {		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql = "";
 		boolean relatedMsg = false;
@@ -1200,6 +1198,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			String fromDate, String toDate, String patientSsn, String patientLastName, String patientFirstName, String patientDob, String prescriberNpi,
 			String prescriberLastName, String prescriberFirstName, String prescriberDEA,  String prescribedDrug, String messageStatus, String inboundNcpdpMsgId, String inboundOutbound, boolean mbmAllowed) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		
 		String sql = "";
 		if (inboundOutbound.equalsIgnoreCase("Inbound")) {	
         sql = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
@@ -1381,7 +1381,6 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			//System.out.println("data error is:" + e.getMessage());
 			LOG.info("Exception retrieving NCPDP message details." + e.getMessage());
 		}
-        
 		return ncpdpMsgList;
 
 	}
@@ -1569,7 +1568,6 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			
 			LOG.info("Exception retrieving related message details." + e.getMessage());
 		}
-        
 		return ncpdpMsgList;
 		
 	}
