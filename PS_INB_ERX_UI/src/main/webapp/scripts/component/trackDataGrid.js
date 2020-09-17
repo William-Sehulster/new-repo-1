@@ -445,7 +445,8 @@ function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData
 				loadingMessage : "Query In Progress...",
 				noDataMessage : "Your Query Returned No Results",
 				onFetchError : gridFetchError,
-				selectionMode : 'single',		
+				selectionMode : 'single',
+				escapeHTMLInData : false,
 				//autoHeight: true,
 				onKeyEvent : onKeyEvent
 			}, document.createElement('div'));

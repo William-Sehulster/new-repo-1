@@ -18,10 +18,12 @@
 		<csrf disabled ="true"/>
 	</http>
 	-->
-	
+		
 	<!-- HTTP basic authentication in Spring Security with http intercept url pattern -->
 	<http  auto-config="true" entry-point-ref="basicAuthEntryPoint" create-session="stateless">
-		
+	    <headers>
+            <content-security-policy policy-directives="" />          
+        </headers>
 		<intercept-url pattern="/services/rest/patientSearch/**" access="hasRole('ROLE_WSUSER')" />		
 		<intercept-url pattern="/services/rest/eandeVerify/**" access="hasRole('ROLE_WSUSER')" />
 		<intercept-url pattern="/services/rest/provider/**" access="hasRole('ROLE_WSUSER')" />
