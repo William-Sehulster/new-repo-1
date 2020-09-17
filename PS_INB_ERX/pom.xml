@@ -62,7 +62,7 @@
 		<commons.lang3.version>3.5</commons.lang3.version>
 
 		<!-- Apache log4j -->
-		<log4j.version>2.3</log4j.version>
+		<log4j.version>2.12.1</log4j.version>
 
 		<!-- Apache Tiles -->
 		<tiles.version>3.0.5</tiles.version>
@@ -87,7 +87,7 @@
 		<jaxws.version>2.2.11</jaxws.version>
 
 		<!-- SLF4J -->
-		<slf4j.version>1.7.12</slf4j.version>
+		<slf4j.version>1.7.30</slf4j.version>
 
 		<!-- VistALink -->
 		<vistalink.version>1.6.0.028</vistalink.version>
@@ -106,11 +106,11 @@
 		<ehcache.web.version>2.0.4</ehcache.web.version>
 		
 		<!-- Xerces -->
-		<xerces.version>2.11.0</xerces.version>		
-
+		<xerces.version>2.11.0</xerces.version>	
+		<junit.version>5.6.2</junit.version>	
 		<!-- <build.number>DEV</build.number> -->
 
-		<build.number>005</build.number>
+		<build.number>010</build.number>
 
 	</properties>
 
@@ -478,7 +478,16 @@
 				<version>${version.number}</version>
 				<type>test-jar</type>
 				<scope>test</scope>
-			</dependency>			
+			</dependency>	
+			
+			
+			<dependency>
+			    <groupId>org.junit.jupiter</groupId>
+			    <artifactId>junit-jupiter-api</artifactId>
+			    <version>${junit.version}</version>
+			    <scope>test</scope>
+			</dependency>
+						
 		</dependencies>
 	</dependencyManagement>
 	<build>

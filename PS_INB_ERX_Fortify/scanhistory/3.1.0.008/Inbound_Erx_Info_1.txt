@@ -1,0 +1,13 @@
+We are requesting a Quality/Security code reviews for our application.
+Please use the uploaded PS_INB_ERX_3.1.zip and PS_INB_ERX_Fortify-2.0.4.059.fpr files for both reviews. 
+
+Explanation of Additional Files
+  
+1-	ESAPI.properties 
+     This file contains the regular expressions used for validation of URLs related to the Open Redirect (Input Validation and Representation, Data Flow)  vulnerability in LogoutController. This file is not part of the source code, so it's provided independently so that the SwA team can verify the proper validation.
+ 
+ 
+2-	validation.properties
+	This file contains the regular expressions used for validation of URLs related to the Open Redirect (Input Validation and Representation, Data Flow)  vulnerability in LogoutController. This file is not part of the source code, so it's provided independently so that the SwA team can verify the proper validation.
+	
+Thanks

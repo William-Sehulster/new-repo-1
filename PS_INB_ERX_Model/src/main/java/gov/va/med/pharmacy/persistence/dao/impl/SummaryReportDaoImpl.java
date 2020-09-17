@@ -1,25 +1,90 @@
 package gov.va.med.pharmacy.persistence.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import gov.va.med.pharmacy.persistence.BaseDao;
 import gov.va.med.pharmacy.persistence.dao.SummaryReportDao;
 import gov.va.med.pharmacy.persistence.model.SummaryReportVw;
+import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 
 
 @Repository("summaryReportDao")
 public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> implements SummaryReportDao{
+	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(SummaryReportDaoImpl.class);
+
+	@Autowired
+	private DataSource dataSource;
+	
+	public SummaryReportDaoImpl(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
+	public class StationIDListRowMapper implements RowMapper<StationIdSelectModel>
+	{
+		public StationIdSelectModel mapRow(ResultSet rs, int rowNum) throws SQLException{
+			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+
+
+			stationIdSelectModel.setId(rs.getString("va_station_id"));
+			stationIdSelectModel.setLabel(rs.getString("va_station_id"));
+
+
+			return stationIdSelectModel;
+		}
+	}
    
+	@Override
+	public List<StationIdSelectModel> getStationIDs(int visn) {
+		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		
+		String sql = "";
+		
+		/**
+		 * @author VHAISHGadeR
+		 * Modified 'where' clause in the SQL statement
+		 */		
+		
+		sql = "select distinct va_station_id from pharmacy where visn = :visn order by va_station_id"; 
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		
+		params.addValue("visn", visn);
+
+		List<StationIdSelectModel> visnList = new ArrayList<StationIdSelectModel>();
+
+		try {
+			visnList = jdbcTemplate.query(sql,params, new StationIDListRowMapper());
+		} catch (DataAccessException e) {
+			
+			LOG.info("Exception retrieving selected visn from pharmacy." + e.getMessage());
+		}
+
+		return visnList;
+
+	}
 	
 	@Override
 	public SummaryReportVw findByVisn(String visn) {
@@ -49,13 +114,12 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 		//System.out.print("DateFrom: " + summaryReportFilter.getDateFrom()
 		//+ " DateTo: " + summaryReportFilter.getDateTo() + "VISN: " + summaryReportFilter.getVisn()
 		//+ "Station ID: " + summaryReportFilter.getStationId());
-		
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("pharmacyDivisionName"));
 
 		criteria.add(Restrictions.ge("newRxMessageDate", getFormattedFromDateTime(summaryReportFilter.getDateFrom())));
 		criteria.add(Restrictions.le("newRxMessageDate", getFormattedToDateTime(summaryReportFilter.getDateTo())));
 
-		if (summaryReportFilter.getVisn().length() > 0){ //check for All value
+		if (summaryReportFilter.getVisn() != null && summaryReportFilter.getVisn().length() > 0){ //check for All value
 			criteria.add(Restrictions.eq("visn", summaryReportFilter.getVisn()));
 		}
 		if (summaryReportFilter.getStationId() != null){
@@ -78,12 +142,20 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 				.add(Projections.sum("newRxFilled").as("newRxFilled"))
 				.add(Projections.sum("newRxInProcess").as("newRxInProcess")));
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-		
+		//criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(SummaryReportVw.class));
 		List<SummaryReportVw> summaryReportRows = (List<SummaryReportVw>) criteria.list();
-		
-		
-		
+		for(SummaryReportVw  summaryReportRow: summaryReportRows)
+		{
+			//Fortify sanitizing the visn, PharmacyNcpdpId, PharmacyAddress, PharmacyVaStationId and PharmacyDivisionName
+			//before being used down the lines.
+			summaryReportRow.setVisn(StringEscapeUtils.escapeJson( summaryReportRow.getVisn()));
+			summaryReportRow.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyNcpdpId()));
+			summaryReportRow.setPharmacyAddress(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyAddress()));
+			summaryReportRow.setPharmacyVaStationId(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyVaStationId()));	
+			summaryReportRow.setPharmacyDivisionName(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyDivisionName()));
+		}
+
         return summaryReportRows;
 	}
 

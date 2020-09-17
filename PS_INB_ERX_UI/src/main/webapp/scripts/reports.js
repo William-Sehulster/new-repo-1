@@ -53,28 +53,6 @@ dojo.ready(function() {
 				getStationIdSelect();
 				toggleDivs(selected);
 				
-//			  	scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-//			  	
-//			  	topGrid0 = scrollGrid[0];
-//			    if (topGrid0 != null){
-//			    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//			    topGrid1 = scrollGrid[1];
-//			    if (topGrid1 != null){
-//			    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//			    topGrid2 = scrollGrid[2];
-//			    if (topGrid2 != null){
-//			    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//			    topGrid3 = scrollGrid[3];
-//			    if (topGrid3 != null){
-//			    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//			    
-			    //topGrid = scrollGrid[0];
-			   // if (topGrid != null){
-			   // 	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-
-//				bottomGrid = document.getElementById("summaryReportTotals");
-//			    if (bottomGrid != null){
-//			    	bottomGrid.addEventListener("scroll", scrollFunction);}
 			}
 			
 		}
@@ -87,14 +65,7 @@ dojo.ready(function() {
 				getStationIdSelect();
 				toggleDivs(selected);
 			}
-//		    scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-//		    topGrid = scrollGrid[1];
-//		    if (topGrid != null){
-//		    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//
-//			bottomGrid = document.getElementById("summaryReportTotals");
-//		    if (bottomGrid != null){
-//		    	bottomGrid.addEventListener("scroll", scrollFunction);}
+
 			
 		}
 		else if (selected == "REJECTRESNRPT") {
@@ -106,14 +77,7 @@ dojo.ready(function() {
 				getStationIdSelect();
 				toggleDivs(selected);
 			}
-//		    scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-//		    topGrid = scrollGrid[2];
-//		    if (topGrid != null){
-//		    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//
-//			bottomGrid = document.getElementById("summaryReportTotals");
-//		    if (bottomGrid != null){
-//		    	bottomGrid.addEventListener("scroll", scrollFunction);}
+
 		}
 		else if (selected == "ERXSUMMRPT") {
 
@@ -124,14 +88,7 @@ dojo.ready(function() {
 				getStationIdSelect();
 				toggleDivs(selected);
 			}
-//		    scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-//		    topGrid = scrollGrid[3];
-//		    if (topGrid != null){
-//		    	topGrid.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-//
-//			bottomGrid = document.getElementById("summaryReportTotals");
-//		    if (bottomGrid != null){
-//		    	bottomGrid.addEventListener("scroll", scrollFunction);}
+
 			
 		}
 		else{
@@ -209,8 +166,6 @@ function getSummaryReport() {
 			var valid = getAutoCheckReport();
 			
 			if(valid == true){
-				
-				getStationIdSelect();
 				toggleDivs(selected);
 			}
 	
@@ -219,9 +174,7 @@ function getSummaryReport() {
 			var valid = getRejectReasonsReport();
 			
 			if(valid == true){
-				getStationIdSelect();
-				toggleDivs(selected);
-				
+				toggleDivs(selected);	
 			}
 			
 		}
@@ -229,7 +182,6 @@ function getSummaryReport() {
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){			
-				getStationIdSelect();
 				toggleDivs(selected);
 			}
 			

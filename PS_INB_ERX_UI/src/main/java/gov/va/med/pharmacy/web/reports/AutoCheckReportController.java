@@ -25,11 +25,13 @@ import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
 import gov.va.med.pharmacy.persistence.service.AutoCheckReportService;
+import gov.va.med.pharmacy.persistence.service.SummaryReportService;
 import gov.va.med.pharmacy.persistence.service.TrackMessageService;
 import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
 import net.rossillo.spring.web.mvc.CacheControl;
 import net.rossillo.spring.web.mvc.CachePolicy;
+import org.apache.commons.text.StringEscapeUtils;
 
 @CacheControl
 @Controller
@@ -52,6 +54,8 @@ public class AutoCheckReportController {
 	
 	@Autowired
 	private TrackMessageService trackMessageService;
+	@Autowired
+	private SummaryReportService summaryReportService;
 
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
@@ -68,6 +72,15 @@ public class AutoCheckReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		autoCheckReportVwList.addAll(autoCheckReportService.find(summaryReportFilter));
+		for(AutoCheckReportVw  autoCheckReportVw: autoCheckReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			autoCheckReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyAddress()));
+			autoCheckReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyDivisionName()));
+			autoCheckReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyNcpdpId()));
+			autoCheckReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyVaStationId()));
+		}
 		return autoCheckReportVwList;
 	}
 
@@ -79,29 +92,28 @@ public class AutoCheckReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<AutoCheckReportVw> autoCheckReportVwList = new ArrayList<AutoCheckReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		autoCheckReportVwList.addAll(autoCheckReportService.find(visn));
-
-		int i = 0;
-		while (i < autoCheckReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(autoCheckReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(autoCheckReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
 		return stationIdSelectModelList;
 	}
 

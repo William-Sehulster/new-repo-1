@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.text.StringEscapeUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -21,11 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
 import gov.va.med.pharmacy.persistence.model.ErxSummaryReportVw;
-import gov.va.med.pharmacy.persistence.model.RejectReasonsReportVw;
 import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
 import gov.va.med.pharmacy.persistence.service.ErxSummaryReportService;
+import gov.va.med.pharmacy.persistence.service.SummaryReportService;
 import gov.va.med.pharmacy.persistence.service.TrackMessageService;
 import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
@@ -51,6 +52,9 @@ public class ErxSummaryReportController {
 	
 	@Autowired
 	private TrackMessageService trackMessageService;
+	
+	@Autowired
+	private SummaryReportService summaryReportService;
 
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
@@ -68,6 +72,16 @@ public class ErxSummaryReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		erxSummaryReportVwList.addAll(erxSummaryReportService.find(summaryReportFilter));
+		
+		for(ErxSummaryReportVw  erxSummaryReportVw: erxSummaryReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			erxSummaryReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyAddress()));
+			erxSummaryReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyDivisionName()));
+			erxSummaryReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyNcpdpId()));
+			erxSummaryReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyVaStationId()));
+		}
 		return erxSummaryReportVwList;
 	}
 
@@ -79,29 +93,29 @@ public class ErxSummaryReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<ErxSummaryReportVw> summaryReportVwList = new ArrayList<ErxSummaryReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		summaryReportVwList.addAll(erxSummaryReportService.find(visn));
-
-		int i = 0;
-		while (i < summaryReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
+		
 		return stationIdSelectModelList;
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,6 +26,7 @@ import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
 import gov.va.med.pharmacy.persistence.service.RejectReasonsReportService;
+import gov.va.med.pharmacy.persistence.service.SummaryReportService;
 import gov.va.med.pharmacy.persistence.service.TrackMessageService;
 import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
@@ -51,6 +53,9 @@ public class RejectReasonsReportController {
 	
 	@Autowired
 	private TrackMessageService trackMessageService;
+	
+	@Autowired
+	private SummaryReportService summaryReportService;
 
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
@@ -68,6 +73,15 @@ public class RejectReasonsReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		autoCheckReportVwList.addAll(rejectReasonsReportService.find(summaryReportFilter));
+		for(RejectReasonsReportVw  rejectReasonsReportVw: autoCheckReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			rejectReasonsReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyAddress()));
+			rejectReasonsReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyDivisionName()));
+			rejectReasonsReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyNcpdpId()));
+			rejectReasonsReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyVaStationId()));
+		}
 		return autoCheckReportVwList;
 	}
 
@@ -79,29 +93,28 @@ public class RejectReasonsReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<RejectReasonsReportVw> rejectReasonsReportVwList = new ArrayList<RejectReasonsReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		rejectReasonsReportVwList.addAll(rejectReasonsReportService.find(visn));
-
-		int i = 0;
-		while (i < rejectReasonsReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(rejectReasonsReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(rejectReasonsReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
 		return stationIdSelectModelList;
 	}
 

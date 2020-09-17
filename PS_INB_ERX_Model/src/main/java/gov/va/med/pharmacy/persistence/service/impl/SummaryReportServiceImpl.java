@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import gov.va.med.pharmacy.persistence.dao.SummaryReportDao;
 import gov.va.med.pharmacy.persistence.model.SummaryReportVw;
 import gov.va.med.pharmacy.persistence.service.SummaryReportService;
+import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 
 
@@ -20,6 +21,12 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 
 @Autowired
 private SummaryReportDao summaryReportDao;
+
+@Override
+public List<StationIdSelectModel> getStationIDs(int visn) {
+	
+	return summaryReportDao.getStationIDs(visn);
+}
 
 @Override
 public SummaryReportVw findByVisn(String id) {

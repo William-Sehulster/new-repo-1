@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
+import gov.va.med.pharmacy.persistence.model.AutoCheckReportVw;
 import gov.va.med.pharmacy.persistence.model.SummaryReportVw;
 import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
@@ -68,6 +70,16 @@ public class SummaryReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		summaryReportVwList.addAll(summaryReportService.find(summaryReportFilter));
+		for(SummaryReportVw  summaryReportVw: summaryReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			summaryReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyAddress()));
+			summaryReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyDivisionName()));
+			summaryReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyNcpdpId()));
+			summaryReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyVaStationId()));
+		}
+		
 		return summaryReportVwList;
 	}
 
@@ -79,30 +91,28 @@ public class SummaryReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<SummaryReportVw> summaryReportVwList = new ArrayList<SummaryReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		summaryReportVwList.addAll(summaryReportService.find(visn));
-
-		int i = 0;
-		while (i < summaryReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			
-			stationIdSelectModel.setId(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
 		return stationIdSelectModelList;
 	}
 
