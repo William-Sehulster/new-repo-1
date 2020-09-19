@@ -6106,7 +6106,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/08/19 16:10:38.000</modified_date>
+    <modified_date>2020/09/19 11:32:29.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -6423,16 +6423,6 @@ from erx.inbound_ncpdp_msg t
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check for Response Type (Replace, Approved, AwC, Validated)</from>
-      <to>Update Message No Auto Checks</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Check for NewRx</from>
-      <to>CancelRx Check</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Update Message Prepare for Auto Checks - Renewal and Chng Response</from>
       <to>Copy rows to result 2</to>
       <enabled>Y</enabled>
@@ -6465,6 +6455,16 @@ from erx.inbound_ncpdp_msg t
     <hop>
       <from>Check for Med Prescribed Segment (Replace, Approved, AwC, Validated)</from>
       <to>Update Message Med Prescribed Check Failed</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Check for NewRx</from>
+      <to>CancelRx Check</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Check for Response Type (Replace, Approved, AwC, Validated)</from>
+      <to>Update Message No Auto Checks</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -6637,7 +6637,7 @@ from erx.inbound_ncpdp_msg t
     <name>Check for Response Type (Replace, Approved, AwC, Validated)</name>
     <type>SwitchCase</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -6679,7 +6679,7 @@ from erx.inbound_ncpdp_msg t
     </remotesteps>
     <GUI>
       <xloc>1792</xloc>
-      <yloc>384</yloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -7077,8 +7077,8 @@ from erx.inbound_ncpdp_msg t
       </output>
     </remotesteps>
     <GUI>
-      <xloc>2160</xloc>
-      <yloc>208</yloc>
+      <xloc>2192</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -7312,7 +7312,7 @@ var message_id_encoded = replace(MESSAGE_ID,"[\\$\\,\\\',\\\",\\&amp;,\\&lt;,\\>
     <connection>local_erx</connection>
     <sql>select
 x.message_id, t.inbound_ncpdp_msg_id, x.rel_to_message_id,
-(select inbound_ncpdp_msg_id from inbound_ncpdp_msg inb where inb.message_from = x.clinic_id and inb.message_id = x.rel_to_message_id and inb.pharmacy_id = nvl((select pharmacy_id from pharmacy where ncpdp_id = 
+(select inbound_ncpdp_msg_id from inbound_ncpdp_msg inb where inb.message_id = x.rel_to_message_id and inb.pharmacy_id = nvl((select pharmacy_id from pharmacy where ncpdp_id = 
 x.pharmacy_ncpdpid),0) and x.message_type not in ('NewRx') and inb.received_date >  sysdate - 365 and rownum &lt; 2) rel_to_inbound_ncpdp_msg_id,
 (select outbound_ncpdp_msg_id from outbound_ncpdp_msg out where out.message_id = x.rel_to_message_id and x.message_type not in ('CancelRx') and out.received_date > sysdate - 365 and rownum &lt; 2) rel_to_outbound_ncpdp_msg_id,
 x.message_type,
@@ -7327,11 +7327,42 @@ x.pharmacy_ncpdpid),-1) pharmacy_enabled,
 nvl(x.npi1,'0000000000') provider_npi,
 x.clinic_id clinic_id,
 x.pharmacy_ncpdpid pharmacy_ncpdpid,
-'3001' message_status_ready_to_send, 
+CASE 
+	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '3007'
+	WHEN x.error_desc NOT IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '3001'
+    WHEN x.error_desc IS NULL
+     THEN '3001'
+END AS message_status_ready_to_send,
 '3009' message_status_new,
 '3006' message_status_xml_invalid,
 '3010' message_stat_pharm_not_enbld,
 '3011' message_stat_pharm_unknown,
+CASE 
+	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '0000'
+	WHEN x.error_desc NOT IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '0109'
+    WHEN x.error_desc IS NULL
+     THEN '0109'
+END AS patient_chk_na,
+CASE 
+	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '0000'
+	WHEN x.error_desc NOT IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '0105'
+    WHEN x.error_desc IS NULL
+     THEN '0105'
+END AS drug_chk_na,
+CASE 
+	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '0000'
+	WHEN x.error_desc NOT IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
+	 THEN '2005'
+    WHEN x.error_desc IS NULL
+     THEN '2005'
+END AS provider_chk_na,
 '${NCPDP_XSD}' ncpdp_xsd_path,
 to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1),null,nvl(x.written_date,x.written_date_time),substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1)),(to_char(SYSDATE,'YYYY-MM-DD'))),'YYYY-MM-DD') + 365 written_date_test,
 decode(x.other_med_date_qual, 'EffectiveDate', nvl(to_date(decode(substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1),null,x.other_med_date,substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1)),'YYYY-MM-DD') -
@@ -7359,10 +7390,13 @@ from inbound_ncpdp_msg t, xmltable('/Message'
     other_med_date varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDate',
     other_med_date_qual varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDateQualifier',
     med_pres_drug_desc varchar2(35) path '//Body/*/MedicationPrescribed/DrugDescription',
-    med_resp_drug_desc varchar2(35) path '//Body/*/MedicationResponse/DrugDescription') x
+    med_resp_drug_desc varchar2(35) path '//Body/*/MedicationResponse/DrugDescription',
+    error_desc varchar2(200) path '//Error/Description' ) x
     where
     t.message_status = '0000'
-    and t.message is not null</sql>
+    and t.message is not null
+    
+</sql>
     <limit>${JOB_BATCH_SIZE}</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -7580,8 +7614,8 @@ commit;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1968</xloc>
-      <yloc>288</yloc>
+      <xloc>1952</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -8606,6 +8640,18 @@ commit;</sql>
         <name>MESSAGE_STATUS_DETAILS</name>
         <rename>MESSAGE_STATUS_DETAIL</rename>
       </value>
+      <value>
+        <name>PROVIDER_CHK_STATUS</name>
+        <rename>PROVIDER_CHK_NA</rename>
+      </value>
+      <value>
+        <name>DRUG_CHK_STATUS</name>
+        <rename>DRUG_CHK_NA</rename>
+      </value>
+      <value>
+        <name>PATIENT_CHK_STATUS</name>
+        <rename>PATIENT_CHK_NA</rename>
+      </value>
     </lookup>
     <attributes/>
     <cluster_schema/>
@@ -8807,7 +8853,7 @@ commit;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>2032</xloc>
+      <xloc>2016</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>

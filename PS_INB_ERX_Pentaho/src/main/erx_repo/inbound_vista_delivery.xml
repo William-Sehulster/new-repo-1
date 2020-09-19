@@ -4398,7 +4398,7 @@ commit;</sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/02/13 13:38:55.000</modified_date>
+  <modified_date>2020/09/18 13:20:17.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -4791,18 +4791,17 @@ commit;</sql>
       <rows_count_value>0</rows_count_value>
       <is_custom_sql>Y</is_custom_sql>
       <is_usevars>Y</is_usevars>
-      <custom_sql> select * from(  select inbound_ncpdp_msg_id ,
+      <custom_sql>  select * from(  select inbound_ncpdp_msg_id ,
     '3003' as vistaop_delivery_in_process,
     (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
 nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry
 from inbound_ncpdp_msg 
-where ((message_status in ('3001','3004')
-and patient_chk_status in ('0002','0003','0101','0102','0103','0108')
-and provider_chk_status in ('2001','2002','2003')
-and drug_chk_status in ('1001','1002','1003')
-and message_type in ('NewRx'))
-or (message_status in ('3001','3004') and message_type in ('Error','RxRenewalResponse','CancelRx','RxChangeResponse')))
-and nvl(extractvalue(message, '//Error/Description','xmlns="http://www.ncpdp.org/schema/SCRIPT"'),' ') not in ('ERX630 PRESCRIBER DOES NOT ACCEPT ELECTRONIC VERIFY')
+where message_status in ('3001','3004')
+and patient_chk_status in ('0002','0003','0101','0102','0103','0108','0109')
+and provider_chk_status in ('2001','2002','2003','2005')
+and drug_chk_status in ('1001','1002','1003','1005')
+and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'CancelRx')
+and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
 and pharmacy_id in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
 where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
@@ -4951,7 +4950,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/02/13 13:39:10.000</modified_date>
+  <modified_date>2020/09/18 13:19:48.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -5425,13 +5424,13 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
     (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
 nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry
 from inbound_ncpdp_msg 
-where ((message_status in ('3001','3004')
-and patient_chk_status in ('0002','0003','0101','0102','0103','0108')
-and provider_chk_status in ('2001','2002','2003')
-and drug_chk_status in ('1001','1002','1003')
-and message_type in ('NewRx'))
-or (message_status in ('3001','3004') and message_type in ('Error','RxRenewalResponse','CancelRx','RxChangeResponse')))
-and nvl(extractvalue(message, '//Error/Description','xmlns="http://www.ncpdp.org/schema/SCRIPT"'),' ') not in ('ERX630 PRESCRIBER DOES NOT ACCEPT ELECTRONIC VERIFY')
+where message_status in ('3001','3004')
+and patient_chk_status in ('0002','0003','0101','0102','0103','0108','0109')
+and provider_chk_status in ('2001','2002','2003','2005')
+and drug_chk_status in ('1001','1002','1003','1005')
+and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'CancelRx')
+and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+and pharmacy_id not in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
 where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
