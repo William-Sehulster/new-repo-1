@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -72,6 +72,16 @@ public class ErxSummaryReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		erxSummaryReportVwList.addAll(erxSummaryReportService.find(summaryReportFilter));
+		
+		for(ErxSummaryReportVw  erxSummaryReportVw: erxSummaryReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			erxSummaryReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyAddress()));
+			erxSummaryReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyDivisionName()));
+			erxSummaryReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyNcpdpId()));
+			erxSummaryReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyVaStationId()));
+		}
 		return erxSummaryReportVwList;
 	}
 
@@ -99,6 +109,13 @@ public class ErxSummaryReportController {
 		
 		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
+		
 		return stationIdSelectModelList;
 	}
 

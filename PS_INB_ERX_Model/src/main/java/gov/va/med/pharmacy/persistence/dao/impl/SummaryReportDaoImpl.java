@@ -54,7 +54,7 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 			return stationIdSelectModel;
 		}
 	}
-
+   
 	@Override
 	public List<StationIdSelectModel> getStationIDs(int visn) {
 		
@@ -85,7 +85,7 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 		return visnList;
 
 	}
-
+	
 	@Override
 	public SummaryReportVw findByVisn(String visn) {
 		Criteria crit = createEntityCriteria();

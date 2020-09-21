@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -73,6 +73,15 @@ public class RejectReasonsReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		autoCheckReportVwList.addAll(rejectReasonsReportService.find(summaryReportFilter));
+		for(RejectReasonsReportVw  rejectReasonsReportVw: autoCheckReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			rejectReasonsReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyAddress()));
+			rejectReasonsReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyDivisionName()));
+			rejectReasonsReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyNcpdpId()));
+			rejectReasonsReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyVaStationId()));
+		}
 		return autoCheckReportVwList;
 	}
 
@@ -81,9 +90,6 @@ public class RejectReasonsReportController {
 	@ResponseBody
 	public List<StationIdSelectModel> getStationIdSelect(HttpServletRequest request, @RequestParam("visn") String visn)
 			throws JsonParseException, JsonMappingException, IOException {
-
-		// Sanitize the visn coming from client
-		//visn =  ESAPIValidator.validateStringInput((String) visn, ESAPIValidationType.CROSS_SITE_SCRIPTING_REFLECTED);
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
@@ -103,6 +109,12 @@ public class RejectReasonsReportController {
 		
 		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
 		return stationIdSelectModelList;
 	}
 
