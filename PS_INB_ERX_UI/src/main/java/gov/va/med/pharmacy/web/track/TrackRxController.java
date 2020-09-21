@@ -48,7 +48,7 @@ public class TrackRxController {
 	private static final String MBM_741DUB = "741DUB";
 
 	private static final String ALL_VALUE = "All";
-
+	
 	@Autowired
 	private TrackMessageService trackMessageService;
 	
@@ -99,7 +99,7 @@ public class TrackRxController {
 		String inboundOutbound = node.get("inboundOutbound").asText();
 		
 		String relatedMsgSearch = node.get("relatedMsgSearch").asText();
-
+				
 		return trackMessageService.findByMessageId(messageId, inboundOutbound, relatedMsgSearch);
 	}
 	

@@ -2,7 +2,6 @@ package gov.va.med.pharmacy.web.reports;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -86,7 +86,7 @@ public class SummaryReportController {
 		}
 
 		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
-		
+
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
 		
 		stationIdSelectModel.setId("All");
