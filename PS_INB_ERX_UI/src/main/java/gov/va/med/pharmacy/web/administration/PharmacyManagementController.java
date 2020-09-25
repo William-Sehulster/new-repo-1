@@ -310,7 +310,7 @@ public class PharmacyManagementController {
 				}
 			}
 			
-			if(stationIdFound == false)
+			else if(stationIdFound == false)
 			{
 				errorsList.add("You are not allowed to update this pharamcy.");
 			}
