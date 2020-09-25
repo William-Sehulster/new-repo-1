@@ -1562,8 +1562,8 @@ public class NcpdpMessageModel {
 	public String getProhibitRenewalRequest() {
 		return prohibitRenewalRequest;
 	}
-	public void setProhibitRenewalRequest(String prohibitRenewalRequest) {
-		this.prohibitRenewalRequest = prohibitRenewalRequest;
+	public void setProhibitRenewalRequest(String prohibitRenewalReq) {
+		this.prohibitRenewalRequest = prohibitRenewalReq;
 	}
 	public String getValidatedPrescriberNPI() {
 		return validatedPrescriberNPI;

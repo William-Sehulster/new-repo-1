@@ -220,67 +220,103 @@ public class PharmacyManagementController {
 		
 			
 		try {
-		
-			// needed for fortify scan issue for access db violation.
-			String pharmacyId = ESAPIValidator.validateStringInput(pharmacyForm.getPharmacyId(), ESAPIValidationType.ACCESS_CONTROL_DB);
 			
-			pharmacyInfo = pharmacyService.findById(Long.valueOf(pharmacyId));	
+			
+			// Fortify fix.
+			String userStationIds = getUserStationIds(request);
+			
+			boolean  stationIdFound = false;
+			
+			if(!"All".equalsIgnoreCase(userStationIds)){
+				 
+				List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
 				
+				// search the station id.
 				
-			Date updatedDate = new Date();
-			
-						
-			
-			pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
-			pharmacyInfo.setNcpdpId(HtmlUtils.htmlEscape(pharmacyForm.getNcpdpId()));
-				
-			pharmacyInfo.setStoreName(HtmlUtils.htmlEscape(pharmacyForm.getStoreName()));
-			pharmacyInfo.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistLastName()));
-			pharmacyInfo.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistFirstName()));
-			pharmacyInfo.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistMiddleName()));
-			pharmacyInfo.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistSuffix()));
-			pharmacyInfo.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistPrefix()));
-			pharmacyInfo.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine1()));
-			pharmacyInfo.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine2()));
-			pharmacyInfo.setPharmacyCity(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyCity()));
-			pharmacyInfo.setPharmacyState(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyState()));
-			pharmacyInfo.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyZipcode()));
-			pharmacyInfo.setCrossStreet(HtmlUtils.htmlEscape(pharmacyForm.getCrossStreet()));
-			pharmacyInfo.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyPhoneNumber()));
-			pharmacyInfo.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyFaxNumber()));
-			pharmacyInfo.setUpdatedDate(updatedDate);	
-			
-			pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
-			
-			if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
-			
-				pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
-			}
-			
-			pharmacyInfo.setDivisionName(HtmlUtils.htmlEscape(pharmacyForm.getDivisionName()));
-			
-			pharmacyInfo.setInboundErxEnabled(Long.valueOf(pharmacyForm.getPharmacyEnabledDisabled()));
-			
-			if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
-				
-				pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
-			}
-			
-			
-			if(!bindingResult.hasErrors() ) {
-			
-		    // get logged in user.
-			Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-			
-			if(authentication!=null){
-				
-				String userName = (String)authentication.getPrincipal();
-				pharmacyInfo.setUpdatedBy(userName);
-			}
+				for (String str: stationIdsList) {
 					
-		    pharmacyService.updatePharmacyInfo(pharmacyInfo);
-		    
+					if(str.contains(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()))) {						
+						// allow update.
+						stationIdFound = true;
+						break;
+					}
+				}
+				 
+				 
 			}
+			
+			if(("All".equalsIgnoreCase(userStationIds)) || (stationIdFound == true)) {
+				
+				
+				// needed for fortify scan issue for access db violation.
+				String pharmacyId = ESAPIValidator.validateStringInput(pharmacyForm.getPharmacyId(), ESAPIValidationType.ACCESS_CONTROL_DB);
+				
+				pharmacyInfo = pharmacyService.findById(Long.valueOf(pharmacyId));	
+					
+					
+				Date updatedDate = new Date();
+				
+							
+				
+				pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
+				pharmacyInfo.setNcpdpId(HtmlUtils.htmlEscape(pharmacyForm.getNcpdpId()));
+					
+				pharmacyInfo.setStoreName(HtmlUtils.htmlEscape(pharmacyForm.getStoreName()));
+				pharmacyInfo.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistLastName()));
+				pharmacyInfo.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistFirstName()));
+				pharmacyInfo.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistMiddleName()));
+				pharmacyInfo.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistSuffix()));
+				pharmacyInfo.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistPrefix()));
+				pharmacyInfo.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine1()));
+				pharmacyInfo.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine2()));
+				pharmacyInfo.setPharmacyCity(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyCity()));
+				pharmacyInfo.setPharmacyState(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyState()));
+				pharmacyInfo.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyZipcode()));
+				pharmacyInfo.setCrossStreet(HtmlUtils.htmlEscape(pharmacyForm.getCrossStreet()));
+				pharmacyInfo.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyPhoneNumber()));
+				pharmacyInfo.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyFaxNumber()));
+				pharmacyInfo.setUpdatedDate(updatedDate);	
+				
+				pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
+				
+				if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
+				
+					pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
+				}
+				
+				pharmacyInfo.setDivisionName(HtmlUtils.htmlEscape(pharmacyForm.getDivisionName()));
+				
+				pharmacyInfo.setInboundErxEnabled(Long.valueOf(pharmacyForm.getPharmacyEnabledDisabled()));
+				
+				if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
+					
+					pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
+				}
+				
+				
+				if(!bindingResult.hasErrors() ) {
+				
+			    // get logged in user.
+				Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
+				
+				if(authentication!=null){
+					
+					String userName = (String)authentication.getPrincipal();
+					pharmacyInfo.setUpdatedBy(userName);
+				}
+						
+			    pharmacyService.updatePharmacyInfo(pharmacyInfo);
+			    
+				}
+			}
+			
+			if(stationIdFound == false)
+			{
+				errorsList.add("You are not allowed to update this pharamcy.");
+			}
+			
+		
+			
 			
 		} catch (PersistenceException e) {
 			

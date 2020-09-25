@@ -22,7 +22,9 @@ public class LogoutController {
         
         StringBuffer logoutURLBuffer=  new StringBuffer( ESAPIValidator.validateStringInput((String) session.getAttribute(Constants.SSOI_LANDING_URL), ESAPIValidationType.IAM_LOGOUT_URL));
         
-        String baseURL = request.getRequestURL().toString();
+        
+        // check if it is valid VA url.
+        String baseURL = ESAPIValidator.validateStringInput(request.getRequestURL().toString(), ESAPIValidationType.IAM_LOGOUT_URL);
         
         String appLoginURL = baseURL.substring(0,baseURL.indexOf("inb-erx/"));
         
