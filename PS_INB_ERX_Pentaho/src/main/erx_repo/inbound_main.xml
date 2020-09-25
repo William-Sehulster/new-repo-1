@@ -1361,6 +1361,7 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1570,6 +1571,31 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     <trans_status>0</trans_status>
     <directory>/inbound_main</directory>
     <parameters>
+      <parameter>
+        <name>INBOUND_NCPDP_MSG_ID</name>
+        <default_value/>
+        <description/>
+      </parameter>
+      <parameter>
+        <name>PatientICN</name>
+        <default_value/>
+        <description/>
+      </parameter>
+      <parameter>
+        <name>RETRY</name>
+        <default_value/>
+        <description/>
+      </parameter>
+      <parameter>
+        <name>RUNCOUNTEE</name>
+        <default_value/>
+        <description/>
+      </parameter>
+      <parameter>
+        <name>SiteMatch</name>
+        <default_value/>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -2030,7 +2056,7 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     <created_user>admin</created_user>
     <created_date>2017/03/26 23:39:45.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2019/02/06 11:11:50.000</modified_date>
+    <modified_date>2020/09/24 13:14:48.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -2097,11 +2123,6 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
   </connection>
   <order>
     <hop>
-      <from>check for failure type</from>
-      <to>EandE Check Failure</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Retry Check 2</from>
       <to>EandE Check Failure 4 - Allow Retry</to>
       <enabled>Y</enabled>
@@ -2164,6 +2185,11 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     <hop>
       <from>Replace null with "</from>
       <to>JSON Input 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>check for failure type</from>
+      <to>EandE Check Failure</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -2259,7 +2285,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')
 &lt;eligibilityStatus>?&lt;/eligibilityStatus>
 &lt;enrollmentStatus>?&lt;/enrollmentStatus>
 &lt;errorMessage>?&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>false&lt;/success>
 &lt;/patientCheck>'
@@ -2279,6 +2305,9 @@ commit;</sql>
       </argument>
       <argument>
         <name>errorMessage</name>
+      </argument>
+      <argument>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2321,7 +2350,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')  fr
 &lt;eligibilityStatus>&lt;/eligibilityStatus>
 &lt;enrollmentStatus>&lt;/enrollmentStatus>
 &lt;errorMessage>&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>false&lt;/success>
 &lt;/patientCheck>'
@@ -2334,7 +2363,7 @@ commit;</sql>
     <read_field/>
     <arguments>
       <argument>
-        <name>rest_result</name>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2377,7 +2406,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')  fr
 &lt;eligibilityStatus>&lt;/eligibilityStatus>
 &lt;enrollmentStatus>&lt;/enrollmentStatus>
 &lt;errorMessage>EandE_RETRIES_EXCEEDED_SERVICE_NOT_REACHABLE&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>false&lt;/success>
 &lt;/patientCheck>'
@@ -2390,7 +2419,7 @@ commit;</sql>
     <read_field/>
     <arguments>
       <argument>
-        <name>rest_result</name>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2434,7 +2463,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')
 &lt;eligibilityStatus>?&lt;/eligibilityStatus>
 &lt;enrollmentStatus>?&lt;/enrollmentStatus>
 &lt;errorMessage>EandE_RETRIES_EXCEEDED_SERVICE_NOT_REACHABLE&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>false&lt;/success>
 &lt;/patientCheck>'
@@ -2451,6 +2480,9 @@ commit;</sql>
       </argument>
       <argument>
         <name>enrollmentStatus</name>
+      </argument>
+      <argument>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2494,7 +2526,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')
 &lt;eligibilityStatus>?&lt;/eligibilityStatus>
 &lt;enrollmentStatus>?&lt;/enrollmentStatus>
 &lt;errorMessage>System Error Occurred.&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>false&lt;/success>
 &lt;/patientCheck>'
@@ -2511,6 +2543,9 @@ commit;</sql>
       </argument>
       <argument>
         <name>enrollmentStatus</name>
+      </argument>
+      <argument>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2553,7 +2588,7 @@ EXTRACT(xmltype(nvl(patient_match_details,'&lt;siteMatch/>')),'//siteMatch')  fr
 &lt;eligibilityStatus>?&lt;/eligibilityStatus>
 &lt;enrollmentStatus>?&lt;/enrollmentStatus>
 &lt;errorMessage>?&lt;/errorMessage>
-&lt;runCount>${RUNCOUNTEE}&lt;/runCount>
+&lt;runCount>?&lt;/runCount>
 &lt;/eande>
 &lt;success>${siteMatch}&lt;/success>
 &lt;/patientCheck>'
@@ -2573,6 +2608,9 @@ commit;</sql>
       </argument>
       <argument>
         <name>errorMessage</name>
+      </argument>
+      <argument>
+        <name>RUNCOUNTEE</name>
       </argument>
     </arguments>
     <attributes/>
@@ -2869,6 +2907,8 @@ commit;</sql>
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3471,7 +3511,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2016/08/16 16:30:17.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/02/10 15:17:36.000</modified_date>
+    <modified_date>2020/09/24 13:46:07.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -3537,11 +3577,6 @@ commit;</sql>
     </attributes>
   </connection>
   <order>
-    <hop>
-      <from>Set siteMatch</from>
-      <to>MVI - Match Found - Site Registration Not Confirmed</to>
-      <enabled>Y</enabled>
-    </hop>
     <hop>
       <from>Pharmacy Registration Check</from>
       <to>Set siteMatch 2</to>
@@ -3647,6 +3682,11 @@ commit;</sql>
       <to>Set siteMatch</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Set siteMatch</from>
+      <to>MVI - Match Found - Site Registration Not Confirmed</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Build Service URL</name>
@@ -3697,14 +3737,201 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     phone_number varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone',
     primary_phone_number varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/PrimaryTelephone',
     pharmacy_ncpdpid varchar2(30) path '//Header/To') patient_info
-    where t.inbound_ncpdp_msg_id =  ${INBOUND_NCPDP_MSG_ID}
+    where t.inbound_ncpdp_msg_id = ${INBOUND_NCPDP_MSG_ID}
 
--- 7778379 ${INBOUND_NCPDP_MSG_ID}</sql>
+--7778379 --${INBOUND_NCPDP_MSG_ID}</sql>
     <limit>1</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>URL</name>
+        <length>4000</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>URL</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>BODY</name>
+        <length>518</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>BODY</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>VA_STATION_ID</name>
+        <length>3</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>VA_STATION_ID</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>EANDE_CHECK</name>
+        <length>1</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>EANDE_CHECK</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>INBOUND_NCPDP_MSG_ID</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>INBOUND_NCPDP_MSG_ID</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>RUNCOUNTMVI</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>RUNCOUNTMVI</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>RUNCOUNTEE</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>RUNCOUNTEE</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>RETRY</name>
+        <length>2000</length>
+        <precision>-1</precision>
+        <origin>Build Service URL</origin>
+        <comments>RETRY</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/New_York</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3859,11 +4086,11 @@ commit;
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <specification_method>rep_ref</specification_method>
-    <trans_object_id>14</trans_object_id>
+    <specification_method>rep_name</specification_method>
+    <trans_object_id/>
     <trans_name>IBMP_EandE_PatientCheck_TRN</trans_name>
     <filename/>
-    <directory_path>/inbound_main</directory_path>
+    <directory_path>${Internal.Entry.Current.Directory}</directory_path>
     <group_size>1</group_size>
     <group_field/>
     <group_time/>
@@ -5569,6 +5796,7 @@ from erx.inbound_ncpdp_msg t
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -6106,7 +6334,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/09/19 11:32:29.000</modified_date>
+    <modified_date>2020/09/24 13:16:46.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -6172,11 +6400,6 @@ from erx.inbound_ncpdp_msg t
     </attributes>
   </connection>
   <order>
-    <hop>
-      <from>Format Date-Time</from>
-      <to>Generate random value for Message ID</to>
-      <enabled>Y</enabled>
-    </hop>
     <hop>
       <from>Set MESSAGE_TYPE to ERROR</from>
       <to>Set Error Codes and Desc - XSD validation failure</to>
@@ -6280,6 +6503,11 @@ from erx.inbound_ncpdp_msg t
     <hop>
       <from>ABS</from>
       <to>Concat Date-Time and Random Value for New Message ID</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Format Date-Time</from>
+      <to>Generate random value for Message ID</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -6800,7 +7028,7 @@ from erx.inbound_ncpdp_msg t
     <fileNameField/>
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>file</name>
+      <name/>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
       <extention>txt</extention>
@@ -6886,7 +7114,7 @@ from erx.inbound_ncpdp_msg t
     <fileNameField/>
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>file</name>
+      <name/>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
       <extention>txt</extention>
@@ -6984,7 +7212,7 @@ from erx.inbound_ncpdp_msg t
     <fileNameField/>
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>file</name>
+      <name/>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
       <extention>txt</extention>
@@ -7351,9 +7579,9 @@ CASE
 	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
 	 THEN '0000'
 	WHEN x.error_desc NOT IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
-	 THEN '0105'
+	 THEN '1005'
     WHEN x.error_desc IS NULL
-     THEN '0105'
+     THEN '1005'
 END AS drug_chk_na,
 CASE 
 	WHEN x.error_desc IN (SELECT value from app_configuration where key = 'ERR_SUPP_DLVRY')
@@ -7402,6 +7630,8 @@ from inbound_ncpdp_msg t, xmltable('/Message'
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -9187,6 +9417,7 @@ commit;</sql>
     <xmlsourcefile>N</xmlsourcefile>
     <xsddefinedfield>NCPDP_XSD_PATH</xsddefinedfield>
     <xsdsource>fieldname</xsdsource>
+    <allowExternalEntities>N</allowExternalEntities>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -10585,6 +10816,7 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
