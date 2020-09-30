@@ -174,6 +174,14 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 				// get url for v3.0 ws
 				appConfiguration = pharmacyMigrationService.findByKey("INB_V4_WS_URI");
+				
+				wsResponse.setSuccess(true);
+				
+				wsResponse.setErrorMessage(null);
+				
+				wsResponse.setOutboundMsgId(0);
+
+				
 
 			} else {
 
@@ -232,11 +240,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			outboundMsg.setScriptVersion(scriptVersion);			
 
-			wsResponse.setErrorMessage(null);
-
-			wsResponse.setSuccess(true);
-
-			wsResponse.setOutboundMsgId(0);
+			
 
 		} catch (SAXException ex) {
 
