@@ -17,11 +17,13 @@
 		<module>../PS_INB_ERX_UI_Ear</module>
 		
 		<module>../PS_INB_ERX_WS</module>
-		<!-- <module>../PS_INB_ERX_MIGRATION_WS</module> <module>../PS_INB_ERX_Service</module> -->
+		<!-- -->
+		 <module>../PS_INB_ERX_MIGRATION_WS</module> <module>../PS_INB_ERX_Service</module> 
 		
 		<module>../PS_INB_ERX_Ear</module>
+		<!--  -->
+		<module>../PS_INB_ERX_MIGRATION_WS_Ear</module>
 		
-		<!-- <module>../PS_INB_ERX_MIGRATION_WS_Ear</module> -->
 	</modules>
 
 	<repositories>
