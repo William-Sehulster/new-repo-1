@@ -3456,7 +3456,7 @@ from outbound_ncpdp_msg t, xmltable('/Message'
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:40:46.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/09/19 11:26:34.000</modified_date>
+  <modified_date>2020/09/25 13:31:57.000</modified_date>
   <parameters>
     <parameter>
       <name>OUTBOUND_NCPDP_MSG_ID</name>
@@ -3838,38 +3838,6 @@ from outbound_ncpdp_msg t, xmltable('/Message'
   <shared_objects_file/>
   <entries>
     <entry>
-      <name>Check for Messages to Process</name>
-      <description/>
-      <type>WAIT_FOR_SQL</type>
-      <attributes/>
-      <connection>local_erx</connection>
-      <schemaname/>
-      <tablename/>
-      <success_condition>rows_count_greater</success_condition>
-      <rows_count_value>0</rows_count_value>
-      <is_custom_sql>Y</is_custom_sql>
-      <is_usevars>Y</is_usevars>
-      <custom_sql>select outbound_ncpdp_msg_id ,
-    '4009' as outbound_delivery_in_process,
-    (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;outboundSendRetry>&lt;/outboundSendRetry>')),'//outboundSendRetry'), 0)) + 1 as runCount,
-nvl((select value from app_configuration where key = 'OB_RETRY'),0) as retry
-from outbound_ncpdp_msg 
-where 
- message_status in ('0000','4004','4010')
-and rownum &lt; ${OB_DLVRY_JOB_BATCH_SIZE}</custom_sql>
-      <add_rows_result>Y</add_rows_result>
-      <maximum_timeout>0</maximum_timeout>
-      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
-      <success_on_timeout>N</success_on_timeout>
-      <clear_result_rows>N</clear_result_rows>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>224</xloc>
-      <yloc>64</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>OBMP_ProcessERx_TRN</name>
       <description/>
       <type>TRANS</type>
@@ -3952,17 +3920,41 @@ and rownum &lt; ${OB_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <yloc>66</yloc>
       <attributes_kjc/>
     </entry>
+    <entry>
+      <name>Check for Messages to Process</name>
+      <description/>
+      <type>WAIT_FOR_SQL</type>
+      <attributes/>
+      <connection>local_erx</connection>
+      <schemaname/>
+      <tablename/>
+      <success_condition>rows_count_greater</success_condition>
+      <rows_count_value>0</rows_count_value>
+      <is_custom_sql>Y</is_custom_sql>
+      <is_usevars>Y</is_usevars>
+      <custom_sql>select outbound_ncpdp_msg_id ,
+    '4009' as outbound_delivery_in_process,
+    (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;outboundSendRetry>&lt;/outboundSendRetry>')),'//outboundSendRetry'), 0)) + 1 as runCount,
+nvl((select value from app_configuration where key = 'OB_RETRY'),0) as retry
+from outbound_ncpdp_msg 
+where 
+ message_status in ('0000','4004','4010')
+and rownum &lt; ${OB_DLVRY_JOB_BATCH_SIZE}
+and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate</custom_sql>
+      <add_rows_result>Y</add_rows_result>
+      <maximum_timeout>0</maximum_timeout>
+      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
+      <success_on_timeout>N</success_on_timeout>
+      <clear_result_rows>N</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>224</xloc>
+      <yloc>64</yloc>
+      <attributes_kjc/>
+    </entry>
   </entries>
   <hops>
-    <hop>
-      <from>OBMP_ProcessERx_TRN</from>
-      <to>Job Finished Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
     <hop>
       <from>START</from>
       <to>Check for Messages to Process</to>
@@ -3975,6 +3967,15 @@ and rownum &lt; ${OB_DLVRY_JOB_BATCH_SIZE}</custom_sql>
     <hop>
       <from>Check for Messages to Process</from>
       <to>OBMP_ProcessERx_TRN</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>OBMP_ProcessERx_TRN</from>
+      <to>Job Finished Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
