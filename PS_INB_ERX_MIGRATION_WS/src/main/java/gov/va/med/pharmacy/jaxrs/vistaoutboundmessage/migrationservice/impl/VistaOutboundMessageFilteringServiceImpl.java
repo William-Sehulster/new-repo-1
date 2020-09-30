@@ -198,7 +198,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			if (appConfiguration != null && StringUtils.isNotEmpty(appConfiguration.getValue())) {
 
-				webServiceURL = appConfiguration.getValue() + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage2017071";
+				webServiceURL = appConfiguration.getValue() + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
 
 				WebClient webclient = WebClient.create(webServiceURL);
 
