@@ -33,7 +33,6 @@ import gov.va.med.pharmacy.ncpdpmsgs.MessageType;
 import gov.va.med.pharmacy.persistence.model.AppConfiguration;
 import gov.va.med.pharmacy.persistence.model.OutboundNcpdpMsgEntity;
 import gov.va.med.pharmacy.persistence.model.PharmacyMigration;
-import gov.va.med.pharmacy.persistence.service.OutboundNcpdpMsgService;
 import gov.va.med.pharmacy.persistence.service.PharmacyMigrationService;
 import gov.va.med.pharmacy.utility.StreamUtilities;
 
@@ -71,8 +70,6 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 	private static final String EMPTY_STRING = "";
 
-	@Autowired
-	private OutboundNcpdpMsgService outboundNcpdpMsgService;
 
 	@Autowired
 	private PharmacyMigrationService pharmacyMigrationService;
