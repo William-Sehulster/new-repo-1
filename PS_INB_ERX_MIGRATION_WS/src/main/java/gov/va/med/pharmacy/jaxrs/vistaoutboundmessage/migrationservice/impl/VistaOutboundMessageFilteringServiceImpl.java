@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -70,6 +71,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 	private static final String EMPTY_STRING = "";
 
+	private static final String WSCLIENTS_PROPERTIES_FILE = "gov.va.med.pharmacy.inboundeRx.properties";
 
 	@Autowired
 	private PharmacyMigrationService pharmacyMigrationService;
@@ -205,7 +207,25 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 				webServiceURL = appConfiguration.getValue() + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
 
-				WebClient webclient = WebClient.create(webServiceURL);
+				String username;
+				String password;
+				
+				Properties properties = new Properties();
+				
+				InputStream  propInputStream = this.getClass().getClassLoader().getResourceAsStream(WSCLIENTS_PROPERTIES_FILE);
+
+				try{
+					if (null != propInputStream) {
+						properties.load(propInputStream);
+					}
+				}
+				finally{
+						StreamUtilities.safeClose(propInputStream);
+				}
+				username = properties.getProperty("ws.user").trim();
+				password = properties.getProperty("ws.user.password").trim();
+				
+				WebClient webclient = WebClient.create(webServiceURL, username, password, null);
 
 				webclient.accept("application/x-www-form-urlencoded", "application/xml", "text/xml");
 
