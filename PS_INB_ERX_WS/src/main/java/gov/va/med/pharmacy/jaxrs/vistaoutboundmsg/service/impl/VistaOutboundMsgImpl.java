@@ -3474,7 +3474,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			wsResponse.setSuccess(false);
 
-			wsResponse.setErrorMessage("Error while while conversion to newer format and saving vista outbound message: "+ e.getMessage());
+			wsResponse.setErrorMessage("Error while conversion to newer format and saving vista outbound message: "+ e.getMessage());
 
 			//e.printStackTrace();
 

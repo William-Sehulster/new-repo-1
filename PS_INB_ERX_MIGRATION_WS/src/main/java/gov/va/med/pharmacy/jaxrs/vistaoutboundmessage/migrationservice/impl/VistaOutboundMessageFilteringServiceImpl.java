@@ -240,6 +240,17 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 					IOUtils.copy(entityStream, writer, UTF_8_CONST_STRING);
 
 					String outBoundMessage = writer.toString();
+					
+					if(StringUtils.isNotEmpty(outBoundMessage)) {						
+							
+							if (outBoundMessage.indexOf("<outboundMsgId>") != -1) {
+
+								String outboundMsgId = outBoundMessage.substring(outBoundMessage.indexOf("<outboundMsgId>") + 15,	outBoundMessage.indexOf("</outboundMsgId>"));
+								
+								wsResponse.setOutboundMsgId(StringUtils.isNotEmpty(outboundMsgId)?Integer.parseInt(outboundMsgId):0);
+							}
+
+					}
 
 					LOG.info("outbound migration WS call to outbound NCPDP WS response: " + outBoundMessage);
 				}
@@ -270,7 +281,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			wsResponse.setSuccess(false);
 
-			wsResponse.setErrorMessage("Error while saving vista outbound message, SaxException: " + ex.getMessage());
+			wsResponse.setErrorMessage("Error while calling vista outbound message, SaxException: " + ex.getMessage());
 
 			wsResponse.setOutboundMsgId(0);
 
@@ -282,8 +293,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 			wsResponse.setSuccess(false);
 
 			wsResponse
-					.setErrorMessage("Error while while conversion to newer format and saving vista outbound message: "
-							+ e.getMessage());
+					.setErrorMessage("Error while calling vista outbound message: "		+ e.getMessage());
 
 			// e.printStackTrace();
 
