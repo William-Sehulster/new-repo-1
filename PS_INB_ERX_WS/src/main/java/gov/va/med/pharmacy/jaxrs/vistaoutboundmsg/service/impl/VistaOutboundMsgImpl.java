@@ -1,5 +1,6 @@
 package gov.va.med.pharmacy.jaxrs.vistaoutboundmsg.service.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -3484,6 +3485,21 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			StreamUtilities.safeClose(inputStream);
 
+			//StreamUtilities.safeClose(formattedXMLString);
+			
+			try {
+				
+				if(null!=formattedXMLString.getWriter()) {
+				
+					formattedXMLString.getWriter().close();
+				}
+				
+				
+			} catch (IOException e) {
+				
+				LOG.error("Error in VistaOutboundMsgImpl:" + e.getMessage());
+				
+			}
 			
 			inputStream = null;
 
