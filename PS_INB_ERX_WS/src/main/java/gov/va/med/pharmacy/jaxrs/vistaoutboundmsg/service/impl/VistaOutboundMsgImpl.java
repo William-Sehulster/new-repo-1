@@ -3489,7 +3489,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 			
 			try {
 				
-				if(null!=formattedXMLString.getWriter()) {
+				if(null!=formattedXMLString ) {
 				
 					formattedXMLString.getWriter().close();
 				}
