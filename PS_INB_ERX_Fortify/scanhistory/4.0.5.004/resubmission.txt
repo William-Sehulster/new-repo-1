@@ -1,0 +1,1 @@
+This version includes functional defect fixes as well as TRM mandated upgrades to Spring Framework, Apache CXF and Hibernate.
