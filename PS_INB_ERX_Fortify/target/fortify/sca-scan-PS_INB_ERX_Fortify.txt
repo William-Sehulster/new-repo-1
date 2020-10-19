@@ -1,1 +1,0 @@
-"-version" "-b" "Inbound" "-scan" "-logfile" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\target\fortify\sca-scan.log" "-f" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\target\fortify\PS_INB_ERX_Fortify-2.0.4.059.fpr" "-build-label" "PS_INB_ERX_Fortify-2.0.4.059" "-build-project" "PS_INB_ERX_Fortify" "-build-version" "2.0.4.059"

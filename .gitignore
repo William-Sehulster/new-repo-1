@@ -1,0 +1,16 @@
+.metadata
+.jazzignore
+
+# common build output folders
+target/
+build/
+
+# Various IDE project files 
+.settings/
+.classpath
+.project
+*.iml
+*.iws
+*.ipr
+.idea/
+.vscode

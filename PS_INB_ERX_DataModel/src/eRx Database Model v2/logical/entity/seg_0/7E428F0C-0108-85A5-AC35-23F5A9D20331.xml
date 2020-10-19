@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="7E428F0C-0108-85A5-AC35-23F5A9D20331" name="ERX STATUS">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>F7A36117-18C8-CBB3-3896-7281CCBB19CA</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="CODE" id="422FB3AE-5D83-0F23-BE60-374B850E7276">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>E0B6217D-099E-2887-9598-F9D337B098B6</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<ownDataTypeParameters>4,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="AUTO CHECK" id="206D5217-9095-118B-AAE2-CE76B5779A26">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>693C19EE-5D9E-7165-9AB0-7EBCF13C7468</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A1AD9C56-2884-0F3B-5333-FA312FE54359</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CODE DESCRIPTION" id="638F6648-A454-0CC4-97A2-E34C7E4C5BA0">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>31B4E95F-100A-D08F-599D-93957AA7D120</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>EF353603-2D76-4B4E-67D5-8CEE47AAADE4</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="UPDATED DATE" id="94E62670-0B20-86C6-1CAE-FD3A0FED8439">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>4C307EBF-00D9-05DE-BF02-3363F01008B5</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0FC4AF37-1118-1079-1AB1-071361FB8249</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CREATED DATE" id="AF147C86-EED4-DE3F-EBC7-75DA0DAA5BEF">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>660EC22D-97B7-A659-2CCE-B2C6B537D190</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0FC4AF37-1118-1079-1AB1-071361FB8249</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C71F1046-0DE7-9DE0-CD01-083B33F60885" name="ERX STATUS PK">
+<createdBy>VHAHAMWandlJ</createdBy>
+<createdTime>2016-11-09 23:00:35 UTC</createdTime>
+<generatorID>D79A1D69-9102-3BCD-8B4C-872361BEF5D7</generatorID>
+<ownerDesignName>eRx Database Model v2</ownerDesignName>
+<engineerTo>
+<item key="DDF41F73-2172-3285-EB06-342520A1359A" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>422FB3AE-5D83-0F23-BE60-374B850E7276</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

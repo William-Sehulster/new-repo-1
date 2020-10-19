@@ -1,0 +1,155 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="erx Domain">
+   <domains>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP_DESCRIPTION_TYPE" id="101BDCF3-0F0F-3119-6B65-7786F904CD87">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>101BDCF3-0F0F-3119-6B65-7786F904CD87</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>70</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NAME" id="1B104378-25D9-1C55-5A68-B33934583A16">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>1B104378-25D9-1C55-5A68-B33934583A16</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>30</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP Message ID" id="4A7CB86C-1DA8-2F91-9C31-4EDF1C633027">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>4A7CB86C-1DA8-2F91-9C31-4EDF1C633027</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>35</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Patient ID" id="4E0E3E55-D940-FED0-E1BC-81C1659962B4">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>4E0E3E55-D940-FED0-E1BC-81C1659962B4</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Pharmacy ID" id="54AAE75B-C384-24AC-544E-971F8458E502">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>54AAE75B-C384-24AC-544E-971F8458E502</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Relates To Message ID" id="7CFEEBAF-74B9-D71B-578E-85F1E823B598">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>7CFEEBAF-74B9-D71B-578E-85F1E823B598</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP Message Type" id="88955EB9-9C69-6564-0651-2C919C653EE2">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>88955EB9-9C69-6564-0651-2C919C653EE2</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>35</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP Message" id="8D79ABBE-2049-801B-20BD-840D87D92D91">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>8D79ABBE-2049-801B-20BD-840D87D92D91</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT050</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP_CODE_TYPE" id="A1AD9C56-2884-0F3B-5333-FA312FE54359">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>A1AD9C56-2884-0F3B-5333-FA312FE54359</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>15</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Date Time" id="C8E424B9-639B-613C-5C03-BF3DABA9174F">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>C8E424B9-639B-613C-5C03-BF3DABA9174F</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT007</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Generated Surrogate Key" id="CD860880-62AB-6262-FF3D-E477F020B216">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>CD860880-62AB-6262-FF3D-E477F020B216</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="EANDE_RESPONSE_TYPE" id="D67CDA2C-ABC6-0657-F30F-9EE7D6EC9EF2">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>D67CDA2C-ABC6-0657-F30F-9EE7D6EC9EF2</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT050</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Unknown" id="DOM3000004">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:23:39 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>DOM3000004</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT017</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NCPDP_CODE_DESCRIPTION_TYPE" id="EF353603-2D76-4B4E-67D5-8CEE47AAADE4">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>EF353603-2D76-4B4E-67D5-8CEE47AAADE4</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypeSize>70</dataTypeSize>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="MVI_RESPONSE_TYPE" id="F863ED0C-8425-B54C-D230-6AADD868D366">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>F863ED0C-8425-B54C-D230-6AADD868D366</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT050</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="CLOB_TYPE" id="FCA8ECE7-0772-F53C-7D7B-9677438C261E">
+         <createdBy>VHAHAMWandlJ</createdBy>
+         <createdTime>2016-05-31 14:29:29 UTC</createdTime>
+         <ownerDesignName>eRx Database Model v2</ownerDesignName>
+         <importedID>FCA8ECE7-0772-F53C-7D7B-9677438C261E</importedID>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>erx Domain</fileName>
+         <logicalDatatype>LOGDT028</logicalDatatype>
+      </Domain>
+   </domains>
+</DomainFile>

@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="A82CDBFB-4D60-C7EF-3D6E-C841906519D8" mainViewID="487C9784-B1C7-61D1-B628-AEC5B446AB91">
+<createdBy>jwandling</createdBy>
+<createdTime>2016-03-04 14:52:13 UTC</createdTime>
+<ownerDesignName>eRx Database Model</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>
