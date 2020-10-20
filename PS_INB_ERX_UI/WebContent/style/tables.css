@@ -1,0 +1,118 @@
+div.tableBodyContainer
+{
+	overflow: hidden;
+}
+
+div.tableContainer
+{
+ width: 98%;  /* table width will be 99% of this*/
+ height: 350px;  /* must be greater than tbody*/
+ overflow: auto;
+ clip: auto;
+ margin: 0 auto;
+ clear: both;
+}
+
+table 
+{
+ clear: both;
+ width: 100%;  /*100% of container produces horiz. scroll in Mozilla*/
+ border: none;
+ border-collapse: collapse;
+ 
+}
+
+ 
+ 
+thead td, thead th, th 
+{
+ text-align: center;
+ font-size: 12px; 
+ background-color: #BECEE0;
+ color: #003366;
+ font-weight: bold;
+ border: solid 1px #d8d8d8;
+} 
+ 
+td 
+{
+ color: #000;
+ padding-right: 2px;
+ padding-left: 2px;
+ font-size: 12px;
+ text-align: left;
+ border: solid 1px #d8d8d8;
+}
+ 
+table tfoot tr 
+{ /*idea of Renato Cherullo to help IE*/
+ position: relative; 
+ overflow-x: hidden;
+ top: expression(parentNode.parentNode.offsetHeight >= 
+   offsetParent.offsetHeight ? 0 - parentNode.parentNode.offsetHeight + offsetParent.offsetHeight + offsetParent.scrollTop : 0);
+}
+
+
+tfoot td 
+{
+ text-align: center;
+ font-size: 12px;
+ font-weight: bold;
+ background-color: papayawhip;
+ color: steelblue;
+ border-top: solid 1px slategray;
+}
+
+td:last-child {padding-right: 20px;} /*prevent Mozilla scrollbar from hiding cell content*/
+
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+tr.normalRow td {
+ background: #FFF;
+ border-bottom: none;
+ border-left: none;
+ border-right: 1px solid #CCC;
+ border-top: 1px solid #DDD;
+ padding: 2px 3px 3px 4px;
+}
+
+tr.alternateRow td {
+ background-color: #edf5ff;
+ border-bottom: none;
+ border-left: none;
+ border-right: 1px solid #CCC;
+ border-top: 1px solid #DDD;
+ padding: 2px 3px 3px 4px;
+}
+
+/** roll over effect for table **/
+tr.highlightedRow td
+{
+ color: #fff;
+ background-color:#BECEE0;
+ border-bottom: none;
+ border-left: none;
+ border-right: 1px solid #CCC;
+ border-top: 1px solid #DDD;
+ padding: 2px 3px 3px 4px; 
+}
+
+.sortcol {
+	cursor: pointer;
+	padding-right: 20px;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.sortasc {
+	background-color: #EDF5FF;
+	background-image: url(../images/up.gif);
+	color: #000;
+}
+.sortdesc {
+	background-color: #DEF1FF;
+	background-image: url(../images/down.gif);
+	color: #000;
+}
+.nosort {
+	cursor: default;
+}

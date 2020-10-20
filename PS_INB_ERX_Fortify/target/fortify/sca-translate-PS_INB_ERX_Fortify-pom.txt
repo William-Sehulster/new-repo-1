@@ -1,1 +1,0 @@
-"-version" "-b" "Inbound" "-logfile" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\target\fortify\sca-translate.log" "-java-build-dir" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\target\classes" "C:\Data\Inbound_eRx_3.0_Dev\PS_INB_ERX_Fortify\pom.xml"
