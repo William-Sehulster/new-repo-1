@@ -5,11 +5,14 @@ import java.util.List;
 
 import gov.va.med.pharmacy.persistence.model.SummaryReportVw;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
+import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 
 
 public interface SummaryReportService {
 
 	// report data
+	
+	List<StationIdSelectModel> getStationIDs(int visn);
 
 	SummaryReportVw findByVisn(String id);
 

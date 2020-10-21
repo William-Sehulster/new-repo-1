@@ -25,6 +25,7 @@ import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
 import gov.va.med.pharmacy.persistence.service.AutoCheckReportService;
+import gov.va.med.pharmacy.persistence.service.SummaryReportService;
 import gov.va.med.pharmacy.persistence.service.TrackMessageService;
 import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
@@ -52,6 +53,8 @@ public class AutoCheckReportController {
 	
 	@Autowired
 	private TrackMessageService trackMessageService;
+	@Autowired
+	private SummaryReportService summaryReportService;
 
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
@@ -79,28 +82,21 @@ public class AutoCheckReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<AutoCheckReportVw> autoCheckReportVwList = new ArrayList<AutoCheckReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		autoCheckReportVwList.addAll(autoCheckReportService.find(visn));
-
-		int i = 0;
-		while (i < autoCheckReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(autoCheckReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(autoCheckReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
 		return stationIdSelectModelList;
 	}

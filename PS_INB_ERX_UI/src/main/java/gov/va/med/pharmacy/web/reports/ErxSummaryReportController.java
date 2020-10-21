@@ -21,11 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
 import gov.va.med.pharmacy.persistence.model.ErxSummaryReportVw;
-import gov.va.med.pharmacy.persistence.model.RejectReasonsReportVw;
 import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
 import gov.va.med.pharmacy.persistence.report.VisnSelectModel;
 import gov.va.med.pharmacy.persistence.service.ErxSummaryReportService;
+import gov.va.med.pharmacy.persistence.service.SummaryReportService;
 import gov.va.med.pharmacy.persistence.service.TrackMessageService;
 import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
@@ -51,6 +51,9 @@ public class ErxSummaryReportController {
 	
 	@Autowired
 	private TrackMessageService trackMessageService;
+	
+	@Autowired
+	private SummaryReportService summaryReportService;
 
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
@@ -79,28 +82,21 @@ public class ErxSummaryReportController {
 
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 
-		List<ErxSummaryReportVw> summaryReportVwList = new ArrayList<ErxSummaryReportVw>();
-	
 		if (visn.equalsIgnoreCase("/")) {
-			visn = "";
+			visn = "-1";
+		} else {
+			visn = visn.substring(0, visn.length() - 1);
 		}
 
-		summaryReportVwList.addAll(erxSummaryReportService.find(visn));
-
-		int i = 0;
-		while (i < summaryReportVwList.size()) {
-			StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-			
-			stationIdSelectModel.setId(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModel.setLabel(summaryReportVwList.get(i).getPharmacyVaStationId());
-			stationIdSelectModelList.add(i, stationIdSelectModel);
-			i++;
-		}
+		stationIdSelectModelList.addAll(summaryReportService.getStationIDs(Integer.parseInt(visn)));
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
+		
 		stationIdSelectModel.setId("All");
+		
 		stationIdSelectModel.setLabel(" All ");
-		stationIdSelectModelList.add(i, stationIdSelectModel);
+		
+		stationIdSelectModelList.add(stationIdSelectModel);
 
 		return stationIdSelectModelList;
 	}
