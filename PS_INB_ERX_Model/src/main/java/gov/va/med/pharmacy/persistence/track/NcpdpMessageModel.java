@@ -1,10 +1,10 @@
 package gov.va.med.pharmacy.persistence.track;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
-@SessionScope
+@RequestScope
 public class NcpdpMessageModel {
 	
 	private Long inboundNcpdpMsgId;
@@ -104,7 +104,7 @@ public class NcpdpMessageModel {
 	private String rxFillReasonCd;
 	private String changeRequestType;
 	private String requestReferenceNumber;
-	private String prohibitRenewalRequest;
+	private volatile String prohibitRenewalRequest;
 	// Med Requested 1
 	private String rxDrugRequested;
 	private String rxDrugRequestedNdc;
