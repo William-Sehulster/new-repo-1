@@ -104,7 +104,7 @@ public class NcpdpMessageModel {
 	private String rxFillReasonCd;
 	private String changeRequestType;
 	private String requestReferenceNumber;
-	private volatile String prohibitRenewalRequest;
+	private String prohibitRenewalRequest;
 	// Med Requested 1
 	private String rxDrugRequested;
 	private String rxDrugRequestedNdc;
