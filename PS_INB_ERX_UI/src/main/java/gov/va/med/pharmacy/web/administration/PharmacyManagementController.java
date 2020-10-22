@@ -194,7 +194,7 @@ public class PharmacyManagementController {
 		
 	}
 	
-	@Secured({"SYSTEM_ADMN","PHARM_MGR","PBM_ADMN"})
+	
 	@RequestMapping(value = "/updatePharmacy",  method = RequestMethod.POST)	
 	public ModelAndView updatePharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyEditForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
 
@@ -510,7 +510,7 @@ public class PharmacyManagementController {
 		
 	}
 	
-	@Secured({"SYSTEM_ADMN","PHARM_MGR","PBM_ADMN"})
+	
 	@RequestMapping(value = "/addNewPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView addNewPharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyAddForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
 
