@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import gov.va.med.pharmacy.persistence.track.NcpdpMessageListModel;
 import gov.va.med.pharmacy.persistence.track.NcpdpMessageModel;
@@ -40,27 +41,26 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		{
 			public NcpdpMessageListModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 				NcpdpMessageListModel ncpdpMessageListModel = new NcpdpMessageListModel();
-
 				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getLong("inbound_ncpdp_msg_id")));
-				ncpdpMessageListModel.setRxMessageId(rs.getString("rx_messageId"));
-				ncpdpMessageListModel.setRelToMessageid(rs.getString("rel_to_message_id"));
-				ncpdpMessageListModel.setMessageType(rs.getString("message_type"));
-				ncpdpMessageListModel.setReceivedDate(rs.getString("received_date"));
+				ncpdpMessageListModel.setRxMessageId(StringEscapeUtils.escapeJson(rs.getString("rx_messageId")));				
+				ncpdpMessageListModel.setRelToMessageid(StringEscapeUtils.escapeJson(rs.getString("rel_to_message_id")));
+				ncpdpMessageListModel.setMessageType(StringEscapeUtils.escapeJson(rs.getString("message_type")));
+				ncpdpMessageListModel.setReceivedDate(StringEscapeUtils.escapeJson(rs.getString("received_date")));
 				ncpdpMessageListModel.setVisn((rs.getInt("visn")));
-				ncpdpMessageListModel.setVaStationId(rs.getString("va_station_id"));
-				ncpdpMessageListModel.setPharmacyName(rs.getString("pharmacy_name"));
-				ncpdpMessageListModel.setPharmacyAddr1(rs.getString("pharmacy_addr_1"));
-				ncpdpMessageListModel.setPrescriberName(rs.getString("prescriber_Name"));
-				ncpdpMessageListModel.setPrescriberNpi(rs.getString("prescriber_npi"));
-				ncpdpMessageListModel.setPrescriberDEA(rs.getString("prescriber_DEA"));
-				ncpdpMessageListModel.setPatientName(rs.getString("patient_Name"));
-				ncpdpMessageListModel.setRxDrugPrescribed(rs.getString("rx_Drug_Prescribed"));
-				ncpdpMessageListModel.setPatient_chk_status(rs.getString("patient_chk_status"));
-				ncpdpMessageListModel.setProvider_chk_status(rs.getString("provider_chk_status"));
-				ncpdpMessageListModel.setDrug_chk_status(rs.getString("drug_chk_status"));
-				ncpdpMessageListModel.setMessage_status(rs.getString("message_status"));
-				ncpdpMessageListModel.setPatientDob(rs.getString("patient_dob"));
-				ncpdpMessageListModel.setPatientSsn(rs.getString("patient_ssn"));
+				ncpdpMessageListModel.setVaStationId(StringEscapeUtils.escapeJson(rs.getString("va_station_id")));
+				ncpdpMessageListModel.setPharmacyName(StringEscapeUtils.escapeJson(rs.getString("pharmacy_name")));
+				ncpdpMessageListModel.setPharmacyAddr1(StringEscapeUtils.escapeJson(rs.getString("pharmacy_addr_1")));
+				ncpdpMessageListModel.setPrescriberName(StringEscapeUtils.escapeJson(rs.getString("prescriber_Name")));
+				ncpdpMessageListModel.setPrescriberNpi(StringEscapeUtils.escapeJson(rs.getString("prescriber_npi")));
+				ncpdpMessageListModel.setPrescriberDEA(StringEscapeUtils.escapeJson(rs.getString("prescriber_DEA")));
+				ncpdpMessageListModel.setPatientName(StringEscapeUtils.escapeJson(rs.getString("patient_Name")));
+				ncpdpMessageListModel.setRxDrugPrescribed(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Prescribed")));
+				ncpdpMessageListModel.setPatient_chk_status(StringEscapeUtils.escapeJson(rs.getString("patient_chk_status")));
+				ncpdpMessageListModel.setProvider_chk_status(StringEscapeUtils.escapeJson(rs.getString("provider_chk_status")));
+				ncpdpMessageListModel.setDrug_chk_status(StringEscapeUtils.escapeJson(rs.getString("drug_chk_status")));
+				ncpdpMessageListModel.setMessage_status(StringEscapeUtils.escapeJson(rs.getString("message_status")));
+				ncpdpMessageListModel.setPatientDob(StringEscapeUtils.escapeJson(rs.getString("patient_dob")));
+				ncpdpMessageListModel.setPatientSsn(StringEscapeUtils.escapeJson(rs.getString("patient_ssn")));
 
 	    		return ncpdpMessageListModel;
 			}
@@ -70,231 +70,229 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	{
 		public NcpdpMessageModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 			NcpdpMessageModel ncpdpMessageModel = new NcpdpMessageModel();
-
-			
 			ncpdpMessageModel.setInboundNcpdpMsgId(Long.parseUnsignedLong((rs.getString("inbound_ncpdp_msg_id"))));
-			ncpdpMessageModel.setRxMessageId(rs.getString("rx_messageId"));
-			ncpdpMessageModel.setRelToMessageid(rs.getString("rel_to_message_id"));
-			ncpdpMessageModel.setMessage_status(rs.getString("message_status"));
-			ncpdpMessageModel.setMessageType(rs.getString("message_type"));
-			ncpdpMessageModel.setReceivedDate(rs.getString("received_date"));
-			ncpdpMessageModel.setPharmacyName(rs.getString("pharmacy_name"));
-			ncpdpMessageModel.setPharmacyAddr1(rs.getString("pharmacy_addr_1"));
-			ncpdpMessageModel.setPharmacyAddr2(rs.getString("pharmacy_addr_2"));
-			ncpdpMessageModel.setPharmacyPhone(rs.getString("pharmacy_phone"));
-			ncpdpMessageModel.setPharmacyNcpdpid(rs.getString("pharmacy_ncpdpid")); 
-			ncpdpMessageModel.setPrescriberFirstName(rs.getString("prescriber_First_Name"));
-			ncpdpMessageModel.setPrescriberMidName(rs.getString("prescriber_Mid_Name"));
-			ncpdpMessageModel.setPrescriberLastName(rs.getString("prescriber_Last_Name"));
-			ncpdpMessageModel.setPrescriberAddr1(rs.getString("prescriber_addr_1"));
-			ncpdpMessageModel.setPrescriberAddr2(rs.getString("prescriber_addr_2"));
-			ncpdpMessageModel.setPrescriberNPI(rs.getString("prescriber_NPI"));
-			ncpdpMessageModel.setPrescriberDEA(rs.getString("prescriber_DEA"));
-			ncpdpMessageModel.setPrescriberStateLic(rs.getString("prescriber_State_Lic"));
-			ncpdpMessageModel.setPrescriberPhone(rs.getString("prescriber_phone"));
-			ncpdpMessageModel.setPrescriberFax(rs.getString("prescriber_fax"));
-			ncpdpMessageModel.setPrescriberAgent(rs.getString("prescriber_Agent"));
-			ncpdpMessageModel.setPatientFirstName(rs.getString("patient_First_Name"));
-			ncpdpMessageModel.setPatientMidName(rs.getString("patient_Mid_Name"));
-			ncpdpMessageModel.setPatientLastName(rs.getString("patient_Last_Name"));
-			ncpdpMessageModel.setPatientAddr1(rs.getString("patient_addr_1"));
-			ncpdpMessageModel.setPatientAddr2(rs.getString("patient_addr_2"));
-			ncpdpMessageModel.setPatientDob(rs.getString("patient_dob"));
-			ncpdpMessageModel.setPatientSocSn(rs.getString("patient_ssn"));
-			ncpdpMessageModel.setPatientGender(rs.getString("patient_gender"));
-			ncpdpMessageModel.setRxDrugPrescribed(rs.getString("rx_Drug_Prescribed"));
-			ncpdpMessageModel.setRxQuantity(rs.getString("rx_Quantity"));
-			ncpdpMessageModel.setRxDaysSupply(rs.getString("rx_Days_Supply"));
-			ncpdpMessageModel.setRxDateWritten(rs.getString("rx_Date_Written"));
-			ncpdpMessageModel.setRxPotencyUnitCode(rs.getString("rx_Potency_Unit_Code"));
-			ncpdpMessageModel.setRxDrugForm(rs.getString("rx_Drug_Form"));
-			ncpdpMessageModel.setRxDrugStrength(rs.getString("rx_Drug_Strength"));
-			ncpdpMessageModel.setRxRefills(rs.getString("rx_Refills"));
-			ncpdpMessageModel.setRxSig(rs.getString("rx_Sig"));
-			ncpdpMessageModel.setRxDispenseNotes(rs.getString("rx_Dispense_Notes"));
-			ncpdpMessageModel.setRxComments(rs.getString("rx_Comments"));
+			ncpdpMessageModel.setRxMessageId(StringEscapeUtils.escapeJson(rs.getString("rx_messageId")));
+			ncpdpMessageModel.setRelToMessageid(StringEscapeUtils.escapeJson(rs.getString("rel_to_message_id")));
+			ncpdpMessageModel.setMessage_status(StringEscapeUtils.escapeJson(rs.getString("message_status")));
+			ncpdpMessageModel.setMessageType(StringEscapeUtils.escapeJson(rs.getString("message_type")));
+			ncpdpMessageModel.setReceivedDate(StringEscapeUtils.escapeJson(rs.getString("received_date")));
+			ncpdpMessageModel.setPharmacyName(StringEscapeUtils.escapeJson(rs.getString("pharmacy_name")));
+			ncpdpMessageModel.setPharmacyAddr1(StringEscapeUtils.escapeJson(rs.getString("pharmacy_addr_1")));
+			ncpdpMessageModel.setPharmacyAddr2(StringEscapeUtils.escapeJson(rs.getString("pharmacy_addr_2")));
+			ncpdpMessageModel.setPharmacyPhone(StringEscapeUtils.escapeJson(rs.getString("pharmacy_phone")));
+			ncpdpMessageModel.setPharmacyNcpdpid(StringEscapeUtils.escapeJson(rs.getString("pharmacy_ncpdpid"))); 
+			ncpdpMessageModel.setPrescriberFirstName(StringEscapeUtils.escapeJson(rs.getString("prescriber_First_Name")));
+			ncpdpMessageModel.setPrescriberMidName(StringEscapeUtils.escapeJson(rs.getString("prescriber_Mid_Name")));
+			ncpdpMessageModel.setPrescriberLastName(StringEscapeUtils.escapeJson(rs.getString("prescriber_Last_Name")));
+			ncpdpMessageModel.setPrescriberAddr1(StringEscapeUtils.escapeJson(rs.getString("prescriber_addr_1")));
+			ncpdpMessageModel.setPrescriberAddr2(StringEscapeUtils.escapeJson(rs.getString("prescriber_addr_2")));
+			ncpdpMessageModel.setPrescriberNPI(StringEscapeUtils.escapeJson(rs.getString("prescriber_NPI")));
+			ncpdpMessageModel.setPrescriberDEA(StringEscapeUtils.escapeJson(rs.getString("prescriber_DEA")));
+			ncpdpMessageModel.setPrescriberStateLic(StringEscapeUtils.escapeJson(rs.getString("prescriber_State_Lic")));
+			ncpdpMessageModel.setPrescriberPhone(StringEscapeUtils.escapeJson(rs.getString("prescriber_phone")));
+			ncpdpMessageModel.setPrescriberFax(StringEscapeUtils.escapeJson(rs.getString("prescriber_fax")));
+			ncpdpMessageModel.setPrescriberAgent(StringEscapeUtils.escapeJson(rs.getString("prescriber_Agent")));
+			ncpdpMessageModel.setPatientFirstName(StringEscapeUtils.escapeJson(rs.getString("patient_First_Name")));
+			ncpdpMessageModel.setPatientMidName(StringEscapeUtils.escapeJson(rs.getString("patient_Mid_Name")));
+			ncpdpMessageModel.setPatientLastName(StringEscapeUtils.escapeJson(rs.getString("patient_Last_Name")));
+			ncpdpMessageModel.setPatientAddr1(StringEscapeUtils.escapeJson(rs.getString("patient_addr_1")));
+			ncpdpMessageModel.setPatientAddr2(StringEscapeUtils.escapeJson(rs.getString("patient_addr_2")));
+			ncpdpMessageModel.setPatientDob(StringEscapeUtils.escapeJson(rs.getString("patient_dob")));
+			ncpdpMessageModel.setPatientSocSn(StringEscapeUtils.escapeJson(rs.getString("patient_ssn")));
+			ncpdpMessageModel.setPatientGender(StringEscapeUtils.escapeJson(rs.getString("patient_gender")));
+			ncpdpMessageModel.setRxDrugPrescribed(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Prescribed")));
+			ncpdpMessageModel.setRxQuantity(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity")));
+			ncpdpMessageModel.setRxDaysSupply(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply")));
+			ncpdpMessageModel.setRxDateWritten(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written")));
+			ncpdpMessageModel.setRxPotencyUnitCode(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code")));
+			ncpdpMessageModel.setRxDrugForm(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form")));
+			ncpdpMessageModel.setRxDrugStrength(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength")));
+			ncpdpMessageModel.setRxRefills(StringEscapeUtils.escapeJson(rs.getString("rx_Refills")));
+			ncpdpMessageModel.setRxSig(StringEscapeUtils.escapeJson(rs.getString("rx_Sig")));
+			ncpdpMessageModel.setRxDispenseNotes(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes")));
+			ncpdpMessageModel.setRxComments(StringEscapeUtils.escapeJson(rs.getString("rx_Comments")));
 			//Autocheck Status
-			ncpdpMessageModel.setRxPatientCheck(rs.getString("rx_Patient_Check"));
-			ncpdpMessageModel.setRxProviderCheck(rs.getString("rx_Provider_Check"));
-			ncpdpMessageModel.setRxDrugCheck(rs.getString("rx_Drug_Check"));
+			ncpdpMessageModel.setRxPatientCheck(StringEscapeUtils.escapeJson(rs.getString("rx_Patient_Check")));
+			ncpdpMessageModel.setRxProviderCheck(StringEscapeUtils.escapeJson(rs.getString("rx_Provider_Check")));
+			ncpdpMessageModel.setRxDrugCheck(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Check")));
 			// Medication Dispensed
-			ncpdpMessageModel.setRxDrugDispensed(rs.getString("rx_Drug_Dispensed"));
-			ncpdpMessageModel.setRxDrugDispensedNdc(rs.getString("rx_Drug_Dispensed_Ndc"));
-			ncpdpMessageModel.setRxDrugDispensedQualifier(rs.getString("rx_Drug_Dispensed_Qualifier"));
-			ncpdpMessageModel.setRxQuantityDispensed(rs.getString("rx_Quantity_Dispensed"));
-			ncpdpMessageModel.setRxDaysSupplyDispensed(rs.getString("rx_Days_Supply_Dispensed"));
-			ncpdpMessageModel.setRxDateWrittenDispensed(rs.getString("rx_Date_Written_Dispensed"));
-			ncpdpMessageModel.setRxPotencyUnitCodeDispensed(rs.getString("rx_Potency_Unit_Code_Dispensed"));
-			ncpdpMessageModel.setRxDrugFormDispensed(rs.getString("rx_Drug_Form_Dispensed"));
-			ncpdpMessageModel.setRxDrugStrengthDispensed(rs.getString("rx_Drug_Strength_Dispensed"));
-			ncpdpMessageModel.setRxRefillsDispensed(rs.getString("rx_Refills_Dispensed"));
-			ncpdpMessageModel.setRxSigDispensed(rs.getString("rx_Sig_Dispensed"));
-			ncpdpMessageModel.setRxDispenseNotesDispensed(rs.getString("rx_Dispense_Notes_Dispensed"));
-			ncpdpMessageModel.setRxCommentsDispensed(rs.getString("rx_Comments_Dispensed"));
+			ncpdpMessageModel.setRxDrugDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Dispensed")));
+			ncpdpMessageModel.setRxDrugDispensedNdc(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Dispensed_Ndc")));
+			ncpdpMessageModel.setRxDrugDispensedQualifier(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Dispensed_Qualifier")));
+			ncpdpMessageModel.setRxQuantityDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Dispensed")));
+			ncpdpMessageModel.setRxDaysSupplyDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Dispensed")));
+			ncpdpMessageModel.setRxDateWrittenDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Dispensed")));
+			ncpdpMessageModel.setRxPotencyUnitCodeDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Dispensed")));
+			ncpdpMessageModel.setRxDrugFormDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Dispensed")));
+			ncpdpMessageModel.setRxDrugStrengthDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Dispensed")));
+			ncpdpMessageModel.setRxRefillsDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Dispensed")));
+			ncpdpMessageModel.setRxSigDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Dispensed")));
+			ncpdpMessageModel.setRxDispenseNotesDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Dispensed")));
+			ncpdpMessageModel.setRxCommentsDispensed(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Dispensed")));
 			
-			ncpdpMessageModel.setPlanId(rs.getString("plan_id"));
-			ncpdpMessageModel.setRxGrp(rs.getString("rx_Grp"));
-			ncpdpMessageModel.setRxBinNum(rs.getString("rx_Bin_Num"));
-			ncpdpMessageModel.setRxPcn(rs.getString("rx_Pcn"));
-			ncpdpMessageModel.setReqRefno(rs.getString("req_refno"));
-			ncpdpMessageModel.setResType(rs.getString("res_type"));
-			ncpdpMessageModel.setResAprvReasonCd(rs.getString("res_aprv_reason_cd")); 
-			ncpdpMessageModel.setResAprvRefno(rs.getString("res_aprv_refno")); 
-			ncpdpMessageModel.setResAprvNote(rs.getString("res_aprv_note")); 
-			ncpdpMessageModel.setResAprvWthChngReasonCd(rs.getString("res_aprv_w_chng_reason_cd")); 
-			ncpdpMessageModel.setResAprvWthChngRefno(rs.getString("res_aprv_w_chng_refno")); 
-			ncpdpMessageModel.setResAprvWthChngNote(rs.getString("res_aprv_w_chng_note"));
-			ncpdpMessageModel.setResDenialReasonCd(rs.getString("res_denial_reason_cd")); 
-			ncpdpMessageModel.setResDenialRefno(rs.getString("res_denial_refno"));
-			ncpdpMessageModel.setResDenialReason(rs.getString("res_denial_reason")); 
-			ncpdpMessageModel.setResDenialNrxReasonCd(rs.getString("res_denial_nrx_reason_cd")); 
-			ncpdpMessageModel.setResDenialNrxRefno(rs.getString("res_denial_nrx_refno")); 
-			ncpdpMessageModel.setResDenialNrxReason(rs.getString("res_denial_nrx_reason")); 	
-			ncpdpMessageModel.setEsvDescriptionCode(rs.getString("esv_description_code")); 
-			ncpdpMessageModel.setEsvCode(rs.getString("esv_code")); 
-			ncpdpMessageModel.setEsvDescription(rs.getString("esv_description")); 
-			ncpdpMessageModel.setClinicId(rs.getString("clinic_id"));
+			ncpdpMessageModel.setPlanId(StringEscapeUtils.escapeJson(rs.getString("plan_id")));
+			ncpdpMessageModel.setRxGrp(StringEscapeUtils.escapeJson(rs.getString("rx_Grp")));
+			ncpdpMessageModel.setRxBinNum(StringEscapeUtils.escapeJson(rs.getString("rx_Bin_Num")));
+			ncpdpMessageModel.setRxPcn(StringEscapeUtils.escapeJson(rs.getString("rx_Pcn")));
+			ncpdpMessageModel.setReqRefno(StringEscapeUtils.escapeJson(rs.getString("req_refno")));
+			ncpdpMessageModel.setResType(StringEscapeUtils.escapeJson(rs.getString("res_type")));
+			ncpdpMessageModel.setResAprvReasonCd(StringEscapeUtils.escapeJson(rs.getString("res_aprv_reason_cd"))); 
+			ncpdpMessageModel.setResAprvRefno(StringEscapeUtils.escapeJson(rs.getString("res_aprv_refno"))); 
+			ncpdpMessageModel.setResAprvNote(StringEscapeUtils.escapeJson(rs.getString("res_aprv_note"))); 
+			ncpdpMessageModel.setResAprvWthChngReasonCd(StringEscapeUtils.escapeJson(rs.getString("res_aprv_w_chng_reason_cd"))); 
+			ncpdpMessageModel.setResAprvWthChngRefno(StringEscapeUtils.escapeJson(rs.getString("res_aprv_w_chng_refno"))); 
+			ncpdpMessageModel.setResAprvWthChngNote(StringEscapeUtils.escapeJson(rs.getString("res_aprv_w_chng_note")));
+			ncpdpMessageModel.setResDenialReasonCd(StringEscapeUtils.escapeJson(rs.getString("res_denial_reason_cd"))); 
+			ncpdpMessageModel.setResDenialRefno(StringEscapeUtils.escapeJson(rs.getString("res_denial_refno")));
+			ncpdpMessageModel.setResDenialReason(StringEscapeUtils.escapeJson(rs.getString("res_denial_reason"))); 
+			ncpdpMessageModel.setResDenialNrxReasonCd(StringEscapeUtils.escapeJson(rs.getString("res_denial_nrx_reason_cd"))); 
+			ncpdpMessageModel.setResDenialNrxRefno(StringEscapeUtils.escapeJson(rs.getString("res_denial_nrx_refno"))); 
+			ncpdpMessageModel.setResDenialNrxReason(StringEscapeUtils.escapeJson(rs.getString("res_denial_nrx_reason"))); 	
+			ncpdpMessageModel.setEsvDescriptionCode(StringEscapeUtils.escapeJson(rs.getString("esv_description_code"))); 
+			ncpdpMessageModel.setEsvCode(StringEscapeUtils.escapeJson(rs.getString("esv_code"))); 
+			ncpdpMessageModel.setEsvDescription(StringEscapeUtils.escapeJson(rs.getString("esv_description"))); 
+			ncpdpMessageModel.setClinicId(StringEscapeUtils.escapeJson(rs.getString("clinic_id")));
 			
-			ncpdpMessageModel.setRxReferenceNumber(rs.getString("rx_reference_number")); 
-			ncpdpMessageModel.setPrescriberOrderNumber(rs.getString("prescriber_order_number"));
-			ncpdpMessageModel.setRxDrugPrescribedNdc(rs.getString("rx_Drug_Prescribed_Ndc"));
-			ncpdpMessageModel.setRxDrugPrescribedQualifier(rs.getString("rx_Drug_Prescribed_Qualifier"));
-			ncpdpMessageModel.setChangeofPrescrStatFlg(rs.getString("changeof_Prescr_Stat_Flg"));
+			ncpdpMessageModel.setRxReferenceNumber(StringEscapeUtils.escapeJson(rs.getString("rx_reference_number"))); 
+			ncpdpMessageModel.setPrescriberOrderNumber(StringEscapeUtils.escapeJson(rs.getString("prescriber_order_number")));
+			ncpdpMessageModel.setRxDrugPrescribedNdc(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Prescribed_Ndc")));
+			ncpdpMessageModel.setRxDrugPrescribedQualifier(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Prescribed_Qualifier")));
+			ncpdpMessageModel.setChangeofPrescrStatFlg(StringEscapeUtils.escapeJson(rs.getString("changeof_Prescr_Stat_Flg")));
 			
 			//RxFill
-			ncpdpMessageModel.setRxFillStatus(rs.getString("rx_fill_status")); 
-			ncpdpMessageModel.setRxFillRefNum(rs.getString("rx_fill_ref_num"));
-			ncpdpMessageModel.setRxFillNote(rs.getString("rx_fill_note"));
-			ncpdpMessageModel.setRxFillReasonCd(rs.getString("rx_fill_reason_cd"));
+			ncpdpMessageModel.setRxFillStatus(StringEscapeUtils.escapeJson(rs.getString("rx_fill_status"))); 
+			ncpdpMessageModel.setRxFillRefNum(StringEscapeUtils.escapeJson(rs.getString("rx_fill_ref_num")));
+			ncpdpMessageModel.setRxFillNote(StringEscapeUtils.escapeJson(rs.getString("rx_fill_note")));
+			ncpdpMessageModel.setRxFillReasonCd(StringEscapeUtils.escapeJson(rs.getString("rx_fill_reason_cd")));
 			
 			//RXCHANGEREQUEST
-			ncpdpMessageModel.setChangeRequestType(rs.getString("change_request_type")); 
-			ncpdpMessageModel.setRequestReferenceNumber(rs.getString("request_reference_number"));
+			ncpdpMessageModel.setChangeRequestType(StringEscapeUtils.escapeJson(rs.getString("change_request_type"))); 
+			ncpdpMessageModel.setRequestReferenceNumber(StringEscapeUtils.escapeJson(rs.getString("request_reference_number")));
 			
 			// Medication Requested
-			ncpdpMessageModel.setRxDrugRequested(rs.getString("rx_Drug_Requested"));
-			ncpdpMessageModel.setRxDrugRequestedNdc(rs.getString("rx_Drug_Requested_Ndc"));
-			ncpdpMessageModel.setRxQuantityRequested(rs.getString("rx_Quantity_Requested"));
-			ncpdpMessageModel.setRxDaysSupplyRequested(rs.getString("rx_Days_Supply_Requested"));
-			ncpdpMessageModel.setRxDateWrittenRequested(rs.getString("rx_Date_Written_Requested"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested(rs.getString("rx_Potency_Unit_Code_Req"));
-			ncpdpMessageModel.setRxDrugFormRequested(rs.getString("rx_Drug_Form_Requested"));
-			ncpdpMessageModel.setRxDrugStrengthRequested(rs.getString("rx_Drug_Strength_Requested"));
-			ncpdpMessageModel.setRxRefillsRequested(rs.getString("rx_Refills_Requested"));
-			ncpdpMessageModel.setRxSigRequested(rs.getString("rx_Sig_Requested"));
-			ncpdpMessageModel.setRxDispenseNotesRequested(rs.getString("rx_Dispense_Notes_Requested"));
-			ncpdpMessageModel.setRxCommentsRequested(rs.getString("rx_Comments_Requested"));
+			ncpdpMessageModel.setRxDrugRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested")));
+			ncpdpMessageModel.setRxDrugRequestedNdc(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc")));
+			ncpdpMessageModel.setRxQuantityRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested")));
+			ncpdpMessageModel.setRxDaysSupplyRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested")));
+			ncpdpMessageModel.setRxDateWrittenRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req")));
+			ncpdpMessageModel.setRxDrugFormRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested")));
+			ncpdpMessageModel.setRxDrugStrengthRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested")));
+			ncpdpMessageModel.setRxRefillsRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested")));
+			ncpdpMessageModel.setRxSigRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested")));
+			ncpdpMessageModel.setRxDispenseNotesRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested")));
+			ncpdpMessageModel.setRxCommentsRequested(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested")));
 			
 			//2
-			ncpdpMessageModel.setRxDrugRequested2(rs.getString("rx_Drug_Requested2"));
-			ncpdpMessageModel.setRxDrugRequestedNdc2(rs.getString("rx_Drug_Requested_Ndc2"));
-			ncpdpMessageModel.setRxQuantityRequested2(rs.getString("rx_Quantity_Requested2"));
-			ncpdpMessageModel.setRxDaysSupplyRequested2(rs.getString("rx_Days_Supply_Requested2"));
-			ncpdpMessageModel.setRxDateWrittenRequested2(rs.getString("rx_Date_Written_Requested2"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested2(rs.getString("rx_Potency_Unit_Code_Req2"));
-			ncpdpMessageModel.setRxDrugFormRequested2(rs.getString("rx_Drug_Form_Requested2"));
-			ncpdpMessageModel.setRxDrugStrengthRequested2(rs.getString("rx_Drug_Strength_Requested2"));
-			ncpdpMessageModel.setRxRefillsRequested2(rs.getString("rx_Refills_Requested2"));
-			ncpdpMessageModel.setRxSigRequested2(rs.getString("rx_Sig_Requested2"));
-			ncpdpMessageModel.setRxDispenseNotesRequested2(rs.getString("rx_Dispense_Notes_Requested2"));
-			ncpdpMessageModel.setRxCommentsRequested2(rs.getString("rx_Comments_Requested2"));
+			ncpdpMessageModel.setRxDrugRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested2")));
+			ncpdpMessageModel.setRxDrugRequestedNdc2(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc2")));
+			ncpdpMessageModel.setRxQuantityRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested2")));
+			ncpdpMessageModel.setRxDaysSupplyRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested2")));
+			ncpdpMessageModel.setRxDateWrittenRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested2")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req2")));
+			ncpdpMessageModel.setRxDrugFormRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested2")));
+			ncpdpMessageModel.setRxDrugStrengthRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested2")));
+			ncpdpMessageModel.setRxRefillsRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested2")));
+			ncpdpMessageModel.setRxSigRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested2")));
+			ncpdpMessageModel.setRxDispenseNotesRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested2")));
+			ncpdpMessageModel.setRxCommentsRequested2(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested2")));
 			//3
-			ncpdpMessageModel.setRxDrugRequested3(rs.getString("rx_Drug_Requested3"));
-			ncpdpMessageModel.setRxDrugRequestedNdc3(rs.getString("rx_Drug_Requested_Ndc3"));
-			ncpdpMessageModel.setRxQuantityRequested3(rs.getString("rx_Quantity_Requested3"));
-			ncpdpMessageModel.setRxDaysSupplyRequested3(rs.getString("rx_Days_Supply_Requested3"));
-			ncpdpMessageModel.setRxDateWrittenRequested3(rs.getString("rx_Date_Written_Requested3"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested3(rs.getString("rx_Potency_Unit_Code_Req3"));
-			ncpdpMessageModel.setRxDrugFormRequested3(rs.getString("rx_Drug_Form_Requested3"));
-			ncpdpMessageModel.setRxDrugStrengthRequested3(rs.getString("rx_Drug_Strength_Requested3"));
-			ncpdpMessageModel.setRxRefillsRequested3(rs.getString("rx_Refills_Requested3"));
-			ncpdpMessageModel.setRxSigRequested3(rs.getString("rx_Sig_Requested3"));
-			ncpdpMessageModel.setRxDispenseNotesRequested3(rs.getString("rx_Dispense_Notes_Requested3"));
-			ncpdpMessageModel.setRxCommentsRequested3(rs.getString("rx_Comments_Requested3"));
+			ncpdpMessageModel.setRxDrugRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested3")));
+			ncpdpMessageModel.setRxDrugRequestedNdc3(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc3")));
+			ncpdpMessageModel.setRxQuantityRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested3")));
+			ncpdpMessageModel.setRxDaysSupplyRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested3")));
+			ncpdpMessageModel.setRxDateWrittenRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested3")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req3")));
+			ncpdpMessageModel.setRxDrugFormRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested3")));
+			ncpdpMessageModel.setRxDrugStrengthRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested3")));
+			ncpdpMessageModel.setRxRefillsRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested3")));
+			ncpdpMessageModel.setRxSigRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested3")));
+			ncpdpMessageModel.setRxDispenseNotesRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested3")));
+			ncpdpMessageModel.setRxCommentsRequested3(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested3")));
 			//4
-			ncpdpMessageModel.setRxDrugRequested4(rs.getString("rx_Drug_Requested4"));
-			ncpdpMessageModel.setRxDrugRequestedNdc4(rs.getString("rx_Drug_Requested_Ndc4"));
-			ncpdpMessageModel.setRxQuantityRequested4(rs.getString("rx_Quantity_Requested4"));
-			ncpdpMessageModel.setRxDaysSupplyRequested4(rs.getString("rx_Days_Supply_Requested4"));
-			ncpdpMessageModel.setRxDateWrittenRequested4(rs.getString("rx_Date_Written_Requested4"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested4(rs.getString("rx_Potency_Unit_Code_Req4"));
-			ncpdpMessageModel.setRxDrugFormRequested4(rs.getString("rx_Drug_Form_Requested4"));
-			ncpdpMessageModel.setRxDrugStrengthRequested4(rs.getString("rx_Drug_Strength_Requested4"));
-			ncpdpMessageModel.setRxRefillsRequested4(rs.getString("rx_Refills_Requested4"));
-			ncpdpMessageModel.setRxSigRequested4(rs.getString("rx_Sig_Requested4"));
-			ncpdpMessageModel.setRxDispenseNotesRequested4(rs.getString("rx_Dispense_Notes_Requested4"));
-			ncpdpMessageModel.setRxCommentsRequested4(rs.getString("rx_Comments_Requested4"));
+			ncpdpMessageModel.setRxDrugRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested4")));
+			ncpdpMessageModel.setRxDrugRequestedNdc4(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc4")));
+			ncpdpMessageModel.setRxQuantityRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested4")));
+			ncpdpMessageModel.setRxDaysSupplyRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested4")));
+			ncpdpMessageModel.setRxDateWrittenRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested4")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req4")));
+			ncpdpMessageModel.setRxDrugFormRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested4")));
+			ncpdpMessageModel.setRxDrugStrengthRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested4")));
+			ncpdpMessageModel.setRxRefillsRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested4")));
+			ncpdpMessageModel.setRxSigRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested4")));
+			ncpdpMessageModel.setRxDispenseNotesRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested4")));
+			ncpdpMessageModel.setRxCommentsRequested4(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested4")));
 			//5
-			ncpdpMessageModel.setRxDrugRequested5(rs.getString("rx_Drug_Requested5"));
-			ncpdpMessageModel.setRxDrugRequestedNdc5(rs.getString("rx_Drug_Requested_Ndc5"));
-			ncpdpMessageModel.setRxQuantityRequested5(rs.getString("rx_Quantity_Requested5"));
-			ncpdpMessageModel.setRxDaysSupplyRequested5(rs.getString("rx_Days_Supply_Requested5"));
-			ncpdpMessageModel.setRxDateWrittenRequested5(rs.getString("rx_Date_Written_Requested5"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested5(rs.getString("rx_Potency_Unit_Code_Req5"));
-			ncpdpMessageModel.setRxDrugFormRequested5(rs.getString("rx_Drug_Form_Requested5"));
-			ncpdpMessageModel.setRxDrugStrengthRequested5(rs.getString("rx_Drug_Strength_Requested5"));
-			ncpdpMessageModel.setRxRefillsRequested5(rs.getString("rx_Refills_Requested5"));
-			ncpdpMessageModel.setRxSigRequested5(rs.getString("rx_Sig_Requested5"));
-			ncpdpMessageModel.setRxDispenseNotesRequested5(rs.getString("rx_Dispense_Notes_Requested5"));
-			ncpdpMessageModel.setRxCommentsRequested5(rs.getString("rx_Comments_Requested5"));
+			ncpdpMessageModel.setRxDrugRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested5")));
+			ncpdpMessageModel.setRxDrugRequestedNdc5(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc5")));
+			ncpdpMessageModel.setRxQuantityRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested5")));
+			ncpdpMessageModel.setRxDaysSupplyRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested5")));
+			ncpdpMessageModel.setRxDateWrittenRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested5")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req5")));
+			ncpdpMessageModel.setRxDrugFormRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested5")));
+			ncpdpMessageModel.setRxDrugStrengthRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested5")));
+			ncpdpMessageModel.setRxRefillsRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested5")));
+			ncpdpMessageModel.setRxSigRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested5")));
+			ncpdpMessageModel.setRxDispenseNotesRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested5")));
+			ncpdpMessageModel.setRxCommentsRequested5(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested5")));
 			//6
-			ncpdpMessageModel.setRxDrugRequested6(rs.getString("rx_Drug_Requested6"));
-			ncpdpMessageModel.setRxDrugRequestedNdc6(rs.getString("rx_Drug_Requested_Ndc6"));
-			ncpdpMessageModel.setRxQuantityRequested6(rs.getString("rx_Quantity_Requested6"));
-			ncpdpMessageModel.setRxDaysSupplyRequested6(rs.getString("rx_Days_Supply_Requested6"));
-			ncpdpMessageModel.setRxDateWrittenRequested6(rs.getString("rx_Date_Written_Requested6"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested6(rs.getString("rx_Potency_Unit_Code_Req6"));
-			ncpdpMessageModel.setRxDrugFormRequested6(rs.getString("rx_Drug_Form_Requested6"));
-			ncpdpMessageModel.setRxDrugStrengthRequested6(rs.getString("rx_Drug_Strength_Requested6"));
-			ncpdpMessageModel.setRxRefillsRequested6(rs.getString("rx_Refills_Requested6"));
-			ncpdpMessageModel.setRxSigRequested6(rs.getString("rx_Sig_Requested6"));
-			ncpdpMessageModel.setRxDispenseNotesRequested6(rs.getString("rx_Dispense_Notes_Requested6"));
-			ncpdpMessageModel.setRxCommentsRequested6(rs.getString("rx_Comments_Requested6"));
+			ncpdpMessageModel.setRxDrugRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested6")));
+			ncpdpMessageModel.setRxDrugRequestedNdc6(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc6")));
+			ncpdpMessageModel.setRxQuantityRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested6")));
+			ncpdpMessageModel.setRxDaysSupplyRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested6")));
+			ncpdpMessageModel.setRxDateWrittenRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested6")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req6")));
+			ncpdpMessageModel.setRxDrugFormRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested6")));
+			ncpdpMessageModel.setRxDrugStrengthRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested6")));
+			ncpdpMessageModel.setRxRefillsRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested6")));
+			ncpdpMessageModel.setRxSigRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested6")));
+			ncpdpMessageModel.setRxDispenseNotesRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested6")));
+			ncpdpMessageModel.setRxCommentsRequested6(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested6")));
 			//7
-			ncpdpMessageModel.setRxDrugRequested7(rs.getString("rx_Drug_Requested7"));
-			ncpdpMessageModel.setRxDrugRequestedNdc7(rs.getString("rx_Drug_Requested_Ndc7"));
-			ncpdpMessageModel.setRxQuantityRequested7(rs.getString("rx_Quantity_Requested7"));
-			ncpdpMessageModel.setRxDaysSupplyRequested7(rs.getString("rx_Days_Supply_Requested7"));
-			ncpdpMessageModel.setRxDateWrittenRequested7(rs.getString("rx_Date_Written_Requested7"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested7(rs.getString("rx_Potency_Unit_Code_Req7"));
-			ncpdpMessageModel.setRxDrugFormRequested7(rs.getString("rx_Drug_Form_Requested7"));
-			ncpdpMessageModel.setRxDrugStrengthRequested7(rs.getString("rx_Drug_Strength_Requested7"));
-			ncpdpMessageModel.setRxRefillsRequested7(rs.getString("rx_Refills_Requested7"));
-			ncpdpMessageModel.setRxSigRequested7(rs.getString("rx_Sig_Requested7"));
-			ncpdpMessageModel.setRxDispenseNotesRequested7(rs.getString("rx_Dispense_Notes_Requested7"));
-			ncpdpMessageModel.setRxCommentsRequested7(rs.getString("rx_Comments_Requested7"));
+			ncpdpMessageModel.setRxDrugRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested7")));
+			ncpdpMessageModel.setRxDrugRequestedNdc7(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc7")));
+			ncpdpMessageModel.setRxQuantityRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested7")));
+			ncpdpMessageModel.setRxDaysSupplyRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested7")));
+			ncpdpMessageModel.setRxDateWrittenRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested7")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req7")));
+			ncpdpMessageModel.setRxDrugFormRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested7")));
+			ncpdpMessageModel.setRxDrugStrengthRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested7")));
+			ncpdpMessageModel.setRxRefillsRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested7")));
+			ncpdpMessageModel.setRxSigRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested7")));
+			ncpdpMessageModel.setRxDispenseNotesRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested7")));
+			ncpdpMessageModel.setRxCommentsRequested7(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested7")));
 			//8
-			ncpdpMessageModel.setRxDrugRequested8(rs.getString("rx_Drug_Requested8"));
-			ncpdpMessageModel.setRxDrugRequestedNdc8(rs.getString("rx_Drug_Requested_Ndc8"));
-			ncpdpMessageModel.setRxQuantityRequested8(rs.getString("rx_Quantity_Requested8"));
-			ncpdpMessageModel.setRxDaysSupplyRequested8(rs.getString("rx_Days_Supply_Requested8"));
-			ncpdpMessageModel.setRxDateWrittenRequested8(rs.getString("rx_Date_Written_Requested8"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested8(rs.getString("rx_Potency_Unit_Code_Req8"));
-			ncpdpMessageModel.setRxDrugFormRequested8(rs.getString("rx_Drug_Form_Requested8"));
-			ncpdpMessageModel.setRxDrugStrengthRequested8(rs.getString("rx_Drug_Strength_Requested8"));
-			ncpdpMessageModel.setRxRefillsRequested8(rs.getString("rx_Refills_Requested8"));
-			ncpdpMessageModel.setRxSigRequested8(rs.getString("rx_Sig_Requested8"));
-			ncpdpMessageModel.setRxDispenseNotesRequested8(rs.getString("rx_Dispense_Notes_Requested8"));
-			ncpdpMessageModel.setRxCommentsRequested8(rs.getString("rx_Comments_Requested8"));
+			ncpdpMessageModel.setRxDrugRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested8")));
+			ncpdpMessageModel.setRxDrugRequestedNdc8(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc8")));
+			ncpdpMessageModel.setRxQuantityRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested8")));
+			ncpdpMessageModel.setRxDaysSupplyRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested8")));
+			ncpdpMessageModel.setRxDateWrittenRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested8")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req8")));
+			ncpdpMessageModel.setRxDrugFormRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested8")));
+			ncpdpMessageModel.setRxDrugStrengthRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested8")));
+			ncpdpMessageModel.setRxRefillsRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested8")));
+			ncpdpMessageModel.setRxSigRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested8")));
+			ncpdpMessageModel.setRxDispenseNotesRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested8")));
+			ncpdpMessageModel.setRxCommentsRequested8(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested8")));
 			//9
-			ncpdpMessageModel.setRxDrugRequested9(rs.getString("rx_Drug_Requested9"));
-			ncpdpMessageModel.setRxDrugRequestedNdc9(rs.getString("rx_Drug_Requested_Ndc9"));
-			ncpdpMessageModel.setRxQuantityRequested9(rs.getString("rx_Quantity_Requested9"));
-			ncpdpMessageModel.setRxDaysSupplyRequested9(rs.getString("rx_Days_Supply_Requested9"));
-			ncpdpMessageModel.setRxDateWrittenRequested9(rs.getString("rx_Date_Written_Requested9"));
-			ncpdpMessageModel.setRxPotencyUnitCodeRequested9(rs.getString("rx_Potency_Unit_Code_Req9"));
-			ncpdpMessageModel.setRxDrugFormRequested9(rs.getString("rx_Drug_Form_Requested9"));
-			ncpdpMessageModel.setRxDrugStrengthRequested9(rs.getString("rx_Drug_Strength_Requested9"));
-			ncpdpMessageModel.setRxRefillsRequested9(rs.getString("rx_Refills_Requested9"));
-			ncpdpMessageModel.setRxSigRequested9(rs.getString("rx_Sig_Requested9"));
-			ncpdpMessageModel.setRxDispenseNotesRequested9(rs.getString("rx_Dispense_Notes_Requested9"));
-			ncpdpMessageModel.setRxCommentsRequested9(rs.getString("rx_Comments_Requested9"));
+			ncpdpMessageModel.setRxDrugRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested9")));
+			ncpdpMessageModel.setRxDrugRequestedNdc9(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Requested_Ndc9")));
+			ncpdpMessageModel.setRxQuantityRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Quantity_Requested9")));
+			ncpdpMessageModel.setRxDaysSupplyRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Days_Supply_Requested9")));
+			ncpdpMessageModel.setRxDateWrittenRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Date_Written_Requested9")));
+			ncpdpMessageModel.setRxPotencyUnitCodeRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Potency_Unit_Code_Req9")));
+			ncpdpMessageModel.setRxDrugFormRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Form_Requested9")));
+			ncpdpMessageModel.setRxDrugStrengthRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Drug_Strength_Requested9")));
+			ncpdpMessageModel.setRxRefillsRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Refills_Requested9")));
+			ncpdpMessageModel.setRxSigRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Sig_Requested9")));
+			ncpdpMessageModel.setRxDispenseNotesRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Dispense_Notes_Requested9")));
+			ncpdpMessageModel.setRxCommentsRequested9(StringEscapeUtils.escapeJson(rs.getString("rx_Comments_Requested9")));
     		return ncpdpMessageModel;
 		}
 	}
 	
 	@Override
-	public NcpdpMessageModel findById(String id, String inboundOutbound, String relatedMsgSearch) {
+	public NcpdpMessageModel findById(String id, String inboundOutbound, String relatedMsgSearch) {		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql = "";
 		boolean relatedMsg = false;
@@ -1200,6 +1198,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			String fromDate, String toDate, String patientSsn, String patientLastName, String patientFirstName, String patientDob, String prescriberNpi,
 			String prescriberLastName, String prescriberFirstName, String prescriberDEA,  String prescribedDrug, String messageStatus, String inboundNcpdpMsgId, String inboundOutbound, boolean mbmAllowed) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		
 		String sql = "";
 		if (inboundOutbound.equalsIgnoreCase("Inbound")) {	
         sql = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
@@ -1381,7 +1381,6 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			//System.out.println("data error is:" + e.getMessage());
 			LOG.info("Exception retrieving NCPDP message details." + e.getMessage());
 		}
-        
 		return ncpdpMsgList;
 
 	}
@@ -1569,7 +1568,6 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			
 			LOG.info("Exception retrieving related message details." + e.getMessage());
 		}
-        
 		return ncpdpMsgList;
 		
 	}

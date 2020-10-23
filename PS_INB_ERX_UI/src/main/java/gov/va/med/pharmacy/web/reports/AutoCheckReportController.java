@@ -31,6 +31,7 @@ import gov.va.med.pharmacy.web.csv.CSVSupportBean;
 import gov.va.med.pharmacy.web.csv.CSVView;
 import net.rossillo.spring.web.mvc.CacheControl;
 import net.rossillo.spring.web.mvc.CachePolicy;
+import org.apache.commons.text.StringEscapeUtils;
 
 @CacheControl
 @Controller
@@ -71,6 +72,15 @@ public class AutoCheckReportController {
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
 		autoCheckReportVwList.addAll(autoCheckReportService.find(summaryReportFilter));
+		for(AutoCheckReportVw  autoCheckReportVw: autoCheckReportVwList)
+		{
+			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
+			//before being used down the lines.
+			autoCheckReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyAddress()));
+			autoCheckReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyDivisionName()));
+			autoCheckReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyNcpdpId()));
+			autoCheckReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyVaStationId()));
+		}
 		return autoCheckReportVwList;
 	}
 
@@ -98,6 +108,12 @@ public class AutoCheckReportController {
 		
 		stationIdSelectModelList.add(stationIdSelectModel);
 
+		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
+		{
+			//Fortify sanitizing the Id and label before being used down the lines.
+			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
+			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
+		}
 		return stationIdSelectModelList;
 	}
 

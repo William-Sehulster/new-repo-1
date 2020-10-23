@@ -1,10 +1,7 @@
 package gov.va.med.pharmacy.persistence.dao.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -70,9 +67,10 @@ public class PharmacyDaoImpl extends BaseDao<Integer, PharmacyEntity> implements
         		.add(Projections.property("storeName"),"storeName")        		
         		.add(Projections.property("pharmacyPhoneNumber"),"pharmacyPhoneNumber")
         		.add(Projections.property("inboundErxEnabled"),"inboundErxEnabled")
+        		.add(Projections.property("pharmacyId"),"pharmacyId")
         		);
         
-        // omit pharmacy with zero id.        
+        // omit pharmacy with zero id.   
         criteria.add(Restrictions.ne("pharmacyId", new Long(0)));
         
         criteria.setResultTransformer(new AliasToBeanResultTransformer(PharmacyEntity.class));
@@ -321,9 +319,10 @@ public class PharmacyDaoImpl extends BaseDao<Integer, PharmacyEntity> implements
         		.add(Projections.property("storeName"),"storeName")        		
         		.add(Projections.property("pharmacyPhoneNumber"),"pharmacyPhoneNumber")
         		.add(Projections.property("inboundErxEnabled"),"inboundErxEnabled")
+        		.add(Projections.property("pharmacyId"),"pharmacyId")
         		);
-        
-        // omit pharmacy with zero id.        
+           
+        // omit pharmacy with zero id.   
         criteria.add(Restrictions.ne("pharmacyId", new Long(0)));
         
         criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);

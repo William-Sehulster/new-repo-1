@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.apache.commons.text.StringEscapeUtils; 
 
 import gov.va.med.pharmacy.persistence.BaseDao;
 import gov.va.med.pharmacy.persistence.dao.SummaryReportDao;
@@ -113,13 +114,12 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 		//System.out.print("DateFrom: " + summaryReportFilter.getDateFrom()
 		//+ " DateTo: " + summaryReportFilter.getDateTo() + "VISN: " + summaryReportFilter.getVisn()
 		//+ "Station ID: " + summaryReportFilter.getStationId());
-		
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("pharmacyDivisionName"));
 
 		criteria.add(Restrictions.ge("newRxMessageDate", getFormattedFromDateTime(summaryReportFilter.getDateFrom())));
 		criteria.add(Restrictions.le("newRxMessageDate", getFormattedToDateTime(summaryReportFilter.getDateTo())));
 
-		if (summaryReportFilter.getVisn().length() > 0){ //check for All value
+		if (summaryReportFilter.getVisn() != null && summaryReportFilter.getVisn().length() > 0){ //check for All value
 			criteria.add(Restrictions.eq("visn", summaryReportFilter.getVisn()));
 		}
 		if (summaryReportFilter.getStationId() != null){
@@ -142,12 +142,20 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 				.add(Projections.sum("newRxFilled").as("newRxFilled"))
 				.add(Projections.sum("newRxInProcess").as("newRxInProcess")));
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-		
+		//criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(SummaryReportVw.class));
 		List<SummaryReportVw> summaryReportRows = (List<SummaryReportVw>) criteria.list();
-		
-		
-		
+		for(SummaryReportVw  summaryReportRow: summaryReportRows)
+		{
+			//Fortify sanitizing the visn, PharmacyNcpdpId, PharmacyAddress, PharmacyVaStationId and PharmacyDivisionName
+			//before being used down the lines.
+			summaryReportRow.setVisn(StringEscapeUtils.escapeJson( summaryReportRow.getVisn()));
+			summaryReportRow.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyNcpdpId()));
+			summaryReportRow.setPharmacyAddress(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyAddress()));
+			summaryReportRow.setPharmacyVaStationId(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyVaStationId()));	
+			summaryReportRow.setPharmacyDivisionName(StringEscapeUtils.escapeJson(summaryReportRow.getPharmacyDivisionName()));
+		}
+
         return summaryReportRows;
 	}
 
