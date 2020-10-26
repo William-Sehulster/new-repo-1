@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -192,6 +193,7 @@ public class PharmacyManagementController {
 		return view;
 		
 	}
+	
 	
 	@RequestMapping(value = "/updatePharmacy",  method = RequestMethod.POST)	
 	public ModelAndView updatePharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyEditForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
@@ -508,6 +510,7 @@ public class PharmacyManagementController {
 		return view;
 		
 	}
+	
 	
 	@RequestMapping(value = "/addNewPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView addNewPharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyAddForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {

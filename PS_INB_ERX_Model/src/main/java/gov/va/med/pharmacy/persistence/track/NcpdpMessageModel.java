@@ -1,8 +1,10 @@
 package gov.va.med.pharmacy.persistence.track;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@RequestScope
 public class NcpdpMessageModel {
 	
 	private Long inboundNcpdpMsgId;

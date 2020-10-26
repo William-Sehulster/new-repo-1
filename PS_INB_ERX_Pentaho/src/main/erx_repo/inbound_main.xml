@@ -6334,7 +6334,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/09/25 13:27:17.000</modified_date>
+    <modified_date>2020/10/26 09:23:59.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -7592,9 +7592,17 @@ CASE
      THEN '2005'
 END AS provider_chk_na,
 '${NCPDP_XSD}' ncpdp_xsd_path,
-to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1),null,nvl(x.written_date,x.written_date_time),substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1)),(to_char(SYSDATE,'YYYY-MM-DD'))),'YYYY-MM-DD') + 365 written_date_test,
-decode(x.other_med_date_qual, 'EffectiveDate', nvl(to_date(decode(substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1),null,x.other_med_date,substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1)),'YYYY-MM-DD') -
-to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1),null,nvl(x.written_date,x.written_date_time),substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1)),SYSDATE),'YYYY-MM-DD'),2),0) effective_date_test,
+CASE
+    WHEN length(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'-')-1)) > 4
+        THEN SYSDATE - 367
+    ELSE to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1),null,nvl(x.written_date,x.written_date_time),substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1)),(to_char(SYSDATE,'YYYY-MM-DD'))),'YYYY-MM-DD') + 365
+END AS written_date,
+CASE
+    WHEN length(substr(x.other_med_date,0,INSTR(x.other_med_date,'-')-1)) > 4
+        THEN -1
+    ELSE decode(x.other_med_date_qual, 'EffectiveDate', nvl(to_date(decode(substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1),null,x.other_med_date,substr(x.other_med_date,0,INSTR(x.other_med_date,'T')-1)),'YYYY-MM-DD') -
+        to_date(nvl(decode(substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1),null,nvl(x.written_date,x.written_date_time),substr(nvl(x.written_date,x.written_date_time),0,INSTR(nvl(x.written_date,x.written_date_time),'T')-1)),SYSDATE),'YYYY-MM-DD'),2),0)
+END AS effective_date_test,
 sysdate receive_date,
 x.rx_ref_num rx_ref_num,
 x.pon pon,
@@ -7614,8 +7622,8 @@ from inbound_ncpdp_msg t, xmltable('/Message'
 	npi1 varchar2(35) path '//Prescriber/NonVeterinarian/Identification/NPI',
     clinic_id varchar2(35) path '//Header/From',
 	written_date_time varchar2(35) path '//Body/*/*/WrittenDate/DateTime',
-	written_date varchar2(35) path '//Body/*/*/WrittenDate/Date',
-    other_med_date varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDate',
+	written_date varchar2(10) path '//Body/*/*/WrittenDate/Date',
+    other_med_date varchar2(10) path '//Body/*/*/OtherMedicationDate/OtherMedicationDate',
     other_med_date_qual varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDateQualifier',
     med_pres_drug_desc varchar2(35) path '//Body/*/MedicationPrescribed/DrugDescription',
     med_resp_drug_desc varchar2(35) path '//Body/*/MedicationResponse/DrugDescription',
@@ -8164,11 +8172,11 @@ from inbound_ncpdp_msg t, xmltable('/Message'
       <value-meta>
         <type>Timestamp</type>
         <storagetype>normal</storagetype>
-        <name>WRITTEN_DATE_TEST</name>
+        <name>WRITTEN_DATE</name>
         <length>0</length>
         <precision>-1</precision>
         <origin>Inbound eRx Messages to Process</origin>
-        <comments>WRITTEN_DATE_TEST</comments>
+        <comments>WRITTEN_DATE</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
