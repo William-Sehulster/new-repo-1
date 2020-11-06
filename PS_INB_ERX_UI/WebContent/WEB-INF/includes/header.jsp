@@ -12,14 +12,13 @@
 <div id="header">
 	
 	<div class="banner">
-		<img src="${banner}" alt="" />
+		<img src="${banner}" alt="U.S. Department of Veterans Affairs" />
 	</div>
 
 	<div class="welcome">
 		<c:if test="${ user != null }">
 			<p>
-				Welcome,&nbsp;<b>${user.username} </b> &nbsp;|&nbsp; <a
-					class="headerLinks" href="${logout}">Logout</a>
+				Welcome,&nbsp;<b>${user.username} </b> &nbsp;|&nbsp; <a	class="headerLinks" href="${logout}">Logout</a>
 			</p>
 		</c:if>
 	</div>
