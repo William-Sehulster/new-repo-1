@@ -1583,7 +1583,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"        			rx_Drug_Strength_Response varchar2(70) path '//MedicationResponse/DrugCoded/Strength/StrengthValue',   \r\n" +
 				"        			rx_Drug_Strength_Code_Resp varchar2(30) path '//MedicationResponse/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 				"        			rx_Refills_Response varchar2(2) path '//MedicationResponse/NumberOfRefills',   \r\n" +
-				"        			rx_Sig_Response varchar2(140) path '//MedicationResponse/Sig/SigText',   \r\n" +
+				"        			rx_Sig_Response varchar2(1000) path '//MedicationResponse/Sig/SigText',   \r\n" +
 				"        			rx_Dispense_Notes_Response varchar2(35) path '//MedicationResponse/Substitutions',   \r\n" +
 				"        			rx_Comments_Response varchar2(210) path '//MedicationResponse/Note', \r\n" +
         		"					other_med_date_resp varchar2(35) path '//MedicationResponse/OtherMedicationDate/OtherMedicationDate',  \r\n" +
@@ -1950,7 +1950,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"        		    rx_Drug_Strength_Dispensed varchar2(70) path '//MedicationDispensed/DrugCoded/Strength/StrengthValue',  \r\n" + 
 	        		"					rx_Drug_Strength_Code_Disp varchar2(30) path '//MedicationDispensed/DrugCoded/Strength/StrengthUnitOfMeasure/Code',  \r\n" +
 	        		"        		    rx_Refills_Dispensed varchar2(2) path '//MedicationDispensed/PharmacyRequestedRefills',  \r\n" + 
-	        		"        		    rx_Sig_Dispensed varchar2(140) path '//MedicationDispensed/Sig/SigText',  \r\n" + 
+	        		"        		    rx_Sig_Dispensed varchar2(1000) path '//MedicationDispensed/Sig/SigText',  \r\n" + 
 	        		"        		    rx_Dispense_Notes_Dispensed varchar2(35) path '//MedicationDispensed/Substitutions',  \r\n" + 
 	        		"        		    rx_Comments_Dispensed varchar2(210) path '//MedicationDispensed/Note',  \r\n" + 
 	        		
@@ -1965,7 +1965,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"        		    rx_Drug_Strength_Requested varchar2(70) path '//MedicationRequested[1]/DrugCoded/Strength/StrengthValue',  \r\n" + 
 	        		"					rx_Drug_Strength_Code_Req varchar2(30) path '//MedicationRequested[1]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',  \r\n" +
 	        		"        		    rx_Refills_Requested varchar2(2) path '//MedicationRequested[1]/NumberOfRefills',  \r\n" + 
-	        		"        		    rx_Sig_Requested varchar2(140) path '//MedicationRequested[1]/Sig/SigText',  \r\n" + 
+	        		"        		    rx_Sig_Requested varchar2(1000) path '//MedicationRequested[1]/Sig/SigText',  \r\n" + 
 	        		"        		    rx_Dispense_Notes_Requested varchar2(35) path '//MedicationRequested[1]/Substitutions',  \r\n" + 
 	        		"        		    rx_Comments_Requested varchar2(210) path '//MedicationRequested[1]/Note',  \r\n" + 
 	                 //2
@@ -1980,7 +1980,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested2 varchar2(70) path '//MedicationRequested[2]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req2 varchar2(30) path '//MedicationRequested[2]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested2 varchar2(2) path '//MedicationRequested[2]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested2 varchar2(140) path '//MedicationRequested[2]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested2 varchar2(1000) path '//MedicationRequested[2]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested2 varchar2(35) path '//MedicationRequested[2]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested2 varchar2(210) path '//MedicationRequested[2]/Note',  \r\n" +
 	                          //3
@@ -1995,7 +1995,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested3 varchar2(70) path '//MedicationRequested[3]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req3 varchar2(30) path '//MedicationRequested[3]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested3 varchar2(2) path '//MedicationRequested[3]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested3 varchar2(140) path '//MedicationRequested[3]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested3 varchar2(1000) path '//MedicationRequested[3]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested3 varchar2(35) path '//MedicationRequested[3]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested3 varchar2(210) path '//MedicationRequested[3]/Note',  \r\n" +
 	                          //4
@@ -2010,7 +2010,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested4 varchar2(70) path '//MedicationRequested[4]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req4 varchar2(30) path '//MedicationRequested[4]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested4 varchar2(2) path '//MedicationRequested[4]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested4 varchar2(140) path '//MedicationRequested[4]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested4 varchar2(1000) path '//MedicationRequested[4]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested4 varchar2(35) path '//MedicationRequested[4]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested4 varchar2(210) path '//MedicationRequested[4]/Note',  \r\n" +
 	                          //5
@@ -2025,7 +2025,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested5 varchar2(70) path '//MedicationRequested[5]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req5 varchar2(30) path '//MedicationRequested[5]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested5 varchar2(2) path '//MedicationRequested[5]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested5 varchar2(140) path '//MedicationRequested[5]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested5 varchar2(1000) path '//MedicationRequested[5]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested5 varchar2(35) path '//MedicationRequested[5]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested5 varchar2(210) path '//MedicationRequested[5]/Note',  \r\n" +
 	                          //6
@@ -2040,7 +2040,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested6 varchar2(70) path '//MedicationRequested[6]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req6 varchar2(30) path '//MedicationRequested[6]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested6 varchar2(2) path '//MedicationRequested[6]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested6 varchar2(140) path '//MedicationRequested[6]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested6 varchar2(1000) path '//MedicationRequested[6]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested6 varchar2(35) path '//MedicationRequested[6]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested6 varchar2(210) path '//MedicationRequested[6]/Note',  \r\n" +
 	                          //7
@@ -2055,7 +2055,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested7 varchar2(70) path '//MedicationRequested[7]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req7 varchar2(30) path '//MedicationRequested[7]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested7 varchar2(2) path '//MedicationRequested[7]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested7 varchar2(140) path '//MedicationRequested[7]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested7 varchar2(1000) path '//MedicationRequested[7]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested7 varchar2(35) path '//MedicationRequested[7]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested7 varchar2(210) path '//MedicationRequested[7]/Note',  \r\n" +
 	                          //8
@@ -2070,7 +2070,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested8 varchar2(70) path '//MedicationRequested[8]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req8 varchar2(30) path '//MedicationRequested[8]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested8 varchar2(2) path '//MedicationRequested[8]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested8 varchar2(140) path '//MedicationRequested[8]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested8 varchar2(1000) path '//MedicationRequested[8]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested8 varchar2(35) path '//MedicationRequested[8]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested8 varchar2(210) path '//MedicationRequested[8]/Note',  \r\n" +
 	                          //9
@@ -2085,7 +2085,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	            		"        	rx_Drug_Strength_Requested9 varchar2(70) path '//MedicationRequested[9]/DrugCoded/Strength/StrengthValue',   \r\n" +
 	            		"        	rx_Drug_Strength_Code_Req9 varchar2(30) path '//MedicationRequested[9]/DrugCoded/Strength/StrengthUnitOfMeasure/Code',   \r\n" +
 	            		"        	rx_Refills_Requested9 varchar2(2) path '//MedicationRequested[9]/NumberOfRefills',   \r\n" +
-	            		"        	rx_Sig_Requested9 varchar2(140) path '//MedicationRequested[9]/Sig/SigText',   \r\n" +
+	            		"        	rx_Sig_Requested9 varchar2(1000) path '//MedicationRequested[9]/Sig/SigText',   \r\n" +
 	            		"        	rx_Dispense_Notes_Requested9 varchar2(35) path '//MedicationRequested[9]/Substitutions',   \r\n" +
 	            		"        	rx_Comments_Requested9 varchar2(210) path '//MedicationRequested[9]/Note', \r\n" +
 	        		"             		res_type varchar2(70) path 'name(/Body/*/Response/*[1])', \r\n" + 
