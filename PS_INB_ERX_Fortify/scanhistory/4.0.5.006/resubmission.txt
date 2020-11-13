@@ -1,0 +1,1 @@
+This version (4.0.5.006) includes Fority finding fixes as well as including the ESAPI.properties file in use as requested in the prior V&V report.  
