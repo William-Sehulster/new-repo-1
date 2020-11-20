@@ -3511,7 +3511,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2016/08/16 16:30:17.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/09/24 13:46:07.000</modified_date>
+    <modified_date>2020/11/20 15:10:57.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -3734,7 +3734,7 @@ from erx.inbound_ncpdp_msg t, xmltable('/Message'
     state varchar2(35) path '//Patient/HumanPatient/Address/StateProvince',
     zipcode varchar2(35) path '//Patient/HumanPatient/Address/PostalCode',
     ssn varchar2(35) path '//Patient/HumanPatient/Identification/SocialSecurity',
-    phone_number varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone',
+    phone_number varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone[1]',
     primary_phone_number varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/PrimaryTelephone',
     pharmacy_ncpdpid varchar2(30) path '//Header/To') patient_info
     where t.inbound_ncpdp_msg_id = ${INBOUND_NCPDP_MSG_ID}
@@ -6334,7 +6334,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/10/27 09:54:31.000</modified_date>
+    <modified_date>2020/11/20 15:10:31.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -6400,11 +6400,6 @@ from erx.inbound_ncpdp_msg t
     </attributes>
   </connection>
   <order>
-    <hop>
-      <from>Set MESSAGE_TYPE to ERROR</from>
-      <to>Set Error Codes and Desc - XSD validation failure</to>
-      <enabled>Y</enabled>
-    </hop>
     <hop>
       <from>Set MESSAGE_TYPE to ERROR 2 2</from>
       <to>Set Error Codes and Desc - Pharmacy Disabled</to>
@@ -6695,6 +6690,11 @@ from erx.inbound_ncpdp_msg t
       <to>Update Message No Auto Checks</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Set MESSAGE_TYPE to ERROR</from>
+      <to>Set Error Codes and Desc - XSD validation failure</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>ABS</name>
@@ -6865,7 +6865,7 @@ from erx.inbound_ncpdp_msg t
     <name>Check for Response Type (Replace, Approved, AwC, Validated)</name>
     <type>SwitchCase</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
