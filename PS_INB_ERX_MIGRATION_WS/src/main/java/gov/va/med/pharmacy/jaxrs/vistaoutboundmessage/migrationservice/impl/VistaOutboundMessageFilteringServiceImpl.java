@@ -47,10 +47,11 @@ import gov.va.med.pharmacy.utility.StreamUtilities;
 @Produces("application/xml")
 public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMessageFilteringService {
 
-	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(VistaOutboundMessageFilteringServiceImpl.class);
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager
+			.getLogger(VistaOutboundMessageFilteringServiceImpl.class);
 
 	private static final String NEW_SCRIPT_VERSION = "2017071";
-	
+
 	private static final String OLD_SCRIPT_VERSION = "10.6";
 
 	private static final String LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
@@ -102,24 +103,20 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 		PharmacyMigration pharmacyMigration = null;
 
-		AppConfiguration appConfiguration = null;
-
 		String webServiceURL = null;
-		
+
 		String scriptVersion = null;
 
 		try {
 
 			OutboundNcpdpMsgEntity outboundMsg = new OutboundNcpdpMsgEntity();
-			
+
 			if ((StringUtils.isNotEmpty(message)) && (message.indexOf("TransportVersion") == -1)
 					&& (message.indexOf("TransactionVersion") == -1) && (message.indexOf("release=\"006\"") != -1)
 					&& (message.indexOf("RefillRequest") != -1)) {
-				
+
 				scriptVersion = NEW_SCRIPT_VERSION;
-			}
-			else
-			{
+			} else {
 				scriptVersion = OLD_SCRIPT_VERSION;
 			}
 
@@ -160,8 +157,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			if (message.indexOf(FROM_QUALIFIER_P) != -1) {
 
-				pharmacyNCPDPID = message.substring(message.indexOf(FROM_QUALIFIER_P) + 20,
-						message.indexOf(FROM_ENG_TAG));
+				pharmacyNCPDPID = message.substring(message.indexOf(FROM_QUALIFIER_P) + 20,	message.indexOf(FROM_ENG_TAG));
 
 			}
 
@@ -170,91 +166,121 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 				pharmacyMigration = pharmacyMigrationService.findByNCPDPId(pharmacyNCPDPID);
 			}
 
-			// if we found the version 3.0 pharmacy call the newer 3.0 inbound WS url,
-			// otherwise call the 2.0 WS url by using the lookup table.
-			if (null != pharmacyMigration && pharmacyMigration.getMigrated().equals(true)) {
-
-				// get url for v3.0 ws
-				appConfiguration = pharmacyMigrationService.findByKey("INB_V4_WS_URI");
-				
-				wsResponse.setSuccess(true);
-				
-				wsResponse.setErrorMessage(null);
-				
-				wsResponse.setOutboundMsgId(0);
-
-				
-
-			} else {
-
-				// throw an error.
-				
-				wsResponse.setSuccess(false);
-
-				wsResponse.setErrorMessage("Error while saving vista outbound message, pharmacy is not migrated: ");
-
-				wsResponse.setOutboundMsgId(0);
-				
-			}
-
 			StringReader reader = new StringReader(message);
 
 			MessageType outboundMessage = (MessageType) JAXB.unmarshal(reader, MessageType.class);
 
-			// now call the respective WS  
+			// now call the respective WS
 
-			if (appConfiguration != null && StringUtils.isNotEmpty(appConfiguration.getValue())) {
+			String username;
+			String password;
 
-				webServiceURL = appConfiguration.getValue() + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
+			String InbeRxV3ManagedServer1URL;
+			String InbeRxV3ManagedServer2URL;
 
-				String username;
-				String password;
-				
-				Properties properties = new Properties();
-				
-				InputStream  propInputStream = this.getClass().getClassLoader().getResourceAsStream(WSCLIENTS_PROPERTIES_FILE);
+			String InbeRxV4ManagedServer1URL;
+			String InbeRxV4ManagedServer2URL;
 
-				try{
-					if (null != propInputStream) {
-						properties.load(propInputStream);
+			Properties properties = new Properties();
+
+			InputStream propInputStream = this.getClass().getClassLoader()
+					.getResourceAsStream(WSCLIENTS_PROPERTIES_FILE);
+
+			try {
+				if (null != propInputStream) {
+					properties.load(propInputStream);
+				}
+			} finally {
+				StreamUtilities.safeClose(propInputStream);
+			}
+
+			username = properties.getProperty("ws.user").trim();
+			password = properties.getProperty("ws.user.password").trim();
+
+			// get the managed servers urls.
+
+			InbeRxV3ManagedServer1URL = properties.getProperty("InbeRx.v3.ws.ms1_url").trim();
+			InbeRxV3ManagedServer2URL = properties.getProperty("InbeRx.v3.ws.ms2_url").trim();
+
+			InbeRxV4ManagedServer1URL = properties.getProperty("InbeRx.v4.ws.ms1_url").trim();
+			InbeRxV4ManagedServer2URL = properties.getProperty("InbeRx.v4.ws.ms2_url").trim();
+
+			// if we found the version 4.0 pharmacy call the newer 4.0 inbound WS url,
+			// otherwise call the 3.0 WS url by using the value from the properties file.
+			if (null != pharmacyMigration && pharmacyMigration.getMigrated().equals(true)) {
+
+				// get url for v4.0 ws
+
+				long systemTime = System.currentTimeMillis();
+
+				if (systemTime % 2 == 0) {
+
+					webServiceURL = InbeRxV4ManagedServer2URL + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
+				} 
+				else
+				{
+					webServiceURL = InbeRxV4ManagedServer1URL + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
+				}
+
+				wsResponse.setSuccess(true);
+
+				wsResponse.setErrorMessage(null);
+
+				wsResponse.setOutboundMsgId(0);
+
+			} else {
+
+				// get url for v3.0 ws
+
+				long systemTime = System.currentTimeMillis();
+
+				if (systemTime % 2 == 0) {
+
+					webServiceURL = InbeRxV3ManagedServer2URL	+ "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
+				} 
+				else
+				{
+					webServiceURL = InbeRxV3ManagedServer1URL   + "/INB-ERX/services/rest/vistaoutboundMsg/processXMLMessage";
+				}
+
+				wsResponse.setSuccess(true);
+
+				wsResponse.setErrorMessage(null);
+
+				wsResponse.setOutboundMsgId(0);
+
+			}
+
+			WebClient webclient = WebClient.create(webServiceURL, username, password, null);
+
+			webclient.accept("application/x-www-form-urlencoded", "application/xml", "text/xml");
+
+			Response outboundResponse = webclient.post(outboundMessage);
+
+			InputStream entityStream = (InputStream) outboundResponse.getEntity();
+
+			if (entityStream != null) {
+
+				StringWriter writer = new StringWriter();
+
+				IOUtils.copy(entityStream, writer, UTF_8_CONST_STRING);
+
+				String outBoundMessage = writer.toString();
+
+				if (StringUtils.isNotEmpty(outBoundMessage)) {
+
+					if (outBoundMessage.indexOf("<outboundMsgId>") != -1) {
+
+						String outboundMsgId = outBoundMessage.substring(
+								outBoundMessage.indexOf("<outboundMsgId>") + 15,
+								outBoundMessage.indexOf("</outboundMsgId>"));
+
+						wsResponse.setOutboundMsgId(StringUtils.isNotEmpty(outboundMsgId) ? Integer.parseInt(outboundMsgId) : 0);
 					}
-				}
-				finally{
-						StreamUtilities.safeClose(propInputStream);
-				}
-				username = properties.getProperty("ws.user").trim();
-				password = properties.getProperty("ws.user.password").trim();
-				
-				WebClient webclient = WebClient.create(webServiceURL, username, password, null);
 
-				webclient.accept("application/x-www-form-urlencoded", "application/xml", "text/xml");
-
-				Response outboundResponse = webclient.post(outboundMessage);
-
-				InputStream entityStream = (InputStream) outboundResponse.getEntity();
-
-				if (entityStream != null) {
-
-					StringWriter writer = new StringWriter();
-
-					IOUtils.copy(entityStream, writer, UTF_8_CONST_STRING);
-
-					String outBoundMessage = writer.toString();
-					
-					if(StringUtils.isNotEmpty(outBoundMessage)) {						
-							
-							if (outBoundMessage.indexOf("<outboundMsgId>") != -1) {
-
-								String outboundMsgId = outBoundMessage.substring(outBoundMessage.indexOf("<outboundMsgId>") + 15,	outBoundMessage.indexOf("</outboundMsgId>"));
-								
-								wsResponse.setOutboundMsgId(StringUtils.isNotEmpty(outboundMsgId)?Integer.parseInt(outboundMsgId):0);
-							}
-
-					}
-
-					LOG.info("outbound migration WS call to outbound NCPDP WS response: " + outBoundMessage);
 				}
 
+				LOG.info("outbound migration WS call to outbound NCPDP WS response: " + outBoundMessage);
 			}
 
 			outboundMsg.setErxStatus("0000");
@@ -269,9 +295,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			outboundMsg.setReceivedDate(date);
 
-			outboundMsg.setScriptVersion(scriptVersion);			
-
-			
+			outboundMsg.setScriptVersion(scriptVersion);
 
 		} catch (SAXException ex) {
 
@@ -285,15 +309,13 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			wsResponse.setOutboundMsgId(0);
 
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			LOG.error("Error in VistaOutboundMsgImpl:" + e.getMessage());
 
 			wsResponse.setSuccess(false);
 
-			wsResponse
-					.setErrorMessage("Error while calling vista outbound message: "		+ e.getMessage());
+			wsResponse.setErrorMessage("Error while calling vista outbound message: " + e.getMessage());
 
 			// e.printStackTrace();
 
@@ -317,7 +339,7 @@ public class VistaOutboundMessageFilteringServiceImpl implements VistaOutboundMe
 
 			saxparser = null;
 
-			xmlReader = null;			
+			xmlReader = null;
 
 		}
 
