@@ -805,24 +805,30 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								}
 
 								else if (("BN").equals(numberQualifer)) {
-
-									renewalRequestMsgPharmacyBuffer.append("<Beeper>");
-
-									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
-
 									
-
-									renewalRequestMsgPharmacyBuffer.append("</Beeper>");
+									//commenting out beeper translation to avoid issues 
+									/*
+									 * renewalRequestMsgPharmacyBuffer.append("<Beeper>");
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
+									 * 
+									 * 
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append("</Beeper>");
+									 */
 
 								}
 
 								else if (("EM").equals(numberQualifer)) {
 
-									renewalRequestMsgPharmacyBuffer.append("<ElectronicMail>");
-
-									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
-
-									renewalRequestMsgPharmacyBuffer.append("</ElectronicMail>");
+									// Skip Email translation to avoid errors.
+									/*
+									 * renewalRequestMsgPharmacyBuffer.append("<ElectronicMail>");
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append("</ElectronicMail>");
+									 */
 
 								}
 
@@ -1245,25 +1251,33 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								else if (("BN").equals(numberQualifer)) {
 
-									patientNumberTypeBuffer.append("<Beeper>");
-
-									patientNumberTypeBuffer.append(patientNumberBuffer);									
-
-									patientNumberTypeBuffer.append("</Beeper>");
+									// commenting out beeper translation to avoid issues.
 									
-									patientNumberMap.put("BN",patientNumberTypeBuffer );
+									/*
+									 * patientNumberTypeBuffer.append("<Beeper>");
+									 * 
+									 * patientNumberTypeBuffer.append(patientNumberBuffer);
+									 * 
+									 * patientNumberTypeBuffer.append("</Beeper>");
+									 * 
+									 * patientNumberMap.put("BN",patientNumberTypeBuffer );
+									 */
 
 								}
 
 								else if (("EM").equals(numberQualifer)) {
-
-									patientNumberTypeBuffer.append("<ElectronicMail>");
-
-									patientNumberTypeBuffer.append(patientNumberBuffer);
-
-									patientNumberTypeBuffer.append("</ElectronicMail>");
 									
-									patientNumberMap.put("EM",patientNumberTypeBuffer );
+									// Skip Email translation to avoid errors.
+									
+									/*
+									 * patientNumberTypeBuffer.append("<ElectronicMail>");
+									 * 
+									 * patientNumberTypeBuffer.append(patientNumberBuffer);
+									 * 
+									 * patientNumberTypeBuffer.append("</ElectronicMail>");
+									 * 
+									 * patientNumberMap.put("EM",patientNumberTypeBuffer );
+									 */
 
 								}
 
@@ -1676,23 +1690,29 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								else if (("BN").equals(numberQualifer)) {
 
-									renewalRequestMsgPrescriberBuffer.append("<Beeper>");
-
-									renewalRequestMsgPrescriberBuffer.append(prescriberNumberBuffer);
-
-									
-
-									renewalRequestMsgPrescriberBuffer.append("</Beeper>");
+									// commenting out beeper translation to avoid issues.
+									/*
+									 * renewalRequestMsgPrescriberBuffer.append("<Beeper>");
+									 * 
+									 * renewalRequestMsgPrescriberBuffer.append(prescriberNumberBuffer);
+									 * 
+									 * 
+									 * 
+									 * renewalRequestMsgPrescriberBuffer.append("</Beeper>");
+									 */
 
 								}
 
 								else if (("EM").equals(numberQualifer)) {
 
-									renewalRequestMsgPrescriberBuffer.append("<ElectronicMail>");
-
-									renewalRequestMsgPrescriberBuffer.append(prescriberNumberBuffer);
-
-									renewalRequestMsgPrescriberBuffer.append("</ElectronicMail>");
+									// Skip Email translation to avoid errors.
+									/*
+									 * renewalRequestMsgPrescriberBuffer.append("<ElectronicMail>");
+									 * 
+									 * renewalRequestMsgPrescriberBuffer.append(prescriberNumberBuffer);
+									 * 
+									 * renewalRequestMsgPrescriberBuffer.append("</ElectronicMail>");
+									 */
 
 								}
 
@@ -2188,23 +2208,32 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								else if (("BN").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<Beeper>");
-
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
-
-									
-
-									renewalRequestMsgSupervisorBuffer.append("</Beeper>");
+										
+										// commenting out beeper translation to avoid issues.
+										/*
+										 * renewalRequestMsgSupervisorBuffer.append("<Beeper>");
+										 * 
+										 * renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										 * 
+										 * 
+										 * 
+										 * renewalRequestMsgSupervisorBuffer.append("</Beeper>");
+										 */
 									}
 								}
 
 								else if (("EM").equals(numberQualifer)) {
+									
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<ElectronicMail>");
-
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
-
-									renewalRequestMsgSupervisorBuffer.append("</ElectronicMail>");
+										
+										// Skip Email translation to avoid errors.
+										/*
+										 * renewalRequestMsgSupervisorBuffer.append("<ElectronicMail>");
+										 * 
+										 * renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										 * 
+										 * renewalRequestMsgSupervisorBuffer.append("</ElectronicMail>");
+										 */
 									}
 								}
 
