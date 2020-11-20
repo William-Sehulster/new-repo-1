@@ -28,9 +28,8 @@ input,select,textarea {
 
 .displayable {
 	opacity: 1;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
-		!important;
-	filter: alpha(opacity =           100) !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
+	filter: alpha(opacity = 100) !important;
 }
 
 .buttons,.inputbuttons {

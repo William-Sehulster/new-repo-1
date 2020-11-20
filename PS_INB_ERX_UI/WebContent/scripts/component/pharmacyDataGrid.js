@@ -1,12 +1,14 @@
 dojo.require("dojox.grid.EnhancedGrid");
-dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
 dojo.require("dojo.dom-construct");
 dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojox.grid.cells.dijit");
 dojo.require("dojox.grid.enhanced.plugins.NestedSorting");
+dojo.require("dojo._base.event");
+dojo.require("dojo.keys");
+dojo.require("dojo.query");
 
 function onKeyEvent(event) {
-	return false;
+	return true;
 }
 
 
@@ -16,8 +18,16 @@ function createLink(entry) {
 	}
 	
 	var newEntry= "/inbound/inb-erx/managePharm/editPharmacy/"+entry;
-	return "<a href=\"" + encodeURI(newEntry) + "\" >" + entry	+ "</a>";
-};
+	
+	return "<a href=\"" + encodeURI(newEntry) + "\" onkeyup=gotoEditPharm(this,\"" + newEntry+ "\"); id=\""+newEntry+"\">" + entry	+ "</a>";
+}
+
+
+function gotoEditPharm(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
+
 
 function buildPharmacyGridLayout(servlet, target) {
 	var layout = new Array();
@@ -25,21 +35,21 @@ function buildPharmacyGridLayout(servlet, target) {
 	var obj = new Object();
 	obj["field"] = 'visn';
 	obj["name"] = 'VISN';
-	obj["width"] = "40px";
+	obj["width"] = "60px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
 	var obj = new Object();
 	obj["field"] = 'vaStationId';
 	obj["name"] = 'VA Station ID';
-	obj["width"] = "83px";
+	obj["width"] = "100px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
 	var obj = new Object();
 	obj["field"] = 'ncpdpId';
 	obj["name"] = 'NCPDP ID';
-	obj["width"] = "70px";
+	obj["width"] = "90px";
 	//obj["noresize"] = 'true';
 	obj["formatter"] = createLink;
 	layout.push(obj);
@@ -86,7 +96,7 @@ function buildPharmacyGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'pharmacyState';
 	obj["name"] = "State";
-	obj["width"] = '43px';
+	obj["width"] = '60px';
 	//obj["noresize"] = 'false';
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
@@ -94,7 +104,7 @@ function buildPharmacyGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'pharmacyPhoneNumber';
 	obj["name"] = "Phone Number";
-	obj["width"] = '100px';
+	obj["width"] = '120px';
 	//obj["noresize"] = 'false';
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
@@ -102,15 +112,7 @@ function buildPharmacyGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'inboundErxEnabled';
 	obj["name"] = "eRx Enabled?";
-	obj["width"] = '83px';
-	//obj["noresize"] = 'false';
-	//obj["formatter"] = formatSelectable;
-	layout.push(obj);
-	
-	obj = new Object();
-	obj["field"] = 'activeStartTime';
-	obj["name"] = "Effective Date";
-	obj["width"] = '100px';
+	obj["width"] = '120px';
 	//obj["noresize"] = 'false';
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
@@ -146,6 +148,8 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 				
 			pharmRecNumber.innerHTML= responseData.items.length;
        }
+		
+			
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -158,15 +162,19 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 		} else {
 			// DataGrid does not exist.
 			var gridLayout = buildPharmacyGridLayout(servlet, parentContainer);
-			grid = new dojox.grid.DataGrid({
+			grid = new dojox.grid.EnhancedGrid({
 				id : gridId,
 				showTitle : true,
 				columnReordering : false,
 				loadingMessage : "Query In Progress...",
 				noDataMessage : "Your Query Returned No Results",
 				onFetchError : gridFetchError,
+				selectable : true,
 				selectionMode : 'single',				
-				onKeyEvent : onKeyEvent
+				canSort : function(index) {
+					return true;
+				},
+				plugins : {nestedSorting: false}				
 			}, document.createElement('div'));
 			dojo.byId(parentContainer).appendChild(grid.domNode);
 			
@@ -178,8 +186,51 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 			
 			grid.startup();
 			
-			
-			
+			dojo.connect(grid, "onKeyDown", function(e) {
+				
+				switch(e.keyCode){
+				case dojo.keys.ENTER:
+				case dojo.keys.SPACE:
+					
+					var gridItem = grid.getItem(e.rowIndex);
+					
+					var cell = grid.getCell(e.cellIndex);
+					
+					var node = e.cellNode;
+					
+					// JAWS reads column with respect to their index numbers, since they start out with 0, so this is comment out for now.
+					//var columnInfo = 'Column ' + (cell.index + 1) + ' ' + cell.name;
+					
+					var columnInfo = cell.name;
+					
+					var sortedColumnUp = dojo.query('.dojoxGridSortUp');
+					
+					var sortedColumnDown = dojo.query('.dojoxGridSortDown');
+					
+					var sortedInfo;
+					
+					
+					if( sortedColumnUp !=undefined && sortedColumnUp.length>0) { 
+						
+						sortedInfo = columnInfo + ' is sorted in ascending order. ';
+					}
+					
+					else if(sortedColumnDown !=undefined && sortedColumnDown.length>0){
+						
+						
+						sortedInfo = columnInfo + ' is sorted in descending order. ';
+						
+					}
+					
+					var sortedColumn = dojo.query('.dojoxGridColCaption')[0];
+					
+					sortedColumn.setAttribute("aria-label", sortedInfo);
+					
+					//console.dir(grid.getSortProps());
+			}
+				
+				dojo.stopEvent(e);
+			});
 			
 			
 		}
@@ -189,6 +240,6 @@ function pharmacyDataGridInit(servlet, parentContainer, responseData) {
 		alert(txt);
 	}
 
-};
+}
 
 

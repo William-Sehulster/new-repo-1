@@ -95,7 +95,11 @@ dojo.ready(function() {
 	        	
 	        	 dojo.byId("trackRecNumberTitle").style.display="none";
 	        }
-	        	
+	        
+	         // clear search status
+	         dojo.byId("queryStatus").innerHTML = "";
+	         
+	        
 	         //clearDetail();
 	 		 var messageIdBox = dijit.byId("messageId2");
 			 messageIdBox.set("value", "");

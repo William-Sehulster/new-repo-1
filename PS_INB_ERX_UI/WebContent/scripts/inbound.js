@@ -12,6 +12,12 @@ var sessionTime = null;
 
 var timeoutTime = null;
 
+var finalTimeoutTime = null;
+
+var userResponse = false;
+
+var sessionExtended = false;
+
 	dojo.addOnLoad(function() {
 		
 		setSessionWarningTimer();
@@ -64,40 +70,96 @@ function highlightTab(){
 }
 
 function sessionTimeOutWarning() {  
-    alert("Your Inbound eRx session will end in two minutes.");
+    
+	userResponse = confirm("Your Inbound eRx session will end in two minutes. Do you want to extend it to 30 minutes.");
 
 }
 
 function sessionTimeOutWinClose() {  
-    // check if browser is IE.
-	var ie = IeVersion();
 	
-	//alert("Window will be closed.");
-	
-	if( ie.IsIE == true ){
+	if(sessionExtended == false){
 		
-		 window.open('', '_self', '');
-		 window.close();
+		 // check if browser is IE.
+		var ie = IeVersion();
+		
+		
+		if( ie.IsIE == true ){
+			
+			     var url ="/inbound/inb-erx/logout";
+			
+				 window.location.href= url;
+		    	
+		    	 window.open('', '_self', '');
+		    	 
+				 window.close();
+			
+		}
+		else
+		{
+			var url ="/inbound/inb-erx/logout";
+			
+			window.location.href= url;
+		}
 		
 	}
-	else
-	{
-		var url ="/inbound/inb-erx/logout";
-		
-		window.location.href= url;
-	}
-
+	
 }
+
+function extendSession(){
+	
+	    // reset
+	    sessionExtended = false;
+	     
+	    if(userResponse == true)
+	    {
+	  	    	
+	    	var url ="/inbound/inb-erx/appManagement/extendSession";
+	    	
+	    	
+	    	dojo.xhrGet({
+	            url: url,
+	            handleAs: "json", 
+	            load: function(data, ioArgs) {
+	            	if(data.message =="success"){
+	    				  
+	    				  alert("Your session has been extented for 30 minutes.");
+	    				  sessionExtended = true;
+	    				  setSessionWarningTimer();
+	    			  }
+	    			  else{
+	    				  
+	    				 alert("Your session request failed. Please close your browser window and relaunch Inbound eRx web application.");
+	    			  }
+	               
+	            },
+	            error: function(error) {
+	                console.log("Error occurred while submitting session extension request.", error);
+	            }
+	        });
+	    	
+	    }	
+	    else
+	    {
+	    	sessionExtended = false;
+	    	
+	    	sessionTimeOutWinClose();	
+	    }    
+	    
+}
+
 
 function setSessionWarningTimer(){
 	/* Assumes Session timout in the web.xml is set to 29 minutes.  
-	   Will send a warning alert at 28 minutes */
+	   Will send a warning alert at 28 minutes */	
 	var maxTime = 60 * 28 * 1000;
 	timeoutTime =  60 * 29 * 1000;
     sessionTime = window.setTimeout(sessionTimeOutWarning, maxTime);
     
-    window.setTimeout(sessionTimeOutWinClose, timeoutTime);
+    window.setTimeout(extendSession, timeoutTime);	
     
+    finalTimeoutTime = 60 * 30 * 1000;
+    
+    window.setTimeout(sessionTimeOutWinClose, finalTimeoutTime);	
 }
 
 

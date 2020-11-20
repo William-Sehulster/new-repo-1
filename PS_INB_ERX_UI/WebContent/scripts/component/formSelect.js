@@ -44,12 +44,7 @@ function summaryReportSelectInit(servlet, parentContainer, dataSourceURL) {
 		
 			select.setStore(selectData);
 			
-			 
-		//	select.on('change', function(evt) {
-		//		    	alert('myselect_event');
-				    	//getStationIdSelect(summaryReportForm.visn);
-		///		    });
-			
+				
 			select.startup();
 			
 		}
@@ -59,7 +54,7 @@ function summaryReportSelectInit(servlet, parentContainer, dataSourceURL) {
 		alert(txt);
 	}
 
-};
+}
 
 
 function visnSelectInit(servlet, parentContainer, dataSourceURL) {
@@ -104,9 +99,6 @@ function visnSelectInit(servlet, parentContainer, dataSourceURL) {
 		alert(txt);
 	}
 
-};
-
-
-
+}
 
 
