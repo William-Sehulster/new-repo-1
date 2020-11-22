@@ -1512,8 +1512,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"        		    prescriber_agent_first_name varchar2(35) path '//Prescriber/NonVeterinarian/PrescriberAgent/Name/FirstName',  \r\n" + 
         		"        		    prescriber_DEA varchar2(35) path '//Prescriber/NonVeterinarian/Identification/DEANumber',  \r\n" + 
         		"        		    prescriber_State_Lic varchar2(35) path '//Prescriber/NonVeterinarian/Identification/StateLicenseNumber',  \r\n" + 
-        		"        		    prescriber_fax varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax/Number',  \r\n" + 
-        		"        		    prescriber_fax_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax/Extension',  \r\n" + 
+        		"        		    prescriber_fax varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax[1]/Number',  \r\n" + 
+        		"        		    prescriber_fax_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax[1]/Extension',  \r\n" + 
         		"        		    prescriber_phone varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/PrimaryTelephone/Number',  \r\n" + 
         		"        		    prescriber_phone_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/PrimaryTelephone/Extension',  \r\n" + 
         		"        		    patient_First_Name varchar2(35) path '//Patient/HumanPatient/Name/FirstName',  \r\n" + 
@@ -1528,7 +1528,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"    				patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" + 
         		"        		    patient_gender varchar2(1) path '//Patient/HumanPatient/Gender',  \r\n" + 
         		"        		    patient_primary_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/PrimaryTelephone/Number',  \r\n" + 
-        		"        		    patient_home_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone/Number',  \r\n" + 
+        		"        		    patient_home_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone[1]/Number',  \r\n" + 
         		"        		    rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',  \r\n" + 
            		"        		    rx_Drug_Prescribed_Ndc varchar2(30) path '//MedicationPrescribed/DrugCoded/ProductCode/Code',  \r\n" + 
            		"        		    rx_Drug_Prescribed_Qualifier varchar2(2) path '//MedicationPrescribed/DrugCoded/ProductCode/Qualifier',  \r\n" +
@@ -1934,8 +1934,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"        		    prescriber_agent_first_name varchar2(35) path '//Prescriber/NonVeterinarian/PrescriberAgent/Name/FirstName',  \r\n" + 
 	        		"        		    prescriber_DEA varchar2(35) path '//Prescriber/NonVeterinarian/Identification/DEANumber',  \r\n" + 
 	        		"        		    prescriber_State_Lic varchar2(35) path '//Prescriber/NonVeterinarian/Identification/StateLicenseNumber',  \r\n" + 
-	        		"        		    prescriber_fax varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax/Number',  \r\n" + 
-	        		"        		    prescriber_fax_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax/Extension',  \r\n" + 
+	        		"        		    prescriber_fax varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax[1]/Number',  \r\n" + 
+	        		"        		    prescriber_fax_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/Fax[1]/Extension',  \r\n" + 
 	        		"        		    prescriber_phone varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/PrimaryTelephone/Number',  \r\n" + 
 	        		"        		    prescriber_phone_ext varchar2(35) path '//Prescriber/NonVeterinarian/CommunicationNumbers/PrimaryTelephone/Extension',  \r\n" + 
 	        		"        		    patient_First_Name varchar2(35) path '//Patient/HumanPatient/Name/FirstName',  \r\n" + 
@@ -1950,7 +1950,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    				patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" + 
 	        		"        		    patient_gender varchar2(1) path '//Patient/HumanPatient/Gender',  \r\n" + 
 	        		"        		    patient_primary_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/PrimaryTelephone/Number',  \r\n" + 
-	        		"        		    patient_home_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone/Number',  \r\n" + 
+	        		"        		    patient_home_phone varchar2(35) path '//Patient/HumanPatient/CommunicationNumbers/HomeTelephone[1]/Number',  \r\n" + 
 	        		"        		    rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',  \r\n" + 
 	          		"        		    rx_Drug_Prescribed_Ndc varchar2(30) path '//MedicationPrescribed/DrugCoded/ProductCode/Code',  \r\n" + 
 	           		"        		    rx_Drug_Prescribed_Qualifier varchar2(2) path '//MedicationPrescribed/DrugCoded/ProductCode/Qualifier',  \r\n" +
