@@ -188,6 +188,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		
 		StringBuffer prescriberNumberTypeBuffer = new StringBuffer();
 		
+		StringBuffer supervisorNumberTypeBuffer = new StringBuffer();
+		
 		StringBuffer renewalRequestMsgMedicationPrescribedSubstitutionsBuf = new StringBuffer();
 		
 		StringBuffer renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf = null;
@@ -425,11 +427,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				boolean medicationDispensedLastFillDate = false;
 
 				boolean medicationDispensedPriorAuthorizationValue = false;
+				
+				String pharmacyNCPDPID = null;
 
 				//boolean setObservationElements = false;
 				
 				LinkedHashMap<String, StringBuffer> patientNumberMap = new LinkedHashMap<String, StringBuffer>();
 				LinkedHashMap<String, StringBuffer> prescriberNumberMap = new LinkedHashMap<String, StringBuffer>();
+				LinkedHashMap<String, StringBuffer> supervisorNumberMap = new LinkedHashMap<String, StringBuffer>();
 
 				while (eventReader.hasNext()) {
 					// Move to next event
@@ -455,7 +460,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							xmlNextEvent = eventReader.nextEvent();
 							renewalRequestMsgBuffer.append("<From Qualifier=\"P\">");
-							renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
+							pharmacyNCPDPID = xmlNextEvent.asCharacters().getData();
+							renewalRequestMsgBuffer.append(pharmacyNCPDPID);
 							renewalRequestMsgBuffer.append("</From>");
 						}
 
@@ -580,7 +586,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgPharmacyBuffer.append("<NCPDPID>");
-								renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
+								// Using the pharmacy NCPDPD ID coming from the from element as it's inconsident coming in the 
+								// NCPDPD ID element.
+								renewalRequestMsgPharmacyBuffer.append(pharmacyNCPDPID);
 								renewalRequestMsgPharmacyBuffer.append("</NCPDPID>");
 
 							} else if (("NPI").equals(startElement.getName().getLocalPart())) {
@@ -2144,45 +2152,55 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								String numberQualifer = xmlNextEvent.asCharacters().getData();
 
 								if (("HP").equals(numberQualifer)) {
+									
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<HomeTelephone>");
+										
+										supervisorNumberTypeBuffer.append("<HomeTelephone>");
 
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
 								
-									renewalRequestMsgSupervisorBuffer.append("</HomeTelephone>");
+										supervisorNumberTypeBuffer.append("</HomeTelephone>");
+										
+										supervisorNumberMap.put("HP",supervisorNumberTypeBuffer );
 									}
 
 								}
 
 								else if (("TE").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<PrimaryTelephone>");
+										supervisorNumberTypeBuffer.append("<PrimaryTelephone>");
 
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
 									}
 									if (supervisorNumberExtensionBuffer != null) {
 										if(null!=renewalRequestMsgSupervisorBuffer) {
-										renewalRequestMsgSupervisorBuffer.append("<Extension>");
-										renewalRequestMsgSupervisorBuffer.append(supervisorNumberExtensionBuffer);
-										renewalRequestMsgSupervisorBuffer.append("</Extension>");
+											supervisorNumberTypeBuffer.append("<Extension>");
+											supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
+											supervisorNumberTypeBuffer.append("</Extension>");
 										}
 									}
 
 									
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("</PrimaryTelephone>");
+										supervisorNumberTypeBuffer.append("</PrimaryTelephone>");
 									}
+									
+									supervisorNumberMap.put("TE",supervisorNumberTypeBuffer );
+
 
 								}
 
 								else if (("FX").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<Fax>");
+									if(null!=supervisorNumberTypeBuffer) {
+										supervisorNumberTypeBuffer.append("<Fax>");
 
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
 									
 
 									renewalRequestMsgSupervisorBuffer.append("</Fax>");
+									
+									supervisorNumberMap.put("FX",supervisorNumberTypeBuffer );
+									
 									}
 								} else if (("WP").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
@@ -2192,25 +2210,29 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									}
 									if (supervisorNumberExtensionBuffer != null) {
 										if(null!=renewalRequestMsgSupervisorBuffer) {
-										renewalRequestMsgSupervisorBuffer.append("<Extension>");
-										renewalRequestMsgSupervisorBuffer.append(supervisorNumberExtensionBuffer);
-										renewalRequestMsgSupervisorBuffer.append("</Extension>");
+											supervisorNumberTypeBuffer.append("<Extension>");
+											supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
+											supervisorNumberTypeBuffer.append("</Extension>");
 										}
 									}
 
 									
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("</WorkTelephone>");
+									if(null!=supervisorNumberTypeBuffer) {
+										supervisorNumberTypeBuffer.append("</WorkTelephone>");
 									}
+									
+									supervisorNumberMap.put("WP",supervisorNumberTypeBuffer );
 								}
 
 								else if (("NP").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<OtherTelephone>");
+										supervisorNumberTypeBuffer.append("<OtherTelephone>");
 
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
 
-									renewalRequestMsgSupervisorBuffer.append("</OtherTelephone>");
+										supervisorNumberTypeBuffer.append("</OtherTelephone>");
+										
+										supervisorNumberMap.put("NP",supervisorNumberTypeBuffer );
 									}
 								}
 
@@ -2218,27 +2240,21 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								else if (("CP").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<OtherTelephone>");
+										supervisorNumberTypeBuffer.append("<OtherTelephone>");
 
-									renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
+										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
 
-									renewalRequestMsgSupervisorBuffer.append("</OtherTelephone>");
+										supervisorNumberTypeBuffer.append("</OtherTelephone>");
+										
+										supervisorNumberMap.put("CP",supervisorNumberTypeBuffer );
 									}
 								}
 
 								else if (("BN").equals(numberQualifer)) {
 									if(null!=renewalRequestMsgSupervisorBuffer) {
 										
-										// commenting out beeper translation to avoid issues.
-										/*
-										 * renewalRequestMsgSupervisorBuffer.append("<Beeper>");
-										 * 
-										 * renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
-										 * 
-										 * 
-										 * 
-										 * renewalRequestMsgSupervisorBuffer.append("</Beeper>");
-										 */
+										// Removed to avoid translation issues.
+										
 									}
 								}
 
@@ -2246,14 +2262,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									
 									if(null!=renewalRequestMsgSupervisorBuffer) {
 										
-										// Skip Email translation to avoid errors.
-										/*
-										 * renewalRequestMsgSupervisorBuffer.append("<ElectronicMail>");
-										 * 
-										 * renewalRequestMsgSupervisorBuffer.append(supervisorNumberBuffer);
-										 * 
-										 * renewalRequestMsgSupervisorBuffer.append("</ElectronicMail>");
-										 */
+										// Removed to avoid translation issues.
 									}
 								}
 
@@ -3307,6 +3316,25 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							} else if (supervisorCommunicationNumbersEnded == true) {
 								if(null!=renewalRequestMsgSupervisorBuffer) {
+									
+							    
+									if(supervisorNumberMap.containsKey("TE") == false) {
+										
+										
+										String temp  =  supervisorNumberMap.get("WP").toString();
+										
+										String primaryNumber = temp.replaceAll("<WorkTelephone>", "<PrimaryTelephone>");
+										
+										primaryNumber = primaryNumber.replaceAll("</WorkTelephone>", "</PrimaryTelephone>");
+										
+										supervisorNumberMap.put("WP",	new StringBuffer(primaryNumber));
+									}
+									
+									for(Map.Entry<String, StringBuffer> entry: supervisorNumberMap.entrySet()) {
+										
+										renewalRequestMsgSupervisorBuffer.append(entry.getValue());
+									}
+									
 								renewalRequestMsgSupervisorBuffer.append("</CommunicationNumbers>");
 								}
 							}
