@@ -526,7 +526,20 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"        		  benefits1.rx_Bin_Num rx_Bin_Num,  \r\n" + 
         		"        		  benefits1.rx_Pcn rx_Pcn, \r\n" + 
         		"                 x.res_type, \r\n" + 
-        		"                 x.req_refno,\r\n" + 
+        		"                 x.req_refno,\r\n" +
+        		"	        	  '' validated_prescriber_npi," +
+        		"	        	  '' validated_prescriber_dea," +
+        		"	        	  '' validated_prescriber_state_lic," +
+        		"	        	  '' rxChange_resp_validated_date," +
+        		"	        	  '' rxChange_vldReason_code," +
+        		"	        	  '' rxChange_dndReason_code," +
+        		"	        	  '' rxChange_vldReason_descrip," +
+        		"	        	  '' rxChange_dndReason_descrip," +
+        		"	        	  '' rxChange_resp_denialReason," +
+        		"	        	  '' rxChange_resp_note," +
+        		"	        	  '' rxChange_drug_coverage," +
+        		"	        	  '' rxChange_prior_auth," +
+        		"	        	  '' rxChange_prior_auth_status," +
         		"                 (select code||':  '||definition from ecl_code where code_type = '1131 – Code List Qualifier – Response Code - RES Segment' and code = x.res_aprv_reason_cd) res_aprv_reason_cd, \r\n" + 
         		"                 x.res_aprv_refno, \r\n" + 
         		"                 x.res_aprv_note, \r\n" + 
@@ -899,6 +912,19 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"        		  benefits1.rx_Pcn rx_Pcn, \r\n" + 
 	        		"                 x.res_type, \r\n" + 
 	        		"                 x.req_refno,\r\n" + 
+	        		"	        	  '' validated_prescriber_npi," +
+	        		"	        	  '' validated_prescriber_dea," +
+	        		"	        	  '' validated_prescriber_state_lic," +
+	        		"	        	  '' rxChange_resp_validated_date," +
+	        		"	        	  '' rxChange_vldReason_code," +
+	        		"	        	  '' rxChange_dndReason_code," +
+	        		"	        	  '' rxChange_vldReason_descrip," +
+	        		"	        	  '' rxChange_dndReason_descrip," +
+	        		"	        	  '' rxChange_resp_denialReason," +
+	        		"	        	  '' rxChange_resp_note," +
+	        		"	        	  '' rxChange_drug_coverage," +
+	        		"	        	  '' rxChange_prior_auth," +
+	        		"	        	  '' rxChange_prior_auth_status," +
 	        		"                 (select code||':  '||definition from ecl_code where code_type = '1131 – Code List Qualifier – Response Code - RES Segment' and code = x.res_aprv_reason_cd) res_aprv_reason_cd, \r\n" + 
 	        		"                 x.res_aprv_refno, \r\n" + 
 	        		"                 x.res_aprv_note, \r\n" + 
