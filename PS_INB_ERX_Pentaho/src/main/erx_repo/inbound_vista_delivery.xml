@@ -2679,7 +2679,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2017/03/26 23:43:30.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/02/13 13:40:21.000</modified_date>
+    <modified_date>2020/11/30 16:24:41.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -2745,11 +2745,6 @@ commit;</sql>
     </attributes>
   </connection>
   <order>
-    <hop>
-      <from>REST Client</from>
-      <to>check for retry</to>
-      <enabled>Y</enabled>
-    </hop>
     <hop>
       <from>check for retry</from>
       <to>To Vista Check Failure Allow Retry</to>
@@ -2897,6 +2892,11 @@ commit;</sql>
     </hop>
     <hop>
       <from>JSON Input 2</from>
+      <to>check for retry</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>REST Client</from>
       <to>check for retry</to>
       <enabled>Y</enabled>
     </hop>
@@ -3904,7 +3904,7 @@ commit;</sql>
 (select value from app_configuration where key = 'TO_VISTA_RS_URI')as url,
 '{"xmlInboundMessageId":"'||t.inbound_ncpdp_msg_id||'","division":"'||
 (select substr(va_station_id,1,3) from pharmacy where t.pharmacy_id = pharmacy_id)||'"}' as body,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSends>&lt;/vistaSends>')),'//vistaSends'), 0)) + 1 as runCount,
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;vistaSends>&lt;/vistaSends>')),'//vistaSends'), 0)) + 1 as runCount,
 nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry,
 t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,
 t.message_from provider_npi,
@@ -4952,7 +4952,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/30 15:26:04.000</modified_date>
+  <modified_date>2020/11/30 16:15:40.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -5432,7 +5432,7 @@ and provider_chk_status in ('2001','2002','2003','2005')
 and drug_chk_status in ('1001','1002','1003','1005')
 and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'CancelRx')
 and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
-and pharmacy_id not in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
+--and pharmacy_id not in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
 where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
