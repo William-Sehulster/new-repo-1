@@ -1441,10 +1441,16 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							else if (("Specialty").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-
-								renewalRequestMsgPrescriberBuffer.append("<Specialty>");
-								renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgPrescriberBuffer.append("</Specialty>");
+								
+								
+								// skip empty tags.
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
+								{
+									renewalRequestMsgPrescriberBuffer.append("<Specialty>");
+									renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgPrescriberBuffer.append("</Specialty>");
+								}
+																
 
 								renewalRequestMsgPrescriberBuffer.append("<PracticeLocation>");
 
@@ -2104,9 +2110,16 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									xmlNextEvent = eventReader.nextEvent();
 									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<MiddleName>");
-									renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-									renewalRequestMsgSupervisorBuffer.append("</MiddleName>");
+										
+										// skip empty tags.
+										if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
+										{
+											renewalRequestMsgSupervisorBuffer.append("<MiddleName>");
+											renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
+											renewalRequestMsgSupervisorBuffer.append("</MiddleName>");
+										}
+										
+									
 									}
 
 								}
