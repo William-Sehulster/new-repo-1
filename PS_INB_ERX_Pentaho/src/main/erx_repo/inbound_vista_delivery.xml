@@ -4400,7 +4400,7 @@ commit;</sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/09/24 13:46:50.000</modified_date>
+  <modified_date>2020/11/30 15:26:35.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -4782,44 +4782,6 @@ commit;</sql>
   <shared_objects_file/>
   <entries>
     <entry>
-      <name>Check for Messages Deliver to Dedicated MBM</name>
-      <description/>
-      <type>WAIT_FOR_SQL</type>
-      <attributes/>
-      <connection>local_erx</connection>
-      <schemaname/>
-      <tablename/>
-      <success_condition>rows_count_greater</success_condition>
-      <rows_count_value>0</rows_count_value>
-      <is_custom_sql>Y</is_custom_sql>
-      <is_usevars>Y</is_usevars>
-      <custom_sql>  select * from(  select inbound_ncpdp_msg_id ,
-    '3003' as vistaop_delivery_in_process,
-    (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
-nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry
-from inbound_ncpdp_msg 
-where message_status in ('3001','3004')
-and patient_chk_status in ('0002','0003','0101','0102','0103','0108','0109')
-and provider_chk_status in ('2001','2002','2003','2005')
-and drug_chk_status in ('1001','1002','1003','1005')
-and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'CancelRx')
-and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
-and pharmacy_id in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
-order by inbound_ncpdp_msg_id)
-where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
-      <add_rows_result>Y</add_rows_result>
-      <maximum_timeout>0</maximum_timeout>
-      <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>
-      <success_on_timeout>N</success_on_timeout>
-      <clear_result_rows>N</clear_result_rows>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>352</xloc>
-      <yloc>160</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>Job Finished Success</name>
       <description/>
       <type>SUCCESS</type>
@@ -4907,17 +4869,46 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
+    <entry>
+      <name>Check for Messages Deliver to Dedicated MBM</name>
+      <description/>
+      <type>WAIT_FOR_SQL</type>
+      <attributes/>
+      <connection>local_erx</connection>
+      <schemaname/>
+      <tablename/>
+      <success_condition>rows_count_greater</success_condition>
+      <rows_count_value>0</rows_count_value>
+      <is_custom_sql>Y</is_custom_sql>
+      <is_usevars>Y</is_usevars>
+      <custom_sql>  select * from(  select inbound_ncpdp_msg_id ,
+    '3003' as vistaop_delivery_in_process,
+    (nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
+nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry
+from inbound_ncpdp_msg 
+where message_status in ('3001','3004')
+and patient_chk_status in ('0002','0003','0101','0102','0103','0108','0109')
+and provider_chk_status in ('2001','2002','2003','2005')
+and drug_chk_status in ('1001','1002','1003','1005')
+and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'CancelRx')
+and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+and pharmacy_id in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
+order by inbound_ncpdp_msg_id)
+where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
+      <add_rows_result>Y</add_rows_result>
+      <maximum_timeout>0</maximum_timeout>
+      <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>
+      <success_on_timeout>N</success_on_timeout>
+      <clear_result_rows>N</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>352</xloc>
+      <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
   </entries>
   <hops>
-    <hop>
-      <from>START</from>
-      <to>Check for Messages Deliver to Dedicated MBM</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
     <hop>
       <from>Check for Messages Deliver to Dedicated MBM</from>
       <to>IBDTV_SendMessageToVistaMbM_TRN</to>
@@ -4936,6 +4927,15 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>START</from>
+      <to>Check for Messages Deliver to Dedicated MBM</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
@@ -4952,7 +4952,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/09/18 13:19:48.000</modified_date>
+  <modified_date>2020/11/30 15:26:04.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -5423,7 +5423,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <is_usevars>Y</is_usevars>
       <custom_sql>  select * from(  select inbound_ncpdp_msg_id ,
     '3003' as vistaop_delivery_in_process,
-    (nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
+    (nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;vistaSendRetry>&lt;/vistaSendRetry>')),'//vistaSendRetry'), 0)) + 1 as runCount,
 nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry
 from inbound_ncpdp_msg 
 where message_status in ('3001','3004')
