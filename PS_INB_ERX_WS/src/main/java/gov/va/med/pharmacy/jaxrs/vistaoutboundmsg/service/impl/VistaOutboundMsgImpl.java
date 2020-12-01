@@ -390,7 +390,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				
 				boolean setPrescriberNameShortElement = false;	
 
-				boolean setPrescriberAgentName = false;				
+				//boolean setPrescriberAgentName = false;				
 
 				boolean prescriberCommunicationNumbersEnded = false;
 
@@ -1855,145 +1855,137 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								prescriberCommunicationNumbersEnded = true;
 
 							}
+							// skip prescriber agent as sometimes first name doesn't come in.
 
-							else if (("PrescriberAgent").equals(startElement.getName().getLocalPart())) {
+							/*
+							 * else if (("PrescriberAgent").equals(startElement.getName().getLocalPart())) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<PrescriberAgent>");
+							 * 
+							 * setPrescriberAgentName = true;
+							 * 
+							 * }
+							 */
 
-								xmlNextEvent = eventReader.nextEvent();
-
-								renewalRequestMsgPrescriberBuffer.append("<PrescriberAgent>");
-
-								setPrescriberAgentName = true;
-
-							}
-
-							if (setPrescriberAgentName == true) {
-
-								// LastName
-								if (("LastName").equals(startElement.getName().getLocalPart())) {
-
-									
-									
-									if(xmlNextEvent.isCharacters()) {
-										
-										renewalRequestMsgPrescriberBuffer.append("<Name>");
-										renewalRequestMsgPrescriberBuffer.append("<LastName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</LastName>");
-										
-										
-									}
-									else if(xmlNextEvent.isEndElement() == false) {
-										
-										xmlNextEvent = eventReader.nextEvent();
-										
-										renewalRequestMsgPrescriberBuffer.append("<Name>");
-										renewalRequestMsgPrescriberBuffer.append("<LastName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</LastName>");
-									}
-
-									
-
-								}
-
-								// FirstName
-								if (("FirstName").equals(startElement.getName().getLocalPart())) {
-
-									
-									
-									if(xmlNextEvent.isCharacters()) {
-										
-										renewalRequestMsgPrescriberBuffer.append("<FirstName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</FirstName>");
-										
-									}
-									else if(xmlNextEvent.isEndElement() == false) {
-										
-										xmlNextEvent = eventReader.nextEvent();
-										
-										renewalRequestMsgPrescriberBuffer.append("<FirstName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</FirstName>");
-										
-										
-									}
-									
-					
-								}
-
-								// MiddleName
-								if (("MiddleName").equals(startElement.getName().getLocalPart())) {
-
-									if(xmlNextEvent.isCharacters()) {
-										
-										renewalRequestMsgPrescriberBuffer.append("<MiddleName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</MiddleName>");
-										
-									}
-									else if(xmlNextEvent.isEndElement() == false) {
-										
-										xmlNextEvent = eventReader.nextEvent();
-
-										renewalRequestMsgPrescriberBuffer.append("<MiddleName>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</MiddleName>");
-									}
-									
-
-								}
-
-								// Suffix
-								if (("Suffix").equals(startElement.getName().getLocalPart())) {
-
-									if(xmlNextEvent.isCharacters()) {
-										
-										
-										renewalRequestMsgPrescriberBuffer.append("<Suffix>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</Suffix>");
-
-									}
-									else if(xmlNextEvent.isEndElement() == false) {
-										
-										xmlNextEvent = eventReader.nextEvent();
-
-										renewalRequestMsgPrescriberBuffer.append("<Suffix>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</Suffix>");
-									}
-									
-									
-								}
-
-								// Prefix
-								if (("Prefix").equals(startElement.getName().getLocalPart())) {
-
-									
-									if(xmlNextEvent.isCharacters()) {										
-
-										renewalRequestMsgPrescriberBuffer.append("<Prefix>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</Prefix>");			
-									}
-									else if(xmlNextEvent.isEndElement() == false) {
-										
-										xmlNextEvent = eventReader.nextEvent();
-
-										renewalRequestMsgPrescriberBuffer.append("<Prefix>");
-										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgPrescriberBuffer.append("</Prefix>");			
-									}
-									
-																								
-
-								}
-
-								
-
-							}
-
+							/*
+							 * if (setPrescriberAgentName == true) {
+							 * 
+							 * // LastName if (("LastName").equals(startElement.getName().getLocalPart())) {
+							 * 
+							 * 
+							 * 
+							 * if(xmlNextEvent.isCharacters()) {
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Name>");
+							 * renewalRequestMsgPrescriberBuffer.append("<LastName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</LastName>");
+							 * 
+							 * 
+							 * } else if(xmlNextEvent.isEndElement() == false) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Name>");
+							 * renewalRequestMsgPrescriberBuffer.append("<LastName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</LastName>"); }
+							 * 
+							 * 
+							 * 
+							 * }
+							 * 
+							 * // FirstName if (("FirstName").equals(startElement.getName().getLocalPart()))
+							 * {
+							 * 
+							 * 
+							 * 
+							 * if(xmlNextEvent.isCharacters()) {
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<FirstName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</FirstName>");
+							 * 
+							 * } else if(xmlNextEvent.isEndElement() == false) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<FirstName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</FirstName>");
+							 * 
+							 * 
+							 * }
+							 * 
+							 * 
+							 * }
+							 * 
+							 * // MiddleName if
+							 * (("MiddleName").equals(startElement.getName().getLocalPart())) {
+							 * 
+							 * if(xmlNextEvent.isCharacters()) {
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<MiddleName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</MiddleName>");
+							 * 
+							 * } else if(xmlNextEvent.isEndElement() == false) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<MiddleName>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</MiddleName>"); }
+							 * 
+							 * 
+							 * }
+							 * 
+							 * // Suffix if (("Suffix").equals(startElement.getName().getLocalPart())) {
+							 * 
+							 * if(xmlNextEvent.isCharacters()) {
+							 * 
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Suffix>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</Suffix>");
+							 * 
+							 * } else if(xmlNextEvent.isEndElement() == false) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Suffix>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</Suffix>"); }
+							 * 
+							 * 
+							 * }
+							 * 
+							 * // Prefix if (("Prefix").equals(startElement.getName().getLocalPart())) {
+							 * 
+							 * 
+							 * if(xmlNextEvent.isCharacters()) {
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Prefix>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</Prefix>"); } else
+							 * if(xmlNextEvent.isEndElement() == false) {
+							 * 
+							 * xmlNextEvent = eventReader.nextEvent();
+							 * 
+							 * renewalRequestMsgPrescriberBuffer.append("<Prefix>");
+							 * renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData(
+							 * )); renewalRequestMsgPrescriberBuffer.append("</Prefix>"); }
+							 * 
+							 * 
+							 * 
+							 * }
+							 * 
+							 * 
+							 * 
+							 * }
+							 */
 							// prescriber end
 						}
 
@@ -3525,15 +3517,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						}
 
 						// Prescriber Agent - End
-						else if (("PrescriberAgent").equals(endElement.getName().getLocalPart())) {
-
-							renewalRequestMsgPrescriberBuffer.append("</Name>");	
-							
-							renewalRequestMsgPrescriberBuffer.append("</PrescriberAgent>");
-
-							setPrescriberAgentName = false; // reset. So it only sets values once.
-
-						}
+						/*
+						 * else if (("PrescriberAgent").equals(endElement.getName().getLocalPart())) {
+						 * 
+						 * renewalRequestMsgPrescriberBuffer.append("</Name>");
+						 * 
+						 * renewalRequestMsgPrescriberBuffer.append("</PrescriberAgent>");
+						 * 
+						 * setPrescriberAgentName = false; // reset. So it only sets values once.
+						 * 
+						 * }
+						 */
 						// Prescriber - End
 						else if (("Prescriber").equals(endElement.getName().getLocalPart())) {
 
