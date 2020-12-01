@@ -739,7 +739,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									pharmacyNumberExtensionValue = pharmacyNumberExtensionValue.substring(0, pharmacyNumberExtensionValue.indexOf("X"));
 									
-									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue.replaceAll("-", ""));
+									pharmacyNumberExtensionValue = trimPhoneFaxNumber(pharmacyNumberExtensionValue);
+																		
+									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue);
 
 									pharmacyNumberBuffer.append("</Number>");
 
@@ -754,15 +756,18 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									pharmacyNumberExtensionValue = pharmacyNumberExtensionValue.substring(0, pharmacyNumberExtensionValue.indexOf("x"));
 									
-									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue.replaceAll("-", ""));
+									pharmacyNumberExtensionValue = trimPhoneFaxNumber(pharmacyNumberExtensionValue);
+									
+									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue);
 
 									pharmacyNumberBuffer.append("</Number>");
 
 								} else {
 
 									String numberVal = xmlNextEvent.asCharacters().getData();
-									pharmacyNumberBuffer.append("<Number>");
-									pharmacyNumberBuffer.append(numberVal.replaceAll("-", ""));
+									pharmacyNumberBuffer.append("<Number>");									
+									numberVal = trimPhoneFaxNumber(numberVal);
+									pharmacyNumberBuffer.append(numberVal);
 									pharmacyNumberBuffer.append("</Number>");
 								}
 
@@ -1224,7 +1229,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumExtensionvalue = patientNumExtensionvalue.substring(0, patientNumExtensionvalue.indexOf("X"));
 									
-									patientNumberBuffer.append(patientNumExtensionvalue.replaceAll("-", ""));
+									patientNumExtensionvalue  = trimPhoneFaxNumber(patientNumExtensionvalue);
+									
+									patientNumberBuffer.append(patientNumExtensionvalue);
 
 									patientNumberBuffer.append("</Number>");
 
@@ -1238,7 +1245,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumExtensionvalue = patientNumExtensionvalue.substring(0, patientNumExtensionvalue.indexOf("x"));
 									
-									patientNumberBuffer.append(patientNumExtensionvalue.replaceAll("-", ""));
+									patientNumExtensionvalue  = trimPhoneFaxNumber(patientNumExtensionvalue);
+									
+									patientNumberBuffer.append(patientNumExtensionvalue);
 
 									patientNumberBuffer.append("</Number>");
 
@@ -1246,7 +1255,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									
 									String numberVal = xmlNextEvent.asCharacters().getData();
 									patientNumberBuffer.append("<Number>");
-									patientNumberBuffer.append(numberVal.replaceAll("-", ""));
+									numberVal  = trimPhoneFaxNumber(numberVal);
+									patientNumberBuffer.append(numberVal);
 									patientNumberBuffer.append("</Number>");
 								}
 
@@ -1718,7 +1728,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberExtensionValue= prescriberNumberExtensionValue.substring(0, prescriberNumberExtensionValue.indexOf("X"));
 									
-									prescriberNumberBuffer.append(prescriberNumberExtensionValue.replaceAll("-", ""));
+									prescriberNumberExtensionValue =  trimPhoneFaxNumber(prescriberNumberExtensionValue);
+									
+									prescriberNumberBuffer.append(prescriberNumberExtensionValue);
 
 									prescriberNumberBuffer.append("</Number>");
 
@@ -1733,7 +1745,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberExtensionValue = prescriberNumberExtensionValue.substring(0, prescriberNumberExtensionValue.indexOf("x"));
 									
-									prescriberNumberBuffer.append(prescriberNumberExtensionValue.replaceAll("-", ""));
+									prescriberNumberExtensionValue  = trimPhoneFaxNumber(prescriberNumberExtensionValue);
+									 
+									prescriberNumberBuffer.append(prescriberNumberExtensionValue);
 
 									prescriberNumberBuffer.append("</Number>");
 
@@ -1741,7 +1755,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									String numberVal = xmlNextEvent.asCharacters().getData();
 									prescriberNumberBuffer.append("<Number>");
-									prescriberNumberBuffer.append(numberVal.replaceAll("-", ""));
+									
+									numberVal  = trimPhoneFaxNumber(numberVal);
+									
+									prescriberNumberBuffer.append(numberVal);
 									prescriberNumberBuffer.append("</Number>");
 								}
 
@@ -2263,9 +2280,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									supervisorNumberBuffer.append("<Number>");
 
-									value = value.substring(0, value.indexOf("X"));									
+									value = value.substring(0, value.indexOf("X"));		
 									
-									supervisorNumberBuffer.append(value.replaceAll("-", ""));
+									value = trimPhoneFaxNumber(value);
+									
+									supervisorNumberBuffer.append(value);
 
 									supervisorNumberBuffer.append("</Number>");
 
@@ -2280,7 +2299,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									value = value.substring(0, value.indexOf("x"));
 									
-									supervisorNumberBuffer.append(value.replaceAll("-", ""));
+									value = trimPhoneFaxNumber(value);
+									
+									supervisorNumberBuffer.append(value);
 
 									supervisorNumberBuffer.append("</Number>");
 
@@ -2288,7 +2309,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									String numberVal = xmlNextEvent.asCharacters().getData();
 									supervisorNumberBuffer.append("<Number>");
-									supervisorNumberBuffer.append(numberVal.replaceAll("-", ""));
+									
+									numberVal = trimPhoneFaxNumber(numberVal);
+									
+									supervisorNumberBuffer.append(numberVal);
 									supervisorNumberBuffer.append("</Number>");
 								}
 
@@ -3828,6 +3852,31 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		}
 
 		return wsResponse;
+	}
+	
+	/**
+	 * Utility method to remove dashes and if number is greater than 10 limit to 10 characters.
+	 * @param str
+	 * @return
+	 */
+	private String trimPhoneFaxNumber(String str) {
+		
+		if(StringUtils.isNotEmpty(str)) {
+		
+			str = str.replaceAll("-", "");
+			
+			
+		 if(str.length()>10) {
+			
+			str = str.substring(1, str.length());
+		 }	
+			
+			return str;
+		}
+		else
+		{
+			return str;
+		}
 	}
 
 	/*
