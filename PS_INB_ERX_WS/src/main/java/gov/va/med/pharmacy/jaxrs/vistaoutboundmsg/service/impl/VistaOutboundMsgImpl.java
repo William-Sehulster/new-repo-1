@@ -168,9 +168,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 		StringBuffer renewalRequestMsgSupervisorBuffer = null;
 
-		StringBuffer supervisorNumberBuffer = null;
+		//StringBuffer supervisorNumberBuffer = null;
 
-		StringBuffer supervisorNumberExtensionBuffer = null;
+		//StringBuffer supervisorNumberExtensionBuffer = null;
 
 		StringBuffer renewalRequestMsgMedicationPrescribedBuffer = new StringBuffer();
 
@@ -394,11 +394,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 				boolean prescriberCommunicationNumbersEnded = false;
 
-				boolean supervisorCommunicationNumbersEnded = false;
+				//boolean supervisorCommunicationNumbersEnded = false;
 
-				boolean setSupervisorName = false;
+				//boolean setSupervisorName = false;
 
-				boolean setSupervisorElements = false;				
+				//boolean setSupervisorElements = false;				
 
 				boolean setMedicationPrescribedElements = false;
 
@@ -434,7 +434,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				
 				LinkedHashMap<String, StringBuffer> patientNumberMap = new LinkedHashMap<String, StringBuffer>();
 				LinkedHashMap<String, StringBuffer> prescriberNumberMap = new LinkedHashMap<String, StringBuffer>();
-				LinkedHashMap<String, StringBuffer> supervisorNumberMap = new LinkedHashMap<String, StringBuffer>();
+				//LinkedHashMap<String, StringBuffer> supervisorNumberMap = new LinkedHashMap<String, StringBuffer>();
 
 				while (eventReader.hasNext()) {
 					// Move to next event
@@ -2007,443 +2007,408 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						}
 
 						// Supervisor start
-
-						if (("Supervisor").equals(startElement.getName().getLocalPart())) {
-
-							renewalRequestMsgSupervisorBuffer = new StringBuffer();
-							
-							renewalRequestMsgSupervisorBuffer.append("<Supervisor>");
-
-							renewalRequestMsgSupervisorBuffer.append("<NonVeterinarian>");
-
-							setSupervisorElements = true;
-
-							xmlNextEvent = eventReader.nextEvent();
-
-						}
-
-						if (setSupervisorElements == true) {
-
-							if (("Identification").equals(startElement.getName().getLocalPart())) {
-
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<Identification>");
-								}
-
-								xmlNextEvent = eventReader.nextEvent();
-
-							}
-
-							else if (("StateLicenseNumber").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<StateLicenseNumber>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</StateLicenseNumber>");
-								}
-								
-							} else if (("DEANumber").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<DEANumber>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</DEANumber>");
-
-								renewalRequestMsgSupervisorBuffer.append("</Identification>");
-
-								renewalRequestMsgSupervisorBuffer.append("<PracticeLocation>");
-
-								renewalRequestMsgSupervisorBuffer.append("<Identification>");
-
-								renewalRequestMsgSupervisorBuffer.append("</Identification>");
-
-								renewalRequestMsgSupervisorBuffer.append("</PracticeLocation>");
-								}
-								setSupervisorName = true;
-
-							}	else if (("NPI").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-
-								renewalRequestMsgSupervisorBuffer.append("<NPI>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</NPI>");
-
-								renewalRequestMsgSupervisorBuffer.append("</Identification>");
-
-							}
-
-							// Supervisor Name elements
-							else if (setSupervisorName == true) {
-
-								// Name
-								if (("Name").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<Name>");
-									}
-
-								}
-
-								// LastName
-								if (("LastName").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<LastName>");
-									renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-									renewalRequestMsgSupervisorBuffer.append("</LastName>");
-									}
-
-								}
-
-								// FirstName
-								if (("FirstName").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									renewalRequestMsgSupervisorBuffer.append("<FirstName>");
-									renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-									renewalRequestMsgSupervisorBuffer.append("</FirstName>");
-									}
-
-								}
-
-								// MiddleName
-								if (("MiddleName").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										
-										// skip empty tags.
-										if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-										{
-											renewalRequestMsgSupervisorBuffer.append("<MiddleName>");
-											renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-											renewalRequestMsgSupervisorBuffer.append("</MiddleName>");
-										}
-										
-									
-									}
-
-								}
-
-								// Suffix
-								if (("Suffix").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										
-										// skip empty tags.
-										if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-										{
-											renewalRequestMsgSupervisorBuffer.append("<Suffix>");
-											renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-											renewalRequestMsgSupervisorBuffer.append("</Suffix>");
-										}
-										
-									
-									}
-
-								}
-
-								// Prefix
-								if (("Prefix").equals(startElement.getName().getLocalPart())) {
-
-									xmlNextEvent = eventReader.nextEvent();
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-									
-										// skip empty tags.
-										if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-										{
-											renewalRequestMsgSupervisorBuffer.append("<Prefix>");
-											renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-											renewalRequestMsgSupervisorBuffer.append("</Prefix>");	
-										}	
-										
-									
-									}
-
-								}
-
-								
-
-							}
-
-							if (("Address").equals(startElement.getName().getLocalPart())) {
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<Address>");
-								}
-								xmlNextEvent = eventReader.nextEvent();
-
-							}
-
-							else if (("AddressLine1").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<AddressLine1>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</AddressLine1>");
-								}
-
-							}
-
-							else if (("AddressLine2").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-									
-									// skip empty tags.
-									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-									{
-										renewalRequestMsgSupervisorBuffer.append("<AddressLine2>");
-										renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-										renewalRequestMsgSupervisorBuffer.append("</AddressLine2>");
-										
-									}
-									
-									
-								
-								
-								}
-
-							}
-
-							else if (("City").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<City>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</City>");
-								}
-
-							}
-
-							else if (("State").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<StateProvince>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</StateProvince>");
-								}
-
-							}
-
-							else if (("ZipCode").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<PostalCode>");
-								renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData());
-								renewalRequestMsgSupervisorBuffer.append("</PostalCode>");
-
-								renewalRequestMsgSupervisorBuffer.append("</Address>");
-								}
-
-							}
-
-							else if (("CommunicationNumbers").equals(startElement.getName().getLocalPart())) {
-								xmlNextEvent = eventReader.nextEvent();
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("<CommunicationNumbers>");
-								}
-
-							}
-
-							else if (("Number").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-
-								supervisorNumberBuffer = new StringBuffer();
-								
-								supervisorNumberTypeBuffer = new StringBuffer();
-
-								String value = xmlNextEvent.asCharacters().getData();
-
-								if (StringUtils.isNotEmpty(value) && value.contains("@")) {
-
-									supervisorNumberBuffer.append(xmlNextEvent.asCharacters().getData());
-								} else if (StringUtils.isNotEmpty(value) && value.contains("X")) {
-
-									supervisorNumberExtensionBuffer = new StringBuffer();
-
-									supervisorNumberExtensionBuffer
-											.append(value.substring(value.indexOf("X") + 1, value.length()));
-
-									supervisorNumberBuffer.append("<Number>");
-
-									value = value.substring(0, value.indexOf("X"));		
-									
-									value = trimPhoneFaxNumber(value);
-									
-									supervisorNumberBuffer.append(value);
-
-									supervisorNumberBuffer.append("</Number>");
-
-								} else if (StringUtils.isNotEmpty(value) && value.contains("x")) {
-
-									supervisorNumberExtensionBuffer = new StringBuffer();
-
-									supervisorNumberExtensionBuffer
-											.append(value.substring(value.indexOf("x") + 1, value.length()));
-
-									supervisorNumberBuffer.append("<Number>");
-
-									value = value.substring(0, value.indexOf("x"));
-									
-									value = trimPhoneFaxNumber(value);
-									
-									supervisorNumberBuffer.append(value);
-
-									supervisorNumberBuffer.append("</Number>");
-
-								} else {
-
-									String numberVal = xmlNextEvent.asCharacters().getData();
-									supervisorNumberBuffer.append("<Number>");
-									
-									numberVal = trimPhoneFaxNumber(numberVal);
-									
-									supervisorNumberBuffer.append(numberVal);
-									supervisorNumberBuffer.append("</Number>");
-								}
-
-							}
-
-							else if (("Qualifier").equals(startElement.getName().getLocalPart())) {
-
-								xmlNextEvent = eventReader.nextEvent();
-								String numberQualifer = xmlNextEvent.asCharacters().getData();
-
-								if (("HP").equals(numberQualifer)) {
-									
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										
-										supervisorNumberTypeBuffer.append("<HomeTelephone>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-								
-										supervisorNumberTypeBuffer.append("</HomeTelephone>");
-										
-										supervisorNumberMap.put("HP",supervisorNumberTypeBuffer );
-									}
-
-								}
-
-								else if (("TE").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										supervisorNumberTypeBuffer.append("<PrimaryTelephone>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-									}
-									if (supervisorNumberExtensionBuffer != null) {
-										if(null!=renewalRequestMsgSupervisorBuffer) {
-											supervisorNumberTypeBuffer.append("<Extension>");
-											supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
-											supervisorNumberTypeBuffer.append("</Extension>");
-										}
-									}
-
-									
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										supervisorNumberTypeBuffer.append("</PrimaryTelephone>");
-									}
-									
-									supervisorNumberMap.put("TE",supervisorNumberTypeBuffer );
-
-
-								}
-
-								else if (("FX").equals(numberQualifer)) {
-									if(null!=supervisorNumberTypeBuffer) {
-										supervisorNumberTypeBuffer.append("<Fax>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-									
-
-										supervisorNumberTypeBuffer.append("</Fax>");
-									
-									supervisorNumberMap.put("FX",supervisorNumberTypeBuffer );
-									
-									}
-								} else if (("WP").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										supervisorNumberTypeBuffer.append("<WorkTelephone>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-									}
-									if (supervisorNumberExtensionBuffer != null) {
-										if(null!=renewalRequestMsgSupervisorBuffer) {
-											supervisorNumberTypeBuffer.append("<Extension>");
-											supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
-											supervisorNumberTypeBuffer.append("</Extension>");
-										}
-									}
-
-									
-									if(null!=supervisorNumberTypeBuffer) {
-										supervisorNumberTypeBuffer.append("</WorkTelephone>");
-									}
-									
-									supervisorNumberMap.put("WP",supervisorNumberTypeBuffer );
-								}
-
-								else if (("NP").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										supervisorNumberTypeBuffer.append("<OtherTelephone>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-
-										supervisorNumberTypeBuffer.append("</OtherTelephone>");
-										
-										supervisorNumberMap.put("NP",supervisorNumberTypeBuffer );
-									}
-								}
-
-								// - Need to check CP
-
-								else if (("CP").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										supervisorNumberTypeBuffer.append("<OtherTelephone>");
-
-										supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
-
-										supervisorNumberTypeBuffer.append("</OtherTelephone>");
-										
-										supervisorNumberMap.put("CP",supervisorNumberTypeBuffer );
-									}
-								}
-
-								else if (("BN").equals(numberQualifer)) {
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										
-										// Removed to avoid translation issues.
-										
-									}
-								}
-
-								else if (("EM").equals(numberQualifer)) {
-									
-									if(null!=renewalRequestMsgSupervisorBuffer) {
-										
-										// Removed to avoid translation issues.
-									}
-								}
-
-								supervisorCommunicationNumbersEnded = true;
-
-							}
-
-							// Supervisor end
-						}
+						// skip supervisor translation due to incomplete or bad data.
+
+						/*
+						 * if (("Supervisor").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * renewalRequestMsgSupervisorBuffer = new StringBuffer();
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("<Supervisor>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("<NonVeterinarian>");
+						 * 
+						 * setSupervisorElements = true;
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * }
+						 */
+
+						/*
+						 * if (setSupervisorElements == true) {
+						 * 
+						 * if (("Identification").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<Identification>"); }
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * setSupervisorName = true;
+						 * 
+						 * }
+						 * 
+						 * else if
+						 * (("StateLicenseNumber").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<StateLicenseNumber>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</StateLicenseNumber>"); }
+						 * 
+						 * } else if (("DEANumber").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<DEANumber>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</DEANumber>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("</Identification>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("<PracticeLocation>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("<Identification>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("</Identification>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("</PracticeLocation>"); }
+						 * setSupervisorName = true;
+						 * 
+						 * } else if (("NPI").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("<NPI>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</NPI>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("</Identification>");
+						 * 
+						 * }
+						 * 
+						 * // Supervisor Name elements else if (setSupervisorName == true) {
+						 * 
+						 * // Name if (("Name").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<Name>"); }
+						 * 
+						 * }
+						 * 
+						 * // LastName if (("LastName").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<LastName>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</LastName>"); }
+						 * 
+						 * }
+						 * 
+						 * // FirstName if (("FirstName").equals(startElement.getName().getLocalPart()))
+						 * {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<FirstName>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</FirstName>"); }
+						 * 
+						 * }
+						 * 
+						 * // MiddleName if
+						 * (("MiddleName").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // skip empty tags. if (xmlNextEvent.isCharacters() == true &&
+						 * xmlNextEvent.isEndElement() == false) {
+						 * renewalRequestMsgSupervisorBuffer.append("<MiddleName>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</MiddleName>"); }
+						 * 
+						 * 
+						 * }
+						 * 
+						 * }
+						 * 
+						 * // Suffix if (("Suffix").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // skip empty tags. if (xmlNextEvent.isCharacters() == true &&
+						 * xmlNextEvent.isEndElement() == false) {
+						 * renewalRequestMsgSupervisorBuffer.append("<Suffix>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</Suffix>"); }
+						 * 
+						 * 
+						 * }
+						 * 
+						 * }
+						 * 
+						 * // Prefix if (("Prefix").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // skip empty tags. if (xmlNextEvent.isCharacters() == true &&
+						 * xmlNextEvent.isEndElement() == false) {
+						 * renewalRequestMsgSupervisorBuffer.append("<Prefix>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</Prefix>"); }
+						 * 
+						 * 
+						 * }
+						 * 
+						 * }
+						 * 
+						 * 
+						 * 
+						 * }
+						 * 
+						 * if (("Address").equals(startElement.getName().getLocalPart())) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<Address>"); } xmlNextEvent =
+						 * eventReader.nextEvent();
+						 * 
+						 * }
+						 * 
+						 * else if (("AddressLine1").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<AddressLine1>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</AddressLine1>"); }
+						 * 
+						 * }
+						 * 
+						 * else if (("AddressLine2").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // skip empty tags. if (xmlNextEvent.isCharacters() == true &&
+						 * xmlNextEvent.isEndElement() == false) {
+						 * renewalRequestMsgSupervisorBuffer.append("<AddressLine2>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</AddressLine2>");
+						 * 
+						 * }
+						 * 
+						 * 
+						 * 
+						 * 
+						 * }
+						 * 
+						 * }
+						 * 
+						 * else if (("City").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<City>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</City>"); }
+						 * 
+						 * }
+						 * 
+						 * else if (("State").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<StateProvince>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</StateProvince>"); }
+						 * 
+						 * }
+						 * 
+						 * else if (("ZipCode").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<PostalCode>");
+						 * renewalRequestMsgSupervisorBuffer.append(xmlNextEvent.asCharacters().getData(
+						 * )); renewalRequestMsgSupervisorBuffer.append("</PostalCode>");
+						 * 
+						 * renewalRequestMsgSupervisorBuffer.append("</Address>"); }
+						 * 
+						 * }
+						 * 
+						 * else if
+						 * (("CommunicationNumbers").equals(startElement.getName().getLocalPart())) {
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("<CommunicationNumbers>"); }
+						 * 
+						 * }
+						 * 
+						 * else if (("Number").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent();
+						 * 
+						 * supervisorNumberBuffer = new StringBuffer();
+						 * 
+						 * supervisorNumberTypeBuffer = new StringBuffer();
+						 * 
+						 * String value = xmlNextEvent.asCharacters().getData();
+						 * 
+						 * if (StringUtils.isNotEmpty(value) && value.contains("@")) {
+						 * 
+						 * supervisorNumberBuffer.append(xmlNextEvent.asCharacters().getData()); } else
+						 * if (StringUtils.isNotEmpty(value) && value.contains("X")) {
+						 * 
+						 * supervisorNumberExtensionBuffer = new StringBuffer();
+						 * 
+						 * supervisorNumberExtensionBuffer .append(value.substring(value.indexOf("X") +
+						 * 1, value.length()));
+						 * 
+						 * supervisorNumberBuffer.append("<Number>");
+						 * 
+						 * value = value.substring(0, value.indexOf("X"));
+						 * 
+						 * value = trimPhoneFaxNumber(value);
+						 * 
+						 * supervisorNumberBuffer.append(value);
+						 * 
+						 * supervisorNumberBuffer.append("</Number>");
+						 * 
+						 * } else if (StringUtils.isNotEmpty(value) && value.contains("x")) {
+						 * 
+						 * supervisorNumberExtensionBuffer = new StringBuffer();
+						 * 
+						 * supervisorNumberExtensionBuffer .append(value.substring(value.indexOf("x") +
+						 * 1, value.length()));
+						 * 
+						 * supervisorNumberBuffer.append("<Number>");
+						 * 
+						 * value = value.substring(0, value.indexOf("x"));
+						 * 
+						 * value = trimPhoneFaxNumber(value);
+						 * 
+						 * supervisorNumberBuffer.append(value);
+						 * 
+						 * supervisorNumberBuffer.append("</Number>");
+						 * 
+						 * } else {
+						 * 
+						 * String numberVal = xmlNextEvent.asCharacters().getData();
+						 * supervisorNumberBuffer.append("<Number>");
+						 * 
+						 * numberVal = trimPhoneFaxNumber(numberVal);
+						 * 
+						 * supervisorNumberBuffer.append(numberVal);
+						 * supervisorNumberBuffer.append("</Number>"); }
+						 * 
+						 * }
+						 * 
+						 * else if (("Qualifier").equals(startElement.getName().getLocalPart())) {
+						 * 
+						 * xmlNextEvent = eventReader.nextEvent(); String numberQualifer =
+						 * xmlNextEvent.asCharacters().getData();
+						 * 
+						 * if (("HP").equals(numberQualifer)) {
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * supervisorNumberTypeBuffer.append("<HomeTelephone>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
+						 * 
+						 * supervisorNumberTypeBuffer.append("</HomeTelephone>");
+						 * 
+						 * supervisorNumberMap.put("HP",supervisorNumberTypeBuffer ); }
+						 * 
+						 * }
+						 * 
+						 * else if (("TE").equals(numberQualifer)) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<PrimaryTelephone>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer); } if
+						 * (supervisorNumberExtensionBuffer != null) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<Extension>");
+						 * supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
+						 * supervisorNumberTypeBuffer.append("</Extension>"); } }
+						 * 
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("</PrimaryTelephone>"); }
+						 * 
+						 * supervisorNumberMap.put("TE",supervisorNumberTypeBuffer );
+						 * 
+						 * 
+						 * }
+						 * 
+						 * else if (("FX").equals(numberQualifer)) {
+						 * if(null!=supervisorNumberTypeBuffer) {
+						 * supervisorNumberTypeBuffer.append("<Fax>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
+						 * 
+						 * 
+						 * supervisorNumberTypeBuffer.append("</Fax>");
+						 * 
+						 * supervisorNumberMap.put("FX",supervisorNumberTypeBuffer );
+						 * 
+						 * } } else if (("WP").equals(numberQualifer)) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<WorkTelephone>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer); } if
+						 * (supervisorNumberExtensionBuffer != null) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<Extension>");
+						 * supervisorNumberTypeBuffer.append(supervisorNumberExtensionBuffer);
+						 * supervisorNumberTypeBuffer.append("</Extension>"); } }
+						 * 
+						 * 
+						 * if(null!=supervisorNumberTypeBuffer) {
+						 * supervisorNumberTypeBuffer.append("</WorkTelephone>"); }
+						 * 
+						 * supervisorNumberMap.put("WP",supervisorNumberTypeBuffer ); }
+						 * 
+						 * else if (("NP").equals(numberQualifer)) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<OtherTelephone>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
+						 * 
+						 * supervisorNumberTypeBuffer.append("</OtherTelephone>");
+						 * 
+						 * supervisorNumberMap.put("NP",supervisorNumberTypeBuffer ); } }
+						 * 
+						 * // - Need to check CP
+						 * 
+						 * else if (("CP").equals(numberQualifer)) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * supervisorNumberTypeBuffer.append("<OtherTelephone>");
+						 * 
+						 * supervisorNumberTypeBuffer.append(supervisorNumberBuffer);
+						 * 
+						 * supervisorNumberTypeBuffer.append("</OtherTelephone>");
+						 * 
+						 * supervisorNumberMap.put("CP",supervisorNumberTypeBuffer ); } }
+						 * 
+						 * else if (("BN").equals(numberQualifer)) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // Removed to avoid translation issues.
+						 * 
+						 * } }
+						 * 
+						 * else if (("EM").equals(numberQualifer)) {
+						 * 
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * 
+						 * // Removed to avoid translation issues. } }
+						 * 
+						 * supervisorCommunicationNumbersEnded = true;
+						 * 
+						 * }
+						 * 
+						 * // Supervisor end }
+						 */
 
 						// MedicationPrescribed Start
 						if (("MedicationPrescribed").equals(startElement.getName().getLocalPart())) {
@@ -3423,11 +3388,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							}
 
-							else if (setSupervisorName == true) {
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-								renewalRequestMsgSupervisorBuffer.append("</Name>");								
-								}
-							}
+							/*
+							 * else if (setSupervisorName == true) {
+							 * if(null!=renewalRequestMsgSupervisorBuffer) {
+							 * renewalRequestMsgSupervisorBuffer.append("</Name>"); } }
+							 */
 							
 							
 							
@@ -3486,30 +3451,32 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgPrescriberBuffer.append("</CommunicationNumbers>");
 
-							} else if (supervisorCommunicationNumbersEnded == true) {
-								if(null!=renewalRequestMsgSupervisorBuffer) {
-									
-							    
-									if(supervisorNumberMap.containsKey("TE") == false) {
-										
-										
-										String temp  =  supervisorNumberMap.get("WP").toString();
-										
-										String primaryNumber = temp.replaceAll("<WorkTelephone>", "<PrimaryTelephone>");
-										
-										primaryNumber = primaryNumber.replaceAll("</WorkTelephone>", "</PrimaryTelephone>");
-										
-										supervisorNumberMap.put("WP",	new StringBuffer(primaryNumber));
-									}
-									
-									for(Map.Entry<String, StringBuffer> entry: supervisorNumberMap.entrySet()) {
-										
-										renewalRequestMsgSupervisorBuffer.append(entry.getValue());
-									}
-									
-								renewalRequestMsgSupervisorBuffer.append("</CommunicationNumbers>");
-								}
-							}
+							} 
+							
+							/*
+							 * else if (supervisorCommunicationNumbersEnded == true) {
+							 * if(null!=renewalRequestMsgSupervisorBuffer) {
+							 * 
+							 * 
+							 * if(supervisorNumberMap.containsKey("TE") == false) {
+							 * 
+							 * 
+							 * String temp = supervisorNumberMap.get("WP").toString();
+							 * 
+							 * String primaryNumber = temp.replaceAll("<WorkTelephone>",
+							 * "<PrimaryTelephone>");
+							 * 
+							 * primaryNumber = primaryNumber.replaceAll("</WorkTelephone>",
+							 * "</PrimaryTelephone>");
+							 * 
+							 * supervisorNumberMap.put("WP", new StringBuffer(primaryNumber)); }
+							 * 
+							 * for(Map.Entry<String, StringBuffer> entry: supervisorNumberMap.entrySet()) {
+							 * 
+							 * renewalRequestMsgSupervisorBuffer.append(entry.getValue()); }
+							 * 
+							 * renewalRequestMsgSupervisorBuffer.append("</CommunicationNumbers>"); } }
+							 */
 
 						}
 
@@ -3569,16 +3536,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 						}
 						// Supervisor - End
-						else if (("Supervisor").equals(endElement.getName().getLocalPart())) {
-							if(null!=renewalRequestMsgSupervisorBuffer) {
-							renewalRequestMsgSupervisorBuffer.append("</NonVeterinarian>");
-							renewalRequestMsgSupervisorBuffer.append("</Supervisor>");
-							}
-							setSupervisorElements = false; // reset. So it only sets values once.
-							
-							setSupervisorName = false;
-
-						}
+						/*
+						 * else if (("Supervisor").equals(endElement.getName().getLocalPart())) {
+						 * if(null!=renewalRequestMsgSupervisorBuffer) {
+						 * renewalRequestMsgSupervisorBuffer.append("</NonVeterinarian>");
+						 * renewalRequestMsgSupervisorBuffer.append("</Supervisor>"); }
+						 * setSupervisorElements = false; // reset. So it only sets values once.
+						 * 
+						 * setSupervisorName = false;
+						 * 
+						 * }
+						 */
 						// DrugCoded - End
 						else if (("DrugCoded").equals(endElement.getName().getLocalPart())) {
 
@@ -3721,7 +3689,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			wsResponse.setSuccess(false);
 
-			wsResponse.setErrorMessage("Error while saving vista outbound message, SaxException: " + ex.getMessage());
+			wsResponse.setErrorMessage("SaxException:Invalid XML or Data:" + ex.getMessage());
 
 			wsResponse.setOutboundMsgId(0);
 
@@ -3803,9 +3771,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			renewalRequestMsgSupervisorBuffer = null;
 
-			supervisorNumberBuffer = null;
+			//supervisorNumberBuffer = null;
 
-			supervisorNumberExtensionBuffer = null;
+			//supervisorNumberExtensionBuffer = null;
 
 			renewalRequestMsgMedicationPrescribedBuffer = null;
 
