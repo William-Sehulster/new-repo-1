@@ -1,18 +1,22 @@
 --PROMPTs for database link name e.g.(ERXD2_DBLINK.AAC.VA.GOV)
+
+--This script will pull the 10.6 messages from IEPP2 for the sites and time range defined in the CREATE TABLE AS
+--statement below and then load them into a temporary table on IEPP (version 4 DB).
+--It should be run from IEPP and the DB link from IEPP to IEPP2 must be in place.
+
 accept dblink char prompt 'Enter source database link name: '
 
 DROP TABLE erx.inbound_ncpdp_msg_tmp;
 
-CREATE TABLE erx.inbound_ncpdp_msg_tmp as select * from erx.inbound_ncpdp_msg@&dblink
-WHERE pharmacy_id in (142,23,264);
+--merging only the 4.0 IOC sites Honolulu (137), Indianapolis (142), MbM Chey (365) and MbM Dublin (264)
 
---merging only the IOC sites Indianapolis (142), Fayettville (23) and MbM Dublin (264)
+CREATE TABLE erx.inbound_ncpdp_msg_tmp as select * from erx.inbound_ncpdp_msg@&dblink t
+WHERE t.pharmacy_id in (137,142,365,264) and t.message_type in ('NewRx','CancelRx','RefillResponse')
+                            and t.message_status = '3002'
+                            and t.received_date between to_date('2020-11-12 21:03:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('2020-11-19 07:01:00', 'YYYY-MM-DD HH24:MI:SS');
+							
 
-INSERT INTO erx.inbound_ncpdp_msg (inbound_ncpdp_msg_id, message_id, rel_to_message_id, message_type, message_from, message,
-pharmacy_id, patient_chk_status, patient_match_details, provider_chk_status, provider_match_details, drug_chk_status,
-drug_match_details, message_status, message_status_details, received_date, updated_date, created_date)
-SELECT * FROM erx.inbound_ncpdp_msg_tmp;
-                                            
-COMMIT;
+SELECT COUNT(inbound_ncpdp_msg_id) from erx.inbound_ncpdp_msg_tmp;
+--Count should equal 29,353
 
-DROP TABLE erx.inbound_ncpdp_msg_tmp;
+

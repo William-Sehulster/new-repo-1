@@ -1,16 +1,19 @@
 --PROMPTs for database link name e.g.(ERXD2_DBLINK.AAC.VA.GOV)
+
+--This script will pull the 10.6 messages from IEPP2 for the sites and time range defined in the CREATE TABLE AS
+--statement below and then load them into the IEPP (version 4 DB).
+--It should be run from IEPP and the DB link from IEPP to IEPP2 must be in place.
+
 accept dblink char prompt 'Enter source database link name: '
 
 DROP TABLE erx.outbound_ncpdp_msg_tmp;
 
-CREATE TABLE erx.outbound_ncpdp_msg_tmp as select * from erx.outbound_ncpdp_msg@&dblink
-WHERE pharmacy_id in (142,23,264);
+--merging only the 4.0 IOC sites Honolulu (137), Indianapolis (142), MbM Chey (365) and MbM Dublin (264)
 
---merging only the IOC sites Indianapolis (142), Fayettville (23) and MbM Dublin (264)
+CREATE TABLE erx.outbound_ncpdp_msg_tmp as select * from erx.outbound_ncpdp_msg@&dblink t
+WHERE t.pharmacy_id in (137,142,365,264) and t.message_type in ('Error','CancelRxResponse','RefillRequest','Verify')
+                            and t.message_status = '4001'
+                            and t.received_date between to_date('2020-11-12 21:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('2020-11-18 22:57:00', 'YYYY-MM-DD HH24:MI:SS');
 
-INSERT INTO outbound_ncpdp_msg (outbound_ncpdp_msg_id, message_id, rel_to_message_id, message_type, message,
-pharmacy_id, message_status, message_status_details, received_date, updated_date, created_date)
-SELECT * FROM erx.outbound_ncpdp_msg_tmp;
-
-
-DROP TABLE erx.outbound_ncpdp_msg_tmp;
+SELECT COUNT(outbound_ncpdp_msg_id) from erx.outbound_ncpdp_msg_tmp;
+--Count should equal 25,577
