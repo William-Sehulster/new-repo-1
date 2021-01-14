@@ -9,10 +9,14 @@
       
     <http auto-config="true" > 
     
-    	<headers>    
+         <!-- 	<headers>    
     		<content-security-policy policy-directives="default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'" />
+    	</headers> -->
+    	
+    	<headers>    
+    		<content-security-policy policy-directives="default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'" />
     	</headers>
-    
+    	
         <!-- 
         <intercept-url pattern="/**" access="permitAll" />
         -->

@@ -26,7 +26,7 @@ var sessionExtended = false;
 		
 		var ie = IeVersion();
 
-		if( ie.IsIE == true && ie.CompatibilityMode == true){
+		if( ie.IsIE == true && ie.CompatibilityMode == true && ie.TrueVersion == 11){
 			
 			if(dojo.byId("compatWarning")!=null){
 				
