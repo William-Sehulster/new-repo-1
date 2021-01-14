@@ -2545,7 +2545,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Value>");
 									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+											.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData() ) );
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Value>");
 								}
 																
@@ -3057,7 +3057,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationDispensedBuffer.append("<Value>");
 									renewalRequestMsgMedicationDispensedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+											.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
 									renewalRequestMsgMedicationDispensedBuffer.append("</Value>");
 								}
 								
@@ -3845,6 +3845,25 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		{
 			return str;
 		}
+	}
+	
+	private String removeEndingPeriod(String str) {
+		
+		if(StringUtils.isNotEmpty(str)) {
+			
+			if(str.endsWith(".") == true) {
+				
+				str = str.substring(0, str.length()-1);
+			}
+				 
+			return str;
+		}
+		else
+		{
+			return str;
+		}
+		
+		
 	}
 
 	/*
