@@ -57,6 +57,14 @@
 	</script>
 	</div>
 
+    <div id="erxFilter" style="visability:hidden;">
+	<label for="erxTypeSelection">eRx Type:</label> 
+	<select  id="erxTypeSelection">
+		<option value="ALL">All</option>	
+        <option value="CS">CS</option>	
+		<option value="NONCS">Non-CS</option>
+	</select>
+    </div>
 
 	<label for="dateFrom">&nbsp;From Date:&nbsp;&nbsp;</label> 
 	<c:set var ="yesterdaysDateVal" value="<%=new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)%>"/>

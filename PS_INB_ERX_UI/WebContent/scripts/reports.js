@@ -151,10 +151,14 @@ function getSummaryReport() {
 
 	selected = getSelected(selectBox);
 	
-		
-		
+	//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
+	var eRxWidjitID = dojo.byId('erxFilter');
+	
 		if (selected == "SUMMRPT") {
 			showModalWin();
+			
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			//eRxWidjitID.style.display = "none";			
 			
 			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
 			buildSummaryReportTotalsGrid("summaryReportTotals");
@@ -163,6 +167,10 @@ function getSummaryReport() {
 			hideModalWin();
 		}
 		if (selected == "AUTOCHECKRPT") {
+						
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			//eRxWidjitID.style.display = "none";
+			
 			var valid = getAutoCheckReport();
 			
 			if(valid == true){
@@ -171,6 +179,10 @@ function getSummaryReport() {
 	
 		}
 		if (selected == "REJECTRESNRPT") {
+			
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			//eRxWidjitID.style.display = "none";
+			
 			var valid = getRejectReasonsReport();
 			
 			if(valid == true){
@@ -179,6 +191,12 @@ function getSummaryReport() {
 			
 		}
 		if (selected == "ERXSUMMRPT") {
+			
+			//M. Bolden - 5.0 - set eRx Visibility to visible
+			//eRxWidjitID.style.display = "block";
+			dojo.style("erxFilter", "visibility", "visible");
+			
+			
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){			
@@ -585,11 +603,13 @@ function getErxSummaryReport() {
 	var startDate = dijit.byId('dateFrom');
 	var endDate = dijit.byId('dateTo');
 	
+	//M. Bolden - 5.0 - added variable to capture value of eRx Type filter value.
+	var eRxTypeFilter = dojo.byId('erxTypeSelection');
+    var eRxselected = getSelected(eRxTypeFilter);
+	
+	
 	if(startDate!=null)
 	{	
-	
-	
-		
 	  startDate.constraints.max = new Date();
 	}
 	
@@ -613,8 +633,12 @@ function getErxSummaryReport() {
 	
     showModalWin();
     
-	erxSummaryReportDataGridInit("inb-erx","summaryReport", "erxSummaryReport/getReport?json=" + dojo.toJson(formObject) );
-	buildErxSummaryReportTotalsGrid("summaryReportTotals");
+	erxSummaryReportDataGridInit("inb-erx","summaryReport", "erxSummaryReport/getReport?json=" + dojo.toJson(formObject), eRxselected );
+	
+	//if(eRxselected = "ALL" || eRxselected == "CS" || eRxselected == "NONCS")
+		buildErxSummaryReportTotalsGrid("summaryReportTotals", eRxselected);
+	
+	
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();

@@ -436,8 +436,15 @@ function buildRejectReasonsReportLayout(servlet, target) {
 }
 
 
-function buildErxSummaryReportLayout(servlet, target) {
+function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 	var layout = new Array();
+	
+	//M. Bolden - 5.0 - get Filter value for eRxType and build grid based off of filter type provided
+	//var eRxTypeselectBox = dojo.byId("erxTypeSelection");
+	//var selectedIndex = eRxTypeselectBox.options.selectedIndex;
+	//var selected = eRxTypeselectBox.options[selectedIndex].value;
+	var selected = erxFilter;
+	//selected = "NONCS";
 	
 	var obj = new Object();
 	obj["field"] = 'visn';
@@ -475,69 +482,189 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//obj["formatter"] = formatSelectable;
 	//layout.push(obj);
 
-	obj = new Object();
-	obj["field"] = 'newRxCnt';
-	obj["name"] = "#New Rx";
-	obj["width"] = '156px';
-//	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "NONCS")
+	{
+		obj = new Object();
+		obj["field"] = 'newRxCnt';
+		obj["name"] = "#New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'refillRequest';
-	obj["name"] = "#RxRenewal Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{	
+		obj = new Object();
+		obj["field"] = 'newRxCntCS';
+		obj["name"] = "CS #New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+	
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillRequest';
+		obj["name"] = "#RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
-	obj = new Object();
-	obj["field"] = 'refillResponse';
-	obj["name"] = "#RxRenewal Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
-	
-	obj = new Object();
-	obj["field"] = 'rxChangeRequest';
-	obj["name"] = "#RxChange Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillRequestCS';
+		obj["name"] = "CS #RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	}
 
-	obj = new Object();
-	obj["field"] = 'rxChangeResponse';
-	obj["name"] = "#RxChange Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillResponse';
+		obj["name"] = "#RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
-	obj = new Object();
-	obj["field"] = 'cancelRx';
-	obj["name"] = "#CancelRx Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillResponseCS';
+		obj["name"] = "CS #RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	}
+
+	if (selected == "ALL" || selected == "NONCS")
+	{	
+		obj = new Object();
+		obj["field"] = 'rxChangeRequest';
+		obj["name"] = "#RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeRequestCS';
+		obj["name"] = "CS #RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'cancelRxResponse';
-	obj["name"] = "#CancelRx Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponse';
+		obj["name"] = "#RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'rxFill';
-	obj["name"] = "#RxFill";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponseCS';
+		obj["name"] = "CS #RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{	
+		obj = new Object();
+		obj["field"] = 'cancelRx';
+		obj["name"] = "#CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxCS';
+		obj["name"] = "CS #CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponse';
+		obj["name"] = "#CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponseCS';
+		obj["name"] = "CS #CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxFill';
+		obj["name"] = "#RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+	
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxFillCS';
+		obj["name"] = "CS #RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+
+		obj = new Object();
+		obj["field"] = 'rxDoNotFillCS';
+		obj["name"] = "CS #RxDoNotFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
 	return layout;
 }
@@ -1031,7 +1158,7 @@ function rejectReasonsReportDataGridInit(servlet, parentContainer, dataSourceURL
 
 //eRxSummaryReport
 //note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildErxSummaryReportTotalsGrid(parentContainer) {
+function buildErxSummaryReportTotalsGrid(parentContainer, eRxFilter) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -1041,24 +1168,49 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	var totals = {};	
 	var sumTable =  "";
 	
+	//M. Bolden - 5.0 - get Filter value for eRxType and build grid based off of filter type provided
+	//var eRxTypeselectBox = dojo.byId("erxTypeSelection");
+	//var selectedIndex = eRxTypeselectBox.options.selectedIndex;
+	//var selected = eRxTypeselectBox.options[selectedIndex].value;
+	var selected = eRxFilter;
+	//selected = "NONCS";
+	//M. Bolden - add new columns requested for 5.0 Control Substance summary report
 
 	totals ["newRxCnt"] = 0;
+	totals ["newRxCntCS"] = 0;   //5.0
 	totals ["refillRequest"] = 0;
+	totals ["refillRequestCS"] = 0; //5.0
 	totals ["refillResponse"] = 0;
+	totals ["refillResponseCS"] = 0; //5.0
 	totals ["rxChangeRequest"] = 0;
+	totals ["rxChangeRequestCS"] = 0; //5.0
 	totals ["rxChangeResponse"] = 0;
+	totals ["rxChangeResponseCS"] = 0; //5.0
 	totals ["cancelRx"] = 0;
+	totals ["cancelRxCS"] = 0; //5.0
 	totals ["cancelRxResponse"] = 0;
+	totals ["cancelRxResponseCS"] = 0; //5.0
 	totals ["rxFill"] = 0;
+	totals ["rxFillCS"] = 0; //5.0
+	totals ["doNotFillCS"] = 0; //5.0
 		
 	totals.newRxCnt  = 0;
+	totals.newRxCntCS = 0;  //5.0
 	totals.refillRequest  = 0;
+	totals.refillRequestCS = 0; //5.0
 	totals.refillResponse  = 0;
+	totals.refillResponseCS = 0; //5.0
 	totals.rxChangeRequest  = 0;
+	totals.rxChangeRequestCS = 0; //5.0
 	totals.rxChangeResponse  = 0;
+	totals.rxChangeResponseCS = 0; //5.0
 	totals.cancelRx  = 0;
+	totals.cancelRxCS = 0; //5.0
 	totals.cancelRxResponse  = 0;
+	totals.cancelRxResponseCS = 0; //5.0
 	totals.rxFill = 0;
+	totals.rxFillCS = 0; //5.0
+	totals.doNotFillCS = 0; //5.0
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
@@ -1077,7 +1229,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 
 	
 	//leverage layout of eRxSummaryReport
-	var layout = buildErxSummaryReportLayout(null, null);
+	var layout = buildErxSummaryReportLayout(null, null, selected);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
 	var tableWidth = totColWidth + parseInt(layout[5].width) 
@@ -1085,6 +1237,31 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 		+ parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width);
 
 
+
+    //M. Bolden - Add new columns for Controlled Substance to sumTable as well as build it based off of filter type chosen
+	
+	if(selected == "CS")
+	{
+     sumTable = 
+
+		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.refillRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.rxChangeRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.rxChangeResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.cancelRxCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.cancelRxResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxFillCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + ";'>" + numberFormat(totals.doNotFillCS) + "</td>" +
+	"</table>";		
+		
+	}
+	
+	else if (selected == "NONCS")
+	{
 	sumTable = 
 
 		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
@@ -1092,13 +1269,41 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCnt) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.refillRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>"+ numberFormat(totals.refillResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.cancelRx) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxFill) + "</td>" +
 	"</table>";
+	}
+	
+	else if(selected == "ALL")
+	{
+	sumTable =	
+		
+		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.refillRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.refillResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.refillResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxChangeRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + ";'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + ";'>" + numberFormat(totals.rxChangeResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + ";'>" + numberFormat(totals.cancelRx) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + ";'>" + numberFormat(totals.cancelRxCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + ";'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + ";'>" + numberFormat(totals.cancelRxResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + ";'>" + numberFormat(totals.rxFill) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + ";'>" + numberFormat(totals.rxFillCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[20].width + ";'>" + numberFormat(totals.doNotFillCS) + "</td>" +
+	"</table>";
+	}
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
@@ -1124,7 +1329,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	}});
 }
 
-function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL, eRxselected) {
 	try {
 		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
 			
@@ -1141,10 +1346,13 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				grid.selection.clear();
 			}
 			grid.setStore(gridData);
+			
+			var gridLayout2 = buildErxSummaryReportLayout(servlet, parentContainer, eRxselected);
+			grid.setStructure(gridLayout2);
 				
 	} else {
 			// DataGrid does not exist.
-			var gridLayout = buildErxSummaryReportLayout(servlet, parentContainer);
+			var gridLayout = buildErxSummaryReportLayout(servlet, parentContainer, eRxselected);
 			grid = new dojox.grid.DataGrid({
 				id : gridId,
 				showTitle : true,
@@ -1168,6 +1376,50 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 			grid.startup();
 			
 		}
+		/*
+			grid.filter({newRxCnt: "*"});
+			grid.filter({refillRequest: "*"});
+			grid.filter({refillResponse: "*"});
+			grid.filter({rxChangeRequest: "*"});
+			grid.filter({rxChangeResponse: "*"});
+			grid.filter({cancelRx: "*"});
+			grid.filter({cancelRxResponse: "*"});
+			grid.filter({rxFill: "*"});	
+			grid.filter({newRxCntCS: "*"});
+			grid.filter({refillRequestCS: "*"});
+			grid.filter({refillResponseCS: "*"});
+			grid.filter({rxChangeRequestCS: "*"});
+			grid.filter({rxChangeResponseCS: "*"});
+			grid.filter({cancelRxCS: "*"});
+			grid.filter({cancelRxResponseCS: "*"});
+			grid.filter({rxFillCS: "*"});
+			grid.filter({rxDoNotFillCS: "*"});	
+	
+        if(eRxselected == "CSONLY")
+		{
+			grid.filter({newRxCnt: true});
+			grid.filter({refillRequest: true});
+			grid.filter({refillResponse: true});
+			grid.filter({rxChangeRequest: true});
+			grid.filter({rxChangeResponse: true});
+			grid.filter({cancelRx: true});
+			grid.filter({cancelRxResponse: true});
+			grid.filter({rxFill: true});
+		}
+		if(eRxselected == "CSONLY")
+		{
+			
+			grid.filter({newRxCntCS: true});
+			grid.filter({refillRequestCS: true});
+			grid.filter({refillResponseCS: true});
+			grid.filter({rxChangeRequestCS: true});
+			grid.filter({rxChangeResponseCS: true});
+			grid.filter({cancelRxCS: true});
+			grid.filter({cancelRxResponseCS: true});
+			grid.filter({rxFillCS: true});
+			grid.filter({rxDoNotFillCS: true});
+		}
+	*/
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";
