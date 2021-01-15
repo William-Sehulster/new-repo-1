@@ -188,7 +188,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		
 		StringBuffer prescriberNumberTypeBuffer = new StringBuffer();
 		
-		StringBuffer supervisorNumberTypeBuffer = new StringBuffer();
+		//StringBuffer supervisorNumberTypeBuffer = new StringBuffer();
 		
 		StringBuffer renewalRequestMsgMedicationPrescribedSubstitutionsBuf = new StringBuffer();
 		
@@ -795,12 +795,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
 
-									if (pharmacyNumberExtensionBuffer != null) {
-
-										renewalRequestMsgPharmacyBuffer.append("<Extension>");
-										renewalRequestMsgPharmacyBuffer.append(pharmacyNumberExtensionBuffer);
-										renewalRequestMsgPharmacyBuffer.append("</Extension>");
-									}
+									// skip extension.
+									/*
+									 * if (pharmacyNumberExtensionBuffer != null) {
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append("<Extension>");
+									 * renewalRequestMsgPharmacyBuffer.append(pharmacyNumberExtensionBuffer);
+									 * renewalRequestMsgPharmacyBuffer.append("</Extension>"); }
+									 */
 
 									
 
@@ -823,12 +825,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
 
-									if (pharmacyNumberExtensionBuffer != null) {
-
-										renewalRequestMsgPharmacyBuffer.append("<Extension>");
-										renewalRequestMsgPharmacyBuffer.append(pharmacyNumberExtensionBuffer);
-										renewalRequestMsgPharmacyBuffer.append("</Extension>");
-									}
+									// skip extension.
+									/*
+									 * if (pharmacyNumberExtensionBuffer != null) {
+									 * 
+									 * renewalRequestMsgPharmacyBuffer.append("<Extension>");
+									 * renewalRequestMsgPharmacyBuffer.append(pharmacyNumberExtensionBuffer);
+									 * renewalRequestMsgPharmacyBuffer.append("</Extension>"); }
+									 */
 
 									
 
@@ -1284,12 +1288,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumberTypeBuffer.append(patientNumberBuffer);
 
-									if (patientNumberBufferExtension != null) {
-
-										patientNumberTypeBuffer.append("<Extension>");
-										patientNumberTypeBuffer.append(patientNumberBufferExtension);
-										patientNumberTypeBuffer.append("</Extension>");
-									}
+									// skip extension.
+									/*
+									 * if (patientNumberBufferExtension != null) {
+									 * 
+									 * patientNumberTypeBuffer.append("<Extension>");
+									 * patientNumberTypeBuffer.append(patientNumberBufferExtension);
+									 * patientNumberTypeBuffer.append("</Extension>"); }
+									 */
 
 									
 									patientNumberTypeBuffer.append("</PrimaryTelephone>");
@@ -1315,12 +1321,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumberTypeBuffer.append(patientNumberBuffer);
 
-									if (patientNumberBufferExtension != null) {
-
-										patientNumberTypeBuffer.append("<Extension>");
-										patientNumberTypeBuffer.append(patientNumberBufferExtension);
-										patientNumberTypeBuffer.append("</Extension>");
-									}									
+									// skip extension.
+									/*
+									 * if (patientNumberBufferExtension != null) {
+									 * 
+									 * patientNumberTypeBuffer.append("<Extension>");
+									 * patientNumberTypeBuffer.append(patientNumberBufferExtension);
+									 * patientNumberTypeBuffer.append("</Extension>"); }
+									 */								
 
 									patientNumberTypeBuffer.append("</WorkTelephone>");
 									
@@ -1787,12 +1795,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
 
-									if (prescriberNumberExtensionBuffer != null) {
-
-										prescriberNumberTypeBuffer.append("<Extension>");
-										prescriberNumberTypeBuffer.append(prescriberNumberExtensionBuffer);
-										prescriberNumberTypeBuffer.append("</Extension>");
-									}									
+									// skip extension.
+									/*
+									 * if (prescriberNumberExtensionBuffer != null) {
+									 * 
+									 * prescriberNumberTypeBuffer.append("<Extension>");
+									 * prescriberNumberTypeBuffer.append(prescriberNumberExtensionBuffer);
+									 * prescriberNumberTypeBuffer.append("</Extension>"); }
+									 */								
 
 									prescriberNumberTypeBuffer.append("</PrimaryTelephone>");
 									
@@ -1817,12 +1827,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
 
-									if (prescriberNumberExtensionBuffer != null) {
-
-										prescriberNumberTypeBuffer.append("<Extension>");
-										prescriberNumberTypeBuffer.append(prescriberNumberExtensionBuffer);
-										prescriberNumberTypeBuffer.append("</Extension>");
-									}
+									// skip extension.
+									/*
+									 * if (prescriberNumberExtensionBuffer != null) {
+									 * 
+									 * prescriberNumberTypeBuffer.append("<Extension>");
+									 * prescriberNumberTypeBuffer.append(prescriberNumberExtensionBuffer);
+									 * prescriberNumberTypeBuffer.append("</Extension>"); }
+									 */
 
 									prescriberNumberTypeBuffer.append("</WorkTelephone>");
 									
@@ -3831,14 +3843,29 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		
 		if(StringUtils.isNotEmpty(str)) {
 		
+			// trim whitespaces.
+			str = str.trim();
+			
 			str = str.replaceAll("-", "");
+			
+			str = str.replaceAll("(", "");
+			
+			str = str.replaceAll(")", "");
 			
 			
 		 if(str.length()>10) {
 			
 			str = str.substring(1, str.length());
 		 }	
-			
+		 
+		 
+		 // if incoming number is not series of digits at all, just a set a dummy 10 1s to be safe.
+		 if(StringUtils.isNumeric(str) == false)
+		 {
+			 str = "1111111111";
+			 
+		 }
+		 		
 			return str;
 		}
 		else
