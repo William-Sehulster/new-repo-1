@@ -4400,7 +4400,7 @@ commit;</sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/30 15:26:35.000</modified_date>
+  <modified_date>2021/01/25 13:35:46.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -4894,7 +4894,7 @@ and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'Ca
 and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
 and pharmacy_id in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
-where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
+where rownum &lt;= ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
       <maximum_timeout>0</maximum_timeout>
       <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>
@@ -4952,7 +4952,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/30 19:56:26.000</modified_date>
+  <modified_date>2021/01/25 13:35:20.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -5434,7 +5434,7 @@ and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'Ca
 and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
 and pharmacy_id not in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
-where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
+where rownum &lt;= ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
       <maximum_timeout>0</maximum_timeout>
       <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>
