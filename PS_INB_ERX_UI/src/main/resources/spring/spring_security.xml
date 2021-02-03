@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/security 
     http://www.springframework.org/schema/security/spring-security.xsd">
       
-    <http auto-config="true" > 
+    <http auto-config="true" >  
     
          <!-- 	<headers>    
     		<content-security-policy policy-directives="default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'" />

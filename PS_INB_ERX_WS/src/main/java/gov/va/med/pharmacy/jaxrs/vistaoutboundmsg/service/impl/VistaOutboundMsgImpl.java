@@ -168,10 +168,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 		StringBuffer renewalRequestMsgSupervisorBuffer = null;
 
-		//StringBuffer supervisorNumberBuffer = null;
-
-		//StringBuffer supervisorNumberExtensionBuffer = null;
-
 		StringBuffer renewalRequestMsgMedicationPrescribedBuffer = new StringBuffer();
 
 		StringBuffer renewalRequestMsgMedicationDispensedBuffer = new StringBuffer();
@@ -187,8 +183,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		StringBuffer patientNumberTypeBuffer = new StringBuffer();
 		
 		StringBuffer prescriberNumberTypeBuffer = new StringBuffer();
-		
-		//StringBuffer supervisorNumberTypeBuffer = new StringBuffer();
 		
 		StringBuffer renewalRequestMsgMedicationPrescribedSubstitutionsBuf = new StringBuffer();
 		
@@ -215,6 +209,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		String quantityUnitOfMeasure = null; 
 		
 		String newRxMsg = null;
+		
+		String medicationPrescribedQUOM = null;
+		
+		String medicationDispensedQUOM = null;
 
 		try {
 
@@ -2589,7 +2587,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Code>");
 								
-								renewalRequestMsgMedicationPrescribedBuffer.append(quantityUnitOfMeasure!=null?quantityUnitOfMeasure:xmlNextEvent.asCharacters().getData());
+								if(quantityUnitOfMeasure == null) {
+									
+									quantityUnitOfMeasure = xmlNextEvent.asCharacters().getData();
+								}
+								
+								medicationPrescribedQUOM = quantityUnitOfMeasure;
+								
+								renewalRequestMsgMedicationPrescribedBuffer.append(quantityUnitOfMeasure);
 								
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Code>");
 
@@ -3100,7 +3105,28 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Code>");
 								
-								renewalRequestMsgMedicationDispensedBuffer.append(quantityUnitOfMeasure!=null?quantityUnitOfMeasure:xmlNextEvent.asCharacters().getData());
+								medicationDispensedQUOM = xmlNextEvent.asCharacters().getData();
+																						
+																
+								//EPRESCRIB-3414
+								if(StringUtils.isNotEmpty(medicationPrescribedQUOM) && StringUtils.isNotEmpty(medicationDispensedQUOM)) {
+									
+									if(medicationDispensedQUOM.equalsIgnoreCase(medicationPrescribedQUOM)) {
+										
+										renewalRequestMsgMedicationDispensedBuffer.append(medicationDispensedQUOM);
+									}
+									else
+									{
+										renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
+									}
+								}
+								else
+								{
+									// if for some reason Potency Unit value is null for medication dispensed.
+									renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
+								}
+								
+								
 								
 								renewalRequestMsgMedicationDispensedBuffer.append("</Code>");
 
@@ -3848,9 +3874,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 			
 			str = str.replaceAll("-", "");
 			
-			str = str.replaceAll("(", "");
-			
-			str = str.replaceAll(")", "");
+			str = str.replaceAll("[()]", "");	
 			
 			
 		 if(str.length()>10) {
