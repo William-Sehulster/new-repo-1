@@ -38,13 +38,15 @@ import net.rossillo.spring.web.mvc.CachePolicy;
 public class ErxSummaryReportController {
 	
 	
-	private static final String[] ERX_SUMMARY_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", 
-			                                               "#RxRenewal Request", "#RxRenewal Response", "#RxChange Request","#RxChange Response","#RxCancel Request",
-			                                               "#CancelRx Response","#RxFill"};
+	private static final String[] ERX_SUMMARY_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", " CS #New Rx", 
+			                                               "#RxRenewal Request", " CS #RxRenewal Request", "#RxRenewal Response", "CS #RxRenewal Response","#RxChange Request",
+			                                               "CS #RxChange Request", "#RxChange Response", "CS #RxChange Response", "#RxCancel Request", "CS #RxCancel Request",
+			                                               "#CancelRx Response", "CS #CancelRx Response", "#RxFill", "CS #RxFill"};
 	
-	private static final String[] ERX_SUMMARY_REPORT_TOTALS_HEADER = {"#New Rx", 
-            "#Rx Renewal Request", "#Rx Renewal Response", "#Rx Change Request","#Rx Change Response","#Rx Cancel Request",
-            "#Cancel Rx Response","#RxFill"};
+	private static final String[] ERX_SUMMARY_REPORT_TOTALS_HEADER = {"#New Rx", " CS #New Rx", 
+            "#RxRenewal Request", " CS #RxRenewal Request", "#RxRenewal Response", "CS #RxRenewal Response","#RxChange Request",
+            "CS #RxChange Request", "#RxChange Response", "CS #RxChange Response", "#RxCancel Request", "CS #RxCancel Request",
+            "#CancelRx Response", "CS #CancelRx Response", "#RxFill", "CS #RxFill"};
 
 	@Autowired
 	private ErxSummaryReportService erxSummaryReportService;
@@ -224,9 +226,10 @@ public class ErxSummaryReportController {
 		
 		String[][] dataRows = new String[1][totalHeaders.length];
 		
-		String[][] summaryReportHeaders = { {"#New Rx", 
-            "#RxRenewal Request", "#RxRenewal Response", "#RxChange Request","#RxChange Response","#RxCancel Request",
-            "#CancelRx Response","#RxFill"}};
+		String[][] summaryReportHeaders = { {"#New Rx", " CS #New Rx", 
+            "#RxRenewal Request", " CS #RxRenewal Request", "#RxRenewal Response", "CS #RxRenewal Response","#RxChange Request",
+            "CS #RxChange Request", "#RxChange Response", "CS #RxChange Response", "#RxCancel Request", "CS #RxCancel Request",
+            "#CancelRx Response", "CS #CancelRx Response", "#RxFill", "CS #RxFill"}};
 		
 		int sumVal = 0;
 		
