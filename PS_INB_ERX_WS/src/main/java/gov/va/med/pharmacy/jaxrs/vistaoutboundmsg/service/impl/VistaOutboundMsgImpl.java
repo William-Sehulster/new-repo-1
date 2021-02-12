@@ -2531,7 +2531,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedSigBuffer.append("<SigText>");
 
-								renewalRequestMsgMedicationPrescribedSigBuffer.append(xmlNextEvent.asCharacters().getData());
+								String sigData = xmlNextEvent.asCharacters().getData();
+								
+								sigData = sigData.replaceAll("&amp;","and");
+								
+								sigData = sigData.replaceAll("&","and");
+								
+								renewalRequestMsgMedicationPrescribedSigBuffer.append(sigData);
 
 								renewalRequestMsgMedicationPrescribedSigBuffer.append("</SigText>");
 
@@ -3021,7 +3027,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationDispensedSigBuffer.append("<SigText>");
 
-								renewalRequestMsgMedicationDispensedSigBuffer.append(xmlNextEvent.asCharacters().getData());
+								String sigData = xmlNextEvent.asCharacters().getData();
+								
+								sigData = sigData.replace("&amp;","and");
+								
+								sigData = sigData.replaceAll("&","and");
+								
+								renewalRequestMsgMedicationDispensedSigBuffer.append(sigData);
 
 								renewalRequestMsgMedicationDispensedSigBuffer.append("</SigText>");
 
