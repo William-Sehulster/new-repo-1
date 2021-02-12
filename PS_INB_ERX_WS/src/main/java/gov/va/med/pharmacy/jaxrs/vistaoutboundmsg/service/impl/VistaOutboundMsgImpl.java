@@ -46,6 +46,7 @@ import gov.va.med.pharmacy.persistence.model.OutboundNcpdpMsgEntity;
 import gov.va.med.pharmacy.persistence.service.InboundNcpdpMsgService;
 import gov.va.med.pharmacy.persistence.service.OutboundNcpdpMsgService;
 import gov.va.med.pharmacy.utility.StreamUtilities;
+
 /**
  * A class that implement saves vista outbound message which are coming from
  * vista and sends response back in JSON.
@@ -56,8 +57,7 @@ import gov.va.med.pharmacy.utility.StreamUtilities;
 @Produces("application/xml")
 public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
-	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager
-			.getLogger(VistaOutboundMsgImpl.class);
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(VistaOutboundMsgImpl.class);
 
 	private static final String SCRIPT_VERSION = "2017071";
 
@@ -75,7 +75,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 	@Autowired
 	private OutboundNcpdpMsgService outboundNcpdpMsgService;
-	
+
 	@Autowired
 	private InboundNcpdpMsgService inboundNcpdpMsgService;
 
@@ -84,6 +84,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 	public VistaOutboundResponse persistMessage(@FormParam("xmlRequest") String messageStr) {
 
 		VistaOutboundResponse wsResponse = new VistaOutboundResponse();
+		
 		try {
 
 			OutboundNcpdpMsgEntity outboundMsg = new OutboundNcpdpMsgEntity();
@@ -141,17 +142,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		StreamSource xsdStreamSource = null;
 
 		Source xsdSource = null;
-		
+
 		SchemaFactory schemaFactory = null;
-		
+
 		Schema schema = null;
 
 		SAXParserFactory saxParserFactory = null;
-		
+
 		SAXParser saxparser = null;
 
 		XMLReader xmlReader = null;
-		
+
 		StringBuffer renewalRequestMsgBuffer = null;
 
 		StringBuffer pharmacyNumberBuffer = null;
@@ -166,8 +167,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 		StringBuffer prescriberNumberExtensionBuffer = null;
 
-		StringBuffer renewalRequestMsgSupervisorBuffer = null;
-
 		StringBuffer renewalRequestMsgMedicationPrescribedBuffer = new StringBuffer();
 
 		StringBuffer renewalRequestMsgMedicationDispensedBuffer = new StringBuffer();
@@ -179,40 +178,52 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		StringBuffer patientNumberBuffer = null;
 
 		StringBuffer patientNumberBufferExtension = null;
-		
+
 		StringBuffer patientNumberTypeBuffer = new StringBuffer();
-		
+
 		StringBuffer prescriberNumberTypeBuffer = new StringBuffer();
-		
+
 		StringBuffer renewalRequestMsgMedicationPrescribedSubstitutionsBuf = new StringBuffer();
-		
+
 		StringBuffer renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf = null;
-		
+
 		String substitutionsValue = null;
-		
+
 		StreamResult formattedXMLString = null;
-		
-		Source inputXMLString =  null;
-		
-		TransformerFactory transformerFactory = null;				
-		
-		Transformer  transformer = null;
-		
+
+		Source inputXMLString = null;
+
+		TransformerFactory transformerFactory = null;
+
+		Transformer transformer = null;
+
 		XMLInputFactory xmlInputFactory = null;
 
 		XMLEventReader eventReader = null;
-		
+
 		String relatesToMesageId = null;
-		
+
 		String numberOfRefills = null;
-		
-		String quantityUnitOfMeasure = null; 
-		
+
+		String quantityUnitOfMeasure = null;
+
 		String newRxMsg = null;
-		
+
 		String medicationPrescribedQUOM = null;
-		
+
 		String medicationDispensedQUOM = null;
+
+		String rxChangeRequestQUOM = null;
+
+		String rxChangeRelatesToMesageId = null;
+
+		String rxChangeNewRx = null;
+
+		String rxRenewalRequestRelatesToMesageId = null;
+
+		String rxRenewalRequestNewRx = null;
+
+		String rxRenewalRequesQUOM = null;
 
 		try {
 
@@ -261,7 +272,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				inputparseXML.setEncoding(UTF_8_CONST_STRING);
 
 				xmlReader.parse(inputparseXML);
-				
 
 				// if validation is successful proceed further.
 
@@ -276,134 +286,116 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 				// TODO - use stax2 com.fasterxml.woodstox
 
-							
-				// Format String xml before parsing it.			
-				
-				transformerFactory = TransformerFactory.newInstance();	
-				
+				// Format String xml before parsing it.
+
+				transformerFactory = TransformerFactory.newInstance();
+
 				transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-				
-				//transformerFactory.setAttribute("http://javax.xml.XMLConstants/property/accessExternalDTD", "");
-				
-				//transformerFactory.setAttribute("http://javax.xml.XMLConstants/property/accessExternalStylesheet", "");
-								
+
+				// transformerFactory.setAttribute("http://javax.xml.XMLConstants/property/accessExternalDTD",
+				// "");
+
+				// transformerFactory.setAttribute("http://javax.xml.XMLConstants/property/accessExternalStylesheet",
+				// "");
+
 				transformer = transformerFactory.newTransformer();
-				
+
 				transformer.setParameter("http://javax.xml.XMLConstants/property/accessExternalDTD", "false");
-				
+
 				transformer.setParameter("http://javax.xml.XMLConstants/property/accessExternalStylesheet", "false");
-			
+
 				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-				
+
 				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-				
-				
+
 				formattedXMLString = new StreamResult(new StringWriter());
-				
-				inputXMLString =  new StreamSource(new StringReader(message));
-				
+
+				inputXMLString = new StreamSource(new StringReader(message));
+
 				transformer.transform(inputXMLString, formattedXMLString);
-				
-				
-				//formatted xml string.
-				
+
+				// formatted xml string.
+
 				message = formattedXMLString.getWriter().toString();
-				  
-				//System.out.println("---------- Formatted String xml: "+message);	
-				
+
+				// System.out.println("---------- Formatted String xml: "+message);
+
 				// Now query the NewRx for this 10.6 RefillRequest.
-				
-						
+
 				if (message.indexOf("<RelatesToMessageID>") != -1) {
 
-					
 					relatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
-						
 
 				}
-				
-				//System.out.println("------ NewRx MessageID:"+relatesToMesageId);
-				
+
+				// System.out.println("------ NewRx MessageID:"+relatesToMesageId);
+
 				InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(relatesToMesageId);
-				
-				if(null!=inboundNcpdpMsgEntity) {
-				
-					 newRxMsg = inboundNcpdpMsgEntity.getMessage();
+
+				if (null != inboundNcpdpMsgEntity) {
+
+					newRxMsg = inboundNcpdpMsgEntity.getMessage();
 				}
-				
-				
-				
-				//System.out.println("------ NewRx Queried Message:"+newRxMsg);
-				
-				if(null!=newRxMsg) {
-					
+
+				// System.out.println("------ NewRx Queried Message:"+newRxMsg);
+
+				if (null != newRxMsg) {
+
 					if (newRxMsg.indexOf("<PotencyUnitCode>") != -1) {
 
-						
-						quantityUnitOfMeasure = newRxMsg.substring(newRxMsg.indexOf("<PotencyUnitCode>") + 17,	newRxMsg.indexOf("</PotencyUnitCode>"));
-							
+						quantityUnitOfMeasure = newRxMsg.substring(newRxMsg.indexOf("<PotencyUnitCode>") + 17, newRxMsg.indexOf("</PotencyUnitCode>"));
 
 					}
-					
+
 					if (message.indexOf("<Refills>") != -1) {
 
-						
-						String tempStr  = newRxMsg.substring(newRxMsg.indexOf("<Refills>") + 47,	newRxMsg.indexOf("</Refills>"));
-						
-						if(StringUtils.isNotEmpty(tempStr) && tempStr.indexOf("<Value>") != -1) {
-							
+						String tempStr = newRxMsg.substring(newRxMsg.indexOf("<Refills>") + 47,	newRxMsg.indexOf("</Refills>"));
+
+						if (StringUtils.isNotEmpty(tempStr) && tempStr.indexOf("<Value>") != -1) {
+
 							numberOfRefills = tempStr.substring(tempStr.indexOf("<Value>") + 7,	tempStr.indexOf("</Value>"));
-							
+
 						}
-							
 
 					}
-					
-					// System.out.println("----------- quantityUnitOfMeasure:"+quantityUnitOfMeasure);
-					 
-					 //System.out.println("----------- numberOfRefills:"+numberOfRefills);
-					
+
+					// System.out.println("-----------
+					// quantityUnitOfMeasure:"+quantityUnitOfMeasure);
+
+					// System.out.println("----------- numberOfRefills:"+numberOfRefills);
+
 				}
-				
-				
+
 				xmlInputFactory = XMLInputFactory.newInstance();
-				
+
 				xmlInputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
 
 				eventReader = xmlInputFactory.createXMLEventReader(new StringReader(message));
 
-				//  iterator based api which creates event objects.
+				// iterator based api which creates event objects.
 
 				boolean cardHolderNameElementchecked = false;
 
-				boolean patientNameElementchecked = false;				
+				boolean patientNameElementchecked = false;
 
-				boolean patientCommunicationNumbersEnded = false;			
+				boolean patientCommunicationNumbersEnded = false;
 
 				boolean setPharmacyElements = false;
 
 				boolean setPrescriberElements = false;
 
-				boolean setPrescriberName = false;	
-				
-				boolean setPrescriberNameShortElement = false;	
+				boolean setPrescriberName = false;
 
-				//boolean setPrescriberAgentName = false;				
+				boolean setPrescriberNameShortElement = false;
 
 				boolean prescriberCommunicationNumbersEnded = false;
-
-				//boolean supervisorCommunicationNumbersEnded = false;
-
-				//boolean setSupervisorName = false;
-
-				//boolean setSupervisorElements = false;				
 
 				boolean setMedicationPrescribedElements = false;
 
 				boolean medicationPrescribedWrittenDate = false;
 
 				boolean medicationPrescribeRefillQualifier = false;
-				
+
 				boolean medicationPrescribeRefillQualifierPRN = false;
 
 				boolean setMedicationDispensedElements = false;
@@ -425,14 +417,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				boolean medicationDispensedLastFillDate = false;
 
 				boolean medicationDispensedPriorAuthorizationValue = false;
-				
+
 				String pharmacyNCPDPID = null;
 
-				//boolean setObservationElements = false;
-				
+				// boolean setObservationElements = false;
+
 				LinkedHashMap<String, StringBuffer> patientNumberMap = new LinkedHashMap<String, StringBuffer>();
 				LinkedHashMap<String, StringBuffer> prescriberNumberMap = new LinkedHashMap<String, StringBuffer>();
-				//LinkedHashMap<String, StringBuffer> supervisorNumberMap = new LinkedHashMap<String, StringBuffer>();
+				// LinkedHashMap<String, StringBuffer> supervisorNumberMap = new
+				// LinkedHashMap<String, StringBuffer>();
 
 				while (eventReader.hasNext()) {
 					// Move to next event
@@ -559,8 +552,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						// Pharmacy - Start
 						if (("Pharmacy").equals(startElement.getName().getLocalPart())) {
 
-							
-
 							renewalRequestMsgPharmacyBuffer.append("<Pharmacy>");
 
 							setPharmacyElements = true;
@@ -584,7 +575,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgPharmacyBuffer.append("<NCPDPID>");
-								// Using the pharmacy NCPDPD ID coming from the from element as it's inconsident coming in the 
+								// Using the pharmacy NCPDPD ID coming from the from element as it's inconsident
+								// coming in the
 								// NCPDPD ID element.
 								renewalRequestMsgPharmacyBuffer.append(pharmacyNCPDPID);
 								renewalRequestMsgPharmacyBuffer.append("</NCPDPID>");
@@ -598,9 +590,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgPharmacyBuffer.append("</NPI>");
 
 								renewalRequestMsgPharmacyBuffer.append("</Identification>");
-
-													
-								
 
 							}
 
@@ -624,87 +613,71 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							else if (("AddressLine1").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPharmacyBuffer.append("<AddressLine1>");
 									renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPharmacyBuffer.append("</AddressLine1>");
 								}
-
-								
 
 							}
 
 							else if (("AddressLine2").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPharmacyBuffer.append("<AddressLine2>");
 									renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPharmacyBuffer.append("</AddressLine2>");
 								}
-
-							
 
 							}
 
 							else if (("City").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPharmacyBuffer.append("<City>");
 									renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPharmacyBuffer.append("</City>");
 								}
-								
-								
 
 							}
 
 							else if (("State").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPharmacyBuffer.append("<StateProvince>");
 									renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPharmacyBuffer.append("</StateProvince>");
 								}
-								
-								
 
 							}
 
 							else if (("ZipCode").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPharmacyBuffer.append("<PostalCode>");
 									renewalRequestMsgPharmacyBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPharmacyBuffer.append("</PostalCode>");
-									
+
 									renewalRequestMsgPharmacyBuffer.append("<CountryCode>");
 									renewalRequestMsgPharmacyBuffer.append("US");
 									renewalRequestMsgPharmacyBuffer.append("</CountryCode>");
 
-
 									renewalRequestMsgPharmacyBuffer.append("</Address>");
 								}
-								
-								
 
 							}
 
@@ -726,36 +699,34 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									pharmacyNumberBuffer.append(xmlNextEvent.asCharacters().getData());
 
-								} else if (StringUtils.isNotEmpty(pharmacyNumberExtensionValue) && pharmacyNumberExtensionValue.contains("X")) {
+								} else if (StringUtils.isNotEmpty(pharmacyNumberExtensionValue)	&& pharmacyNumberExtensionValue.contains("X")) {
 
 									pharmacyNumberExtensionBuffer = new StringBuffer();
 
-									pharmacyNumberExtensionBuffer
-											.append(pharmacyNumberExtensionValue.substring(pharmacyNumberExtensionValue.indexOf("X") + 1, pharmacyNumberExtensionValue.length()));
+									pharmacyNumberExtensionBuffer.append(pharmacyNumberExtensionValue.substring(pharmacyNumberExtensionValue.indexOf("X") + 1,	pharmacyNumberExtensionValue.length()));
 
 									pharmacyNumberBuffer.append("<Number>");
 
 									pharmacyNumberExtensionValue = pharmacyNumberExtensionValue.substring(0, pharmacyNumberExtensionValue.indexOf("X"));
-									
+
 									pharmacyNumberExtensionValue = trimPhoneFaxNumber(pharmacyNumberExtensionValue);
-																		
+
 									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue);
 
 									pharmacyNumberBuffer.append("</Number>");
 
-								} else if (StringUtils.isNotEmpty(pharmacyNumberExtensionValue) && pharmacyNumberExtensionValue.contains("x")) {
+								} else if (StringUtils.isNotEmpty(pharmacyNumberExtensionValue)	&& pharmacyNumberExtensionValue.contains("x")) {
 
 									pharmacyNumberExtensionBuffer = new StringBuffer();
 
-									pharmacyNumberExtensionBuffer
-											.append(pharmacyNumberExtensionValue.substring(pharmacyNumberExtensionValue.indexOf("x") + 1, pharmacyNumberExtensionValue.length()));
+									pharmacyNumberExtensionBuffer.append(pharmacyNumberExtensionValue.substring(pharmacyNumberExtensionValue.indexOf("x") + 1,	pharmacyNumberExtensionValue.length()));
 
 									pharmacyNumberBuffer.append("<Number>");
 
 									pharmacyNumberExtensionValue = pharmacyNumberExtensionValue.substring(0, pharmacyNumberExtensionValue.indexOf("x"));
-									
+
 									pharmacyNumberExtensionValue = trimPhoneFaxNumber(pharmacyNumberExtensionValue);
-									
+
 									pharmacyNumberBuffer.append(pharmacyNumberExtensionValue);
 
 									pharmacyNumberBuffer.append("</Number>");
@@ -763,7 +734,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								} else {
 
 									String numberVal = xmlNextEvent.asCharacters().getData();
-									pharmacyNumberBuffer.append("<Number>");									
+									pharmacyNumberBuffer.append("<Number>");
 									numberVal = trimPhoneFaxNumber(numberVal);
 									pharmacyNumberBuffer.append(numberVal);
 									pharmacyNumberBuffer.append("</Number>");
@@ -781,7 +752,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgPharmacyBuffer.append("<HomeTelephone>");
 
-									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);									
+									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
 
 									renewalRequestMsgPharmacyBuffer.append("</HomeTelephone>");
 
@@ -802,8 +773,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 * renewalRequestMsgPharmacyBuffer.append("</Extension>"); }
 									 */
 
-									
-
 									renewalRequestMsgPharmacyBuffer.append("</PrimaryTelephone>");
 
 								}
@@ -814,7 +783,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgPharmacyBuffer.append(pharmacyNumberBuffer);
 
-									
 									renewalRequestMsgPharmacyBuffer.append("</Fax>");
 
 								} else if (("WP").equals(numberQualifer)) {
@@ -831,8 +799,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 * renewalRequestMsgPharmacyBuffer.append(pharmacyNumberExtensionBuffer);
 									 * renewalRequestMsgPharmacyBuffer.append("</Extension>"); }
 									 */
-
-									
 
 									renewalRequestMsgPharmacyBuffer.append("</WorkTelephone>");
 
@@ -861,8 +827,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								}
 
 								else if (("BN").equals(numberQualifer)) {
-									
-									//commenting out beeper translation to avoid issues 
+
+									// commenting out beeper translation to avoid issues
 									/*
 									 * renewalRequestMsgPharmacyBuffer.append("<Beeper>");
 									 * 
@@ -905,16 +871,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						if (("CardholderID").equals(startElement.getName().getLocalPart())) {
 
 							xmlNextEvent = eventReader.nextEvent();
-							
+
 							// skip empty tags.
-							if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-							{
+							if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 								renewalRequestMsgBuffer.append("<CardholderID>");
 								renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgBuffer.append("</CardholderID>");
 							}
 
-							
 						}
 
 						// CardHolderName - Start
@@ -967,17 +931,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("Suffix").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgBuffer.append("<Suffix>");
 									renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgBuffer.append("</Suffix>");
 								}
-								
-								
-								
 
 							}
 
@@ -985,16 +945,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("Prefix").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgBuffer.append("<Prefix>");
 									renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgBuffer.append("</Prefix>");
 								}
-								
-								
 
 							}
 
@@ -1076,16 +1033,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("Suffix").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgBuffer.append("<Suffix>");
 									renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgBuffer.append("</Suffix>");
 								}
-
-								
 
 							}
 
@@ -1093,20 +1047,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("Prefix").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgBuffer.append("<Prefix>");
 									renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgBuffer.append("</Prefix>");
 								}
-								
 
-								
 							}
-
-							
 
 							// Gender
 							if (("Gender").equals(startElement.getName().getLocalPart())) {
@@ -1154,16 +1103,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("AddressLine2").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgBuffer.append("<AddressLine2>");
 									renewalRequestMsgBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgBuffer.append("</AddressLine2>");
 								}
-
-								
 
 							}
 
@@ -1212,7 +1158,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								patientNumberBuffer = new StringBuffer();
-								
+
 								patientNumberTypeBuffer = new StringBuffer();
 
 								String patientNumExtensionvalue = xmlNextEvent.asCharacters().getData();
@@ -1220,44 +1166,44 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (StringUtils.isNotEmpty(patientNumExtensionvalue) && patientNumExtensionvalue.contains("@")) {
 
 									patientNumberBuffer.append(xmlNextEvent.asCharacters().getData());
-									
-								} else if (StringUtils.isNotEmpty(patientNumExtensionvalue) && patientNumExtensionvalue.contains("X")) {
+
+								} else if (StringUtils.isNotEmpty(patientNumExtensionvalue)	&& patientNumExtensionvalue.contains("X")) {
 
 									patientNumberBufferExtension = new StringBuffer();
 
-									patientNumberBufferExtension.append(patientNumExtensionvalue.substring(patientNumExtensionvalue.indexOf("X")+1, patientNumExtensionvalue.length()));
+									patientNumberBufferExtension.append(patientNumExtensionvalue.substring(	patientNumExtensionvalue.indexOf("X") + 1,	patientNumExtensionvalue.length()));
 
 									patientNumberBuffer.append("<Number>");
 
-									patientNumExtensionvalue = patientNumExtensionvalue.substring(0, patientNumExtensionvalue.indexOf("X"));
-									
-									patientNumExtensionvalue  = trimPhoneFaxNumber(patientNumExtensionvalue);
-									
+									patientNumExtensionvalue = patientNumExtensionvalue.substring(0,patientNumExtensionvalue.indexOf("X"));
+
+									patientNumExtensionvalue = trimPhoneFaxNumber(patientNumExtensionvalue);
+
 									patientNumberBuffer.append(patientNumExtensionvalue);
 
 									patientNumberBuffer.append("</Number>");
 
-								} else if (StringUtils.isNotEmpty(patientNumExtensionvalue) && patientNumExtensionvalue.contains("x")) {
+								} else if (StringUtils.isNotEmpty(patientNumExtensionvalue)	&& patientNumExtensionvalue.contains("x")) {
 
 									patientNumberBufferExtension = new StringBuffer();
 
-									patientNumberBufferExtension.append(patientNumExtensionvalue.substring(patientNumExtensionvalue.indexOf("x")+1, patientNumExtensionvalue.length()));
+									patientNumberBufferExtension.append(patientNumExtensionvalue.substring(	patientNumExtensionvalue.indexOf("x") + 1,	patientNumExtensionvalue.length()));
 
 									patientNumberBuffer.append("<Number>");
 
 									patientNumExtensionvalue = patientNumExtensionvalue.substring(0, patientNumExtensionvalue.indexOf("x"));
-									
-									patientNumExtensionvalue  = trimPhoneFaxNumber(patientNumExtensionvalue);
-									
+
+									patientNumExtensionvalue = trimPhoneFaxNumber(patientNumExtensionvalue);
+
 									patientNumberBuffer.append(patientNumExtensionvalue);
 
 									patientNumberBuffer.append("</Number>");
 
 								} else {
-									
+
 									String numberVal = xmlNextEvent.asCharacters().getData();
 									patientNumberBuffer.append("<Number>");
-									numberVal  = trimPhoneFaxNumber(numberVal);
+									numberVal = trimPhoneFaxNumber(numberVal);
 									patientNumberBuffer.append(numberVal);
 									patientNumberBuffer.append("</Number>");
 								}
@@ -1274,11 +1220,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumberTypeBuffer.append("<HomeTelephone>");
 
-									patientNumberTypeBuffer.append(patientNumberBuffer);									
+									patientNumberTypeBuffer.append(patientNumberBuffer);
 
 									patientNumberTypeBuffer.append("</HomeTelephone>");
-									
-									patientNumberMap.put("HP",patientNumberTypeBuffer );
+
+									patientNumberMap.put("HP", patientNumberTypeBuffer);
 
 								} else if (("TE").equals(numberQualifer)) {
 
@@ -1295,11 +1241,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 * patientNumberTypeBuffer.append("</Extension>"); }
 									 */
 
-									
 									patientNumberTypeBuffer.append("</PrimaryTelephone>");
-									
-									patientNumberMap.put("TE",patientNumberTypeBuffer );						
-									
+
+									patientNumberMap.put("TE", patientNumberTypeBuffer);
 
 								}
 
@@ -1307,11 +1251,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									patientNumberTypeBuffer.append("<Fax>");
 
-									patientNumberTypeBuffer.append(patientNumberBuffer);									
+									patientNumberTypeBuffer.append(patientNumberBuffer);
 
 									patientNumberTypeBuffer.append("</Fax>");
-									
-									patientNumberMap.put("FX",patientNumberTypeBuffer );
+
+									patientNumberMap.put("FX", patientNumberTypeBuffer);
 
 								} else if (("WP").equals(numberQualifer)) {
 
@@ -1326,11 +1270,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 * patientNumberTypeBuffer.append("<Extension>");
 									 * patientNumberTypeBuffer.append(patientNumberBufferExtension);
 									 * patientNumberTypeBuffer.append("</Extension>"); }
-									 */								
+									 */
 
 									patientNumberTypeBuffer.append("</WorkTelephone>");
-									
-									patientNumberMap.put("WP",patientNumberTypeBuffer );
+
+									patientNumberMap.put("WP", patientNumberTypeBuffer);
 
 								}
 
@@ -1341,9 +1285,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									patientNumberTypeBuffer.append(patientNumberBuffer);
 
 									patientNumberTypeBuffer.append("</OtherTelephone>");
-									
-									patientNumberMap.put("NP",patientNumberTypeBuffer );
-									
+
+									patientNumberMap.put("NP", patientNumberTypeBuffer);
 
 								}
 
@@ -1356,15 +1299,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									patientNumberTypeBuffer.append(patientNumberBuffer);
 
 									patientNumberTypeBuffer.append("</OtherTelephone>");
-									
-									patientNumberMap.put("CP",patientNumberTypeBuffer );
+
+									patientNumberMap.put("CP", patientNumberTypeBuffer);
 
 								}
 
 								else if (("BN").equals(numberQualifer)) {
 
 									// commenting out beeper translation to avoid issues.
-									
+
 									/*
 									 * patientNumberTypeBuffer.append("<Beeper>");
 									 * 
@@ -1378,9 +1321,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								}
 
 								else if (("EM").equals(numberQualifer)) {
-									
+
 									// Skip Email translation to avoid errors.
-									
+
 									/*
 									 * patientNumberTypeBuffer.append("<ElectronicMail>");
 									 * 
@@ -1402,7 +1345,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						// Prescriber start
 
 						if (("Prescriber").equals(startElement.getName().getLocalPart())) {
-
 
 							renewalRequestMsgPrescriberBuffer.append("<Prescriber>");
 
@@ -1426,7 +1368,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							else if (("DEANumber").equals(startElement.getName().getLocalPart())) {
 
-								xmlNextEvent = eventReader.nextEvent();								
+								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgPrescriberBuffer.append("<DEANumber>");
 								renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
@@ -1457,23 +1399,19 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							else if (("Specialty").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPrescriberBuffer.append("<Specialty>");
 									renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPrescriberBuffer.append("</Specialty>");
 								}
-																
 
 								renewalRequestMsgPrescriberBuffer.append("<PracticeLocation>");
 
 								renewalRequestMsgPrescriberBuffer.append("<Identification>");
 
 								renewalRequestMsgPrescriberBuffer.append("</Identification>");
-								
 
 								renewalRequestMsgPrescriberBuffer.append("</PracticeLocation>");
 
@@ -1529,16 +1467,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (("Suffix").equals(startElement.getName().getLocalPart())) {
 
 									xmlNextEvent = eventReader.nextEvent();
-									
+
 									// skip empty tags.
-									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-									{
+									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 										renewalRequestMsgPrescriberBuffer.append("<Suffix>");
 										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 										renewalRequestMsgPrescriberBuffer.append("</Suffix>");
 									}
-
-									
 
 								}
 
@@ -1546,23 +1481,18 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (("Prefix").equals(startElement.getName().getLocalPart())) {
 
 									xmlNextEvent = eventReader.nextEvent();
-									
+
 									// skip empty tags.
-									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-									{
+									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 										renewalRequestMsgPrescriberBuffer.append("<Prefix>");
 										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 										renewalRequestMsgPrescriberBuffer.append("</Prefix>");
 									}
 
-									
 								}
 
-								
+							} else {
 
-							}
-							else {
-								
 								// Name
 								if (("Name").equals(startElement.getName().getLocalPart())) {
 
@@ -1609,16 +1539,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (("Suffix").equals(startElement.getName().getLocalPart())) {
 
 									xmlNextEvent = eventReader.nextEvent();
-									
+
 									// skip empty tags.
-									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-									{
+									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 										renewalRequestMsgPrescriberBuffer.append("<Suffix>");
 										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 										renewalRequestMsgPrescriberBuffer.append("</Suffix>");
 									}
-
-									
 
 								}
 
@@ -1626,20 +1553,18 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (("Prefix").equals(startElement.getName().getLocalPart())) {
 
 									xmlNextEvent = eventReader.nextEvent();
-									
+
 									// skip empty tags.
-									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-									{
+									if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 										renewalRequestMsgPrescriberBuffer.append("<Prefix>");
 										renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 										renewalRequestMsgPrescriberBuffer.append("</Prefix>");
 									}
 
-									
 								}
 
 								setPrescriberNameShortElement = true;
-								
+
 							}
 
 							if (("Address").equals(startElement.getName().getLocalPart())) {
@@ -1662,16 +1587,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							else if (("AddressLine2").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-								
+
 								// skip empty tags.
-								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false)
-								{
+								if (xmlNextEvent.isCharacters() == true && xmlNextEvent.isEndElement() == false) {
 									renewalRequestMsgPrescriberBuffer.append("<AddressLine2>");
 									renewalRequestMsgPrescriberBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgPrescriberBuffer.append("</AddressLine2>");
 								}
-
-								
 
 							}
 
@@ -1715,27 +1637,27 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								prescriberNumberBuffer = new StringBuffer();
-								
+
 								prescriberNumberTypeBuffer = new StringBuffer();
 
 								String prescriberNumberExtensionValue = xmlNextEvent.asCharacters().getData();
 
-								if (StringUtils.isNotEmpty(prescriberNumberExtensionValue) && prescriberNumberExtensionValue.contains("@")) {
+								if (StringUtils.isNotEmpty(prescriberNumberExtensionValue)	&& prescriberNumberExtensionValue.contains("@")) {
 
 									prescriberNumberBuffer.append(xmlNextEvent.asCharacters().getData());
+									
 								} else if (StringUtils.isNotEmpty(prescriberNumberExtensionValue) && prescriberNumberExtensionValue.contains("X")) {
 
 									prescriberNumberExtensionBuffer = new StringBuffer();
 
-									prescriberNumberExtensionBuffer
-											.append(prescriberNumberExtensionValue.substring(prescriberNumberExtensionValue.indexOf("X") + 1, prescriberNumberExtensionValue.length()));
+									prescriberNumberExtensionBuffer.append(prescriberNumberExtensionValue.substring(prescriberNumberExtensionValue.indexOf("X") + 1,prescriberNumberExtensionValue.length()));
 
 									prescriberNumberBuffer.append("<Number>");
 
-									prescriberNumberExtensionValue= prescriberNumberExtensionValue.substring(0, prescriberNumberExtensionValue.indexOf("X"));
-									
-									prescriberNumberExtensionValue =  trimPhoneFaxNumber(prescriberNumberExtensionValue);
-									
+									prescriberNumberExtensionValue = prescriberNumberExtensionValue.substring(0, prescriberNumberExtensionValue.indexOf("X"));
+
+									prescriberNumberExtensionValue = trimPhoneFaxNumber(prescriberNumberExtensionValue);
+
 									prescriberNumberBuffer.append(prescriberNumberExtensionValue);
 
 									prescriberNumberBuffer.append("</Number>");
@@ -1744,15 +1666,14 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberExtensionBuffer = new StringBuffer();
 
-									prescriberNumberExtensionBuffer
-											.append(prescriberNumberExtensionValue.substring(prescriberNumberExtensionValue.indexOf("x") + 1, prescriberNumberExtensionValue.length()));
+									prescriberNumberExtensionBuffer.append(prescriberNumberExtensionValue.substring( prescriberNumberExtensionValue.indexOf("x") + 1, prescriberNumberExtensionValue.length()));
 
 									prescriberNumberBuffer.append("<Number>");
 
 									prescriberNumberExtensionValue = prescriberNumberExtensionValue.substring(0, prescriberNumberExtensionValue.indexOf("x"));
-									
-									prescriberNumberExtensionValue  = trimPhoneFaxNumber(prescriberNumberExtensionValue);
-									 
+
+									prescriberNumberExtensionValue = trimPhoneFaxNumber(prescriberNumberExtensionValue);
+
 									prescriberNumberBuffer.append(prescriberNumberExtensionValue);
 
 									prescriberNumberBuffer.append("</Number>");
@@ -1761,9 +1682,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									String numberVal = xmlNextEvent.asCharacters().getData();
 									prescriberNumberBuffer.append("<Number>");
-									
-									numberVal  = trimPhoneFaxNumber(numberVal);
-									
+
+									numberVal = trimPhoneFaxNumber(numberVal);
+
 									prescriberNumberBuffer.append(numberVal);
 									prescriberNumberBuffer.append("</Number>");
 								}
@@ -1779,11 +1700,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									prescriberNumberTypeBuffer.append("<HomeTelephone>");
 
-									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);									
+									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
 
 									prescriberNumberTypeBuffer.append("</HomeTelephone>");
-									
-									prescriberNumberMap.put("HP",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("HP", prescriberNumberTypeBuffer);
 
 								}
 
@@ -1800,11 +1721,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 * prescriberNumberTypeBuffer.append("<Extension>");
 									 * prescriberNumberTypeBuffer.append(prescriberNumberExtensionBuffer);
 									 * prescriberNumberTypeBuffer.append("</Extension>"); }
-									 */								
+									 */
 
 									prescriberNumberTypeBuffer.append("</PrimaryTelephone>");
-									
-									prescriberNumberMap.put("TE",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("TE", prescriberNumberTypeBuffer);
 
 								}
 
@@ -1813,11 +1734,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									prescriberNumberTypeBuffer.append("<Fax>");
 
 									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
-								
 
 									prescriberNumberTypeBuffer.append("</Fax>");
-									
-									prescriberNumberMap.put("FX",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("FX", prescriberNumberTypeBuffer);
 
 								} else if (("WP").equals(numberQualifer)) {
 
@@ -1835,8 +1755,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 */
 
 									prescriberNumberTypeBuffer.append("</WorkTelephone>");
-									
-									prescriberNumberMap.put("WP",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("WP", prescriberNumberTypeBuffer);
 
 								}
 
@@ -1847,8 +1767,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
 
 									prescriberNumberTypeBuffer.append("</OtherTelephone>");
-									
-									prescriberNumberMap.put("NP",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("NP", prescriberNumberTypeBuffer);
 
 								}
 
@@ -1861,21 +1781,20 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									prescriberNumberTypeBuffer.append(prescriberNumberBuffer);
 
 									prescriberNumberTypeBuffer.append("</OtherTelephone>");
-									
-									prescriberNumberMap.put("CP",prescriberNumberTypeBuffer );
+
+									prescriberNumberMap.put("CP", prescriberNumberTypeBuffer);
 
 								}
 
 								else if (("BN").equals(numberQualifer)) {
 
 									// removed to avoid translation issues.
-									
 
 								}
 
 								else if (("EM").equals(numberQualifer)) {
 
-										// removed to avoid translation issues.
+									// removed to avoid translation issues.
 
 								}
 
@@ -2423,7 +2342,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						// MedicationPrescribed Start
 						if (("MedicationPrescribed").equals(startElement.getName().getLocalPart())) {
 
-
 							renewalRequestMsgMedicationPrescribedBuffer.append("<MedicationPrescribed>");
 
 							setMedicationPrescribedElements = true;
@@ -2439,8 +2357,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<DrugDescription>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationPrescribedBuffer.append("</DrugDescription>");
 							}
 
@@ -2459,8 +2376,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationPrescribedBuffer.append("<ProductCode>");
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Code>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Code>");
 
 							}
@@ -2470,10 +2386,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Qualifier>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Qualifier>");
-								
+
 								renewalRequestMsgMedicationPrescribedBuffer.append("</ProductCode>");
 
 							}
@@ -2481,9 +2396,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							if (("Strength").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
-
-								
-							
 
 							}
 
@@ -2494,8 +2406,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationPrescribedBuffer.append("<DrugDBCode>");
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Code>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Code>");
 
 							}
@@ -2506,8 +2417,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Qualifier>");
 
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Qualifier>");
 
@@ -2547,19 +2457,16 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							}
 
 							if (("Value").equals(startElement.getName().getLocalPart())) {
-								
+
 								// Don't print this value as Refills value.
-								if(medicationPrescribeRefillQualifier == false) {
-									
+								if (medicationPrescribeRefillQualifier == false) {
+
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Value>");
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData() ) );
+									renewalRequestMsgMedicationPrescribedBuffer.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Value>");
 								}
-																
-								
 
 							}
 
@@ -2568,8 +2475,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<CodeListQualifier>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationPrescribedBuffer.append("</CodeListQualifier>");
 
 							}
@@ -2586,16 +2492,16 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationPrescribedBuffer.append("<QuantityUnitOfMeasure>");
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Code>");
-								
-								if(quantityUnitOfMeasure == null) {
-									
+
+								if (quantityUnitOfMeasure == null) {
+
 									quantityUnitOfMeasure = xmlNextEvent.asCharacters().getData();
 								}
-								
+
 								medicationPrescribedQUOM = quantityUnitOfMeasure;
-								
+
 								renewalRequestMsgMedicationPrescribedBuffer.append(quantityUnitOfMeasure);
-								
+
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Code>");
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</QuantityUnitOfMeasure>");
@@ -2609,8 +2515,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<DaysSupply>");
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</DaysSupply>");
 
@@ -2638,8 +2543,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Note>");
 
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Note>");
 
@@ -2664,11 +2568,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									if (StringUtils.isNotEmpty(value) && "PRN".equals(value)) {
 
 										value = "99";
-										
+
 										renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf = new StringBuffer();
-										
+
 										medicationPrescribeRefillQualifierPRN = true;
-										
+
 										renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append("<NumberOfRefills>");
 
 										renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append(value);
@@ -2678,59 +2582,45 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 										medicationPrescribeRefillQualifier = false;
 									}
 
-									
+								} else if (("Value").equals(startElement.getName().getLocalPart())) {
 
-								}
-								else if (("Value").equals(startElement.getName().getLocalPart())) {
-									
-									if(medicationPrescribeRefillQualifierPRN == false) {
-										
+									if (medicationPrescribeRefillQualifierPRN == false) {
+
 										renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf = new StringBuffer();
-										
-										if(xmlNextEvent.isCharacters()) {
-											
+
+										if (xmlNextEvent.isCharacters()) {
+
 											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append("<NumberOfRefills>");
 
-											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append(numberOfRefills!=null?numberOfRefills:0);
+											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append(numberOfRefills != null ? numberOfRefills : 0);
 
 											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append("</NumberOfRefills>");
-										}
-										else  if(xmlNextEvent.isEndElement() == false) {
-											
+										} else if (xmlNextEvent.isEndElement() == false) {
+
 											xmlNextEvent = eventReader.nextEvent();
-											
+
 											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append("<NumberOfRefills>");
-											
-											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append(numberOfRefills!=null?numberOfRefills:0);
+
+											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append(numberOfRefills != null ? numberOfRefills : 0);
 
 											renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf.append("</NumberOfRefills>");
-											
+
 										}
-										
-										
+
 									}
-									
-									
-									
+
 								}
 							}
-							
-								
-								
 
 							if (("Substitutions").equals(startElement.getName().getLocalPart())) {
-								
-								
-								
+
 								xmlNextEvent = eventReader.nextEvent();
 
-								
 								substitutionsValue = xmlNextEvent.asCharacters().getData();
 								renewalRequestMsgMedicationPrescribedSubstitutionsBuf.append("<Substitutions>");
 								renewalRequestMsgMedicationPrescribedSubstitutionsBuf.append(substitutionsValue);
 								renewalRequestMsgMedicationPrescribedSubstitutionsBuf.append("</Substitutions>");
-								
-								
+
 							}
 
 							if (("WrittenDate").equals(startElement.getName().getLocalPart())) {
@@ -2747,8 +2637,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Date>");
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</WrittenDate>");
@@ -2778,20 +2667,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Date>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("<OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("<OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("ExpirationDate");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("</OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
@@ -2819,20 +2705,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Date>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("<OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("<OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("EffectiveDate");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("</OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
@@ -2859,20 +2742,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Date>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("<OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("<OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("PeriodEnd");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("</OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
@@ -2900,20 +2780,17 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Date>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("<OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("<OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("DateValidated");
 
-									renewalRequestMsgMedicationPrescribedBuffer
-											.append("</OtherMedicationDateQualifier>");
+									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDateQualifier>");
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("</OtherMedicationDate>");
 
@@ -2943,8 +2820,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 										renewalRequestMsgMedicationPrescribedBuffer.append("<PriorAuthorization>");
 
-										renewalRequestMsgMedicationPrescribedBuffer
-												.append(xmlNextEvent.asCharacters().getData());
+										renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 										renewalRequestMsgMedicationPrescribedBuffer.append("</PriorAuthorization>");
 
@@ -2956,8 +2832,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 										renewalRequestMsgMedicationPrescribedBuffer.append("<PriorAuthorization>");
 
-										renewalRequestMsgMedicationPrescribedBuffer
-												.append(xmlNextEvent.asCharacters().getData());
+										renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 										renewalRequestMsgMedicationPrescribedBuffer.append("</PriorAuthorization>");
 
@@ -2973,8 +2848,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<PriorAuthorizationStatus>");
 
-								renewalRequestMsgMedicationPrescribedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</PriorAuthorizationStatus>");
 							}
@@ -2995,9 +2869,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 							}
-
-							
-							
 
 						} // MedicationPrescribed End
 
@@ -3022,7 +2893,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationDispensedBuffer.append("</DrugDescription>");
 							}
-							
+
 							if (("DrugCoded").equals(startElement.getName().getLocalPart())) {
 
 								xmlNextEvent = eventReader.nextEvent();
@@ -3038,8 +2909,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationDispensedBuffer.append("<ProductCode>");
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Code>");
-								renewalRequestMsgMedicationDispensedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationDispensedBuffer.append("</Code>");
 
 							}
@@ -3049,35 +2919,32 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Qualifier>");
-								renewalRequestMsgMedicationDispensedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationDispensedBuffer.append("</Qualifier>");
-								
+
 								renewalRequestMsgMedicationDispensedBuffer.append("</ProductCode>");
 
 							}
 
 							if (("Quantity").equals(startElement.getName().getLocalPart())) {
 
-								xmlNextEvent = eventReader.nextEvent();							
+								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Quantity>");
 
 							}
 
 							if (("Value").equals(startElement.getName().getLocalPart())) {
-								
+
 								// Don't print this as Refills value for Medication Dispensed section.
-								if(medicationDispensedRefillValue == false) {
-									
+								if (medicationDispensedRefillValue == false) {
+
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationDispensedBuffer.append("<Value>");
-									renewalRequestMsgMedicationDispensedBuffer
-											.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
+									renewalRequestMsgMedicationDispensedBuffer.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
 									renewalRequestMsgMedicationDispensedBuffer.append("</Value>");
 								}
-								
 
 							}
 
@@ -3086,8 +2953,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<CodeListQualifier>");
-								renewalRequestMsgMedicationDispensedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 								renewalRequestMsgMedicationDispensedBuffer.append("</CodeListQualifier>");
 
 							}
@@ -3104,30 +2970,24 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								renewalRequestMsgMedicationDispensedBuffer.append("<QuantityUnitOfMeasure>");
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Code>");
-								
+
 								medicationDispensedQUOM = xmlNextEvent.asCharacters().getData();
-																						
-																
-								//EPRESCRIB-3414
-								if(StringUtils.isNotEmpty(medicationPrescribedQUOM) && StringUtils.isNotEmpty(medicationDispensedQUOM)) {
-									
-									if(medicationDispensedQUOM.equalsIgnoreCase(medicationPrescribedQUOM)) {
-										
+
+								// EPRESCRIB-3414
+								if (StringUtils.isNotEmpty(medicationPrescribedQUOM)
+										&& StringUtils.isNotEmpty(medicationDispensedQUOM)) {
+
+									if (medicationDispensedQUOM.equalsIgnoreCase(medicationPrescribedQUOM)) {
+
 										renewalRequestMsgMedicationDispensedBuffer.append(medicationDispensedQUOM);
-									}
-									else
-									{
+									} else {
 										renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
 									}
-								}
-								else
-								{
+								} else {
 									// if for some reason Potency Unit value is null for medication dispensed.
 									renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
 								}
-								
-								
-								
+
 								renewalRequestMsgMedicationDispensedBuffer.append("</Code>");
 
 								renewalRequestMsgMedicationDispensedBuffer.append("</QuantityUnitOfMeasure>");
@@ -3141,8 +3001,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<DaysSupply>");
-								renewalRequestMsgMedicationDispensedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationDispensedBuffer.append("</DaysSupply>");
 
@@ -3153,19 +3012,16 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedSigBuffer = new StringBuffer();
-								
-								
+
 								renewalRequestMsgMedicationDispensedSigBuffer.append("<Substitutions>");
 								renewalRequestMsgMedicationDispensedSigBuffer.append(substitutionsValue);
 								renewalRequestMsgMedicationDispensedSigBuffer.append("</Substitutions>");
-								
 
 								renewalRequestMsgMedicationDispensedSigBuffer.append("<Sig>");
 
 								renewalRequestMsgMedicationDispensedSigBuffer.append("<SigText>");
 
-								renewalRequestMsgMedicationDispensedSigBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedSigBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationDispensedSigBuffer.append("</SigText>");
 
@@ -3177,8 +3033,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Note>");
 
-								renewalRequestMsgMedicationDispensedBuffer
-										.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 								renewalRequestMsgMedicationDispensedBuffer.append("</Note>");
 
@@ -3197,47 +3052,37 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (("Value").equals(startElement.getName().getLocalPart())) {
 
 									if (xmlNextEvent.isCharacters()) {
-										
+
 										// fortify fix.
-										if(null!=renewalRequestMsgMedicationDispensedSigBuffer) {
-											
-											
+										if (null != renewalRequestMsgMedicationDispensedSigBuffer) {
+
 											renewalRequestMsgMedicationDispensedSigBuffer.append("</Sig>");
 
-											
-
 											renewalRequestMsgMedicationDispensedSigBuffer.append("<PharmacyRequestedRefills>");
 
-											renewalRequestMsgMedicationDispensedSigBuffer
-													.append(xmlNextEvent.asCharacters().getData());
+											renewalRequestMsgMedicationDispensedSigBuffer.append(xmlNextEvent.asCharacters().getData());
 
-											renewalRequestMsgMedicationDispensedSigBuffer
-													.append("</PharmacyRequestedRefills>");
-											
+											renewalRequestMsgMedicationDispensedSigBuffer.append("</PharmacyRequestedRefills>");
+
 										}
-										
-										
 
 										medicationDispensedRefillValue = false;
-										
+
 									} else {
-										
+
 										xmlNextEvent = eventReader.nextEvent();
-										
+
 										// fortify fix.
-										if(null!=renewalRequestMsgMedicationDispensedSigBuffer) {
-											
-											renewalRequestMsgMedicationDispensedSigBuffer.append("</Sig>");																		
+										if (null != renewalRequestMsgMedicationDispensedSigBuffer) {
+
+											renewalRequestMsgMedicationDispensedSigBuffer.append("</Sig>");
 
 											renewalRequestMsgMedicationDispensedSigBuffer.append("<PharmacyRequestedRefills>");
 
-											renewalRequestMsgMedicationDispensedSigBuffer
-													.append(xmlNextEvent.asCharacters().getData());
+											renewalRequestMsgMedicationDispensedSigBuffer.append(xmlNextEvent.asCharacters().getData());
 
-											renewalRequestMsgMedicationDispensedSigBuffer
-													.append("</PharmacyRequestedRefills>");
+											renewalRequestMsgMedicationDispensedSigBuffer.append("</PharmacyRequestedRefills>");
 										}
-										
 
 										medicationDispensedRefillValue = false;
 
@@ -3260,8 +3105,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationDispensedBuffer.append("<Date>");
-									renewalRequestMsgMedicationDispensedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgMedicationDispensedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationDispensedBuffer.append("</WrittenDate>");
@@ -3286,8 +3130,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationDispensedBuffer.append("<Date>");
-									renewalRequestMsgMedicationDispensedBuffer
-											.append(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 									renewalRequestMsgMedicationDispensedBuffer.append("</Date>");
 
 									renewalRequestMsgMedicationDispensedBuffer.append("</LastFillDate>");
@@ -3319,8 +3162,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 										renewalRequestMsgMedicationDispensedBuffer.append("<PriorAuthorization>");
 
-										renewalRequestMsgMedicationDispensedBuffer
-												.append(xmlNextEvent.asCharacters().getData());
+										renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 										renewalRequestMsgMedicationDispensedBuffer.append("</PriorAuthorization>");
 
@@ -3332,8 +3174,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 										renewalRequestMsgMedicationDispensedBuffer.append("<PriorAuthorization>");
 
-										renewalRequestMsgMedicationDispensedBuffer
-												.append(xmlNextEvent.asCharacters().getData());
+										renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
 
 										renewalRequestMsgMedicationDispensedBuffer.append("</PriorAuthorization>");
 
@@ -3344,11 +3185,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							}
 
-							
-
 						} // MedicationDispensed End
 
-						
 					} // Start element
 
 					// End element
@@ -3371,7 +3209,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							renewalRequestMsgBuffer.append("</Security>");
 
-							renewalRequestMsgBuffer.append("<SenderSoftware>");							
+							renewalRequestMsgBuffer.append("<SenderSoftware>");
 							renewalRequestMsgBuffer.append("<SenderSoftwareDeveloper>");
 							renewalRequestMsgBuffer.append("TECHNATOMY");
 							renewalRequestMsgBuffer.append("</SenderSoftwareDeveloper>");
@@ -3422,7 +3260,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							else if (setPrescriberName == true || setPrescriberNameShortElement == true) {
 
 								renewalRequestMsgPrescriberBuffer.append("</Name>");
-								
 
 							}
 
@@ -3431,10 +3268,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							 * if(null!=renewalRequestMsgSupervisorBuffer) {
 							 * renewalRequestMsgSupervisorBuffer.append("</Name>"); } }
 							 */
-							
-							
-							
-							
 
 						}
 
@@ -3445,52 +3278,47 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgPharmacyBuffer.append("</CommunicationNumbers>");
 							} else if (patientCommunicationNumbersEnded == true) {
-								
-								
-								if(patientNumberMap.containsKey("TE") == false) {
-									
-									
-									String temp  =  patientNumberMap.get("HP").toString();
-									
+
+								if (patientNumberMap.containsKey("TE") == false) {
+
+									String temp = patientNumberMap.get("HP").toString();
+
 									String primaryNumber = temp.replaceAll("<HomeTelephone>", "<PrimaryTelephone>");
-									
+
 									primaryNumber = primaryNumber.replaceAll("</HomeTelephone>", "</PrimaryTelephone>");
-									
-									patientNumberMap.put("HP",	new StringBuffer(primaryNumber));
+
+									patientNumberMap.put("HP", new StringBuffer(primaryNumber));
 								}
-								
-								for(Map.Entry<String, StringBuffer> entry: patientNumberMap.entrySet()) {
-									
+
+								for (Map.Entry<String, StringBuffer> entry : patientNumberMap.entrySet()) {
+
 									renewalRequestMsgBuffer.append(entry.getValue());
 								}
 
 								renewalRequestMsgBuffer.append("</CommunicationNumbers>");
 
 							} else if (prescriberCommunicationNumbersEnded == true) {
-								
-								
-								if(prescriberNumberMap.containsKey("TE") == false) {
-									
-									
-									String temp  =  prescriberNumberMap.get("WP").toString();
-									
+
+								if (prescriberNumberMap.containsKey("TE") == false) {
+
+									String temp = prescriberNumberMap.get("WP").toString();
+
 									String primaryNumber = temp.replaceAll("<WorkTelephone>", "<PrimaryTelephone>");
-									
+
 									primaryNumber = primaryNumber.replaceAll("</WorkTelephone>", "</PrimaryTelephone>");
-									
-									prescriberNumberMap.put("WP",	new StringBuffer(primaryNumber));
+
+									prescriberNumberMap.put("WP", new StringBuffer(primaryNumber));
 								}
-								
-								for(Map.Entry<String, StringBuffer> entry: prescriberNumberMap.entrySet()) {
-									
+
+								for (Map.Entry<String, StringBuffer> entry : prescriberNumberMap.entrySet()) {
+
 									renewalRequestMsgPrescriberBuffer.append(entry.getValue());
 								}
-								
 
 								renewalRequestMsgPrescriberBuffer.append("</CommunicationNumbers>");
 
-							} 
-							
+							}
+
 							/*
 							 * else if (supervisorCommunicationNumbersEnded == true) {
 							 * if(null!=renewalRequestMsgSupervisorBuffer) {
@@ -3527,8 +3355,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							patientNameElementchecked = false; // reset. So it only sets values once.
 
-							patientCommunicationNumbersEnded = false;						
-							
+							patientCommunicationNumbersEnded = false;
 
 							renewalRequestMsgBuffer.append(renewalRequestMsgPharmacyBuffer);
 
@@ -3566,11 +3393,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 							setPrescriberElements = false; // reset. So it only sets values once.
 
 							prescriberCommunicationNumbersEnded = false;
-							
+
 							setPrescriberName = false;
-							
+
 							setPrescriberNameShortElement = false;
-							
 
 						}
 						// Supervisor - End
@@ -3590,71 +3416,63 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							if (setMedicationPrescribedElements == true) {
 
-								
 								renewalRequestMsgMedicationPrescribedBuffer.append("</DrugCoded>");
 
-							} 
-						    else if (setMedicationDispensedElements == true) {
-								  
-								 renewalRequestMsgMedicationDispensedBuffer.append("</DrugCoded>");
-								  
-						   }
-								 
+							} else if (setMedicationDispensedElements == true) {
+
+								renewalRequestMsgMedicationDispensedBuffer.append("</DrugCoded>");
+
+							}
 
 						}
 
-
 						// MedicationPrescribed - End
 						else if (("MedicationPrescribed").equals(endElement.getName().getLocalPart())) {
-							
-							//fortify fix
-							if(null!=renewalRequestMsgMedicationPrescribedSigBuffer) {
-								
+
+							// fortify fix
+							if (null != renewalRequestMsgMedicationPrescribedSigBuffer) {
+
 								renewalRequestMsgMedicationPrescribedSigBuffer.append("</Sig>");
 							}
-							
-							
-							
+
 							renewalRequestMsgMedicationPrescribedSubstitutionsBuf.append(renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf);
-							
+
 							renewalRequestMsgMedicationPrescribedSubstitutionsBuf.append(renewalRequestMsgMedicationPrescribedSigBuffer);
-							
-							renewalRequestMsgMedicationPrescribedBuffer.append(renewalRequestMsgMedicationPrescribedSubstitutionsBuf);						
-							
+
+							renewalRequestMsgMedicationPrescribedBuffer.append(renewalRequestMsgMedicationPrescribedSubstitutionsBuf);
+
 							renewalRequestMsgMedicationPrescribedBuffer.append("</MedicationPrescribed>");
 
 							setMedicationPrescribedElements = false; // reset. So it only sets values once.
-							
 
 						}
 						// MedicationDispensed - End
 						else if (("MedicationDispensed").equals(endElement.getName().getLocalPart())) {
 
-							renewalRequestMsgMedicationDispensedBuffer.append(renewalRequestMsgMedicationDispensedSigBuffer);
-							
+							renewalRequestMsgMedicationDispensedBuffer
+									.append(renewalRequestMsgMedicationDispensedSigBuffer);
+
 							renewalRequestMsgMedicationDispensedBuffer.append("</MedicationDispensed>");
 
-							renewalRequestMsgBuffer.append(renewalRequestMsgMedicationDispensedBuffer);				
-							
-							
-							//Medication Prescribed goes after Medication Dispensed in newer format.
+							renewalRequestMsgBuffer.append(renewalRequestMsgMedicationDispensedBuffer);
+
+							// Medication Prescribed goes after Medication Dispensed in newer format.
 							renewalRequestMsgBuffer.append(renewalRequestMsgMedicationPrescribedBuffer);
 
 							setMedicationDispensedElements = false; // reset. So it only sets values once.
 
 						}
-						
 
 					}
 
 				}
 
 				// Supervisor - Start
-				if(null!=renewalRequestMsgSupervisorBuffer) {
-				
-					renewalRequestMsgBuffer.append(renewalRequestMsgSupervisorBuffer);
-				}
-				
+				/*
+				 * if (null != renewalRequestMsgSupervisorBuffer) {
+				 * 
+				 * renewalRequestMsgBuffer.append(renewalRequestMsgSupervisorBuffer); }
+				 */
 
 				// Supervisor - End
 
@@ -3667,7 +3485,8 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				// Message - End
 				renewalRequestMsgBuffer.append("</Message>");
 
-				//System.out.println("----- Converted RenewalRequest Msg = " + renewalRequestMsgBuffer.toString());
+				// System.out.println("----- Converted RenewalRequest Msg = " +
+				// renewalRequestMsgBuffer.toString());
 
 				// Now persist the message.
 
@@ -3678,24 +3497,273 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				// wsResponse.setOutboundMsgId(0);
 
 			} // 10.6 refill translation check
-			else 
-			{
+			else {
+
 				// native 20170715 messages coming in from VistA
+
+				// check QUOM for rxChangeRequest
+
+				if (message.indexOf("<RxChangeRequest>") != -1) {
+
+					// if QUOM is not present then add from new Rx
+					if (message.indexOf("<QuantityUnitOfMeasure>") == -1) {
+
+						if (message.indexOf("<RelatesToMessageID>") != -1) {
+
+							rxChangeRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
+
+							InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxChangeRelatesToMesageId);
+
+							if (null != inboundNcpdpMsgEntity) {
+
+								rxChangeNewRx = inboundNcpdpMsgEntity.getMessage();
+
+							}
+
+							if (null != rxChangeNewRx) {
+								
+								// if the newRx is 10.6
+								
+								if (rxChangeNewRx.indexOf("<PotencyUnitCode>") != -1) {
+
+									 StringBuffer  tempQUOM =  new StringBuffer (rxChangeNewRx.substring(rxChangeNewRx.indexOf("<PotencyUnitCode>") + 17, rxChangeNewRx.indexOf("</PotencyUnitCode>")));
+									
+									 StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append("<Code>").append(tempQUOM).append("</Code>").append("</QuantityUnitOfMeasure>");
+									 
+									 rxChangeRequestQUOM = tempVal.toString(); 
+									 
+									 if (message.indexOf("</CodeListQualifier>") != -1) {
+
+											String tempStr = "</CodeListQualifier>" + rxChangeRequestQUOM;
+
+											message = message.replace("</CodeListQualifier>", tempStr);
+									 }
+									
+								
+
+								}
+								
+								//  if the newRx is 2017
+								if (rxChangeNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
+
+									rxChangeRequestQUOM = rxChangeNewRx.substring(rxChangeNewRx.indexOf("<QuantityUnitOfMeasure>"), rxChangeNewRx.indexOf("</QuantityUnitOfMeasure>"));
+
+									if (StringUtils.isNotEmpty(rxChangeRequestQUOM)) {
+
+										// now add that to the RxChangeRequest message after CodeListQualifier
+
+										if (message.indexOf("</CodeListQualifier>") != -1) {
+
+											StringBuffer tempStr = new StringBuffer ("</CodeListQualifier>").append(rxChangeRequestQUOM);
+
+											message = message.replace("</CodeListQualifier>", tempStr.toString());
+										}
+
+									}
+								}
+							}
+
+						}
+
+					}
+
+				}
+
+				// check QUOM for rxRenewalRequest.
+				
+				StringBuffer messageBuf  = new StringBuffer(message);
+				
+				if (message.indexOf("<RxRenewalRequest>") != -1) {
+
+					// check medication prescribed and medication dispesensed for QUOM.
+										
+
+					StringBuffer  rxRenewalRequestMedPrescribedBuf = new StringBuffer (messageBuf.substring(messageBuf.indexOf("<MedicationPrescribed>"), messageBuf.indexOf("</MedicationPrescribed>")));
+
+					StringBuffer rRxRenewalRequestMedDispensedBuf = new StringBuffer(messageBuf.substring(messageBuf.indexOf("<MedicationDispensed>"), messageBuf.indexOf("</MedicationDispensed>")));
+
+					// if QUOM is not present then add from new Rx
+
+					StringBuffer tempRxRenewalRequestMedPrescribedBuf =  new StringBuffer (rxRenewalRequestMedPrescribedBuf.substring(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"),rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>")+11));
+					
+					StringBuffer tempRxRenewalRequestMedDispensedBuf =  new StringBuffer (rRxRenewalRequestMedDispensedBuf.substring(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"),rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>")+11));
+					
+					// Med Prescribed
+					if (tempRxRenewalRequestMedPrescribedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
+
+						if (message.indexOf("<RelatesToMessageID>") != -1) {
+
+							rxRenewalRequestRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
+
+							InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxRenewalRequestRelatesToMesageId);
+
+							if (null != inboundNcpdpMsgEntity) {
+
+								rxRenewalRequestNewRx = inboundNcpdpMsgEntity.getMessage();
+
+							}
+
+							if (null != rxRenewalRequestNewRx) {
+								
+								
+								// if the newRx is 10.6
+								
+								if (rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") != -1) {
+
+									 StringBuffer  tempQUOM =  new StringBuffer (rxRenewalRequestNewRx.substring(rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") + 17, rxRenewalRequestNewRx.indexOf("</PotencyUnitCode>")));
+									
+									 StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append("<Code>").append(tempQUOM).append("</Code>").append("</QuantityUnitOfMeasure>");
+									 
+									 rxRenewalRequesQUOM = tempVal.toString();								
+
+								}
+								
+								
+								//  if the newRx is 2017
+								
+								if (rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
+
+									rxRenewalRequesQUOM = rxRenewalRequestNewRx.substring( rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") + 24, rxRenewalRequestNewRx.indexOf("</QuantityUnitOfMeasure>"));
+								
+								}
+							}
+							
+							
+							if (StringUtils.isNotEmpty(rxRenewalRequesQUOM)) {
+
+								// now add that to the RxChangeRequest message after CodeListQualifier
+
+								if (tempRxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>") != -1) {
+
+									StringBuffer tempStrBuf = new StringBuffer("</CodeListQualifier>").append(rxRenewalRequesQUOM);								
+									
+									int codeListQualiferIndex = tempRxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>");
+																	
+									int quantityIndex = tempRxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>");
+									
+									tempRxRenewalRequestMedPrescribedBuf.replace(codeListQualiferIndex, quantityIndex, tempStrBuf.toString());
+									
+									// now remove quantity tag
+									if(tempRxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>") != -1) {
+										
+										tempRxRenewalRequestMedPrescribedBuf.deleteCharAt(tempRxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>"));
+										
+									}
+									
+									rxRenewalRequestMedPrescribedBuf.replace(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"), rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedPrescribedBuf.toString());
+
+									messageBuf.replace(messageBuf.indexOf("<MedicationPrescribed>"), messageBuf.indexOf("</MedicationPrescribed>"), rxRenewalRequestMedPrescribedBuf.toString());
+									
+									//System.out.println("--------:tempRxRenewalRequestMedDispensed" + tempRxRenewalRequestMedPrescribed);
+								}
+
+							}
+
+						}			
+					
+
+					}
+					
+					// Med dispensed
+					// if QUOM is not present then add from new Rx
+					
+					if (tempRxRenewalRequestMedDispensedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
+
+						if (message.indexOf("<RelatesToMessageID>") != -1) {
+
+							rxRenewalRequestRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
+
+							InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxRenewalRequestRelatesToMesageId);
+
+							if (null != inboundNcpdpMsgEntity) {
+
+								rxRenewalRequestNewRx = inboundNcpdpMsgEntity.getMessage();
+
+							}
+
+							if (null != rxRenewalRequestNewRx) {
+								
+								
+								// if the newRx is 10.6
+								
+								if (rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") != -1) {
+
+									 StringBuffer  tempQUOM =  new StringBuffer (rxRenewalRequestNewRx.substring(rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") + 17, rxRenewalRequestNewRx.indexOf("</PotencyUnitCode>")));
+									
+									 StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append("<Code>").append(tempQUOM).append("</Code>").append("</QuantityUnitOfMeasure>");
+									 
+									 rxRenewalRequesQUOM = tempVal.toString();								
+
+								}
+								
+								
+								//  if the newRx is 2017
+								
+								if (rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
+
+									rxRenewalRequesQUOM = rxRenewalRequestNewRx.substring( rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") + 24, rxRenewalRequestNewRx.indexOf("</QuantityUnitOfMeasure>"));
+								
+								}
+							}
+							
+							
+							if (StringUtils.isNotEmpty(rxRenewalRequesQUOM)) {
+
+								// now add that to the RxChangeRequest message after CodeListQualifier
+
+								if (tempRxRenewalRequestMedDispensedBuf.indexOf("</CodeListQualifier>") != -1) {
+
+									StringBuffer tempStrBuf = new StringBuffer("</CodeListQualifier>").append(rxRenewalRequesQUOM);								
+									
+									int codeListQualiferIndex = tempRxRenewalRequestMedDispensedBuf.indexOf("</CodeListQualifier>");									
+									
+									int quantityIndex = tempRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>");
+									
+									tempRxRenewalRequestMedDispensedBuf.replace(codeListQualiferIndex, quantityIndex, tempStrBuf.toString());
+									
+									
+									// now remove quantity tag
+									if(tempRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>") != -1) {
+										
+										tempRxRenewalRequestMedDispensedBuf.deleteCharAt(tempRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>"));
+										
+									}
+									
+									rRxRenewalRequestMedDispensedBuf.replace(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"), rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedDispensedBuf.toString());
+
+									messageBuf.replace(messageBuf.indexOf("<MedicationDispensed>"), messageBuf.indexOf("</MedicationDispensed>"), rRxRenewalRequestMedDispensedBuf.toString());
+									
+									//System.out.println("--------:tempRxRenewalRequestMedDispensed" + tempRxRenewalRequestMedPrescribed);
+								}
+
+							}
+
+						}
+						
+									
+
+					}
+
+				}
+				
+				//convert back to message.
+				message = messageBuf.toString();
 
 				outboundMsg.setMessage(JAXB.unmarshal(new StringReader(message), MessageType.class));
 
 			}
-			
-			//suppress sending of Error and Verify messages coming from VistA
-			if ((StringUtils.isNotEmpty(message)) && ((message.indexOf("<Error>") != -1) || (message.indexOf("<Verify>") != -1))) {
-				
-				outboundMsg.setErxStatus("4010");  //tells the outbound Hub job not to send, only do minimal processing
-				
+
+			// suppress sending of Error and Verify messages coming from VistA
+			if ((StringUtils.isNotEmpty(message))
+					&& ((message.indexOf("<Error>") != -1) || (message.indexOf("<Verify>") != -1))) {
+
+				outboundMsg.setErxStatus("4010"); // tells the outbound Hub job not to send, only do minimal processing
+
 			} else {
-				
-				outboundMsg.setErxStatus("0000"); //regular processing
-				
-			}			
+
+				outboundMsg.setErxStatus("0000"); // regular processing
+
+			}
 
 			outboundMsg.setPharmacyId(0);
 
@@ -3716,8 +3784,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 			wsResponse.setSuccess(true);
 
 			wsResponse.setOutboundMsgId(outboundMsgId);
-			
-			
 
 		} catch (SAXException ex) {
 
@@ -3751,9 +3817,10 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			wsResponse.setSuccess(false);
 
-			wsResponse.setErrorMessage("Error while conversion to newer format and saving vista outbound message: "+ e.getMessage());
+			wsResponse.setErrorMessage(
+					"Error while conversion to newer format and saving vista outbound message: " + e.getMessage());
 
-			//e.printStackTrace();
+			// e.printStackTrace();
 
 			wsResponse.setOutboundMsgId(0);
 
@@ -3761,38 +3828,37 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			StreamUtilities.safeClose(inputStream);
 
-			//StreamUtilities.safeClose(formattedXMLString);
-			
+			// StreamUtilities.safeClose(formattedXMLString);
+
 			try {
-				
-				if(null!=formattedXMLString ) {
-				
+
+				if (null != formattedXMLString) {
+
 					formattedXMLString.getWriter().close();
 				}
-				
-				
+
 			} catch (IOException e) {
-				
+
 				LOG.error("Error in VistaOutboundMsgImpl:" + e.getMessage());
-				
+
 			}
-			
+
 			inputStream = null;
 
 			xsdStreamSource = null;
 
 			xsdSource = null;
-			
+
 			schemaFactory = null;
-			
+
 			schema = null;
 
 			saxParserFactory = null;
-			
+
 			saxparser = null;
 
 			xmlReader = null;
-			
+
 			renewalRequestMsgBuffer = null;
 
 			pharmacyNumberBuffer = null;
@@ -3805,13 +3871,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 			prescriberNumberBuffer = null;
 
-			prescriberNumberExtensionBuffer = null;
+			prescriberNumberExtensionBuffer = null;			
 
-			renewalRequestMsgSupervisorBuffer = null;
+			// supervisorNumberBuffer = null;
 
-			//supervisorNumberBuffer = null;
-
-			//supervisorNumberExtensionBuffer = null;
+			// supervisorNumberExtensionBuffer = null;
 
 			renewalRequestMsgMedicationPrescribedBuffer = null;
 
@@ -3824,149 +3888,90 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 			patientNumberBuffer = null;
 
 			patientNumberBufferExtension = null;
-			
+
 			patientNumberTypeBuffer = null;
-			
+
 			renewalRequestMsgMedicationPrescribedSubstitutionsBuf = null;
-			
+
 			renewalRequestMsgMedicationPrescribedNumberOfRefillsBuf = null;
-			
+
 			substitutionsValue = null;
-			
+
 			formattedXMLString = null;
-			
-			inputXMLString =  null;
-			
-			transformerFactory = null;				
-			
+
+			inputXMLString = null;
+
+			transformerFactory = null;
+
 			transformer = null;
-			
+
 			xmlInputFactory = null;
 
 			eventReader = null;
-			
+
 			relatesToMesageId = null;
-			
+
 			numberOfRefills = null;
-			
-			quantityUnitOfMeasure = null; 
-			
+
+			quantityUnitOfMeasure = null;
+
 			newRxMsg = null;
 
-			
-			
 		}
 
 		return wsResponse;
 	}
-	
+
 	/**
-	 * Utility method to remove dashes and if number is greater than 10 limit to 10 characters.
+	 * Utility method to remove dashes and if number is greater than 10 limit to 10
+	 * characters.
+	 * 
 	 * @param str
 	 * @return
 	 */
 	private String trimPhoneFaxNumber(String str) {
-		
-		if(StringUtils.isNotEmpty(str)) {
-		
+
+		if (StringUtils.isNotEmpty(str)) {
+
 			// trim whitespaces.
 			str = str.trim();
-			
+
 			str = str.replaceAll("-", "");
-			
-			str = str.replaceAll("[()]", "");	
-			
-			
-		 if(str.length()>10) {
-			
-			str = str.substring(1, str.length());
-		 }	
-		 
-		 
-		 // if incoming number is not series of digits at all, just a set a dummy 10 1s to be safe.
-		 if(StringUtils.isNumeric(str) == false)
-		 {
-			 str = "1111111111";
-			 
-		 }
-		 		
-			return str;
-		}
-		else
-		{
-			return str;
-		}
-	}
-	
-	private String removeEndingPeriod(String str) {
-		
-		if(StringUtils.isNotEmpty(str)) {
-			
-			if(str.endsWith(".") == true) {
-				
-				str = str.substring(0, str.length()-1);
+
+			str = str.replaceAll("[()]", "");
+
+			if (str.length() > 10) {
+
+				str = str.substring(1, str.length());
 			}
-				 
+
+			// if incoming number is not series of digits at all, just a set a dummy 10 1s
+			// to be safe.
+			if (StringUtils.isNumeric(str) == false) {
+				str = "1111111111";
+
+			}
+
+			return str;
+		} else {
 			return str;
 		}
-		else
-		{
-			return str;
-		}
-		
-		
 	}
 
-	/*
-	 * // old web method
-	 * 
-	 * @POST
-	 * 
-	 * @Path("/processXMLMessage/") public VistaOutboundResponse
-	 * persistXMLMessage(MessageType message) {
-	 * 
-	 * VistaOutboundResponse wsResponse = new VistaOutboundResponse(); try {
-	 * 
-	 * OutboundNcpdpMsgEntity outboundMsg = new OutboundNcpdpMsgEntity();
-	 * 
-	 * outboundMsg.setMessage(message);
-	 * 
-	 * outboundMsg.setErxStatus("0000");
-	 * 
-	 * outboundMsg.setPharmacyId(0);
-	 * 
-	 * Date date = new Date();
-	 * 
-	 * outboundMsg.setCreatedDate(date);
-	 * 
-	 * outboundMsg.setUpdatedDate(date);
-	 * 
-	 * outboundMsg.setReceivedDate(date);
-	 * 
-	 * outboundMsg.setScriptVersion(SCRIPT_VERSION);
-	 * 
-	 * long outboundMsgId = outboundNcpdpMsgService.saveOutboundMsg(outboundMsg);
-	 * 
-	 * wsResponse.setErrorMessage(null);
-	 * 
-	 * wsResponse.setSuccess(true);
-	 * 
-	 * wsResponse.setOutboundMsgId(outboundMsgId);
-	 * 
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * LOG.error("Error in VistaOutboundMsgImpl:"+e.getMessage());
-	 * 
-	 * wsResponse.setSuccess(false);
-	 * 
-	 * wsResponse.setErrorMessage("Error while saving vista outbound message: " +
-	 * e.getMessage());
-	 * 
-	 * wsResponse.setOutboundMsgId(0); }
-	 * 
-	 * return wsResponse; }
-	 * 
-	 */
+	private String removeEndingPeriod(String str) {
+
+		if (StringUtils.isNotEmpty(str)) {
+
+			if (str.endsWith(".") == true) {
+
+				str = str.substring(0, str.length() - 1);
+			}
+
+			return str;
+		} else {
+			return str;
+		}
+
+	}
 
 }
