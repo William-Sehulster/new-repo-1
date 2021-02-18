@@ -46,6 +46,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-core</artifactId>
 			<scope>provided</scope>

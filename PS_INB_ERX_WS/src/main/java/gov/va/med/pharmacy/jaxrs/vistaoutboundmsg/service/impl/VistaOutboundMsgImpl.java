@@ -46,6 +46,7 @@ import gov.va.med.pharmacy.persistence.model.OutboundNcpdpMsgEntity;
 import gov.va.med.pharmacy.persistence.service.InboundNcpdpMsgService;
 import gov.va.med.pharmacy.persistence.service.OutboundNcpdpMsgService;
 import gov.va.med.pharmacy.utility.StreamUtilities;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * A class that implement saves vista outbound message which are coming from
@@ -2531,11 +2532,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								renewalRequestMsgMedicationPrescribedSigBuffer.append("<SigText>");
 
-								String sigData = xmlNextEvent.asCharacters().getData();
+								String sigData = xmlNextEvent.asCharacters().getData();								
 								
-								sigData = sigData.replaceAll("&amp;","and");
-								
-								sigData = sigData.replaceAll("&","and");
+								sigData = StringEscapeUtils.escapeXml10(sigData);
 								
 								renewalRequestMsgMedicationPrescribedSigBuffer.append(sigData);
 
@@ -2548,8 +2547,12 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("<Note>");
+								
+								String noteData = xmlNextEvent.asCharacters().getData();
+										
+								noteData = StringEscapeUtils.escapeXml10(noteData);
 
-								renewalRequestMsgMedicationPrescribedBuffer.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationPrescribedBuffer.append(noteData);
 
 								renewalRequestMsgMedicationPrescribedBuffer.append("</Note>");
 
@@ -2987,11 +2990,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 										renewalRequestMsgMedicationDispensedBuffer.append(medicationDispensedQUOM);
 									} else {
-										renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
+										renewalRequestMsgMedicationDispensedBuffer.append("C38046");
 									}
 								} else {
 									// if for some reason Potency Unit value is null for medication dispensed.
-									renewalRequestMsgMedicationDispensedBuffer.append("Unspecified");
+									renewalRequestMsgMedicationDispensedBuffer.append("C38046");
 								}
 
 								renewalRequestMsgMedicationDispensedBuffer.append("</Code>");
@@ -3029,9 +3032,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								String sigData = xmlNextEvent.asCharacters().getData();
 								
-								sigData = sigData.replace("&amp;","and");
-								
-								sigData = sigData.replaceAll("&","and");
+								sigData = StringEscapeUtils.escapeXml10(sigData);
 								
 								renewalRequestMsgMedicationDispensedSigBuffer.append(sigData);
 
@@ -3044,8 +3045,12 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								xmlNextEvent = eventReader.nextEvent();
 
 								renewalRequestMsgMedicationDispensedBuffer.append("<Note>");
+								
+								String noteData = xmlNextEvent.asCharacters().getData();
+								
+								noteData = StringEscapeUtils.escapeXml10(noteData);
 
-								renewalRequestMsgMedicationDispensedBuffer.append(xmlNextEvent.asCharacters().getData());
+								renewalRequestMsgMedicationDispensedBuffer.append(noteData);
 
 								renewalRequestMsgMedicationDispensedBuffer.append("</Note>");
 
@@ -3666,7 +3671,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									messageBuf.replace(messageBuf.indexOf("<MedicationPrescribed>"), messageBuf.indexOf("</MedicationPrescribed>"), rxRenewalRequestMedPrescribedBuf.toString());
 									
-									//System.out.println("--------:tempRxRenewalRequestMedDispensed" + tempRxRenewalRequestMedPrescribed);
+									
 								}
 
 							}
@@ -3745,7 +3750,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 									messageBuf.replace(messageBuf.indexOf("<MedicationDispensed>"), messageBuf.indexOf("</MedicationDispensed>"), rRxRenewalRequestMedDispensedBuf.toString());
 									
-									//System.out.println("--------:tempRxRenewalRequestMedDispensed" + tempRxRenewalRequestMedPrescribed);
+									
 								}
 
 							}
@@ -3832,7 +3837,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 			wsResponse.setErrorMessage(
 					"Error while conversion to newer format and saving vista outbound message: " + e.getMessage());
 
-			// e.printStackTrace();
+			
 
 			wsResponse.setOutboundMsgId(0);
 
