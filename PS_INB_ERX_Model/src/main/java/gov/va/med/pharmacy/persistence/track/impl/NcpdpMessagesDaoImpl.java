@@ -2253,9 +2253,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071) {
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "";
+		String sql_outbound = "";
+		String sql_inbound = "";
 		String sqlWhere = "";
-		String sql2017071 = "";
+		String sqlWhere_inbound = "";
+		String sqlWhere_outbound = "";
+		String sql2017071_outbound = "";
+		String sql2017071_inbound = "";
 		
 		
 		
@@ -2315,19 +2319,22 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"    and nvl(x.npi1, ' ') like ? \r\n" + 
 				"    and nvl(upper(x.rx_Drug_Prescribed),' ') like ? \r\n";
 			
-			if (inboundOutbound.equalsIgnoreCase("Inbound")){
-				sqlWhere = sqlWhere +	"    and t.inbound_ncpdp_msg_id like ? \r\n";
-			} else {
-				sqlWhere = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_inbound = sqlWhere +	"    and t.inbound_ncpdp_msg_id like ? \r\n";
+			} 
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_outbound = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
 			}
 			
 			
 			
-		if (inboundOutbound.equalsIgnoreCase("Inbound")) {	
+		if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both")) {	
 			
 			//TODO:pull this query out of the code into a resource file 
 			
-        sql = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
+        sql_inbound = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
                 "p.visn visn,\r\n" +
                 "p.va_station_id va_station_id,\r\n" +
                 "x.npi1 prescriber_npi,\r\n" +
@@ -2378,13 +2385,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
         		"    ) x";
         		
-        		sql = sql + sqlWhere ;
+        		sql_inbound = sql_inbound + sqlWhere_inbound ;
         		
         		if (patientSsn.length() != 0) {
-        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+        			sql_inbound = sql_inbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
         		}
         		
-        		sql2017071 = "    union all\r\n" +
+        		sql2017071_inbound = "    union all\r\n" +
         		"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
         		"p.visn visn,\r\n" +
         		"p.va_station_id va_station_id,\r\n" +
@@ -2435,15 +2442,21 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		    "patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
         		    "rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',\r\n" +
 	        		"rx_Drug_Response varchar2(105) path '//MedicationResponse/DrugDescription' \r\n" +
-        		    ") x" + sqlWhere;
+        		    ") x" + sqlWhere_inbound;
         		
         		//patientSSN2017071
         		if (patientSsn.length() != 0) {
-        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+        			sql2017071_inbound = sql2017071_inbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
         		}
+				
+				sql_inbound = sql_inbound +	sql2017071_inbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         		
-		} else if (inboundOutbound.equalsIgnoreCase("Outbound")){
-			sql = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+				LOG.debug("NCPDP INBOUND message details Sql is:" + sql_inbound);
+    			//System.out.println("sql is:" + sql);
+				
+		} 
+		if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both")){
+			sql_outbound = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 	                "p.visn visn,\r\n" +
 	                "p.va_station_id va_station_id,\r\n" +
 	                "x.npi1 prescriber_npi,\r\n" +
@@ -2494,13 +2507,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
 	        		"    ) x";
 			
-	        		sql = sql + sqlWhere;
+	        		sql_outbound = sql_outbound + sqlWhere_outbound;
 	        		
 	        		if (patientSsn.length() != 0) {
-	        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+	        			sql_outbound = sql_outbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
 	        		}
 	        		
-	        		sql2017071 = "union all \r\n" +
+	        		sql2017071_outbound = "union all \r\n" +
 	        		"    select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 	        		"    p.visn visn,\r\n" +
 	        		"    p.va_station_id va_station_id,\r\n" +
@@ -2550,253 +2563,25 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    	patient_dob varchar2(30) path '//Patient/HumanPatient/DateOfBirth/Date', \r\n" +
 	        		"    	patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
 	        		"    	rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription' \r\n" +
-	        		"    ) x" + sqlWhere;
+	        		"    ) x" + sqlWhere_outbound;
 	        		
 	        		
 	        		//patientSSN2017071
 	        		if (patientSsn.length() != 0) {
-	        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+	        			sql2017071_outbound = sql2017071_outbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
 	        		}
-		}else
-		{
-			
-			sql = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
-	                "p.visn visn,\r\n" +
-	                "p.va_station_id va_station_id,\r\n" +
-	                "x.npi1 prescriber_npi,\r\n" +
-	                "x.prescriber_DEA,  \r\n" + 
-	                "to_char(to_date(decode(length(x.patient_dob),11,substr(x.patient_dob, 2,10), x.patient_dob),'YYYY-MM-DD'),'MM/DD/YYYY') patient_dob,\r\n" +
-	                "x.patient_ssn patient_ssn,\r\n" +
-	        		"x.pharmacy_name pharmacy_name,\r\n" + 
-	        		"x.pharmacy_addr_1||' '||x.pharmacy_addr_2||' '||x.pharmacy_city||nvl2(x.pharmacy_city,nvl2(x.pharmacy_state,', ',null),null)||x.pharmacy_state||' '||x.pharmacy_zip pharmacy_addr_1,\r\n" + 
-	        		"x.patient_Last_Name||nvl2(x.patient_Last_Name,nvl2(x.patient_First_Name,', ',null),null)||x.patient_First_Name||' '||x.patient_Mid_Name patient_Name,\r\n" + 
-	        		"x.prescriber_Last_Name||nvl2(x.prescriber_Last_Name,nvl2(x.prescriber_First_Name,', ',null),null)||x.prescriber_First_Name||' '||x.prescriber_Mid_Name prescriber_Name,\r\n" + 
-	        		"x.rx_Drug_Prescribed rx_Drug_Prescribed,\r\n" + 
-	        		"decode(t.message_type,'RefillResponse', 'RxRenewalResponse', t.message_type) message_type,\r\n" + 
-	        		"t.rel_to_message_id rel_to_message_id,\r\n" + 
-	        		"t.message_id rx_messageId,\r\n" + 
-	        		"t.received_date received_date,\r\n" + 
-	        		"(select code_description from erx_status where code = t.patient_chk_status) patient_chk_status,\r\n" + 
-	        		"(select code_description from erx_status where code = t.provider_chk_status) provider_chk_status,\r\n" + 
-	        		"(select code_description from erx_status where code = t.drug_chk_status) drug_chk_status,\r\n" + 
-	        		"(select code_description from erx_status where code = t.message_status) message_status\r\n" + 
-	        		"from inbound_ncpdp_msg t, pharmacy p, xmltable(xmlnamespaces('http://www.ncpdp.org/schema/SCRIPT' as \"ns\"), '/ns:Message'\r\n" + 
-	        		"    passing t.message\r\n" + 
-	        		"    columns \r\n" + 
-	        		"    message_id varchar2(35) path '//ns:Header/ns:MessageID',\r\n" + 
-	        		"    rel_to_message_id varchar2(35) path '//ns:Header/ns:RelatesToMessageID',\r\n" + 
-	        		"    message_type varchar2(35) path 'name(/ns:Body/*[1])',\r\n" + 
-	        		"    pharmacy_name varchar2(30) path '//ns:Pharmacy/ns:StoreName',\r\n" + 
-	        		"    pharmacy_addr_1 varchar2(30) path '//ns:Pharmacy/ns:Address/ns:AddressLine1',\r\n" + 
-	        		"    pharmacy_addr_2 varchar2(30) path '//ns:Pharmacy/ns:Address/ns:AddressLine2',\r\n" + 
-	        		"    pharmacy_city varchar2(30) path '//ns:Pharmacy/ns:Address/ns:City',\r\n" + 
-	        		"    pharmacy_state varchar2(30) path '//ns:Pharmacy/ns:Address/ns:State',\r\n" + 
-	        		"    pharmacy_zip varchar2(30) path '//ns:Pharmacy/ns:Address/ns:ZipCode',\r\n" + 
-	        		"	 npi1 varchar2(35) path '//ns:Prescriber/ns:Identification/ns:NPI',\r\n" + 
-	        		"    npi2 varchar2(35) path '//ns:Header/ns:From',\r\n" + 
-	        		"    prescriber_First_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:FirstName',\r\n" + 
-	        		"    prescriber_Mid_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:MiddleName',\r\n" + 
-	        		"    prescriber_Last_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:LastName',\r\n" + 
-	        		"    prescriber_DEA varchar2(35) path '//ns:Prescriber/ns:Identification/ns:DEANumber',  \r\n" + 
-	        		"    patient_First_Name varchar2(35) path '//ns:Patient/ns:Name/ns:FirstName',\r\n" + 
-	        		"    patient_Mid_Name varchar2(35) path '//ns:Patient/ns:Name/ns:MiddleName',\r\n" + 
-	        		"    patient_Last_Name varchar2(35) path '//ns:Patient/ns:Name/ns:LastName',\r\n" + 
-	        		"    patient_addr_1 varchar2(30) path '//ns:Patient/ns:Address/ns:AddressLine1',\r\n" + 
-	        		"    patient_addr_2 varchar2(30) path '//ns:Patient/ns:Address/ns:AddressLine2',\r\n" + 
-	        		"    patient_city varchar2(30) path '//ns:Patient/ns:Address/ns:City',\r\n" + 
-	        		"    patient_state varchar2(30) path '//ns:Patient/ns:Address/ns:State',\r\n" + 
-	        		"    patient_zip varchar2(30) path '//ns:Patient/ns:Address/ns:ZipCode',\r\n" + 
-	        		"    patient_dob varchar2(30) path '//ns:Patient/ns:DateOfBirth/ns:Date',\r\n" + 
-	        		"    patient_ssn varchar2(11) path '//ns:Patient/ns:Identification/ns:SocialSecurity',\r\n" + 
-	        		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
-	        		"    ) x" +
-	        		
-	        		"UNION ALL" +
-					
-
-
-	                "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
-		                "p.visn visn,\r\n" +
-		                "p.va_station_id va_station_id,\r\n" +
-		                "x.npi1 prescriber_npi,\r\n" +
-		                "x.prescriber_DEA,  \r\n" + 
-		                "x.patient_dob patient_dob,\r\n" +
-		                "x.patient_ssn patient_ssn,\r\n" +
-		        		"x.pharmacy_name pharmacy_name,\r\n" + 					
-		        		"x.pharmacy_addr_1||' '||x.pharmacy_addr_2||' '||x.pharmacy_city||nvl2(x.pharmacy_city,nvl2(x.pharmacy_state,', ',null),null)||x.pharmacy_state||' '||x.pharmacy_zip pharmacy_addr_1,\r\n" + 
-		        		"x.patient_Last_Name||nvl2(x.patient_Last_Name,nvl2(x.patient_First_Name,', ',null),null)||x.patient_First_Name||' '||x.patient_Mid_Name patient_Name,\r\n" + 
-		        		"x.prescriber_Last_Name||nvl2(x.prescriber_Last_Name,nvl2(x.prescriber_First_Name,', ',null),null)||x.prescriber_First_Name||' '||x.prescriber_Mid_Name prescriber_Name,\r\n" + 
-		        		"x.rx_Drug_Prescribed rx_Drug_Prescribed,\r\n" + 
-		        		"decode(t.message_type,'RefillRequest', 'RxRenewalRequest', t.message_type) message_type,\r\n" + 
-		        		"t.rel_to_message_id rel_to_message_id,\r\n" + 
-		        		"t.message_id rx_messageId,\r\n" + 
-		        		"t.received_date received_date,\r\n" + 
-		        		"'N/A' patient_chk_status,\r\n" + 
-		        		"'N/A' provider_chk_status,\r\n" + 
-		        		"'N/A' drug_chk_status,\r\n" + 
-		        		"(select code_description from erx_status where code = t.message_status) message_status\r\n" + 
-		        		"from outbound_ncpdp_msg t, pharmacy p, xmltable(xmlnamespaces('http://www.ncpdp.org/schema/SCRIPT' as \"ns\"), '/ns:Message'\r\n" + 
-		        		"    passing t.message\r\n" + 
-		        		"    columns \r\n" + 
-		        		"    message_id varchar2(35) path '//ns:Header/ns:MessageID',\r\n" + 
-		        		"    rel_to_message_id varchar2(35) path '//ns:Header/ns:RelatesToMessageID',\r\n" + 
-		        		"    message_type varchar2(35) path 'name(/ns:Body/*[1])',\r\n" + 
-		        		"    pharmacy_name varchar2(30) path '//ns:Pharmacy/ns:StoreName',\r\n" + 
-		        		"    pharmacy_addr_1 varchar2(30) path '//ns:Pharmacy/ns:Address/ns:AddressLine1',\r\n" + 
-		        		"    pharmacy_addr_2 varchar2(30) path '//ns:Pharmacy/ns:Address/ns:AddressLine2',\r\n" + 
-		        		"    pharmacy_city varchar2(30) path '//ns:Pharmacy/ns:Address/ns:City',\r\n" + 
-		        		"    pharmacy_state varchar2(30) path '//ns:Pharmacy/ns:Address/ns:State',\r\n" + 
-		        		"    pharmacy_zip varchar2(30) path '//ns:Pharmacy/ns:Address/ns:ZipCode',\r\n" + 
-		        		"	 npi1 varchar2(35) path '//ns:Prescriber/ns:Identification/ns:NPI',\r\n" + 
-		        		"    npi2 varchar2(35) path '//ns:Header/ns:From',\r\n" + 
-		        		"    prescriber_First_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:FirstName',\r\n" + 
-		        		"    prescriber_Mid_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:MiddleName',\r\n" + 
-		        		"    prescriber_Last_Name varchar2(35) path '//ns:Prescriber/ns:Name/ns:LastName',\r\n" + 
-		        		"    prescriber_DEA varchar2(35) path '//ns:Prescriber/ns:Identification/ns:DEANumber',  \r\n" + 
-		        		"    patient_First_Name varchar2(35) path '//ns:Patient/ns:Name/ns:FirstName',\r\n" + 
-		        		"    patient_Mid_Name varchar2(35) path '//ns:Patient/ns:Name/ns:MiddleName',\r\n" + 
-		        		"    patient_Last_Name varchar2(35) path '//ns:Patient/ns:Name/ns:LastName',\r\n" + 
-		        		"    patient_addr_1 varchar2(30) path '//ns:Patient/ns:Address/ns:AddressLine1',\r\n" + 
-		        		"    patient_addr_2 varchar2(30) path '//ns:Patient/ns:Address/ns:AddressLine2',\r\n" + 
-		        		"    patient_city varchar2(30) path '//ns:Patient/ns:Address/ns:City',\r\n" + 
-		        		"    patient_state varchar2(30) path '//ns:Patient/ns:Address/ns:State',\r\n" + 
-		        		"    patient_zip varchar2(30) path '//ns:Patient/ns:Address/ns:ZipCode',\r\n" + 
-		        		"    patient_dob varchar2(30) path '//ns:Patient/ns:DateOfBirth/ns:Date',\r\n" + 
-		        		"    patient_ssn varchar2(11) path '//ns:Patient/ns:Identification/ns:SocialSecurity',\r\n" + 
-		        		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
-		        		"    ) x";
-
-
-	                    sql = sql + sqlWhere ;
-	        		
-	        		if (patientSsn.length() != 0) {
-	        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
-	        		}
-
-	                sql2017071 = "    union all\r\n" +
-	        	
-	     			"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
-	        		"p.visn visn,\r\n" +
-	        		"p.va_station_id va_station_id,\r\n" +
-	        		"x.npi1 prescriber_npi,\r\n" +
-	        		"x.prescriber_DEA,\r\n" +
-	        		"to_char(to_date(decode(length(x.patient_dob),11,substr(x.patient_dob, 2,10), x.patient_dob),'YYYY-MM-DD'),'MM/DD/YYYY') patient_dob,\r\n" +
-	        		"x.patient_ssn patient_ssn,\r\n" +
-	        		"x.pharmacy_name pharmacy_name,\r\n" +
-	        		"x.pharmacy_addr_1||' '||x.pharmacy_addr_2||' '||x.pharmacy_city||nvl2(x.pharmacy_city,nvl2(x.pharmacy_state,', ',null),null)||x.pharmacy_state||' '||x.pharmacy_zip pharmacy_addr_1,\r\n" +
-	        		"x.patient_Last_Name||nvl2(x.patient_Last_Name,nvl2(x.patient_First_Name,', ',null),null)||x.patient_First_Name||' '||x.patient_Mid_Name patient_Name,\r\n" +
-	        		"x.prescriber_Last_Name||nvl2(x.prescriber_Last_Name,nvl2(x.prescriber_First_Name,', ',null),null)||x.prescriber_First_Name||' '||x.prescriber_Mid_Name prescriber_Name,\r\n" +
-	        		"nvl(x.rx_Drug_Prescribed,x.rx_Drug_Response) rx_Drug_Prescribed,\r\n" +
-	        		"t.message_type message_type,\r\n" +
-	        		"t.rel_to_message_id rel_to_message_id,\r\n" +
-	        		"t.message_id rx_messageId,\r\n" +
-	        		"t.received_date received_date,\r\n" +
-	        		"(select code_description from erx_status where code = t.patient_chk_status) patient_chk_status,\r\n" +
-	        		"(select code_description from erx_status where code = t.provider_chk_status) provider_chk_status,\r\n" +
-	        		"(select code_description from erx_status where code = t.drug_chk_status) drug_chk_status,\r\n" +
-	        		"(select code_description from erx_status where code = t.message_status) message_status \r\n" +
-	        		"from inbound_ncpdp_msg t, pharmacy p, xmltable( '/Message'\r\n" +
-	        		    "passing t.message\r\n" +
-	        		    "columns\r\n" +
-	        		    "message_id varchar2(35) path '//Header/MessageID',\r\n" +
-	        		    "rel_to_message_id varchar2(35) path '//Header/RelatesToMessageID',\r\n" +
-	        		    "message_type varchar2(35) path 'name(/Body/*[1])',\r\n" +
-	        		    "pharmacy_name varchar2(70) path '//Pharmacy/BusinessName', \r\n" +
-	        		    "pharmacy_addr_1 varchar2(40) path '//Pharmacy/Address/AddressLine1',\r\n" +
-	        		    "pharmacy_addr_2 varchar2(40) path '//Pharmacy/Address/AddressLine2',\r\n" +
-	        		    "pharmacy_city varchar2(30) path '//Pharmacy/Address/City',\r\n" +
-	        		    "pharmacy_state varchar2(30) path '//Pharmacy/Address/StateProvince',\r\n" +
-	        		    "pharmacy_zip varchar2(30) path '//Pharmacy/Address/PostalCode',\r\n" +
-	        		    "npi1 varchar2(35) path '//Prescriber/NonVeterinarian/Identification/NPI',\r\n" +
-	        		    "npi2 varchar2(35) path '//Header/From',\r\n" +
-	        		    "prescriber_First_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/FirstName',\r\n" +
-	        		    "prescriber_Mid_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/MiddleName',\r\n" +
-	        		    "prescriber_Last_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/LastName',\r\n" +
-	        		    "prescriber_DEA varchar2(35) path '//Prescriber/NonVeterinarian/Identification/DEANumber', \r\n" +  
-	        		    "patient_First_Name varchar2(35) path '//Patient/HumanPatient/Name/FirstName',\r\n" +
-	        		    "patient_Mid_Name varchar2(35) path '//Patient/HumanPatient/Name/MiddleName',\r\n" +
-	        		    "patient_Last_Name varchar2(35) path '//Patient/HumanPatient/Name/LastName',\r\n" +
-	        		    "patient_addr_1 varchar2(30) path '//Patient/HumanPatient/Address/AddressLine1',\r\n" +
-	        		    "patient_addr_2 varchar2(30) path '//Patient/HumanPatient/Address/AddressLine2',\r\n" +
-	        		    "patient_city varchar2(30) path '//Patient/HumanPatient/Address/City',\r\n" +
-	        		    "patient_state varchar2(30) path '//Patient/HumanPatient/Address/StateProvince',\r\n" +
-	        		    "patient_zip varchar2(30) path '//Patient/HumanPatient/Address/PostalCode',\r\n" +
-	        		    "patient_dob varchar2(30) path '//Patient/HumanPatient/DateOfBirth/Date',\r\n" +
-	        		    "patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
-	        		    "rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',\r\n" +
-		        		"rx_Drug_Response varchar2(105) path '//MedicationResponse/DrugDescription' \r\n" +
-	        		    ") x" +
-		        		
-	        		    "UNION ALL" +
-			
-	        		
-	                "select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
-		        	"p.visn visn,\r\n" +
-		        	"p.va_station_id va_station_id,\r\n" +
-		        	"x.npi1 prescriber_npi,\r\n" +
-		        	"x.prescriber_DEA,   \r\n" +
-		        	"x.patient_dob patient_dob,\r\n" +
-		        	"x.patient_ssn patient_ssn,\r\n" +
-		        	"x.pharmacy_name pharmacy_name, 	\r\n" +				
-		        	"x.pharmacy_addr_1||' '||x.pharmacy_addr_2||' '||x.pharmacy_city||nvl2(x.pharmacy_city,nvl2(x.pharmacy_state,', ',null),null)||x.pharmacy_state||' '||x.pharmacy_zip pharmacy_addr_1,\r\n" + 
-		        	"x.patient_Last_Name||nvl2(x.patient_Last_Name,nvl2(x.patient_First_Name,', ',null),null)||x.patient_First_Name||' '||x.patient_Mid_Name patient_Name, \r\n" +
-		        	"x.prescriber_Last_Name||nvl2(x.prescriber_Last_Name,nvl2(x.prescriber_First_Name,', ',null),null)||x.prescriber_First_Name||' '||x.prescriber_Mid_Name prescriber_Name, \r\n" +
-		        	"x.rx_Drug_Prescribed rx_Drug_Prescribed, \r\n" +
-		        	"t.message_type message_type, \r\n" +
-		        	"t.rel_to_message_id rel_to_message_id, \r\n" +
-		        	"t.message_id rx_messageId, \r\n" +
-		        	"t.received_date received_date, \r\n" +
-		        	"'N/A' patient_chk_status, \r\n" +
-		        	"'N/A' provider_chk_status, \r\n" +
-		        	"'N/A' drug_chk_status, \r\n" +
-		        	"(select code_description from erx_status where code = t.message_status) message_status \r\n" +
-		        	    "from outbound_ncpdp_msg t, pharmacy p, xmltable('/Message' \r\n" +
-		        		"passing t.message \r\n" +
-		        		"columns  \r\n" +
-		        		"message_id varchar2(35) path '//Header/MessageID', \r\n" +
-		        		"rel_to_message_id varchar2(35) path '//Header/RelatesToMessageID', \r\n" +
-		        		"message_type varchar2(35) path 'name(/Body/*[1])', \r\n" +
-		        		"pharmacy_name varchar2(70) path '//Pharmacy/BusinessName', \r\n" +
-		        		"pharmacy_addr_1 varchar2(40) path '//Pharmacy/Address/AddressLine1', \r\n" +
-		        		"pharmacy_addr_2 varchar2(40) path '//Pharmacy/Address/AddressLine2', \r\n" +
-		        		"pharmacy_city varchar2(30) path '//Pharmacy/Address/City', \r\n" +
-		        		"pharmacy_state varchar2(30) path '//Pharmacy/Address/StateProvince', \r\n" +
-		        		"pharmacy_zip varchar2(30) path '//Pharmacy/Address/PostalCode', \r\n" +
-		        		"npi1 varchar2(35) path '//Prescriber/NonVeterinarian/Identification/NPI', \r\n" +
-		        		"npi2 varchar2(35) path '//Header/From', \r\n" +
-		        		"prescriber_First_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/FirstName', \r\n" +
-		        		"prescriber_Mid_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/MiddleName', \r\n" +
-		        		"prescriber_Last_Name varchar2(35) path '//Prescriber/NonVeterinarian/Name/LastName', \r\n" +
-		        		"prescriber_DEA varchar2(35) path '//Prescriber/NonVeterinarian/Identification/DEANumber',   \r\n" +
-		        		"patient_First_Name varchar2(35) path '//Patient/HumanPatient/Name/FirstName', \r\n" +
-		        		"patient_Mid_Name varchar2(35) path '//Patient/HumanPatient/Name/MiddleName', \r\n" +
-		        		"patient_Last_Name varchar2(35) path '//Patient/HumanPatient/Name/LastName', \r\n" +
-		        		"patient_addr_1 varchar2(40) path '//Patient/HumanPatient/Address/AddressLine1', \r\n" +
-		        		"patient_addr_2 varchar2(40) path '//Patient/HumanPatient/Address/AddressLine2', \r\n" +
-		        		"patient_city varchar2(30) path '//Patient/HumanPatient/Address/City', \r\n" +
-		        		"patient_state varchar2(30) path '//Patient/HumanPatient/Address/StateProvince', \r\n" +
-		        		"patient_zip varchar2(30) path '//Patient/HumanPatient/Address/PostalCode', \r\n" +
-		        		"patient_dob varchar2(30) path '//Patient/HumanPatient/DateOfBirth/Date', \r\n" +
-		        		"patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
-		        		"rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription' \r\n" +
-		        		") x" + sqlWhere;
-					
-							
-									//patientSSN2017071
-	        		if (patientSsn.length() != 0) {
-	        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
-	        		}
-	        		
-			}
-			
-			
-        		
-        			sql = sql +	sql2017071 + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
+		    		
+        			sql_outbound = sql_outbound +	sql2017071_outbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         
-        			LOG.debug("NCPDP message details Sql is:" + sql);
+        			LOG.debug("NCPDP Outbound message details Sql is:" + sql_outbound);
         			//System.out.println("sql is:" + sql);
-        			
+        }
+
+
         List<NcpdpMessageListModel> ncpdpMsgList = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_inbound = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_outbound = new ArrayList<NcpdpMessageListModel>();
+        
         
 		// Strip any leading V as seen in VistA HQ when search Outbound (Sent) 
 		if (inboundNcpdpMsgId != null && inboundNcpdpMsgId.length() > 0) {
@@ -2806,12 +2591,42 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		}
 		
 		try {
-			//LOG.info("Retrieving NCPDP message details.");
+			LOG.info("Retrieving NCPDP message details.");
 			//System.out.println("Retrieving NCPDP message details.");
-			 ncpdpMsgList = jdbcTemplate.query(sql,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
-					 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
-					 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
-					 inboundNcpdpMsgId);
+			
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_inbound = jdbcTemplate.query(sql_inbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);
+			}
+			
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_outbound = jdbcTemplate.query(sql_outbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);				
+				
+			}
+			
+			ncpdpMsgList.addAll(ncpdpMsgList_inbound);
+			ncpdpMsgList.addAll(ncpdpMsgList_outbound);
+			
+	        //M. Bolden - need to check the combined list to make sure it is within the bounds of the max records.  If it exceeds the max selected
+	        //records the list is then reduced to the max selected.
+			
+			if(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords))
+			{
+				
+				while(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords) )
+				{
+					ncpdpMsgList.remove(ncpdpMsgList.size() - 1);
+				}
+				
+			}
+			
 		} catch (DataAccessException e) {
 			//ncpdpMsg.setDataError(e.getMessage());
 			//System.out.println("data error is:" + e.getMessage());

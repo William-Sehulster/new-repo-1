@@ -129,9 +129,9 @@
 <div style="width: 330px;" title="Received (Inbound messages) or Sent (Outbound messages)" >
 <label for="inboundOutbound" style="width: 125px;height: 20px;padding-top:2px;padding-left: 10px;">Sent or Received:</label>
 <div id="inboundOutbound" name="inboundOutbound" value="Inbound" style="width: 180px;" data-dojo-type="dijit/form/Select">
+	<span value="Both">Both</span>
 	<span value="Inbound">Received</span>
 	<span value="Outbound">Sent</span>
-	<span value="Both">Both</span>
 </div>
 </div>
 

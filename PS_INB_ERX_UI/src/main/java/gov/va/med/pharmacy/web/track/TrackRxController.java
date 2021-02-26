@@ -227,6 +227,9 @@ public class TrackRxController {
 			
 			mbmSearchAllowed = true;
 		}
+		
+		//inboundOutbound = "Both"; 
+		
 			eRxMessageList = trackMessageService.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate, patientSsn, patientLastName,
 						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId,
 						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071);
