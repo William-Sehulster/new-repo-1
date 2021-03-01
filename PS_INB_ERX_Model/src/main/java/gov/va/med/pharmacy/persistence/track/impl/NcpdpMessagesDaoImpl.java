@@ -2253,9 +2253,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071) {
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "";
+		String sql_outbound = "";
+		String sql_inbound = "";
 		String sqlWhere = "";
-		String sql2017071 = "";
+		String sqlWhere_inbound = "";
+		String sqlWhere_outbound = "";
+		String sql2017071_outbound = "";
+		String sql2017071_inbound = "";
 		
 		
 		
@@ -2315,19 +2319,22 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"    and nvl(x.npi1, ' ') like ? \r\n" + 
 				"    and nvl(upper(x.rx_Drug_Prescribed),' ') like ? \r\n";
 			
-			if (inboundOutbound.equalsIgnoreCase("Inbound")){
-				sqlWhere = sqlWhere +	"    and t.inbound_ncpdp_msg_id like ? \r\n";
-			} else {
-				sqlWhere = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_inbound = sqlWhere +	"    and t.inbound_ncpdp_msg_id like ? \r\n";
+			} 
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_outbound = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
 			}
 			
 			
 			
-		if (inboundOutbound.equalsIgnoreCase("Inbound")) {	
+		if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both")) {	
 			
 			//TODO:pull this query out of the code into a resource file 
 			
-        sql = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
+        sql_inbound = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
                 "p.visn visn,\r\n" +
                 "p.va_station_id va_station_id,\r\n" +
                 "x.npi1 prescriber_npi,\r\n" +
@@ -2378,13 +2385,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
         		"    ) x";
         		
-        		sql = sql + sqlWhere ;
+        		sql_inbound = sql_inbound + sqlWhere_inbound ;
         		
         		if (patientSsn.length() != 0) {
-        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+        			sql_inbound = sql_inbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
         		}
         		
-        		sql2017071 = "    union all\r\n" +
+        		sql2017071_inbound = "    union all\r\n" +
         		"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
         		"p.visn visn,\r\n" +
         		"p.va_station_id va_station_id,\r\n" +
@@ -2435,15 +2442,21 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		    "patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
         		    "rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',\r\n" +
 	        		"rx_Drug_Response varchar2(105) path '//MedicationResponse/DrugDescription' \r\n" +
-        		    ") x" + sqlWhere;
+        		    ") x" + sqlWhere_inbound;
         		
         		//patientSSN2017071
         		if (patientSsn.length() != 0) {
-        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+        			sql2017071_inbound = sql2017071_inbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
         		}
+				
+				sql_inbound = sql_inbound +	sql2017071_inbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         		
-		} else {
-			sql = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+				LOG.debug("NCPDP INBOUND message details Sql is:" + sql_inbound);
+    			//System.out.println("sql is:" + sql);
+				
+		} 
+		if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both")){
+			sql_outbound = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 	                "p.visn visn,\r\n" +
 	                "p.va_station_id va_station_id,\r\n" +
 	                "x.npi1 prescriber_npi,\r\n" +
@@ -2494,13 +2507,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
 	        		"    ) x";
 			
-	        		sql = sql + sqlWhere;
+	        		sql_outbound = sql_outbound + sqlWhere_outbound;
 	        		
 	        		if (patientSsn.length() != 0) {
-	        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+	        			sql_outbound = sql_outbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
 	        		}
 	        		
-	        		sql2017071 = "union all \r\n" +
+	        		sql2017071_outbound = "union all \r\n" +
 	        		"    select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 	        		"    p.visn visn,\r\n" +
 	        		"    p.va_station_id va_station_id,\r\n" +
@@ -2550,21 +2563,25 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    	patient_dob varchar2(30) path '//Patient/HumanPatient/DateOfBirth/Date', \r\n" +
 	        		"    	patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
 	        		"    	rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription' \r\n" +
-	        		"    ) x" + sqlWhere;
+	        		"    ) x" + sqlWhere_outbound;
 	        		
 	        		
 	        		//patientSSN2017071
 	        		if (patientSsn.length() != 0) {
-	        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+	        			sql2017071_outbound = sql2017071_outbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
 	        		}
-		}
-        		
-        			sql = sql +	sql2017071 + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
+		    		
+        			sql_outbound = sql_outbound +	sql2017071_outbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         
-        			LOG.debug("NCPDP message details Sql is:" + sql);
+        			LOG.debug("NCPDP Outbound message details Sql is:" + sql_outbound);
         			//System.out.println("sql is:" + sql);
-        			
+        }
+
+
         List<NcpdpMessageListModel> ncpdpMsgList = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_inbound = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_outbound = new ArrayList<NcpdpMessageListModel>();
+        
         
 		// Strip any leading V as seen in VistA HQ when search Outbound (Sent) 
 		if (inboundNcpdpMsgId != null && inboundNcpdpMsgId.length() > 0) {
@@ -2574,12 +2591,42 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		}
 		
 		try {
-			//LOG.info("Retrieving NCPDP message details.");
+			LOG.info("Retrieving NCPDP message details.");
 			//System.out.println("Retrieving NCPDP message details.");
-			 ncpdpMsgList = jdbcTemplate.query(sql,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
-					 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
-					 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
-					 inboundNcpdpMsgId);
+			
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_inbound = jdbcTemplate.query(sql_inbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);
+			}
+			
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_outbound = jdbcTemplate.query(sql_outbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);				
+				
+			}
+			
+			ncpdpMsgList.addAll(ncpdpMsgList_inbound);
+			ncpdpMsgList.addAll(ncpdpMsgList_outbound);
+			
+	        //M. Bolden - need to check the combined list to make sure it is within the bounds of the max records.  If it exceeds the max selected
+	        //records the list is then reduced to the max selected.
+			
+			if(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords))
+			{
+				
+				while(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords) )
+				{
+					ncpdpMsgList.remove(ncpdpMsgList.size() - 1);
+				}
+				
+			}
+			
 		} catch (DataAccessException e) {
 			//ncpdpMsg.setDataError(e.getMessage());
 			//System.out.println("data error is:" + e.getMessage());

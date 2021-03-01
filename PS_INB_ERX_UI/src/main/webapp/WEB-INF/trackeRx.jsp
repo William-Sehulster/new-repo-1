@@ -129,6 +129,7 @@
 <div style="width: 330px;" title="Received (Inbound messages) or Sent (Outbound messages)" >
 <label for="inboundOutbound" style="width: 125px;height: 20px;padding-top:2px;padding-left: 10px;">Sent or Received:</label>
 <div id="inboundOutbound" name="inboundOutbound" value="Inbound" style="width: 180px;" data-dojo-type="dijit/form/Select">
+	<span value="Both">Both</span>
 	<span value="Inbound">Received</span>
 	<span value="Outbound">Sent</span>
 </div>
@@ -148,6 +149,8 @@
     <span value="4001">OB_MSG_SEND_COMPLETED</span>
     <span value="4005">OB_MSG_DELIVERY_RETRIES_EXCEEDED</span>
     <span value="4009">OB_MSG_SEND_IN_PROGRESS</span>
+	<span value="0000">READY_FOR_AUTOCHECK</span>
+	<span value="3006">NCPDP_MSG_INVALID</span>
 </div>
 </div> 
 
