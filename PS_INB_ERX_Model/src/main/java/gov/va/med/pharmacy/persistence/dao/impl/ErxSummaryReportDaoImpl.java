@@ -70,13 +70,21 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("refillRequest").as("refillRequest"))
+				.add(Projections.sum("refillRequestCS").as("refillRequestCS"))
 				.add(Projections.sum("refillResponse").as("refillResponse"))
+				.add(Projections.sum("refillResponseCS").as("refillResponseCS"))
 				.add(Projections.sum("rxChangeRequest").as("rxChangeRequest"))
+				.add(Projections.sum("rxChangeRequestCS").as("rxChangeRequestCS"))
 				.add(Projections.sum("rxChangeResponse").as("rxChangeResponse"))
+				.add(Projections.sum("rxChangeResponseCS").as("rxChangeResponseCS"))
 				.add(Projections.sum("cancelRx").as("cancelRx"))
+				.add(Projections.sum("cancelRxCS").as("cancelRxCS"))
 				.add(Projections.sum("cancelRxResponse").as("cancelRxResponse"))
-				.add(Projections.sum("rxFill").as("rxFill")));
+				.add(Projections.sum("cancelRxResponseCS").as("cancelRxResponseCS"))
+				.add(Projections.sum("rxFill").as("rxFill"))
+				.add(Projections.sum("rxFillCS").as("rxFillCS")));
 
 		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 		
@@ -135,13 +143,21 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("refillRequest").as("refillRequest"))
+				.add(Projections.sum("refillRequestCS").as("refillRequestCS"))
 				.add(Projections.sum("refillResponse").as("refillResponse"))
+				.add(Projections.sum("refillResponseCS").as("refillResponseCS"))
 				.add(Projections.sum("rxChangeRequest").as("rxChangeRequest"))
+				.add(Projections.sum("rxChangeRequestCS").as("rxChangeRequestCS"))
 				.add(Projections.sum("rxChangeResponse").as("rxChangeResponse"))
+				.add(Projections.sum("rxChangeResponseCS").as("rxChangeResponseCS"))
 				.add(Projections.sum("cancelRx").as("cancelRx"))
+				.add(Projections.sum("cancelRxCS").as("cancelRxCS"))
 				.add(Projections.sum("cancelRxResponse").as("cancelRxResponse"))
-				.add(Projections.sum("rxFill").as("rxFill")));
+				.add(Projections.sum("cancelRxResponseCS").as("cancelRxResponseCS"))
+				.add(Projections.sum("rxFill").as("rxFill"))
+				.add(Projections.sum("rxFillCS").as("rxFillCS")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
 		
