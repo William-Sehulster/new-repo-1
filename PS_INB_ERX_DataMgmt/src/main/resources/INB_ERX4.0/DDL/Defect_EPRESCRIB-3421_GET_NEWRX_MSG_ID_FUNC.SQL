@@ -1,4 +1,4 @@
-create or replace function get_newrx_msg_id_func
+create or replace function erx.get_newrx_msg_id_func
 (
   p_message_id in varchar2,
   p_begin_date in date default sysdate - 548, --one and a half years
@@ -35,3 +35,5 @@ CONNECT BY PRIOR results.rel_to_message_id = results.message_id
 
   return v_newrx_message_id;
 end get_newrx_msg_id_func;
+
+/
