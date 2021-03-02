@@ -24,13 +24,20 @@ public class SummaryReportVw implements java.io.Serializable {
 	private String visn;
 	private String pharmacyAddress;
 	private long newRxCnt;
+	private long newRxCntCS;
 	private long newRxPharmDisabledAtHub;
 	private long newRxRejectedAtHub;
+	private long newRxRejectedAtHubCS;
 	private long newRxPassAutoChk;
+	private long newRxPassAutoChkCS;
 	private long newRxFailAutoChk;
+	private long newRxFailAutoChkCS;
 	private long newRxRejectedByPharmacist;
+	private long newRxRejectedByPharmacistCS;
 	private long newRxFilled;
+	private long newRxFilledCS;
 	private long newRxInProcess;
+	private long newRxInProcessCS;
 	private Date newRxMessageDate;
 	
 	
