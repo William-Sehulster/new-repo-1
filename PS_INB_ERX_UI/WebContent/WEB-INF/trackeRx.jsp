@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 <script type="text/javascript" src="/inbound/scripts/trackeRx.js"> </script>
 
-
+<title>Track/Audit eRx</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -46,6 +46,12 @@
 	
 </div> 
 </div>
+ <div id="trackAuditFromDateInfo" style="display: none;">
+    Please select or enter From Date in MM/DD/YYYY Format.
+ </div>
+ <div id="trackAuditToDateInfo" style="display: none;">
+    Please select or To Date in MM/DD/YYYY Format.
+ </div>
 <div style="width: 233px; padding-left: 5px;" >
 <label for="pharmacyVaStationId" style="width: 90px;height: 20px;padding-top:2px;">VA Station ID:</label>
 <input id="pharmacyVaStationId" name="pharmacyVaStationId"  data-dojo-type="dijit/form/TextBox" value="" maxlength="20" style="width: 127px;padding-top:0px;" title="Station ID of the VA pharmacy"></input> 
@@ -56,12 +62,12 @@
 	<c:set var ="yesterdaysDateVal" value="<%=new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)%>"/>
 	<fmt:formatDate  pattern="yyyy-MM-dd" value="${yesterdaysDateVal}" var="yesterdayDateFormatted"/>
 	<input type="text" name="dateFrom" id="dateFrom" constraints="{max: new Date()}" value="${yesterdayDateFormatted}" 
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="From Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditFromDateInfo" style="padding-top:0px;"/>
 </div>
 <div style="width: 350px;" title="Ending date range">
 	<label for="dateTo" style="width: 125px;height: 20px;padding-top:2px; padding-right: 29px;">To Date:</label> 
 	<input type="text" name="dateTo" id="dateTo" constraints="{max: new Date()}" value="now"
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="To Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditToDateInfo" style="padding-top:0px;"/>
 </div>
 </div>
 
@@ -87,6 +93,7 @@
 <label for="relatedMessageId2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Relates to Message ID:</label>
 <input id="relatedMessageId2" name="relatedMessageId" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Related to Message Identifier"></input>
 </div>
+
 
 <div style="width: 1100px;" >
 <label for="patientSsn2" style="width: 125px;height: 20px;padding-top:2px;">Patient SSN:</label>
@@ -154,9 +161,12 @@
 
 
 </div>
+ <div id="trackAuditSearchButtonInfo" style="display: none;">
+     The search will take sometime to load the result.
+  </div>
 
 <div style="width: 190px;">
-<button id="searchButton" type="button"></button>
+<button id="searchButton" type="button" aria-describedby="trackAuditSearchButtonInfo"></button>
 <button id="clearButton"  type="button"></button>
 <button id="exportButton"  type="button"></button>
 </div>

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<title>Help Page</title>
 <meta http-equiv=Content-Type content="text/html; charset=us-ascii">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <style>

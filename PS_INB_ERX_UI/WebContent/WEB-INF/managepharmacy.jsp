@@ -17,7 +17,7 @@
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 
 
-
+<title>Pharmacy Management</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 

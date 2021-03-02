@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/inbound/scripts/manageusers.js"> </script>
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 
+<title>User Management</title>
 
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />

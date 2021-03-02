@@ -16,7 +16,7 @@
 <script type="text/javascript" src="/inbound/scripts/editpharmacy.js"> </script>
 
 
-
+<title>Edit Pharmacy</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -43,16 +43,17 @@
 <c:if test="${not empty messageData.errorMessage }">
 <div id="errorMessages" class="error" aria-describedby="Informational message or warning message section" tabindex="0">
 <p id="errorTitle">
-<font class="errorHeader">Error Messages: </font>
+<h3><font class="errorHeader">Error Messages: </font></h3>
 <br>
 </p>
 <div id="errorMessageText">
+<ul role="list">
 <c:forEach items="${messageData.errorMessage}" var="error" varStatus="status">
-				<p id="errorOnEditPharm${status.count}">
-					&bull;
+				<li id="errorOnEditPharm${status.count}" role="listitem">					
 					${error}
-				</p>
+				</li>
 			</c:forEach>
+</ul>			
 </div>
 </div>
 </c:if>
