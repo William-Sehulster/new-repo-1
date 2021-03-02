@@ -136,6 +136,7 @@ function buildSummaryReportLayout(servlet, target) {
 	return layout;
 }
 
+//E.Carlson - Added "#Passed Autocheck CS" and "#Failed Autocheck CS" columns per ERXCS1738.
 function buildAutoCheckReportLayout(servlet, target) {
 	var layout = new Array();
 	
@@ -182,10 +183,26 @@ function buildAutoCheckReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxPassAutoChkCs';
+	obj["name"] = "#Passed Autocheck CS";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxFailAutoChk';
 	obj["name"] = "#Failed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxFailAutoChkCs';
+	obj["name"] = "#Failed Autocheck CS";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
@@ -266,6 +283,8 @@ function buildAutoCheckReportLayout(servlet, target) {
 	return layout;
 }
 
+// E.Carlson - Removed "newRxCsNotAllowed" per ERXCS-1729. Added newRxInvalidCsDs; newRxPrescriberCsCredInvalid;
+// newRxPatientAddrMissing; newRxCsDateIssue.
 function buildRejectReasonsReportLayout(servlet, target) {
 	var layout = new Array();
 	
@@ -402,14 +421,6 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
-	obj["field"] = 'newRxCsNotAllowed';
-	obj["name"] = "#CS Not Allowed";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
-	
-	obj = new Object();
 	obj["field"] = 'newRxMultiErrCallPharm';
 	obj["name"] = "#Contact Pharmacy (ERR01)";
 	obj["width"] = '170px';
@@ -428,6 +439,42 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'newRxErrCallPharm';
 	obj["name"] = "#Contact Pharmacy (ERR03)";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxInvalidCsDs';
+	obj["name"] = "#Missing/Bad CS DS";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxPrescriberCsCredInvalid';
+	obj["name"] = "#Prescriber's CS Credential Invalid";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxPatientAddrMissing';
+	obj["name"] = "#Patient's Address Missing/Mismatched";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxCsDateIssue';
+	obj["name"] = "#CS eRx Date Problem";
 	obj["width"] = '156px';
 	//obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
@@ -706,7 +753,9 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 
 	totals ["newRxCnt"] = 0;
 	totals ["newRxPassAutoChk"] = 0;
+	totals ["newRxPassAutoChkCs"] = 0;
 	totals ["newRxFailAutoChk"] = 0;
+	totals ["newRxFailAutoChkCs"] = 0;
 	totals ["newRxMviPatFound"] = 0;
 	totals ["newRxMviPatNotFound"] = 0;
 	totals ["newRxEneElgbEnrl"] = 0;
@@ -720,7 +769,9 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 		
 	totals.newRxCnt  = 0;
 	totals.newRxPassAutoChk  = 0;
+	totals.newRxPassAutoChkCs  = 0;
 	totals.newRxFailAutoChk  = 0;
+	totals.newRxFailAutoChkCs  = 0;
 	totals.newRxMviPatFound  = 0;
 	totals.newRxMviPatNotFound  = 0;
 	totals.newRxEneElgbEnrl  = 0;
@@ -750,7 +801,11 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 	var layout = buildAutoCheckReportLayout(null, null);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[4].width) + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width);
+	var tableWidth = totColWidth + parseInt(layout[4].width) + parseInt(layout[5].width)+ parseInt(layout[6].width) + 
+								   parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + 
+								   parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + 
+								   parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width +
+								   parseInt(layout[16].width) + parseInt(layout[17].width));
 
 
 	sumTable = 
@@ -759,16 +814,18 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxEneElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxEneNotElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxPatNotEnrlSite) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchFnd) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchNotFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchNotFnd) + "</td>" + "</tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChkCs) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChkCs) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatNotFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxEneElgbEnrl) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxEneNotElgbEnrl) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + "; text-align: left;'>" + numberFormat(totals.newRxPatNotEnrlSite) + "</td>"  +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchFnd) + "</td>"  +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchNotFnd) + "</td>"  +
+ 		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchFnd) + "</td>"  +
+ 		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchNotFnd) + "</td>" + "</tr>" +
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
@@ -877,10 +934,13 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 	totals ["newRxDuplicate"] = 0;
 	totals ["newRxInvalidQty"] = 0;
 	totals ["newRxDupTheraClass"] = 0;
-	totals ["newRxCsNotAllowed"] = 0;
 	totals ["newRxMultiErrCallPharm"] = 0;
 	totals ["newRxIncorrectPharm"] = 0;
 	totals ["newRxErrCallPharm"] = 0;
+	totals ["newRxInvalidCsDs"] = 0;
+	totals ["newRxPrescriberCsCredInvalid"] = 0;
+	totals ["newRxPatientAddrMissing"] = 0;
+	totals ["newRxCsDateIssue"] = 0;
 		
 	totals.newRx  = 0;
 	totals.newRxInProcess  = 0;
@@ -894,10 +954,13 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 	totals.newRxDuplicate  = 0;
 	totals.newRxInvalidQty  = 0;
 	totals.newRxDupTheraClass  = 0;
-	totals.newRxCsNotAllowed  = 0;
 	totals.newRxMultiErrCallPharm  = 0;
 	totals.newRxIncorrectPharm  = 0;
 	totals.newRxErrCallPharm  = 0;
+	totals.newRxInvalidCsDs  = 0;
+	totals.newRxPrescriberCsCredInvalid  = 0;
+	totals.newRxPatientAddrMissing  = 0;
+	totals.newRxCsDateIssue  = 0;
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
@@ -928,7 +991,9 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 		+ parseInt(layout[11].width) + parseInt(layout[12].width)
 		+ parseInt(layout[13].width) + parseInt(layout[14].width)
 		+ parseInt(layout[15].width) + parseInt(layout[16].width)
-		+ parseInt(layout[17].width) + parseInt(layout[18].width + parseInt(layout[19].width));
+		+ parseInt(layout[17].width) + parseInt(layout[18].width) 
+		+ parseInt(layout[19].width) + parseInt(layout[20].width)
+		+ parseInt(layout[21].width + parseInt(layout[22].width));
 
 	sumTable = 
 
@@ -947,10 +1012,13 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + ";'>" + numberFormat(totals.newRxDuplicate) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + ";'>" + numberFormat(totals.newRxInvalidQty) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + ";'>" + numberFormat(totals.newRxDupTheraClass) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + ";'>" + numberFormat(totals.newRxCsNotAllowed) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + ";'>" + numberFormat(totals.newRxMultiErrCallPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + ";'>" + numberFormat(totals.newRxIncorrectPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + ";'>" + numberFormat(totals.newRxErrCallPharm) + "</td>" + "</tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + ";'>" + numberFormat(totals.newRxMultiErrCallPharm) + "</td>" +
+ 		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + ";'>" + numberFormat(totals.newRxIncorrectPharm) + "</td>" +
+ 		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + ";'>" + numberFormat(totals.newRxErrCallPharm) + "</td>" + 
+		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + ";'>" + numberFormat(totals.newRxInvalidCsDs) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[20].width + ";'>" + numberFormat(totals.newRxPrescriberCsCredInvalid) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[21].width + ";'>" + numberFormat(totals.newRxPatientAddrMissing) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[22].width + ";'>" + numberFormat(totals.newRxCsDateIssue) + "</td>" + "</tr>" +
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
