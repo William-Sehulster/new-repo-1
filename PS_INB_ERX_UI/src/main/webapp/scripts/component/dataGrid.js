@@ -76,6 +76,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxCntCS';
+	obj["name"] = "CS #New Rx";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxPharmDisabledAtHub';
@@ -92,6 +100,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedAtHubCS';
+	obj["name"] = "CS #Rejected at Hub";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxPassAutoChk';
@@ -100,6 +116,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxPassAutoChkCS';
+	obj["name"] = "CS #Passed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxFailAutoChk';
@@ -110,12 +134,28 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFailAutoChkCS';
+	obj["name"] = "CS #Failed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxRejectedByPharmacist';
 	obj["name"] = "#Rejected by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedByPharmacistCS';
+	obj["name"] = "CS #Rejected by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'newRxFilled';
@@ -126,12 +166,28 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFilledCS';
+	obj["name"] = "CS #Rx Filled";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxInProcess';
 	obj["name"] = "#Accepted by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxInProcessCS';
+	obj["name"] = "CS #Accepted by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	return layout;
 }
@@ -683,22 +739,36 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	
 
 	totals ["newRxCnt"] = 0;
+	totals ["newRxCntCS"] = 0;
 	totals ["newRxPharmDisabledAtHub"] = 0;
 	totals ["newRxRejectedAtHub"] = 0;
+	totals ["newRxRejectedAtHubCS"] = 0;
 	totals ["newRxPassAutoChk"] = 0;
+	totals ["newRxPassAutoChkCS"] = 0;
 	totals ["newRxFailAutoChk"] = 0;
+	totals ["newRxFailAutoChkCS"] = 0;
 	totals ["newRxRejectedByPharmacist"] = 0;
+	totals ["newRxRejectedByPharmacistCS"] = 0;
 	totals ["newRxFilled"] = 0;
+	totals ["newRxFilledCS"] = 0;
 	totals ["newRxInProcess"] = 0;
+	totals ["newRxInProcessCS"] = 0;
 	
 	totals.newRxCnt  = 0;
+	totals.newRxCntCS  = 0;
 	totals.newRxPharmDisabledAtHub  = 0;
 	totals.newRxRejectedAtHub  = 0;
+	totals.newRxRejectedAtHubCS  = 0;
 	totals.newRxPassAutoChk  = 0;
+	totals.newRxPassAutoChkCS  = 0;
 	totals.newRxFailAutoChk  = 0;
+	totals.newRxFailAutoChkCS  = 0;
 	totals.newRxRejectedByPharmacist  = 0;
+	totals.newRxRejectedByPharmacistCS  = 0;
 	totals.newRxFilled  = 0;
+	totals.newRxFilledCS  = 0;
 	totals.newRxInProcess  = 0;
+	totals.newRxInProcessCS  = 0;
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
@@ -728,13 +798,20 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 		"<tr>" +
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHubCS) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChkCS) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChkCS) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacistCS) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" + "</tr>"
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilledCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcessCS) + "</td>" + "</tr>"
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;

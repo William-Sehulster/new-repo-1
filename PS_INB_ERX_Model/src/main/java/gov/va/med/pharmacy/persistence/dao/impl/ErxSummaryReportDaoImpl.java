@@ -167,6 +167,7 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.sum("rxDoNotFillCS").as("rxDoNotFillCS"))
 				);
 
+
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
 		
 		List<ErxSummaryReportVw> summaryReportRows = (List<ErxSummaryReportVw>)criteria.list();

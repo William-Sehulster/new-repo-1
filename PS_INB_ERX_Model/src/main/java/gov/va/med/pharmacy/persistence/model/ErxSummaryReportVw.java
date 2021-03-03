@@ -11,7 +11,7 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "ERX_SUMMARY_REPORT_MVW", schema = "ERX")
+@Table(name = "ERX_SUMMARY_REPORT_MVW1", schema = "ERX")
 @Immutable
 public class ErxSummaryReportVw implements java.io.Serializable {
 
@@ -41,6 +41,7 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 	private long rxFill;
 	private long rxFillCS;           //5.0
 	private long rxDoNotFillCS;      //5.0
+
 	private Date newRxMessageDate;
 	
 
@@ -59,6 +60,7 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 			long refillResponseCS, long rxChangeRequest, long rxChangeRequestCS, long rxChangeResponse, long rxChangeResponseCS, 
 			long cancelRx, long cancelRxCS, long cancelRxResponse, long cancelRxResponseCS, long rxFill, long rxFillCS, long rxDoNotFillCS, 
 			Date newRxMessageDate) {
+
 		this.pharmacyNcpdpId = pharmacyNcpdpId;
 		this.pharmacyVaStationId = pharmacyVaStationId;
 		this.pharmacyDivisionName = pharmacyDivisionName;
@@ -140,6 +142,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.newRxCnt = newRxCnt;
 	}
 	
+	
+	//M. Bolden - 5.0
+
 	@Column(name = "NEW_RX_CNT_CS", precision = 22, scale = 0)
 	public long getNewRxCntCS() {
 		return newRxCntCS;
@@ -158,6 +163,7 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.refillRequest = refillRequest;
 	}
 	
+	//M. Bolden - 5.0
 	@Column(name = "REFILL_REQUEST_CS", precision = 22, scale = 0)
 	public long getRefillRequestCS() {
 		return refillRequestCS;
@@ -165,7 +171,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 
 	public void setRefillRequestCS(long refillRequestCS) {
 		this.refillRequestCS = refillRequestCS;
+
 	}	
+
 
 	@Column(name = "RX_CHANGE_REQUEST", precision = 22, scale = 0)
 	public long getRefillResponse() {
@@ -176,6 +184,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.refillResponse = refillResponse;
 	}
 	
+
+	//M. Bolden - 5.0
+
 	@Column(name = "RX_CHANGE_REQUEST_CS", precision = 22, scale = 0)
 	public long getRefillResponseCS() {
 		return refillResponseCS;
@@ -183,7 +194,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 
 	public void setRefillResponseCS(long refillResponseCS) {
 		this.refillResponseCS = refillResponseCS;
+
 	}	
+
 
 	@Column(name = "REFILL_RESPONSE", precision = 22, scale = 0)
 	public long getRxChangeRequest() {
@@ -194,6 +207,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.rxChangeRequest = rxChangeRequest;
 	}
 	
+	
+	//M. Bolden - 5.0
+
 	@Column(name = "REFILL_RESPONSE_CS", precision = 22, scale = 0)
 	public long getRxChangeRequestCS() {
 		return rxChangeRequestCS;
@@ -201,7 +217,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 
 	public void setRxChangeRequestCS(long rxChangeRequestCS) {
 		this.rxChangeRequestCS = rxChangeRequestCS;
+
 	}	
+
 
 	@Column(name = "RX_CHANGE_RESPONSE", precision = 22, scale = 0)
 	public long getRxChangeResponse() {
@@ -212,6 +230,8 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.rxChangeResponse = rxChangeResponse;
 	}
 	
+	//M. Bolden - 5.0
+
 	@Column(name = "RX_CHANGE_RESPONSE_CS", precision = 22, scale = 0)
 	public long getRxChangeResponseCS() {
 		return rxChangeResponseCS;
@@ -230,6 +250,8 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.cancelRx = cancelRx;
 	}
 	
+	//M. Bolden - 5.0
+
 	@Column(name = "CANCEL_RX_CS", precision = 22, scale = 0)
 	public long getCancelRxCS() {
 		return cancelRxCS;
@@ -237,7 +259,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 
 	public void setCancelRxCS(long cancelRxCS) {
 		this.cancelRxCS = cancelRxCS;
+
 	}	
+
 
 	@Column(name = "CANCEL_RX_RESPONSE", precision = 22, scale = 0)
 	public long getCancelRxResponse() {
@@ -248,6 +272,8 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 		this.cancelRxResponse = cancelRxResponse;
 	}
 	
+	//M. Bolden - 5.0
+
 	@Column(name = "CANCEL_RX_RESPONSE_CS", precision = 22, scale = 0)
 	public long getCancelRxResponseCS() {
 		return cancelRxResponseCS;
@@ -265,7 +291,9 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 	public void setRxFill(long rxFill) {
 		this.rxFill = rxFill;
 	}
-	
+
+	//M. Bolden - 5.0
+
 	@Column(name = "RX_FILL_CS", precision = 22, scale = 0)
 	public long getRxFillCS() {
 		return rxFillCS;
@@ -283,6 +311,7 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 	public void setrxDoNotFillCS(long rxDoNotFillCS) {
 		this.rxDoNotFillCS = rxDoNotFillCS;
 	}	
+
 
 	@Column(name = "NEW_RX_MESSAGE_DATE", length = 8)
 	public Date getNewRxMessageDate() {
@@ -319,6 +348,7 @@ public class ErxSummaryReportVw implements java.io.Serializable {
 					String.valueOf(this.getRxFill()),
 					String.valueOf(this.getRxFillCS()),
 					String.valueOf(this.getrxDoNotFillCS())
+
 		};
 		
 		return stringArray;
