@@ -39,14 +39,14 @@ public class AutoCheckReportController {
 	
 	
 	private static final String[] AUTO_CHECK_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", 
-            "#Passed Autocheck", "#Failed Autocheck", "#MVI Patient Found","#MVI Patient Not Found","#E&E Enrolled/Eligible",
-            "#E&E Not Enrolled/Eligible","#Patient Not Enrolled at Site","#Drug Match Found","#Drug Match Failed","#Provider Match Found",
-			"#Provider Match Failed"};
+            "#Passed Autocheck", "#Passed Autocheck CS", "#Failed Autocheck", "#Failed Autocheck CS", "#MVI Patient Found","#MVI Patient Not Found",
+			"#E&E Enrolled/Eligible", "#E&E Not Enrolled/Eligible","#Patient Not Enrolled at Site","#Drug Match Found","#Drug Match Failed",
+			"#Provider Match Found", "#Provider Match Failed"};
 
 	private static final String[] AUTO_CHECK_REPORT_TOTALS_HEADER = { "#New Rx", 
-            "#Passed Autocheck", "#Failed Autocheck", "#MVI Patient Found","#MVI Patient Not Found","#E&E Enrolled/Eligible",
-            "#E&E Not Enrolled/Eligible","#Patient Not Enrolled at Site","#Drug Match Found","#Drug Match Failed","#Provider Match Found",
-			"#Provider Match Failed"};
+            "#Passed Autocheck", "#Passed Autocheck CS", "#Failed Autocheck", "#Failed Autocheck CS", "#MVI Patient Found","#MVI Patient Not Found",
+			"#E&E Enrolled/Eligible", "#E&E Not Enrolled/Eligible","#Patient Not Enrolled at Site","#Drug Match Found","#Drug Match Failed",
+			"#Provider Match Found", "#Provider Match Failed"};
 	
 	@Autowired
 	private AutoCheckReportService autoCheckReportService;
@@ -224,7 +224,7 @@ public class AutoCheckReportController {
 			String[][] dataRows = new String[1][totalHeaders.length];
 			
 			String[][] summaryReportHeaders = { {"#New Rx", 
-	            "#Passed Autocheck", "#Failed Autocheck", "#MVI Patient Found","#MVI Patient Not Found","#E&E Enrolled/Eligible",
+	            "#Passed Autocheck","#Passed Autocheck CS", "#Failed Autocheck","#Failed Autocheck CS", "#MVI Patient Found","#MVI Patient Not Found","#E&E Enrolled/Eligible",
 	            "#E&E Not Enrolled/Eligible","#Patient Not Enrolled at Site","#Drug Match Found","#Drug Match Failed","#Provider Match Found",
 				"#Provider Match Failed"}};
 			

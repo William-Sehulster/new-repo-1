@@ -11,7 +11,7 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "AUTO_CHECK_REPORT_MVW", schema = "ERX")
+@Table(name = "AUTO_CHECK_REPORT_MVW1", schema = "ERX")
 @Immutable
 public class AutoCheckReportVw implements java.io.Serializable {
 
@@ -25,7 +25,9 @@ public class AutoCheckReportVw implements java.io.Serializable {
 	private String pharmacyAddress;
 	private long newRxCnt;
 	private long newRxPassAutoChk;
+	private long newRxPassAutoChkCs;
 	private long newRxFailAutoChk;
+	private long newRxFailAutoChkCs;
 	private long newRxMviPatFound;
 	private long newRxMviPatNotFound;
 	private long newRxEneElgbEnrl;
@@ -49,10 +51,12 @@ public class AutoCheckReportVw implements java.io.Serializable {
 		this.visn = visn;
 	}
 
+	// E.Carlson - Added new Pass and Fail autocheck column counts for CS.
 	public AutoCheckReportVw(String pharmacyNcpdpId, String pharmacyVaStationId, String pharmacyDivisionName, String visn,
-			String pharmacyAddress, long newRxCnt, long newRxPassAutoChk, long newRxFailAutoChk, long newRxMviPatFound,
-			long newRxMviPatNotFound, long newRxEneElgbEnrl, long newRxEneNotElgbEnrl, long newRxPatNotEnrlSite,
-			long newRxDrgMtchFnd,  long newRxDrgMtchNotFnd, long newRxPvdMtchFnd, long newRxPvdMtchNotFnd, Date newRxMessageDate) {
+			String pharmacyAddress, long newRxCnt, long newRxPassAutoChk, long newRxPassAutoChkCs, long newRxFailAutoChk, 
+			long newRxFailAutoChkCs, long newRxMviPatFound, long newRxMviPatNotFound, long newRxEneElgbEnrl, long newRxEneNotElgbEnrl, 
+			long newRxPatNotEnrlSite, long newRxDrgMtchFnd,  long newRxDrgMtchNotFnd, long newRxPvdMtchFnd, long newRxPvdMtchNotFnd, 
+			Date newRxMessageDate) {
 		this.pharmacyNcpdpId = pharmacyNcpdpId;
 		this.pharmacyVaStationId = pharmacyVaStationId;
 		this.pharmacyDivisionName = pharmacyDivisionName;
@@ -60,7 +64,9 @@ public class AutoCheckReportVw implements java.io.Serializable {
 		this.pharmacyAddress = pharmacyAddress;
 		this.newRxCnt = newRxCnt;
 		this.newRxPassAutoChk = newRxPassAutoChk;
+		this.newRxPassAutoChkCs = newRxPassAutoChkCs;
 		this.newRxFailAutoChk = newRxFailAutoChk;
+		this.newRxFailAutoChkCs = newRxFailAutoChkCs;
 		this.newRxMviPatFound = newRxMviPatFound;
 		this.newRxMviPatNotFound = newRxMviPatNotFound;
 		this.newRxEneElgbEnrl = newRxEneElgbEnrl;
@@ -137,6 +143,15 @@ public class AutoCheckReportVw implements java.io.Serializable {
 	public void setNewRxPassAutoChk(long newRxPassAutoChk) {
 		this.newRxPassAutoChk = newRxPassAutoChk;
 	}
+	
+	@Column(name = "NEW_RX_PASS_AUTO_CHK_CS", precision = 22, scale = 0)
+	public long getNewRxPassAutoChkCs() {
+		return this.newRxPassAutoChkCs;
+	}
+
+	public void setNewRxPassAutoChkCs(long newRxPassAutoChkCs) {
+		this.newRxPassAutoChkCs = newRxPassAutoChkCs;
+	}
 
 	@Column(name = "NEW_RX_FAIL_AUTO_CHK", precision = 22, scale = 0)
 	public long getNewRxFailAutoChk() {
@@ -145,6 +160,15 @@ public class AutoCheckReportVw implements java.io.Serializable {
 
 	public void setNewRxFailAutoChk(long newRxFailAutoChk) {
 		this.newRxFailAutoChk = newRxFailAutoChk;
+	}
+	
+	@Column(name = "NEW_RX_FAIL_AUTO_CHK_CS", precision = 22, scale = 0)
+	public long getNewRxFailAutoChkCs() {
+		return this.newRxFailAutoChkCs;
+	}
+
+	public void setNewRxFailAutoChkCs(long newRxFailAutoChkCs) {
+		this.newRxFailAutoChkCs = newRxFailAutoChkCs;
 	}
 	
 	@Column(name = "NEW_RX_MVI_PAT_FOUND", precision = 22, scale = 0)
@@ -249,7 +273,9 @@ public class AutoCheckReportVw implements java.io.Serializable {
 					this.getPharmacyAddress(),
 					String.valueOf(this.getNewRxCnt()),
 					String.valueOf(this.getNewRxPassAutoChk()),
+					String.valueOf(this.getNewRxPassAutoChkCs()),
 					String.valueOf(this.getNewRxFailAutoChk()),
+					String.valueOf(this.getNewRxFailAutoChkCs()),
 					String.valueOf(this.getNewRxMviPatFound()),
 					String.valueOf(this.getNewRxMviPatNotFound()),
 					String.valueOf(this.getNewRxEneElgbEnrl()),
