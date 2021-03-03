@@ -3601,9 +3601,29 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 					// if QUOM is not present then add from new Rx
 
-					StringBuffer tempRxRenewalRequestMedPrescribedBuf =  new StringBuffer (rxRenewalRequestMedPrescribedBuf.substring(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"),rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>")+11));
+					StringBuffer tempRxRenewalRequestMedPrescribedBuf =  new StringBuffer ();
 					
-					StringBuffer tempRxRenewalRequestMedDispensedBuf =  new StringBuffer (rRxRenewalRequestMedDispensedBuf.substring(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"),rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>")+11));
+					StringBuffer tempRxRenewalRequestMedDispensedBuf =  new StringBuffer ();
+					
+					// now check if drug code is there.
+					
+					if(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>")!= -1) {
+						
+						tempRxRenewalRequestMedPrescribedBuf.append(rxRenewalRequestMedPrescribedBuf.substring(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"),rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>")+11));
+					}
+					
+					else {
+						
+						tempRxRenewalRequestMedPrescribedBuf.append(rxRenewalRequestMedPrescribedBuf.substring(rxRenewalRequestMedPrescribedBuf.indexOf("<Quantity>"),rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>")+11));
+					}
+					
+					if(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>")!= -1) {
+						
+						tempRxRenewalRequestMedDispensedBuf.append(rRxRenewalRequestMedDispensedBuf.substring(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"),rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>")+11));
+					}
+					else {
+						tempRxRenewalRequestMedDispensedBuf.append(rRxRenewalRequestMedDispensedBuf.substring(rRxRenewalRequestMedDispensedBuf.indexOf("<Quantity>"),rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>")+11));
+					}
 					
 					// Med Prescribed
 					if (tempRxRenewalRequestMedPrescribedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
@@ -3667,7 +3687,18 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 										
 									}
 									
-									rxRenewalRequestMedPrescribedBuf.replace(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"), rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedPrescribedBuf.toString());
+									// check drug coded.
+									
+									if(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>")!= -1) {
+									
+										rxRenewalRequestMedPrescribedBuf.replace(rxRenewalRequestMedPrescribedBuf.indexOf("</DrugCoded>"), rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedPrescribedBuf.toString());
+									}
+									else
+									{
+										rxRenewalRequestMedPrescribedBuf.replace(rxRenewalRequestMedPrescribedBuf.indexOf("<Quantity>"), rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedPrescribedBuf.toString());
+									}
+									
+									
 
 									messageBuf.replace(messageBuf.indexOf("<MedicationPrescribed>"), messageBuf.indexOf("</MedicationPrescribed>"), rxRenewalRequestMedPrescribedBuf.toString());
 									
@@ -3746,7 +3777,20 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 										
 									}
 									
-									rRxRenewalRequestMedDispensedBuf.replace(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"), rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedDispensedBuf.toString());
+									
+									// check drugcoded.
+									if(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>")!= -1) {
+									
+										rRxRenewalRequestMedDispensedBuf.replace(rRxRenewalRequestMedDispensedBuf.indexOf("</DrugCoded>"), rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedDispensedBuf.toString());
+									}
+									else {
+										
+										rRxRenewalRequestMedDispensedBuf.replace(rRxRenewalRequestMedDispensedBuf.indexOf("<Quantity>"), rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>"), tempRxRenewalRequestMedDispensedBuf.toString());
+										
+									}
+									
+									
+									
 
 									messageBuf.replace(messageBuf.indexOf("<MedicationDispensed>"), messageBuf.indexOf("</MedicationDispensed>"), rRxRenewalRequestMedDispensedBuf.toString());
 									
