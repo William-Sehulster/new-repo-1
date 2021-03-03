@@ -19,6 +19,7 @@ var csvLoadingDialog;
 
 function buildTrackGridDataSource(dataSourceURL, query) {
 	try {
+		console.log("buildTrackGridDataSource");
 		var dataSource = new dojox.data.JsonQueryRestStore({
 			target : dataSourceURL,
 			idAttribute : "key"
@@ -36,9 +37,10 @@ function onKeyEvent(event) {
 
 
 function createLinkRefNum(entry) {
-	if (entry == null || entry == "null" || entry == "") {
+	if (entry == null || entry == "null" || entry == "") 
 		return "";
-	}
+	
+	console.log("createLinkRefNum");
 	
     var inboundOutboundBox2 = dijit.byId("inboundOutbound");
 	
@@ -51,6 +53,7 @@ function createLinkRefNum(entry) {
 
 function gotoMessageDetails(element, elementId) {
 	
+	console.log("gotoMessageDetails");
 	document.getElementById(elementId).click();
 }
 
@@ -61,6 +64,7 @@ function createRelatedMsgLinkRefNum(entry,index) {
 		return "";
 	}
 	
+	console.log("createRelatedMsgLinkRefNum");
 	var inboundOutbound = "Unknown";
 	var relatedMsg = true;
 
@@ -71,6 +75,7 @@ function createRelatedMsgLinkRefNum(entry,index) {
 
 function gotoRelatedMessageDetails(element, elementId) {
 	
+	console.log("gotoRelatedMessageDetails");
 	document.getElementById(elementId).click();
 }
 
@@ -78,6 +83,8 @@ function createLinkRefNumRelated(entry, index) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
+	
+	console.log("createLinkRefNumRelated");
 	
 	var relatedMessageGridId = 'relatedMessagesListGrid';
 	var relatedMessageGrid = dijit.byId(relatedMessageGridId);
@@ -100,13 +107,16 @@ function createLinkRefNumRelated(entry, index) {
 
 
 function gotoRelatedMessages(element, elementId) {
-	
+
+    console.log("gotoRelatedMessages");
 	document.getElementById(elementId).click();
 }
 
 
 function buildTrackGridLayout(servlet, target) {
 	var layout = new Array();
+	
+	console.log("buildTrackGridLayout");
 	
 	obj = new Object();
 	obj["field"] = 'inboundNcpdpMsgId';
@@ -278,6 +288,8 @@ function trackDataGridInit(servlet, parentContainer, responseData) {
 		
 		// it should use  ItemFileWriteStore 
 		
+		console.log("trackDataGridInit");
+		
 		var recNumber = dojo.byId("trackRecNumber");
 		
 		var recNumberTitle = dojo.byId("trackRecNumberTitle");
@@ -424,6 +436,8 @@ function getTrackGrid() {
 		
 	var formObject = dojo.formToObject(formId);
 	
+	console.log("getTrackGrid");
+	
 		
    // var dataSourceURL = "/inbound/inb-erx/track/getMessages?json=" + dojo.toJson(formObject);
     
@@ -490,7 +504,8 @@ function getTrackGrid() {
 
 function getTrackAuditListCSV() {
 	
-	
+      console.log("getTrackAuditListCSV");
+	  
 	  csvLoadingDialog = new dijit.Dialog({	            
 	        title: "Export Status",
 			content: "Export in progress, please wait...",
@@ -503,7 +518,7 @@ function getTrackAuditListCSV() {
 	        
 	    });
 	 
-	 
+	 console.log("Matt was Here and this is a Test");
 	var pharmVisnSelect = dojo.byId("csvRequestParam");
 	
 	setTimeout(function(){ csvLoadingDialog.hide(); }, 5000);
@@ -527,6 +542,8 @@ function getTrackAuditListCSV() {
 
 function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData) {
 	try {
+	
+	    console.log("trackRelatedMessagesDataGridInit");
 		
 		var relatedMsgRecNumber = dojo.byId("trackRelatedMessagesRecNumber");
 		
@@ -538,9 +555,12 @@ function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData
 		
 		var grid = dijit.byId(gridId);
 		
+		console.log("Matt was Here and this is a Test");
+		
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
 		if (grid != null) {
+			console.log("Grid Exists");
 			if (grid.selection != null) {
 				grid.selection.clear();
 			}
@@ -548,6 +568,7 @@ function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData
 				
 		} else {
 			// DataGrid does not exist.
+			console.log("Grid Does Not Exist, Making Grid");
 			var gridLayout = buildTrackGridLayout(servlet, parentContainer);
 			grid = new dojox.grid.DataGrid({
 				id : gridId,
@@ -631,6 +652,8 @@ function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData
 
 function getTrackRelatedMessagesGrid() {
 	var formId = "searchCriteriaForm";
+	
+	console.log("getTrackRelatedMessagesGrid");
 		
 	var formObject = dojo.formToObject(formId);
 	
@@ -639,6 +662,8 @@ function getTrackRelatedMessagesGrid() {
     var dataSourceURL = "/inbound/inb-erx/track/getRelatedMessages?messageId=" + messageId;
 	
 	try {
+		 console.log("getTrackRelatedMessagesGrid");
+		 
 		 
 		dojo.xhrGet({
 	        url: dataSourceURL,

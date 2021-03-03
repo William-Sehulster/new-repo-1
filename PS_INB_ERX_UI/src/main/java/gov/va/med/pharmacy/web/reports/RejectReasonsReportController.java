@@ -37,15 +37,18 @@ import net.rossillo.spring.web.mvc.CachePolicy;
 @RequestMapping(value = "/rejectReasonsReport")
 public class RejectReasonsReportController {
 	
-	
+	// E.Carlson - Removed "#CS Not Allowed" per ERXCS-1729. Added #Missing/Bad CS DS; #Prescriber's CS Credential Not Appropriate;
+	// #Patient's Address Missing/Mismatched; #CS eRx Date Problem.
 	private static final String[] REJECT_REASONS_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address",
 			"#NewRx", "#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
-			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#CS Not Allowed", "#Contact Pharm (ERR01)", 
-			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)"};
+			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", 
+			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)", "#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", 
+			"#CS eRx Date Problem"};
 
 	private static final String[] REJECT_REASONS_REPORT_TOTALS_HEADER = {"#NewRx", "#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
-			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#CS Not Allowed", "#Contact Pharm (ERR01)", 
-			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)"};
+			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", 
+			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)", "#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", 
+			"#CS eRx Date Problem"};
 	
 	@Autowired
 	private RejectReasonsReportService rejectReasonsReportService;
@@ -226,8 +229,8 @@ public class RejectReasonsReportController {
 		String[][] dataRows = new String[1][totalHeaders.length];
 		
 		String[][] summaryReportHeaders = { {"#NewRx","#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
-			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#CS Not Allowed", "#Contact Pharm (ERR01)", 
-			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)"}};
+			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", "#Incorrect Pharmacy", "#Contact Pharm (ERR03)", 
+			"#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", "#CS eRx Date Problem"}};
 		
 		int sumVal = 0;
 		
