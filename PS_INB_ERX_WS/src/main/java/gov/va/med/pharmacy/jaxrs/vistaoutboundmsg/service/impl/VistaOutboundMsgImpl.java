@@ -225,6 +225,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		String rxRenewalRequestNewRx = null;
 
 		String rxRenewalRequesQUOM = null;
+		
+		String medicationPrescribedQuanity = null;
+
+		String medicationDispensedQuanity = null;
+
 
 		try {
 
@@ -2465,7 +2470,9 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationPrescribedBuffer.append("<Value>");
-									renewalRequestMsgMedicationPrescribedBuffer.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
+									
+									medicationPrescribedQuanity = removeEndingPeriod(xmlNextEvent.asCharacters().getData());
+									renewalRequestMsgMedicationPrescribedBuffer.append(medicationPrescribedQuanity);
 									renewalRequestMsgMedicationPrescribedBuffer.append("</Value>");
 								}
 
@@ -2951,7 +2958,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									xmlNextEvent = eventReader.nextEvent();
 
 									renewalRequestMsgMedicationDispensedBuffer.append("<Value>");
-									renewalRequestMsgMedicationDispensedBuffer.append(removeEndingPeriod(xmlNextEvent.asCharacters().getData()));
+									
+									medicationDispensedQuanity = removeEndingPeriod(xmlNextEvent.asCharacters().getData());
+									
+									renewalRequestMsgMedicationDispensedBuffer.append(medicationDispensedQuanity);
+									
 									renewalRequestMsgMedicationDispensedBuffer.append("</Value>");
 								}
 
@@ -2984,11 +2995,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 								// EPRESCRIB-3414
 								if (StringUtils.isNotEmpty(medicationPrescribedQUOM)
-										&& StringUtils.isNotEmpty(medicationDispensedQUOM)) {
+										&& StringUtils.isNotEmpty(medicationDispensedQUOM) &&
+										StringUtils.isNotEmpty(medicationPrescribedQuanity) && 
+										StringUtils.isNotEmpty(medicationDispensedQuanity)) {
 
-									if (medicationDispensedQUOM.equalsIgnoreCase(medicationPrescribedQUOM)) {
+									// compare quantities if same use the QUOM from Medication Prescribed.
+									// if quantity is different use unspecified.
+									if (medicationDispensedQuanity.equalsIgnoreCase(medicationPrescribedQuanity)) {
 
-										renewalRequestMsgMedicationDispensedBuffer.append(medicationDispensedQUOM);
+										renewalRequestMsgMedicationDispensedBuffer.append(medicationPrescribedQUOM);
 									} else {
 										renewalRequestMsgMedicationDispensedBuffer.append("C38046");
 									}
