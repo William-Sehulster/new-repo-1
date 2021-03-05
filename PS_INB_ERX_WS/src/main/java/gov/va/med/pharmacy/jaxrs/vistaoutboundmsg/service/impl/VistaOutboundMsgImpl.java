@@ -3640,22 +3640,24 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						tempRxRenewalRequestMedDispensedBuf.append(rRxRenewalRequestMedDispensedBuf.substring(rRxRenewalRequestMedDispensedBuf.indexOf("<Quantity>"),rRxRenewalRequestMedDispensedBuf.indexOf("</Quantity>")+11));
 					}
 					
-					// Med Prescribed
-					if (tempRxRenewalRequestMedPrescribedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
-
-						if (message.indexOf("<RelatesToMessageID>") != -1) {
-
-							rxRenewalRequestRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
-
-							InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxRenewalRequestRelatesToMesageId);
-
-							if (null != inboundNcpdpMsgEntity) {
-
-								rxRenewalRequestNewRx = inboundNcpdpMsgEntity.getMessage();
-
-							}
-
-							if (null != rxRenewalRequestNewRx) {
+					
+					
+					
+					// do the db call to get new Rx.
+					
+					if (message.indexOf("<RelatesToMessageID>") != -1) {
+					
+					   rxRenewalRequestRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
+	
+						InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxRenewalRequestRelatesToMesageId);
+	
+						 if (null != inboundNcpdpMsgEntity) {
+	 
+						 	rxRenewalRequestNewRx = inboundNcpdpMsgEntity.getMessage();
+	
+						 }
+						 
+						 if (null != rxRenewalRequestNewRx) {
 								
 								
 								// if the newRx is 10.6
@@ -3676,10 +3678,21 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								if (rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
 
 									rxRenewalRequesQUOM = rxRenewalRequestNewRx.substring( rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") + 24, rxRenewalRequestNewRx.indexOf("</QuantityUnitOfMeasure>"));
+									
+									StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append(rxRenewalRequesQUOM).append("</QuantityUnitOfMeasure>");
+									
+									rxRenewalRequesQUOM= tempVal.toString();
 								
 								}
 							}
-							
+					
+					}
+					
+					
+					// Med Prescribed
+					if (tempRxRenewalRequestMedPrescribedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
+
+											
 							
 							if (StringUtils.isNotEmpty(rxRenewalRequesQUOM)) {
 
@@ -3722,7 +3735,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							}
 
-						}			
+								
 					
 
 					}
@@ -3732,43 +3745,6 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 					
 					if (tempRxRenewalRequestMedDispensedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
 
-						if (message.indexOf("<RelatesToMessageID>") != -1) {
-
-							rxRenewalRequestRelatesToMesageId = message.substring(message.indexOf("<RelatesToMessageID>") + 20,	message.indexOf("</RelatesToMessageID>"));
-
-							InboundNcpdpMsgEntity inboundNcpdpMsgEntity = inboundNcpdpMsgService.findByMessageId(rxRenewalRequestRelatesToMesageId);
-
-							if (null != inboundNcpdpMsgEntity) {
-
-								rxRenewalRequestNewRx = inboundNcpdpMsgEntity.getMessage();
-
-							}
-
-							if (null != rxRenewalRequestNewRx) {
-								
-								
-								// if the newRx is 10.6
-								
-								if (rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") != -1) {
-
-									 StringBuffer  tempQUOM =  new StringBuffer (rxRenewalRequestNewRx.substring(rxRenewalRequestNewRx.indexOf("<PotencyUnitCode>") + 17, rxRenewalRequestNewRx.indexOf("</PotencyUnitCode>")));
-									
-									 StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append("<Code>").append(tempQUOM).append("</Code>").append("</QuantityUnitOfMeasure>");
-									 
-									 rxRenewalRequesQUOM = tempVal.toString();								
-
-								}
-								
-								
-								//  if the newRx is 2017
-								
-								if (rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
-
-									rxRenewalRequesQUOM = rxRenewalRequestNewRx.substring( rxRenewalRequestNewRx.indexOf("<QuantityUnitOfMeasure>") + 24, rxRenewalRequestNewRx.indexOf("</QuantityUnitOfMeasure>"));
-								
-								}
-							}
-							
 							
 							if (StringUtils.isNotEmpty(rxRenewalRequesQUOM)) {
 
@@ -3814,8 +3790,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							}
 
-						}
-						
+												
 									
 
 					}
