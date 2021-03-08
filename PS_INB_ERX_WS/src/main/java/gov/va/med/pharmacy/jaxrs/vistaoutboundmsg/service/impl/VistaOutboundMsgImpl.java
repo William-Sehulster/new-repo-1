@@ -3536,9 +3536,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				// check QUOM for rxChangeRequest
 
 				if (message.indexOf("<RxChangeRequest>") != -1) {
+					
+					StringBuffer rxChangeMessageBuf  = new StringBuffer(message);
+					
+					// only change in Medication Prescribed.
+					
+					StringBuffer  rxRenewalRequestMedPrescribedBuf = new StringBuffer (rxChangeMessageBuf.substring(rxChangeMessageBuf.indexOf("<MedicationPrescribed>"), rxChangeMessageBuf.indexOf("</MedicationPrescribed>")));
 
 					// if QUOM is not present then add from new Rx
-					if (message.indexOf("<QuantityUnitOfMeasure>") == -1) {
+					if (rxRenewalRequestMedPrescribedBuf.indexOf("<QuantityUnitOfMeasure>") == -1) {
 
 						if (message.indexOf("<RelatesToMessageID>") != -1) {
 
@@ -3564,11 +3570,15 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 									 
 									 rxChangeRequestQUOM = tempVal.toString(); 
 									 
-									 if (message.indexOf("</CodeListQualifier>") != -1) {
-
-											String tempStr = "</CodeListQualifier>" + rxChangeRequestQUOM;
-
-											message = message.replace("</CodeListQualifier>", tempStr);
+									 if (rxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>") != -1) {											
+											
+											StringBuffer tempStrBuf = new StringBuffer("</CodeListQualifier>").append(rxChangeRequestQUOM);											
+											
+											int codeListQualiferIndex = rxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>");
+											
+											int quantityIndex = rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>");
+											
+											rxRenewalRequestMedPrescribedBuf.replace(codeListQualiferIndex, quantityIndex, tempStrBuf.toString());
 									 }
 									
 								
@@ -3578,17 +3588,25 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 								//  if the newRx is 2017
 								if (rxChangeNewRx.indexOf("<QuantityUnitOfMeasure>") != -1) {
 
-									rxChangeRequestQUOM = rxChangeNewRx.substring(rxChangeNewRx.indexOf("<QuantityUnitOfMeasure>"), rxChangeNewRx.indexOf("</QuantityUnitOfMeasure>"));
+									rxChangeRequestQUOM = rxChangeNewRx.substring(rxChangeNewRx.indexOf("<QuantityUnitOfMeasure>") + 24, rxChangeNewRx.indexOf("</QuantityUnitOfMeasure>"));
 
 									if (StringUtils.isNotEmpty(rxChangeRequestQUOM)) {
 
 										// now add that to the RxChangeRequest message after CodeListQualifier
 
-										if (message.indexOf("</CodeListQualifier>") != -1) {
-
-											StringBuffer tempStr = new StringBuffer ("</CodeListQualifier>").append(rxChangeRequestQUOM);
-
-											message = message.replace("</CodeListQualifier>", tempStr.toString());
+										if (rxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>") != -1) {
+											
+											StringBuffer  tempVal = new StringBuffer("<QuantityUnitOfMeasure>").append(rxChangeRequestQUOM).append("</QuantityUnitOfMeasure>");
+											
+											rxChangeRequestQUOM =  tempVal.toString();															
+											
+											StringBuffer tempStrBuf = new StringBuffer("</CodeListQualifier>").append(rxChangeRequestQUOM);											
+											
+											int codeListQualiferIndex = rxRenewalRequestMedPrescribedBuf.indexOf("</CodeListQualifier>");
+											
+											int quantityIndex = rxRenewalRequestMedPrescribedBuf.indexOf("</Quantity>");
+											
+											rxRenewalRequestMedPrescribedBuf.replace(codeListQualiferIndex, quantityIndex, tempStrBuf.toString());
 										}
 
 									}
@@ -3598,6 +3616,11 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 						}
 
 					}
+					
+					rxChangeMessageBuf.replace(rxChangeMessageBuf.indexOf("<MedicationPrescribed>"), rxChangeMessageBuf.indexOf("</MedicationPrescribed>"), rxRenewalRequestMedPrescribedBuf.toString());
+					//convert back to message.
+					message = rxChangeMessageBuf.toString();
+					
 
 				}
 
