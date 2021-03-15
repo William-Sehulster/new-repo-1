@@ -118,12 +118,8 @@
 		<!-- Javax cache -->
 		<javax.cache.version>1.1.1</javax.cache.version>
 
-<<<<<<< HEAD
-		<build.number>005</build.number>
+		<build.number>008</build.number>
 
-=======
-		<build.number>003</build.number>
->>>>>>> origin/release/pso-7-617/inbound-erx-v5.0
 
 	</properties>
 

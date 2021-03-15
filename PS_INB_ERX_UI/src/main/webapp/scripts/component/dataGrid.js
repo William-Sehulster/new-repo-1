@@ -539,14 +539,14 @@ function buildRejectReasonsReportLayout(servlet, target) {
 }
 
 
-function buildErxSummaryReportLayout(servlet, target, erxFilter) {
+function buildErxSummaryReportLayout(servlet, target) {
 	var layout = new Array();
 	
 	//M. Bolden - 5.0 - get Filter value for eRxType and build grid based off of filter type provided
 	//var eRxTypeselectBox = dojo.byId("erxTypeSelection");
 	//var selectedIndex = eRxTypeselectBox.options.selectedIndex;
 	//var selected = eRxTypeselectBox.options[selectedIndex].value;
-	var selected = erxFilter;
+	//var selected = erxFilter;
 	//selected = "NONCS";
 	
 	var obj = new Object();
@@ -585,8 +585,8 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 	//obj["formatter"] = formatSelectable;
 	//layout.push(obj);
 
-    if (selected == "ALL" || selected == "NONCS")
-	{
+    //if (selected == "ALL" || selected == "NONCS")
+	//{
 		obj = new Object();
 		obj["field"] = 'newRxCnt';
 		obj["name"] = "#New Rx";
@@ -594,10 +594,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 	//	//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 	
-    if (selected == "ALL" || selected == "CS")
-	{	
+   // if (selected == "ALL" || selected == "CS")
+	//{	
 		obj = new Object();
 		obj["field"] = 'newRxCntCS';
 		obj["name"] = "CS #New Rx";
@@ -605,10 +605,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 	//	//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 	
-    if (selected == "ALL" || selected == "NONCS")
-	{		
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'refillRequest';
 		obj["name"] = "#RxRenewal Request";
@@ -616,10 +616,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-   if (selected == "ALL" || selected == "CS")
-	{		
+   //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'refillRequestCS';
 		obj["name"] = "CS #RxRenewal Request";
@@ -627,10 +627,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);	
-	}
+	//}
 
-    if (selected == "ALL" || selected == "NONCS")
-	{		
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'refillResponse';
 		obj["name"] = "#RxRenewal Response";
@@ -638,10 +638,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'refillResponseCS';
 		obj["name"] = "CS #RxRenewal Response";
@@ -649,10 +649,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);	
-	}
+	//}
 
-	if (selected == "ALL" || selected == "NONCS")
-	{	
+	//if (selected == "ALL" || selected == "NONCS")
+	//{	
 		obj = new Object();
 		obj["field"] = 'rxChangeRequest';
 		obj["name"] = "#RxChange Request";
@@ -660,10 +660,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'rxChangeRequestCS';
 		obj["name"] = "CS #RxChange Request";
@@ -671,10 +671,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 	
-    if (selected == "ALL" || selected == "NONCS")
-	{		
+   //if (selected == "ALL" || selected == "NONCS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'rxChangeResponse';
 		obj["name"] = "#RxChange Response";
@@ -682,10 +682,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 	
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'rxChangeResponseCS';
 		obj["name"] = "CS #RxChange Response";
@@ -693,10 +693,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "NONCS")
-	{	
+    //if (selected == "ALL" || selected == "NONCS")
+	//{	
 		obj = new Object();
 		obj["field"] = 'cancelRx';
 		obj["name"] = "#CancelRx Request";
@@ -704,10 +704,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'cancelRxCS';
 		obj["name"] = "CS #CancelRx Request";
@@ -715,10 +715,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "NONCS")
-	{		
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'cancelRxResponse';
 		obj["name"] = "#CancelRx Response";
@@ -726,10 +726,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'cancelRxResponseCS';
 		obj["name"] = "CS #CancelRx Response";
@@ -737,10 +737,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
-    if (selected == "ALL" || selected == "NONCS")
-	{		
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'rxFill';
 		obj["name"] = "#RxFill";
@@ -748,10 +748,10 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 	
-    if (selected == "ALL" || selected == "CS")
-	{		
+    //if (selected == "ALL" || selected == "CS")
+	//{		
 		obj = new Object();
 		obj["field"] = 'rxFillCS';
 		obj["name"] = "CS #RxFill";
@@ -767,7 +767,7 @@ function buildErxSummaryReportLayout(servlet, target, erxFilter) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	}
+	//}
 
 	return layout;
 }
@@ -821,12 +821,14 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
 
 	gridId.store.fetch({onComplete: function(item, request){
-		
+		 
+		console.log("Calculating Totals:   Item: " + item[0]); 
+		console.log("Calculating Totals:   Item Length: " + item.length);
 	if (item != null){
 		for (var i = item.length; i--;) {
 			for (var k in totals) {
 				totals[k] += item[i][k];
-	
+	             console.log("item["+i+"]["+k+"] = " + item[i][k]);
 			}
 		}
 	}
@@ -837,7 +839,9 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	var layout = buildSummaryReportLayout(null, null);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + parseInt(layout[4].width) + 46; //45px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width);
+	var tableWidth = totColWidth + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) 
+	                 + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width) 
+					 + parseInt(layout[16].width) + parseInt(layout[17].width) + parseInt(layout[18].width) + parseInt(layout[19].width);
 
 	sumTable = 
 
@@ -845,20 +849,20 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 		"<tr>" +
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHubCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChkCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChkCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacistCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilledCS) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcessCS) + "</td>" + "</tr>"
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHubCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChkCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChkCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacistCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + "; text-align: left;'>" + numberFormat(totals.newRxFilledCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcessCS) + "</td>" + "</tr>"
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
@@ -1337,7 +1341,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer, eRxFilter) {
 	totals ["cancelRxResponseCS"] = 0; //5.0
 	totals ["rxFill"] = 0;
 	totals ["rxFillCS"] = 0; //5.0
-	totals ["doNotFillCS"] = 0; //5.0
+	totals ["rxDoNotFillCS"] = 0; //5.0
 		
 	totals.newRxCnt  = 0;
 	totals.newRxCntCS = 0;  //5.0
@@ -1355,7 +1359,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer, eRxFilter) {
 	totals.cancelRxResponseCS = 0; //5.0
 	totals.rxFill = 0;
 	totals.rxFillCS = 0; //5.0
-	totals.doNotFillCS = 0; //5.0
+	totals.rxDoNotFillCS = 0; //5.0
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
@@ -1374,7 +1378,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer, eRxFilter) {
 
 	
 	//leverage layout of eRxSummaryReport
-	var layout = buildErxSummaryReportLayout(null, null, selected);
+	var layout = buildErxSummaryReportLayout(null, null);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
 	var tableWidth = totColWidth + parseInt(layout[5].width) 
@@ -1492,12 +1496,12 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL, e
 			}
 			grid.setStore(gridData);
 			
-			var gridLayout2 = buildErxSummaryReportLayout(servlet, parentContainer, eRxselected);
+			var gridLayout2 = buildErxSummaryReportLayout(servlet, parentContainer);
 			grid.setStructure(gridLayout2);
 				
 	} else {
 			// DataGrid does not exist.
-			var gridLayout = buildErxSummaryReportLayout(servlet, parentContainer, eRxselected);
+			var gridLayout = buildErxSummaryReportLayout(servlet, parentContainer);
 			grid = new dojox.grid.DataGrid({
 				id : gridId,
 				showTitle : true,
@@ -1521,50 +1525,7 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL, e
 			grid.startup();
 			
 		}
-		/*
-			grid.filter({newRxCnt: "*"});
-			grid.filter({refillRequest: "*"});
-			grid.filter({refillResponse: "*"});
-			grid.filter({rxChangeRequest: "*"});
-			grid.filter({rxChangeResponse: "*"});
-			grid.filter({cancelRx: "*"});
-			grid.filter({cancelRxResponse: "*"});
-			grid.filter({rxFill: "*"});	
-			grid.filter({newRxCntCS: "*"});
-			grid.filter({refillRequestCS: "*"});
-			grid.filter({refillResponseCS: "*"});
-			grid.filter({rxChangeRequestCS: "*"});
-			grid.filter({rxChangeResponseCS: "*"});
-			grid.filter({cancelRxCS: "*"});
-			grid.filter({cancelRxResponseCS: "*"});
-			grid.filter({rxFillCS: "*"});
-			grid.filter({rxDoNotFillCS: "*"});	
-	
-        if(eRxselected == "CSONLY")
-		{
-			grid.filter({newRxCnt: true});
-			grid.filter({refillRequest: true});
-			grid.filter({refillResponse: true});
-			grid.filter({rxChangeRequest: true});
-			grid.filter({rxChangeResponse: true});
-			grid.filter({cancelRx: true});
-			grid.filter({cancelRxResponse: true});
-			grid.filter({rxFill: true});
-		}
-		if(eRxselected == "CSONLY")
-		{
-			
-			grid.filter({newRxCntCS: true});
-			grid.filter({refillRequestCS: true});
-			grid.filter({refillResponseCS: true});
-			grid.filter({rxChangeRequestCS: true});
-			grid.filter({rxChangeResponseCS: true});
-			grid.filter({cancelRxCS: true});
-			grid.filter({cancelRxResponseCS: true});
-			grid.filter({rxFillCS: true});
-			grid.filter({rxDoNotFillCS: true});
-		}
-	*/
+
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";

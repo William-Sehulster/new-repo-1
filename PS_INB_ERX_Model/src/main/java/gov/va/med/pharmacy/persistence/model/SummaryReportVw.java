@@ -11,7 +11,7 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "SUMMARY_REPORT_MVW", schema = "ERX")
+@Table(name = "SUMMARY_REPORT_MVW1", schema = "ERX")
 @Immutable
 public class SummaryReportVw implements java.io.Serializable {
 
@@ -163,7 +163,7 @@ public class SummaryReportVw implements java.io.Serializable {
 	}
 	
 	//M. Bolden - 5.0
-	@Column(name = "NEW_RX_REJECTED_AT_HUB_CS", precision = 22, scale = 0)
+	@Column(name = "NEW_RX_REJ_AT_HUB_CS", precision = 22, scale = 0)
 	public long getNewRxRejectedAtHubCS() {
 		return this.newRxRejectedAtHubCS;
 	}
@@ -220,7 +220,7 @@ public class SummaryReportVw implements java.io.Serializable {
 	}
 	
 	//M. Bolden - 5.0
-	@Column(name = "NEW_RX_REJECTED_BY_PHARMACIST_CS", precision = 22, scale = 0)
+	@Column(name = "NEW_RX_REJ_BY_PHARMACIST_CS", precision = 22, scale = 0)
 	public long getNewRxRejectedByPharmacistCS() {
 		return this.newRxRejectedByPharmacistCS;
 	}
