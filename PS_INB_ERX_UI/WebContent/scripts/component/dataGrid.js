@@ -559,7 +559,7 @@ function buildErxSummaryReportLayout(servlet, target) {
 
 
 // note if this updated with column addition/removal please also update columns in resetSummaryReportTotalsGrid function, otherwise the display will be out of sync.
-function buildSummaryReportTotalsGrid(parentContainer) {
+function buildSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -589,19 +589,26 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	totals.newRxInProcess  = 0;
 	
 	
-	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
+	var storeArray = gridData._arrayOfAllItems; 		
+			
+	for(var arrayElement in storeArray)
+	{			
+			
+		var arrayItem  = storeArray[arrayElement];
+					
+		for (var s in arrayItem)
+		{
+			for (var k in totals) 
+			{       
+				 				  
+			  if(k == s) 
+			  {						   
+			    totals[k] += parseInt(arrayItem[s]);  
+			  }	
+			}  
 
-	gridId.store.fetch({onComplete: function(item, request){
-		
-	if (item != null){
-		for (var i = item.length; i--;) {
-			for (var k in totals) {
-				totals[k] += item[i][k];
-	
-			}
-		}
-	}
-
+			  
+		}	
 
 	
 	//leverage layout of summaryReport
@@ -626,10 +633,8 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
-	//dojo.byId("summaryReportGrid").innerHTML = sumTable;
-
 	
-	// now update the record totals.
+	   // now update the record totals.
 	
 	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
 		
@@ -645,11 +650,10 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 		 	 
 		    	summaryReportRecNumber.style.display="block";
 				
-			    summaryReportRecNumber.innerHTML= item.length;
+			    summaryReportRecNumber.innerHTML= recordsTotal;
            }
 	
-
-	}});
+    }	
 
 
 }
@@ -690,7 +694,9 @@ function summaryReportDataGridInit(responseData, parentContainer) {
 		
 	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer);
+			generateDivTable(gridLayout,gridData,parentContainer);			
+			
+			buildSummaryReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length); 
 			
 			// remove the grid widget
 			 dojo.destroy(grid);
@@ -705,7 +711,7 @@ function summaryReportDataGridInit(responseData, parentContainer) {
 
 
 //note if this updated with column addition/removal please also update columns in resetAutoCheckReportTotalsGrid function, otherwise the display will be out of sync.
-function buildAutoCheckReportTotalsGrid(parentContainer) {
+function buildAutoCheckReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -741,21 +747,29 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 	totals.newRxDrgMtchFnd  = 0;
 	totals.newRxDrgMtchNotFnd  = 0;
 	totals.newRxPvdMtchFnd  = 0;
-	totals.newRxPvdMtchNotFnd  = 0;
-	
-	
-	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
+	totals.newRxPvdMtchNotFnd  = 0;	
 
-	gridId.store.fetch({onComplete: function(item, request){
-		
-	if (item != null){
-		for (var i = item.length; i--;) {
-			for (var k in totals) {
-				totals[k] += item[i][k];
+	var storeArray = gridData._arrayOfAllItems; 		
 	
-			}
+	for(var arrayElement in storeArray)
+	{			
+			
+		var arrayItem  = storeArray[arrayElement];
+					
+		for (var s in arrayItem)
+		{
+			for (var k in totals) 
+			{       
+				 				  
+			  if(k == s) 
+			  {						   
+			    totals[k] += parseInt(arrayItem[s]);  
+			  }	
+			}  
+
+			  
 		}
-	}
+		
 	
 		
 	//leverage layout of summaryReport
@@ -801,11 +815,11 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 		 	 
 		    	summaryReportRecNumber.style.display="block";
 				
-			    summaryReportRecNumber.innerHTML= item.length;
+			    summaryReportRecNumber.innerHTML= recordsTotal;
            }
 	
-	}});
-	
+		
+  }
 
 
 }
@@ -845,8 +859,10 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
+			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.lenth);		
+			
 			// remove the grid widget
-			 //dojo.destroy(gridId);
+			dojo.destroy(grid);
 			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
@@ -861,7 +877,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 
 //RejectReasonsReport
 //note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildRejectReasonsReportTotalsGrid(parentContainer) {
+function buildRejectReasonsReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -906,18 +922,25 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 	totals.newRxErrCallPharm  = 0;
 	
 	
-	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
-
-
-	gridId.store.fetch({onComplete: function(item, request){
-		
+	var storeArray = gridData._arrayOfAllItems; 		
 	
-		if (item != null){
-			for (var i = item.length; i--;) {
-				for (var k in totals) {
-					totals[k] += item[i][k];
-				}
-			}
+	for(var arrayElement in storeArray)
+	{			
+			
+		var arrayItem  = storeArray[arrayElement];
+					
+		for (var s in arrayItem)
+		{
+			for (var k in totals) 
+			{       
+				 				  
+			  if(k == s) 
+			  {						   
+			    totals[k] += parseInt(arrayItem[s]);  
+			  }	
+			}  
+
+			  
 		}
 
 	
@@ -977,10 +1000,10 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 		 	 
 		    	summaryReportRecNumber.style.display="block";
 				
-			    summaryReportRecNumber.innerHTML= item.length;
+			    summaryReportRecNumber.innerHTML= recordsTotal;
            }
 
-	}});
+	}
 }
 
 function rejectReasonsReportDataGridInit(responseData, parentContainer) {
@@ -1019,8 +1042,10 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
+			buildRejectReasonsReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);
+			
 			// remove the grid widget
-			 //dojo.destroy(gridId);
+			dojo.destroy(grid);
 			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
@@ -1032,7 +1057,7 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 
 //eRxSummaryReport
 //note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildErxSummaryReportTotalsGrid(parentContainer) {
+function buildErxSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -1061,21 +1086,26 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	totals.cancelRxResponse  = 0;
 	totals.rxFill = 0;
 	
+	var storeArray = gridData._arrayOfAllItems; 		
 	
-	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
+	for(var arrayElement in storeArray)
+	{			
+			
+		var arrayItem  = storeArray[arrayElement];
+					
+		for (var s in arrayItem)
+		{
+			for (var k in totals) 
+			{       
+				 				  
+			  if(k == s) 
+			  {						   
+			    totals[k] += parseInt(arrayItem[s]);  
+			  }	
+			}  
 
-
-	gridId.store.fetch({onComplete: function(item, request){
-		
-	
-		if (item != null){
-			for (var i = item.length; i--;) {
-				for (var k in totals) {
-					totals[k] += item[i][k];
-				}
-			}
+			  
 		}
-
 	
 	//leverage layout of eRxSummaryReport
 	var layout = buildErxSummaryReportLayout(null, null);
@@ -1119,10 +1149,10 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 		 	 
 		    	summaryReportRecNumber.style.display="block";
 				
-			    summaryReportRecNumber.innerHTML= item.length;
+			    summaryReportRecNumber.innerHTML= recordsTotal;
          }
 
-	}});
+	}
 }
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
@@ -1163,8 +1193,10 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
+			buildErxSummaryReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);
+			
 			// remove the grid widget
-			dojo.destroy(gridId);
+			dojo.destroy(grid);
 			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
@@ -1454,3 +1486,107 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 	
 		
  }
+
+
+//dummy div table generation.
+function generateDummyDivTable(layout, gridData, dataGridDivId) {
+
+	    // clear the parent div first.
+        dojo.byId(dataGridDivId).innerHTML ="";
+
+		var rowCounter = 1; 
+		var recordCounter = 0;
+		
+		var elementWidthArray = [];
+		
+		var elementFormatterArray = [];
+		
+		//variable for aria label
+		var divTableStart = "<div class=\"generatedDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Pharmacies\ Table\" aria-describedby=\"divTableInfo\">";
+		var divTableEnd = "</div>" ;
+		var divTableBodyStart ="<div class=\"generatedDivTableBody\" role=\"row\">";
+		var divTableBodyEnd ="</div>" ;
+		var divTableRowStart ="<div id=\"generatedDivTableHeaderRowID\" class=\"generatedDivTableRow generatedDivTableHeaderRow\" role=\"row\">";
+		var divTableRowEnd ="</div>" ;
+		var divTableRowHeaderStart ="<div title= \"Column can be sorted in ascending or descending order by mouse click or enter key\" class=\"generatedDivTableHeaderCell\" tabindex=\"0\" role=\"columnheader\"";	
+		var divTableRowHeaderEnd = "</div>" ;
+		var divTableResultRowStart ="<div class=\"generatedDivTableRow\" role=\"row\" ";			
+		var divTableResultRowEnd = "</div>" ;		
+		var divTableRowCellStart= "<div class=\"generatedDivTableCell\" tabindex=\"0\" role=\"cell\"";
+		var divTableRowCellEnd="</div>" ;
+		var divTableNoResultRowStart ="<div class=\"generatedDivTableNoRecordRow\" role=\"row\" ";			
+		var divTableNoResultRowEnd = "</div>" ;			
+		var generatedDivTableNoRecordsCellStart= "<div id=\"generatedDivTableNoRecordsCellID\" class=\"generatedDivTableNoRecordsCell\"  tabindex=\"0\" role=\"cell\"";
+		var generatedDivTableNoRecordsCellEnd="</div>" ;
+		
+		var divTable;
+		
+		divTable = divTableStart.concat(divTableBodyStart);
+		divTable = divTable.concat(divTableRowStart);
+		
+		var layoutObj;
+		var columnNameString ="";
+		var rowHeaderString ="";
+		var isFormatter = false;
+		
+		
+		for (var key in layout){
+			
+			
+			layoutObj = layout[key];
+					
+			for (var nestedKey in layoutObj){
+				
+				
+				
+				if(nestedKey =="name")
+				{
+										
+					columnNameString = layoutObj[nestedKey];	
+
+                    isFormatter = false;					
+					
+				}
+				else if(nestedKey =="width")	{
+					
+					elementWidthArray.push(layoutObj[nestedKey]);					
+					
+					rowHeaderString = divTableRowHeaderStart + "style=\"width:" + " " + layoutObj[nestedKey] + ";\">";					
+					
+					divTable = divTable.concat(rowHeaderString);
+					
+					divTable = divTable.concat(columnNameString);
+					
+					divTable = divTable.concat(divTableRowHeaderEnd);
+					
+					isFormatter = false;
+				}
+				 else if(nestedKey =="formatter")	{
+					
+					elementFormatterArray.push(layoutObj[nestedKey]);	
+
+                    isFormatter = true; 					
+					
+				}
+				
+			}
+
+                if(isFormatter == false)
+				{
+					// no formatter, add empty string.
+					elementFormatterArray.push('');					
+				}
+               		
+			
+		}
+
+		divTable = divTable.concat(divTableRowEnd);		
+		
+		 
+		 
+		divTable = divTable.concat(divTableBodyEnd);
+		divTable = divTable.concat(divTableEnd);
+		dojo.byId(dataGridDivId).innerHTML = divTable;
+				
+		
+  }
