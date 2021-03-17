@@ -228,7 +228,7 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 		
 		String medicationPrescribedQuanity = null;
 
-		String medicationDispensedQuanity = null;
+		String medicationDispensedQuanity = ""; // fortify scan fix.
 
 
 		try {
