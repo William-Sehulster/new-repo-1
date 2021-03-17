@@ -138,7 +138,7 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 				.add(Projections.sum("newRxFilled").as("newRxFilled"))
 				.add(Projections.sum("newRxInProcess").as("newRxInProcess")));
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(SummaryReportVw.class));
 		
 		List<SummaryReportVw> summaryReportRows = (List<SummaryReportVw>) criteria.list();
 		

@@ -86,7 +86,7 @@
     <br/>
     </form>
     
-<span id="summaryReport" tabindex="0"  style="width: 1125px; height: 213px;"></span>
+<div id="summaryReport" tabindex="0"  class="generatedDivTableParent"></div>
 <div id="summaryReportTotals" tabindex="0" style="overflow-x:auto; white-space: nowrap;"></div>
 <span id="reportRecNumberTitle" style="width: 250px;padding-top:10px;display: none;">
 Number of Records:

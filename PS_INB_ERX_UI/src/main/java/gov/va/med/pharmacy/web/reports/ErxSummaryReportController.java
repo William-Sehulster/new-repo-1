@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -55,12 +56,13 @@ public class ErxSummaryReportController {
 	@Autowired
 	private SummaryReportService summaryReportService;
 
-	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
-	@CacheControl(policy = {CachePolicy.NO_CACHE})
-	@ResponseBody
-	public List<ErxSummaryReportVw> getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
+	@RequestMapping(value = "/getReport", method = RequestMethod.GET, produces = "application/json")
+	@CacheControl(policy = {CachePolicy.NO_CACHE})	
+	public ModelAndView getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
 			throws JsonParseException, JsonMappingException, IOException {
 
+		ModelAndView mav = new ModelAndView(new org.springframework.web.servlet.view.json.MappingJackson2JsonView());
+		
 		List<ErxSummaryReportVw> erxSummaryReportVwList = new ArrayList<ErxSummaryReportVw>();
 
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
@@ -70,8 +72,11 @@ public class ErxSummaryReportController {
 		
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
-		erxSummaryReportVwList.addAll(erxSummaryReportService.find(summaryReportFilter));
-		return erxSummaryReportVwList;
+		erxSummaryReportVwList= erxSummaryReportService.find(summaryReportFilter);
+		
+		mav.addObject("items", erxSummaryReportVwList);
+		
+		return mav;
 	}
 
 	@RequestMapping(value = "/getStationIdSelect", method = RequestMethod.GET, produces = "application/json")

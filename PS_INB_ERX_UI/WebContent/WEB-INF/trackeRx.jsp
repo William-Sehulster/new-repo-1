@@ -104,7 +104,7 @@
  		return true;
  		}
  		return dojox.validate.us.isSocialSecurityNumber(text);
- 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number"  ></input>    
+ 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number, maximum characters allowed is 11."  ></input>    
 <label for="patientLastName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient Last Name:</label>
 <input id="patientLastName2" name="patientLastName" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Patient Last Name"></input>
 <label for="patientFirstName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient First Name:</label>
@@ -190,7 +190,8 @@
 <h2 class="h2title"><span class="reportTitle"></span></h2>
 <div id="queryStatus" style="width: 900px;padding-left: 5px;"></div>
 
-<span id="messageList" tabindex="0"  style="width: 1125px; height: 290px; display: block;"></span><br/>
+<div id="messageList" tabindex="0"  class="generatedDivTableParent"></div><br/>
+
 <span id="trackRecNumberTitle" style="width: 250px;display: none;">
 Number of Records:
 <span id="trackRecNumber" style="position:relative;top:-14px;left:112px;display: none;">
@@ -199,7 +200,7 @@ Number of Records:
 
 <%-- Related Message Start --%>
 <span id="relatedMessagesParentInfo" tabindex="0"  style="width: 1125px;margin-top:-30px;margin-bottom:10px;  display: none;"></span> 
-<span id="relatedMessagesList" tabindex="0"  style="width: 1125px; height: 290px; display: none;"></span>
+<div id="relatedMessagesList" tabindex="0"  class="generatedDivTableParent" style="display: none;"></div>
 <span id="trackRelatedMessagesRecNumberTitle" style="width: 250px;display: none;">
 <br/>
 Number of Records:
@@ -409,7 +410,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -515,7 +516,7 @@ Number of Records:
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
 	  <div class="ColumnLbls"> 	  
-	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px;" class="trackDataRight"> </div>	   
+	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>	   
 	  </div>
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
@@ -719,7 +720,7 @@ Number of Records:
   </div>
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px;" class="trackDataRight"> </div>     
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>     
   </div>
   </div>
     <div role="row" class="trackRowGroup">
@@ -778,7 +779,7 @@ Number of Records:
   
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -841,7 +842,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -904,7 +905,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -976,7 +977,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1039,7 +1040,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -1102,7 +1103,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1166,7 +1167,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1230,7 +1231,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   

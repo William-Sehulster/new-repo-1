@@ -41,7 +41,7 @@
 <c:if test="${not empty messageData.errorMessage }">
 <div id="errorMessages" class="error" aria-describedby="error message section" tabindex="1">
 <p id="errorTitle">
-	<h3> <font class="errorHeader">Error Messages: </font><h3>
+	<h3> <font class="errorHeader">Error Messages: </font></h3>
 <br>
 </p>
 <div id="errorMessageText">
@@ -101,7 +101,7 @@
     <span class="required">(Required)</span> 
     </span>
 	</label>
-	<input id="visn" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.visn}"  size="2" maxlength="2" style="display: block; opacity: 1;" name="visn" title="Veteran Integrated Service Network of pharmacy">
+	<input id="visn" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.visn}"  size="2" maxlength="2" style="display: block; opacity: 1;" name="visn" title="Veteran Integrated Service Network of pharmacy, maximum characters allowed is 2.">
 	</div>	
 	
 	<div id="VA_STATION_ID" class="displayable" style="display: block; opacity: 1;">
@@ -111,7 +111,7 @@
     <span class="required">(Required)</span> 
     </span>:
 	</label>
-	<input id="vaStationId" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.vaStationId}"  size="20" maxlength="10" style="display: block; opacity: 1;" name="vaStationId" title="VA Station ID of pharmacy">
+	<input id="vaStationId" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.vaStationId}"  size="20" maxlength="10" style="display: block; opacity: 1;" name="vaStationId" title="VA Station ID of pharmacy, maximum characters allowed is 10.">
 	</div>
     
      <div id="DIVISION_NAME" class="displayable" style="display: block; opacity: 1;">
@@ -172,7 +172,7 @@
     <span class="required">(Required)</span> 
     </span>
 	</label>
-	<input id="pharmacyZipcode" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.pharmacyZipcode}"  size="20"  maxlength="10" style="display: block; opacity: 1;" name="pharmacyZipcode" title="Pharmacy's zip code">
+	<input id="pharmacyZipcode" class="editable pharmAddScreen" type="text" value="${ pharmacyInfo.pharmacyZipcode}"  size="20"  maxlength="10" style="display: block; opacity: 1;" name="pharmacyZipcode" title="Pharmacy's zip code, maximum characters allowed is 10.">
 	</div>
 	
 	<div id="CROSS_STREET" class="displayable" style="display: block; opacity: 1;">

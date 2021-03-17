@@ -112,15 +112,17 @@
   <button dojoType="dijit.form.Button" type="button" id="pharmManagementExportButton" onclick="pharmacyManagementActions(this.id);">Export</button>
     
   <button dojoType="dijit.form.Button" type="button" id="newPharmAddButton" onclick="pharmacyManagementActions(this.id);">Add Pharmacy </button>
+   
   </div>
     <br/>
 </form:form>
 
 <div class="pharmacyManagementGrid">
-<span id="pharmacyList" aria-labeledby="Pharmacy List" style="width: 1125px; height: 300px; display:block;"></span>
+<div id="pharmacyList" aria-labeledby="Pharmacy List" class="generatedDivTableParent"></div>
 
 <span id="pharmacyListDummy" aria-labeledby="Pharmacy List" style="width: 1125px; height: 213px; display:none;"></span>
  </div> 
+
 <span id="pharmMgmtRecNumberTitle" style="width: 250px;padding-top:20px;display: none;">
 Number of Records:
 <span id="pharmMgmtRecNumber" style="position:relative;top:-14px;left:112px;display: none;">

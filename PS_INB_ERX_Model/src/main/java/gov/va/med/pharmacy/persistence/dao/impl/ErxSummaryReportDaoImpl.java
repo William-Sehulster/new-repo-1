@@ -78,7 +78,7 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.sum("cancelRxResponse").as("cancelRxResponse"))
 				.add(Projections.sum("rxFill").as("rxFill")));
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
 		
 		List<ErxSummaryReportVw> erxSummaryReportRows = (List<ErxSummaryReportVw>) criteria.list();
 		

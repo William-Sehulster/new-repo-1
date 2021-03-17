@@ -2,20 +2,35 @@ dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
 dojo.require("dojo.dom-construct");
 dojo.require("dojox.grid.Selection");
+dojo.require("dojo.data.ItemFileWriteStore");
 
 
+function buildGridDataSource(dataSourceURL, functionToCall, parentContainer) {
 
-function buildGridDataSource(dataSourceURL, query) {
-	try {
-		var dataSource = new dojox.data.JsonQueryRestStore({
-			target : dataSourceURL,
-			idAttribute : "key"
-		});		
-		return dataSource;
+   try {
+		 
+		dojo.xhrGet({
+	        url: dataSourceURL,
+	        handleAs: "json", 
+	        load: function(responseData, ioArgs) {	        	     		
+                 
+                 functionToCall(responseData, parentContainer);
+				
+	        },
+	        error: function(error) {
+	            console.log("loading of reports data failed. Exception...", error);
+	        }
+	    });		
+		
+		
+		
+		
 	} catch (err) {
 		alert(err.message);
 	}
 }
+
+
 
 function onKeyEvent(event) {
 	return false;
@@ -639,15 +654,17 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 
 }
 
-function summaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function summaryReportDataGridInit(responseData, parentContainer) {
 	try {
-		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
-			
+		
+		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
+		
 		var gridId = parentContainer + 'Grid';
 		
 		var grid = dijit.byId(gridId);
 		
-
+		var gridLayout = buildSummaryReportLayout(null, parentContainer);
+		
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
 		if (grid != null) {
@@ -658,30 +675,25 @@ function summaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				
 		} else {
 			// DataGrid does not exist.
-			var gridLayout = buildSummaryReportLayout(servlet, parentContainer);
+			
+			// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectionMode : 'single',
-				selectable : false,
-				showFooter: false,
-				sort : false,
-				onKeyEvent : onKeyEvent
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
-			grid.setStore(gridData);
+				id : gridId								
+			});
 			
-			grid.setStructure(gridLayout);
+						
+			grid.setStore(gridData);			
 			
-			grid.canSort = function(){return false};  //turn off sorting for now
 			
-			grid.startup();
 			
-		}
+		}	
+		
+	
+			// generate the table.
+			generateDivTable(gridLayout,gridData,parentContainer);
+			
+			// remove the grid widget
+			 dojo.destroy(grid);
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -798,15 +810,17 @@ function buildAutoCheckReportTotalsGrid(parentContainer) {
 
 }
 
-function autoCheckReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function autoCheckReportDataGridInit(responseData, parentContainer) {
 	try {
-		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
-			
+		
+		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
+		
 		var gridId = parentContainer + 'Grid2';
 		
 	
 		var grid = dijit.byId(gridId);
 		
+		var gridLayout = buildAutoCheckReportLayout(null, parentContainer);
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -817,31 +831,23 @@ function autoCheckReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 			grid.setStore(gridData);
 				
 	} else {
-			// DataGrid does not exist.
-			var gridLayout = buildAutoCheckReportLayout(servlet, parentContainer);
+			// DataGrid does not exist.			
+			// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectionMode : 'single',
-				selectable : false,
-				showFooter: false,
-				sort : false,
-				onKeyEvent : onKeyEvent
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
-			grid.setStore(gridData);
+				id : gridId								
+			});
 			
-			grid.setStructure(gridLayout);
+						
+			grid.setStore(gridData);			
 			
-			grid.canSort = function(){return false};  //turn off sorting for now
 			
-			grid.startup();
+		}	
+			// generate the table.
+			generateDivTable(gridLayout,gridData,parentContainer);
 			
-		}
+			// remove the grid widget
+			 //dojo.destroy(gridId);
+			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -977,15 +983,17 @@ function buildRejectReasonsReportTotalsGrid(parentContainer) {
 	}});
 }
 
-function rejectReasonsReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 	try {
-		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
+		
+		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
 			
 		var gridId = parentContainer + 'Grid3';
 		
 	
 		var grid = dijit.byId(gridId);
 		
+		var gridLayout = buildRejectReasonsReportLayout(null, parentContainer);
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -997,30 +1005,23 @@ function rejectReasonsReportDataGridInit(servlet, parentContainer, dataSourceURL
 				
 	} else {
 			// DataGrid does not exist.
-			var gridLayout = buildRejectReasonsReportLayout(servlet, parentContainer);
+			
+			// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectionMode : 'single',
-				selectable : false,
-				showFooter: false,
-				sort : false,
-				onKeyEvent : onKeyEvent
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
-			grid.setStore(gridData);
+				id : gridId								
+			});
 			
-			grid.setStructure(gridLayout);
+						
+			grid.setStore(gridData);			
 			
-			grid.canSort = function(){return false};  //turn off sorting for now
 			
-			grid.startup();
+		}	
+			// generate the table.
+			generateDivTable(gridLayout,gridData,parentContainer);
 			
-		}
+			// remove the grid widget
+			 //dojo.destroy(gridId);
+			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -1124,15 +1125,17 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	}});
 }
 
-function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function erxSummaryReportDataGridInit(responseData, parentContainer) {
 	try {
-		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
-			
+					
+		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
+		
 		var gridId = parentContainer + 'Grid4';
 		
 	
 		var grid = dijit.byId(gridId);
 		
+		var gridLayout = buildErxSummaryReportLayout(null, parentContainer);
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -1144,30 +1147,25 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				
 	} else {
 			// DataGrid does not exist.
-			var gridLayout = buildErxSummaryReportLayout(servlet, parentContainer);
+			
+			// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectionMode : 'single',
-				selectable : false,
-				showFooter: false,
-				sort : false,
-				onKeyEvent : onKeyEvent
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
-			grid.setStore(gridData);
+				id : gridId								
+			});
 			
-			grid.setStructure(gridLayout);
+						
+			grid.setStore(gridData);			
 			
-			grid.canSort = function(){return false};  //turn off sorting for now
 			
-			grid.startup();
+		}	
+		  		   
+		  
+			// generate the table.
+			generateDivTable(gridLayout,gridData,parentContainer);
 			
-		}
+			// remove the grid widget
+			dojo.destroy(gridId);
+			 
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -1212,3 +1210,247 @@ function resetReportTotalsGrid(parentContainer) {
 
 }
 
+//sorting functions.
+
+var getCellValue = function(tr, idx)
+{
+		
+	return tr.children[idx].innerText || tr.children[idx].textContent; 
+
+}
+
+var comparer = function(idx, asc) { 
+	
+	
+	return function(a, b) { return function(v1, v2) {
+		
+        return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+        
+    }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+}};
+
+
+// div table generation.
+function generateDivTable(layout, gridData, dataGridDivId) {
+
+	    // clear the parent div first.
+        dojo.byId(dataGridDivId).innerHTML ="";
+
+		var rowCounter = 1; 
+		var recordCounter = 0;
+		
+		var elementWidthArray = [];
+		
+		var elementFormatterArray = [];
+		
+		//variable for aria label
+		var divTableStart = "<div class=\"generatedDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Pharmacies\ Table\" aria-describedby=\"divTableInfo\">";
+		var divTableEnd = "</div>" ;
+		var divTableBodyStart ="<div class=\"generatedDivTableBody\" role=\"row\">";
+		var divTableBodyEnd ="</div>" ;
+		var divTableRowStart ="<div id=\"generatedDivTableHeaderRowID\" class=\"generatedDivTableRow generatedDivTableHeaderRow\" role=\"row\">";
+		var divTableRowEnd ="</div>" ;
+		var divTableRowHeaderStart ="<div title= \"Column can be sorted in ascending or descending order by mouse click or enter key\" class=\"generatedDivTableHeaderCell\" tabindex=\"0\" role=\"columnheader\"";	
+		var divTableRowHeaderEnd = "</div>" ;
+		var divTableResultRowStart ="<div class=\"generatedDivTableRow\" role=\"row\" ";			
+		var divTableResultRowEnd = "</div>" ;		
+		var divTableRowCellStart= "<div class=\"generatedDivTableCell\" tabindex=\"0\" role=\"cell\"";
+		var divTableRowCellEnd="</div>" ;
+		var divTableNoResultRowStart ="<div class=\"generatedDivTableNoRecordRow\" role=\"row\" ";			
+		var divTableNoResultRowEnd = "</div>" ;			
+		var generatedDivTableNoRecordsCellStart= "<div id=\"generatedDivTableNoRecordsCellID\" class=\"generatedDivTableNoRecordsCell\"  tabindex=\"0\" role=\"cell\"";
+		var generatedDivTableNoRecordsCellEnd="</div>" ;
+		
+		var divTable;
+		
+		divTable = divTableStart.concat(divTableBodyStart);
+		divTable = divTable.concat(divTableRowStart);
+		
+		var layoutObj;
+		var columnNameString ="";
+		var rowHeaderString ="";
+		var isFormatter = false;
+		
+		
+		for (var key in layout){
+			
+			
+			layoutObj = layout[key];
+					
+			for (var nestedKey in layoutObj){
+				
+				
+				
+				if(nestedKey =="name")
+				{
+										
+					columnNameString = layoutObj[nestedKey];	
+
+                    isFormatter = false;					
+					
+				}
+				else if(nestedKey =="width")	{
+					
+					elementWidthArray.push(layoutObj[nestedKey]);					
+					
+					rowHeaderString = divTableRowHeaderStart + "style=\"width:" + " " + layoutObj[nestedKey] + ";\">";					
+					
+					divTable = divTable.concat(rowHeaderString);
+					
+					divTable = divTable.concat(columnNameString);
+					
+					divTable = divTable.concat(divTableRowHeaderEnd);
+					
+					isFormatter = false;
+				}
+				 else if(nestedKey =="formatter")	{
+					
+					elementFormatterArray.push(layoutObj[nestedKey]);	
+
+                    isFormatter = true; 					
+					
+				}
+				
+			}
+
+                if(isFormatter == false)
+				{
+					// no formatter, add empty string.
+					elementFormatterArray.push('');					
+				}
+               		
+			
+		}
+
+		divTable = divTable.concat(divTableRowEnd);
+		
+		
+		var storeArray = gridData._arrayOfAllItems; 
+		var tempStringArray;
+		var rowCounterString ="";
+		var rowCellString ="";
+		var rowCellFormatterElement ="";
+		
+		var rowCellValue;
+		var tempHyperlink="";
+			
+		for(var arrayElement in storeArray){			
+			
+			
+			var arrayItem  = storeArray[arrayElement];
+			
+			for (var k in arrayItem)
+			{
+				if((arrayItem[k]!='') && (k=='stringArray'))
+				{
+			 	
+				 
+				 tempStringArray = arrayItem[k];
+				 
+				 rowCounterString = divTableResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
+				 
+				 divTable = divTable.concat(rowCounterString);
+				
+                 for (var s in tempStringArray)
+			     {
+					
+					 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
+					 
+					 divTable = divTable.concat(rowCellString);
+					 
+					 rowCellValue = tempStringArray[s];					
+					 
+					 if(typeof elementFormatterArray[s] ==='function')
+					 {
+					   rowCellFormatterElement = elementFormatterArray[s];						   
+					   // call the formatter function.
+					   tempHyperlink = rowCellFormatterElement(rowCellValue);					   
+					   
+					   divTable = divTable.concat(tempHyperlink);
+					 }
+                     else
+                     {						 
+					   divTable = divTable.concat(rowCellValue);
+					 }
+                     					 
+					 
+								
+					 divTable = divTable.concat(divTableRowCellEnd);
+				 }
+				
+				 rowCounter++;
+				 recordCounter++;
+								
+			 	 divTable = divTable.concat(divTableResultRowEnd);
+				 
+				 
+				}		
+				
+			}	
+			
+			
+			
+		}	
+		
+			
+			
+		 // if no records found add a dummy row.
+		 
+		 if(recordCounter ==0)
+	     {	
+				rowCounterString = divTableNoResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
+				 
+				 divTable = divTable.concat(rowCounterString);
+				 
+				 rowCellString = generatedDivTableNoRecordsCellStart + "style=\"width:" + " " + "600px" + ";\">";
+					 
+				 divTable = divTable.concat(rowCellString);
+
+                 divTable = divTable.concat("&nbsp;No record found.");	
+
+                 divTable = divTable.concat(generatedDivTableNoRecordsCellEnd);				 
+				 
+				 divTable = divTable.concat(divTableNoResultRowEnd);
+		 }
+		 
+		 
+		divTable = divTable.concat(divTableBodyEnd);
+		divTable = divTable.concat(divTableEnd);
+		dojo.byId(dataGridDivId).innerHTML = divTable;
+				
+		
+		// add click event
+		Array.prototype.slice.call(document.querySelectorAll('.generatedDivTableHeaderCell')).forEach(function(th) { th.addEventListener('click', function() {
+        var table = th.parentNode;
+        
+			
+			// sorting function
+			while(table.id.toUpperCase() != 'GENERATEDDIVTABLEID') table = table.parentNode;
+			Array.prototype.slice.call(table.querySelectorAll('.generatedDivTableRow:nth-child(n+2)'))
+				.sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(function(tr) { table.appendChild(tr) });
+		   })
+       });
+	   
+	   // add keyup event and trigger on the enter.
+	   Array.prototype.slice.call(document.querySelectorAll('.generatedDivTableHeaderCell')).forEach(function(th) { th.addEventListener('keyup', function(evt) {
+        
+		var columnEventKey = evt.keyCode || evt.which;	
+		// Trigger on enter key only
+		if(columnEventKey ==13)
+		{	
+	       var table = th.parentNode;
+        
+			
+			// sorting function
+			while(table.id.toUpperCase() != 'GENERATEDDIVTABLEID') table = table.parentNode;
+			Array.prototype.slice.call(table.querySelectorAll('.generatedDivTableRow:nth-child(n+2)'))
+				.sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(function(tr) { table.appendChild(tr) });
+		 
+		}		
+		   })
+       });
+	
+		
+ }

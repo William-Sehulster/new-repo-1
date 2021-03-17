@@ -83,7 +83,7 @@ public class AutoCheckReportDaoImpl extends BaseDao<Integer, AutoCheckReportVw> 
 				.add(Projections.sum("newRxPvdMtchNotFnd").as("newRxPvdMtchNotFnd"))
 				);
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(AutoCheckReportVw.class));
 		
 		List<AutoCheckReportVw> autoCheckReportRows = (List<AutoCheckReportVw>) criteria.list();
 		

@@ -190,7 +190,8 @@
 <h2 class="h2title"><span class="reportTitle"></span></h2>
 <div id="queryStatus" style="width: 900px;padding-left: 5px;"></div>
 
-<span id="messageList" tabindex="0"  style="width: 1125px; height: 290px; display: block;"></span><br/>
+<div id="messageList" tabindex="0"  class="generatedDivTableParent"></div><br/>
+
 <span id="trackRecNumberTitle" style="width: 250px;display: none;">
 Number of Records:
 <span id="trackRecNumber" style="position:relative;top:-14px;left:112px;display: none;">
@@ -199,7 +200,7 @@ Number of Records:
 
 <%-- Related Message Start --%>
 <span id="relatedMessagesParentInfo" tabindex="0"  style="width: 1125px;margin-top:-30px;margin-bottom:10px;  display: none;"></span> 
-<span id="relatedMessagesList" tabindex="0"  style="width: 1125px; height: 290px; display: none;"></span>
+<div id="relatedMessagesList" tabindex="0"  class="generatedDivTableParent" style="display: none;"></div>
 <span id="trackRelatedMessagesRecNumberTitle" style="width: 250px;display: none;">
 <br/>
 Number of Records:

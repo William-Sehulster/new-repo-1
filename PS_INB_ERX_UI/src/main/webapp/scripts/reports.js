@@ -156,8 +156,10 @@ function getSummaryReport() {
 		if (selected == "SUMMRPT") {
 			showModalWin();
 			
-			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
-			buildSummaryReportTotalsGrid("summaryReportTotals");
+			
+			buildGridDataSource("/inbound/inb-erx/"  + "summaryReport/getSummary?json=" + dojo.toJson(formObject),summaryReportDataGridInit,"summaryReport" );
+			//summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
+			//buildSummaryReportTotalsGrid("summaryReportTotals");
 			dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 			
 			hideModalWin();
@@ -222,8 +224,7 @@ function toggleDivs(selected){
   if( selected == "SUMMRPT"){
 	  dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
       dojo.style(dojo.byId('summaryReport'), "display", "block"); 
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      dojo.style(dojo.byId('summaryReportGrid'), "display", "block");
+      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");      
 
       if (dojo.byId('summaryReportGrid2') != null){
       dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
@@ -521,10 +522,11 @@ function getRejectReasonsReport() {
 		
 	}
 	
-    showModalWin();
-    
-	rejectReasonsReportDataGridInit("inb-erx","summaryReport", "rejectReasonsReport/getReport?json=" + dojo.toJson(formObject) );
-	buildRejectReasonsReportTotalsGrid("summaryReportTotals");
+    showModalWin();    
+	
+	buildGridDataSource("/inbound/inb-erx/"  + "rejectReasonsReport/getReport?json=" + dojo.toJson(formObject),rejectReasonsReportDataGridInit,"summaryReport" );
+	
+	//buildRejectReasonsReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();
@@ -565,10 +567,11 @@ function getAutoCheckReport() {
 		
 	}
 	
-    showModalWin();
-    
-	autoCheckReportDataGridInit("inb-erx","summaryReport", "autoCheckReport/getReport?json=" + dojo.toJson(formObject) );
-	buildAutoCheckReportTotalsGrid("summaryReportTotals");
+    showModalWin();	
+	
+	buildGridDataSource("/inbound/inb-erx/"  + "autoCheckReport/getReport?json=" + dojo.toJson(formObject),autoCheckReportDataGridInit,"summaryReport" );
+	
+	//buildAutoCheckReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();
@@ -611,10 +614,11 @@ function getErxSummaryReport() {
 	}
 	
 	
-    showModalWin();
-    
-	erxSummaryReportDataGridInit("inb-erx","summaryReport", "erxSummaryReport/getReport?json=" + dojo.toJson(formObject) );
-	buildErxSummaryReportTotalsGrid("summaryReportTotals");
+    showModalWin();    
+	
+	buildGridDataSource("/inbound/inb-erx/"  + "erxSummaryReport/getReport?json=" + dojo.toJson(formObject),erxSummaryReportDataGridInit,"summaryReport" );
+	
+	//buildErxSummaryReportTotalsGrid("summaryReportTotals");
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();
