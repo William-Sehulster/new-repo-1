@@ -55,21 +55,21 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	layout.push(obj);
 
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyVaStationId';
 	obj["name"] = 'VA Station ID';
 	obj["width"] = "59px";
 	obj["noresize"] = 'true';
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyNcpdpId';
 	obj["name"] = 'NCPDP ID';
 	obj["width"] = "48px";
 	obj["noresize"] = 'true';	
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyDivisionName';
 	obj["name"] = 'Pharmacy Name';
 	obj["width"] = "135px";
@@ -161,25 +161,33 @@ function buildAutoCheckReportLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyVaStationId';
 	obj["name"] = 'VA Station ID';
 	obj["width"] = "80px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyNcpdpId';
 	obj["name"] = 'NCPDP ID';
 	obj["width"] = "65px";
 	//obj["noresize"] = 'true';	
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyDivisionName';
 	obj["name"] = 'Pharmacy Name';
 	obj["width"] = "220px";
 	//obj["noresize"] = 'true';
+	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'pharmacyAddress';
+	obj["name"] = 'Address';
+	obj["width"] = '232px';
+	obj["noresize"] = 'true';
+	//obj["formatter"] = numberFormat;
 	layout.push(obj);
 
 	obj = new Object();
@@ -291,34 +299,34 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyVaStationId';
 	obj["name"] = 'VA Station ID';
 	obj["width"] = "80px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyNcpdpId';
 	obj["name"] = 'NCPDP ID';
 	obj["width"] = "65px";
 	//obj["noresize"] = 'true';	
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyDivisionName';
 	obj["name"] = 'Pharmacy Name';
 	obj["width"] = "220px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
-	//obj = new Object();
-	//obj["field"] = 'pharmacyAddress';
-	//obj["name"] = 'Address';
-	//obj["width"] = '95px';
-	//obj["noresize"] = 'true';
-	//obj["formatter"] = formatSelectable;
-	//layout.push(obj);
+	obj = new Object();
+	obj["field"] = 'pharmacyAddress';
+	obj["name"] = 'Address';
+	obj["width"] = '232px';
+	obj["noresize"] = 'true';
+	//obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRx';
@@ -461,34 +469,34 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyVaStationId';
 	obj["name"] = 'VA Station ID';
 	obj["width"] = "80px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyNcpdpId';
 	obj["name"] = 'NCPDP ID';
 	obj["width"] = "65px";
 	//obj["noresize"] = 'true';	
 	layout.push(obj);
 	
-	var obj = new Object();
+	obj = new Object();
 	obj["field"] = 'pharmacyDivisionName';
 	obj["name"] = 'Pharmacy Name';
 	obj["width"] = "220px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 
-	//obj = new Object();
-	//obj["field"] = 'pharmacyAddress';
-	//obj["name"] = 'Address';
-	//obj["width"] = '95px';
-	//obj["noresize"] = 'true';
-	//obj["formatter"] = formatSelectable;
-	//layout.push(obj);
+	obj = new Object();
+	obj["field"] = 'pharmacyAddress';
+	obj["name"] = 'Address';
+	obj["width"] = '232px';
+	obj["noresize"] = 'true';
+	//obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxCnt';
@@ -776,7 +784,7 @@ function buildAutoCheckReportTotalsGrid(parentContainer, gridData, recordsTotal)
 	var layout = buildAutoCheckReportLayout(null, null);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[4].width) + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width);
+	var tableWidth = totColWidth + parseInt(layout[4].width) + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width)+ parseInt(layout[16].width);
 
 
 	sumTable = 
@@ -957,7 +965,7 @@ function buildRejectReasonsReportTotalsGrid(parentContainer, gridData, recordsTo
 		+ parseInt(layout[11].width) + parseInt(layout[12].width)
 		+ parseInt(layout[13].width) + parseInt(layout[14].width)
 		+ parseInt(layout[15].width) + parseInt(layout[16].width)
-		+ parseInt(layout[17].width) + parseInt(layout[18].width + parseInt(layout[19].width));
+		+ parseInt(layout[17].width) + parseInt(layout[18].width + parseInt(layout[19].width)+ parseInt(layout[20].width));
 
 	sumTable = 
 
@@ -1113,7 +1121,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
 	var tableWidth = totColWidth + parseInt(layout[5].width) 
 		+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width)
-		+ parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width);
+		+ parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width)+ parseInt(layout[12].width);
 
 
 	sumTable = 

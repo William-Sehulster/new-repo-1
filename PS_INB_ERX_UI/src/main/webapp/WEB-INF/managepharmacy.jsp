@@ -130,6 +130,7 @@ Number of Records:
 </span>
 </div>
 </div>
-
+<%-- remove Pharmacy information added successfully  --%>
+<c:remove var="messageData" scope="session" />
 <%-- end body --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutEnd.jsp" />
