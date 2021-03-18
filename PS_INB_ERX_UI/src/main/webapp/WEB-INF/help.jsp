@@ -7358,11 +7358,11 @@ ul {
 
 				<p class=MsoBodyText>
 					<span style='font-family: "Arial", sans-serif'>Search results in Track/Audit, Pharmacy Management and Reports Screens
-					are presented in a tabular / data grid format. These Track/Audit and Pharmacy Management data grids can be sorted in an ascending or in descending order. When
-					a user is using a screen reader software like JAWS, you have to first tab into the first table column header, that selects the first table column header. To move to other table column headers, user has to use
-					right  arrow key in the keyboard to move in the right  direction or left arrow key to move in the left direction, using right or left arrow keys selects a particular table column header. To do sorting on a selected column header, use  spacebar key to do the sort on the selected column in the data grid / table.
-					Pressing spacebar does ascending or descending sort	of a particular	column. When a column is sorted, screen reader software like JAWS will read out the record along with the ascending sort or descending sort.
-					For example, hitting space first time, it will say something like space Column 1, Row 1 VA Station ID is sorted in ascending order and hitting spacebar again, it will read out, Column 1, Row 1 VA Station ID is sorted in descending order.  </span>
+					are presented in a tabular / data table /data grid  format. These Track/Audit and Pharmacy Management data tables can be sorted in an ascending or in descending order. When
+					a user is using a screen reader software like JAWS, you have to first tab into the first table column header, that selects the first table column header. To move to the other table column headers, user has to use
+					tab key in the keyboard to move in the right  direction or shift and tab keys to move in the left direction, tab key or shift and tab keys selects a particular table column header. To do sorting on a selected column header, use  enter key to do the sort on the selected column in the data grid / table.
+					Pressing enter key on a column does ascending or descending sort of a particular	column. When a column is sorted, screen reader software like JAWS will read out the record.
+					For example, hitting enter key first time, it will say something like space Column 1, Row 1 VA Station ID.  </span>
 				</p>
 
 				<span style='font-size: 11.0pt; font-family: "Arial", sans-serif'><br
