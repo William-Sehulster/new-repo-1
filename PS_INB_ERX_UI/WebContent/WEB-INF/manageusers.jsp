@@ -57,15 +57,15 @@
 		 <div class="divUserMgmtTable" tabindex="0" role="table" aria-label="Users" aria-describedby="divUserMgmtTableInfo">		
 			<div class="divUserMgmtTableBody">
 				<div class="divUserMgmtTableHeaderRow" role="row">
-					<div role="columnheader" class="divUserMgmtTableCellToggleUser">Enable/Disable&nbsp;User</div>
-					<div role="columnheader" class="divUserMgmtTableCell">First Name</div>
-					<div role="columnheader" class="divUserMgmtTableCell">Last Name</div>
-					<div role="columnheader" class="divUserMgmtTableCell">User ID</div>
-					<div role="columnheader" class="divUserMgmtTableCellStatioinID">Station ID</div>
-					<div role="columnheader" class="divUserMgmtTableCell">Pharmacy Manager</div>
-					<div role="columnheader" class="divUserMgmtTableCell">PBM Admin</div>
-					<div role="columnheader" class="divUserMgmtTableCell">Pharmacy User</div>
-					<div role="columnheader" class="divUserMgmtTableCell">Administrator</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCellToggleUser">Enable/Disable&nbsp;User</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">First Name</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">Last Name</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">User ID</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCellStatioinID">Station ID</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">Pharmacy Manager</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">PBM Admin</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">Pharmacy User</div>
+					<div role="columnheader" tabindex="0" class="divUserMgmtTableCell">Administrator</div>
 				</div>
 				
 				<c:forEach var="item" items="${userMgmt}" varStatus="countVar">
@@ -135,7 +135,7 @@
        <br>
        <span  class="show" tabindex="0" aria-labelledby="Add User" style="width: 60px;"><strong> Add User:</strong></span>   
        </div>
-       <div class="manageUsersFields">          
+       <div  tabindex="0" class="manageUsersFields">          
       <label for="addUserText">User ID:
       <span class="manageusersRequiredField">
       <span class="manageusersRequired">(Required)</span> 
@@ -143,12 +143,12 @@
 		</label>
 		<form:input path="addUserText" maxlength="20" title="VA network user ID (Example: VHAISWXXXXXX)" />
       </div>
-      <div class="manageUsersFields">      
+      <div  tabindex="0" class="manageUsersFields">      
       <label for="addFirstNameText">First Name:
 	  </label>
 		<form:input path="addFirstNameText" maxlength="50" title="First name of user"/>
       </div>
-      <div class="manageUsersFields">      
+      <div  tabindex="0" class="manageUsersFields">      
       <label for="addLastNameText">Last Name:
 	  </label>
 		<form:input path="addLastNameText" maxlength="50" title="Last name of user" />
@@ -156,7 +156,7 @@
       <div id="userRolesListBoxInfo" style="display: none;">
         User Roles multiple select listbox.
       </div>
-     <div  class="manageUsersFields show" title="Application user roles. To assign a role to the user, click a role in the User Roles check box. The role will be checked or unchecked.">	
+     <div   tabindex="0"  class="manageUsersFields show" title="Application user roles. To assign a role to the user, click a role in the User Roles check box. The role will be checked or unchecked.">	
 		<label for="userRolesSelect" aria-labelledby="User Roles" id="userrolelabel">
 		User Roles:		
 		</label> 		
@@ -178,7 +178,7 @@
 	 <div id="stationIdsListBoxInfo" style="display: none;">
         Station Ids multiple select listbox.
       </div>
-	<div class="manageUsersFields">      
+	<div  tabindex="0" class="manageUsersFields">      
       <label for="addStationId" id="stationIdlabel">Station ID:     
 	  </label>
 		   <select multiple="multiple"  id="addStationId"  name="addStationId" onchange="stationIdValueSelected();" style="float: left;" size="8" aria-describedby="stationIdsListBoxInfo" aria-multiselectable="true" role="listbox">
