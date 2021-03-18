@@ -63,6 +63,11 @@ function buildVisnSelectDataSource(dataSourceURL, query) {
 
 function pharmManagementSearch() {
 	
+	if (dojo.byId('pharmacyManagementSuccessMessages') != null){
+		 
+		dojo.byId('pharmacyManagementSuccessMessages').innerHTML ="";
+	}
+	
 	showModalWin();
 	getPharmacyGrid();
 	hideModalWin();

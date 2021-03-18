@@ -859,7 +859,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
-			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.lenth);		
+			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);		
 			
 			// remove the grid widget
 			dojo.destroy(grid);
