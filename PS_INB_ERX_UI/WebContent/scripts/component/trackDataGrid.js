@@ -755,7 +755,6 @@ function generateDivTable(layout, gridData, dataGridDivId, relatedMessagesData) 
 				if((arrayItem[k]!='') && (k=='stringArray'))
 				{
 			 	
-				 
 					 tempStringArray = arrayItem[k];
 					 
 					 rowCounterString = divTableResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
@@ -802,9 +801,14 @@ function generateDivTable(layout, gridData, dataGridDivId, relatedMessagesData) 
 						   divTable = divTable.concat(tempHyperlink);
 						 }
 	                  else
-	                  {						 
-						   divTable = divTable.concat(rowCellValue);
-						 }
+	                  {	
+	                	  if(rowCellValue == null || rowCellValue ==="null")
+	                	  {
+	                		  rowCellValue ="";
+	                	  }	  
+						  
+	                	  divTable = divTable.concat(rowCellValue);
+					  }
 	                  					 
 						 
 									
@@ -827,7 +831,7 @@ function generateDivTable(layout, gridData, dataGridDivId, relatedMessagesData) 
 		
 		 // if no records found add a dummy row.
 		 
-		 if(recordCounter ==0)
+		 if(recordCounter == 0)
 	     {	
 				rowCounterString = divTableNoResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
 				 

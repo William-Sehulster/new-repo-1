@@ -353,8 +353,13 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 					   divTable = divTable.concat(tempHyperlink);
 					 }
                      else
-                     {						 
-					   divTable = divTable.concat(rowCellValue);
+                     {	
+                    	 if(rowCellValue == null || rowCellValue ==="null")
+	                	 {
+	                		  rowCellValue ="";
+	                	 }	 
+                    	 
+					      divTable = divTable.concat(rowCellValue);
 					 }
                      					 
 					 

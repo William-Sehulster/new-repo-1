@@ -1,7 +1,7 @@
 dojo.require("dojo.hash");
 dojo.require("dijit.registry");
 dojo.require("dijit._base.wai");
-
+dojo.require("dijit.Dialog");
 dojo.require("dojo._base.array");
 
 var clearClicked = false;

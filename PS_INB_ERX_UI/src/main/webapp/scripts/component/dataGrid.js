@@ -859,7 +859,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
-			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.lenth);		
+			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);		
 			
 			// remove the grid widget
 			dojo.destroy(grid);
@@ -1402,7 +1402,12 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 					 }
                      else
                      {						 
-					   divTable = divTable.concat(rowCellValue);
+                    	 if(rowCellValue == null || rowCellValue ==="null")
+	                	 {
+	                		  rowCellValue ="";
+	                	 }	 
+                    	 
+                    	 divTable = divTable.concat(rowCellValue);
 					 }
                      					 
 					 

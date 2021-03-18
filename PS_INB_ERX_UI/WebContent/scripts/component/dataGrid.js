@@ -1402,7 +1402,12 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 					 }
                      else
                      {						 
-					   divTable = divTable.concat(rowCellValue);
+                    	 if(rowCellValue == null || rowCellValue ==="null")
+	                	 {
+	                		  rowCellValue ="";
+	                	 }	 
+                    	 
+                    	 divTable = divTable.concat(rowCellValue);
 					 }
                      					 
 					 
