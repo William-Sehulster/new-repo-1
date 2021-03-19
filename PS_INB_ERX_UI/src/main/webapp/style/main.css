@@ -1066,6 +1066,8 @@ label:focus {
 
 
 
+
+
 .generatedDivTableParent {			
 	width:1125px;
 	height: 600px;	
@@ -1091,13 +1093,14 @@ label:focus {
 
 .generatedDivTableHeaderRow {
 	display: table-row;	
-	background-color: #9dcfff;
+	background-color: #BECEE0;
 	border-top: 1px solid transparent;
 	border-color: #F5F5F5;
 	font-weight: bold;
 	width:100%;
 	font-size:12px;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
+	color:#003366
 }
 
 .generatedDivTableRow {
