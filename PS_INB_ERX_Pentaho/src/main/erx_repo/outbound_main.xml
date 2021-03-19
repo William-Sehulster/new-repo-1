@@ -2324,7 +2324,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2021/01/25 13:34:36.000</modified_date>
+    <modified_date>2021/03/18 14:50:34.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -2497,7 +2497,7 @@ commit;</sql>
     <job_name>OBMP_DeliverMessage_JOB</job_name>
     <filename/>
     <directory_path>/outbound_main</directory_path>
-    <group_size>${JOB_BATCH_SIZE}</group_size>
+    <group_size/>
     <group_field/>
     <group_time/>
     <parameters>
@@ -2693,10 +2693,17 @@ from outbound_ncpdp_msg t, xmltable('/Message'
     message_type varchar2(35) path 'name(/Body/*[1])',
     pharmacy_ncpdpid varchar2(30) path '//Header/From') x
     where 
-    t.message_status in ('0000','4004','4010')
+    (t.message_status in ('0000','4004','4010')
+    and x.message_type is not null
+    and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate)
+    or
+	(t.message_status in ('4009')
     and x.message_type is not null
     and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
-    order by message_status asc, message_type asc)
+    and t.updated_date &lt; sysdate - 15 / 24 /60 /* Attempt to reprocess messages stuck in 4009 after 15 Minutes */
+    )	
+    order by message_status asc, message_type asc, outbound_ncpdp_msg_id asc
+	)
     where rownum &lt;= ${OB_DLVRY_JOB_BATCH_SIZE}</sql>
     <limit>${OB_DLVRY_JOB_BATCH_SIZE}</limit>
     <lookup/>
@@ -3152,7 +3159,7 @@ from outbound_ncpdp_msg t, xmltable('/Message'
     <name>TODO: return ERROR with XSD violation back to VistA</name>
     <type>Dummy</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
