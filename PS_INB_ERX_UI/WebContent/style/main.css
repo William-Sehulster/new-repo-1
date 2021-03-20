@@ -952,11 +952,14 @@ span.manageusersRequiredField {
 
 .divUserMgmtTableHeaderRow {
 	display: table-row;
-	background-color: #9dcfff;
+	background-color: #BECEE0;
 	border-top: 1px solid transparent;
 	border-color: #F5F5F5;
 	font-weight: bold;
 	width: 150px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366;
 }
 
 .divUserMgmtTableRow {
@@ -1066,6 +1069,8 @@ label:focus {
 
 
 
+
+
 .generatedDivTableParent {			
 	width:1125px;
 	height: 600px;	
@@ -1091,13 +1096,14 @@ label:focus {
 
 .generatedDivTableHeaderRow {
 	display: table-row;	
-	background-color: #9dcfff;
+	background-color: #BECEE0;
 	border-top: 1px solid transparent;
 	border-color: #F5F5F5;
 	font-weight: bold;
 	width:100%;
-	font-size:12px;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366
 }
 
 .generatedDivTableRow {
@@ -1167,4 +1173,26 @@ label:focus {
 	word-wrap:break-word;		
 	overflow:auto;		
 	font-size:12px;
+}
+
+.generatedReportsDivTableParent {			
+	width:1125px;
+	height: 400px;	
+	overflow: auto;	
+	display: block;
+	
+}
+
+.generatedReportsDivTable {
+	display: table;	
+	position: relative;	
+	overflow: auto;
+	float: left;
+	margin: .5em 0;		
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+	table-layout:fixed;
+	max-width:100%;
+	
 }

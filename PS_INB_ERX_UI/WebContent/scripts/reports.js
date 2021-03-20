@@ -7,6 +7,7 @@ dojo.require("dojo.parser");
 
 var reportsLoadingDialog;
 
+
 function scrollFunction() {
 	topGrid = null;
 	bottomGrid = document.getElementById("summaryReportTotals");
@@ -38,6 +39,9 @@ dojo.ready(function() {
 	var scrollGrid = null;
 	var topGrid = null;
 	var bottomGrid = null;
+	
+	
+	
 	
 	dojo.connect(selectBox, "onchange", null, function(event) {
 		selected = getSelected(selectBox);
@@ -90,6 +94,8 @@ dojo.ready(function() {
 		}
 		
 	});
+	
+	
 	
 	
 });	
@@ -155,6 +161,10 @@ function getSummaryReport() {
 			dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 			
 			hideModalWin();
+			
+			
+			
+			
 		}
 		if (selected == "AUTOCHECKRPT") {
 			var valid = getAutoCheckReport();
@@ -709,3 +719,42 @@ function hideCSVModalWin() {
 
 
 
+function adjustWidths() {
+	
+	 console.log("inside function");
+
+	var colWidth = new Array();
+	
+	var divTableHeaderElements = document.getElementsByClassName("generatedDivTableHeaderCell");
+	
+	var tableHeaderElements = document.getElementById("summaryReportTable").getElementsByTagName('td');
+	
+	console.log("tableHeaderElements:"+tableHeaderElements.length);
+	
+	for(var i=0; i<divTableHeaderElements.length;i++)
+	{
+		var item = divTableHeaderElements[i];
+		var itemWidth= item.offsetWidth;
+	    console.log("length:"+item.offsetWidth);
+	    colWidth.push(item.offsetWidth);
+	}
+	
+	
+	
+	for (var j=0; j<tableHeaderElements.length;j++){
+		
+		var tableElement = tableHeaderElements[j];
+		
+		console.log("tableHeaderElements:"+tableHeaderElements[j]);
+		
+		for(var s in colWidth){
+		
+			console.log("s:"+s);
+			
+			tableElement.style.width=colWidth[s] +"px";
+			continue;
+		}
+		
+	}
+}
+	

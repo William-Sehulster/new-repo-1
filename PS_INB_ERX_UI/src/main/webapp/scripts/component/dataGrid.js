@@ -617,32 +617,33 @@ function buildSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 
 			  
 		}	
-
+	 }	
 	
 	//leverage layout of summaryReport
 	var layout = buildSummaryReportLayout(null, null);
-	
-	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + parseInt(layout[4].width) + 46; //45px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width);
-
+		
 	sumTable = 
 
-		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<table style='width:1123px;'>" +
 		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" + "</tr>"
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px;  text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:11px; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:8px;  text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:4px;  text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:0px;  text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" + "</tr>"
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
-	   // now update the record totals.
+	    // now update the record totals.
 	
 	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
 		
@@ -661,7 +662,7 @@ function buildSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
 			    summaryReportRecNumber.innerHTML= recordsTotal;
            }
 	
-    }	
+   
 
 
 }
@@ -778,36 +779,37 @@ function buildAutoCheckReportTotalsGrid(parentContainer, gridData, recordsTotal)
 			  
 		}
 		
-	
+	}
 		
-	//leverage layout of summaryReport
+	//leverage layout
 	var layout = buildAutoCheckReportLayout(null, null);
-	
-	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[4].width) + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width)+ parseInt(layout[16].width);
-
+		
 
 	sumTable = 
-		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<table style='width:1123px;'>" +
 		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxMviPatNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxEneElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxEneNotElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxPatNotEnrlSite) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchFnd) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + "; text-align: left;'>" + numberFormat(totals.newRxDrgMtchNotFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + "; text-align: left;'>" + numberFormat(totals.newRxPvdMtchNotFnd) + "</td>" + "</tr>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMviPatFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMviPatNotFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxEneElgbEnrl) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxEneNotElgbEnrl) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPatNotEnrlSite) + "</td>"  +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDrgMtchFnd) + "</td>"  +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDrgMtchNotFnd) + "</td>"  +
+ 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPvdMtchFnd) + "</td>"  +
+ 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPvdMtchNotFnd) + "</td>" + "</tr>" +
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
-	// now update the record totals.
+	    // now update the record totals.
 	
 	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
 		
@@ -827,7 +829,7 @@ function buildAutoCheckReportTotalsGrid(parentContainer, gridData, recordsTotal)
            }
 	
 		
-  }
+  
 
 
 }
@@ -950,50 +952,44 @@ function buildRejectReasonsReportTotalsGrid(parentContainer, gridData, recordsTo
 
 			  
 		}
-
+		
+	}
 	
-	//leverage layout of rejectReasonsReport
+	//leverage layout
 	var layout = buildRejectReasonsReportLayout(null, null);
 	
-	var totColWidth = parseInt(layout[0].width) + parseInt(layout[1].width) 
-	+ parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
 	
-	var tableWidth = totColWidth + parseInt(layout[3].width) + parseInt(layout[4].width)
-		+ parseInt(layout[5].width)+ parseInt(layout[6].width)
-		+ parseInt(layout[7].width) + parseInt(layout[8].width) 
-		+ parseInt(layout[9].width) + parseInt(layout[10].width) 
-		+ parseInt(layout[11].width) + parseInt(layout[12].width)
-		+ parseInt(layout[13].width) + parseInt(layout[14].width)
-		+ parseInt(layout[15].width) + parseInt(layout[16].width)
-		+ parseInt(layout[17].width) + parseInt(layout[18].width + parseInt(layout[19].width)+ parseInt(layout[20].width));
-
 	sumTable = 
 
-		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<table  style='width:1123px;'>" +
 		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRx) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.newRxInProcess) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>"+ numberFormat(totals.newRxPatientNotElig) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.newRxPatientNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.newRxProviderNotElig) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.newRxProviderNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.newRxNotEligRefills) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + ";'>" + numberFormat(totals.newRxNonFormulary) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + ";'>" + numberFormat(totals.newRxDuplicate) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + ";'>" + numberFormat(totals.newRxInvalidQty) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + ";'>" + numberFormat(totals.newRxDupTheraClass) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + ";'>" + numberFormat(totals.newRxCsNotAllowed) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + ";'>" + numberFormat(totals.newRxMultiErrCallPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + ";'>" + numberFormat(totals.newRxIncorrectPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + ";'>" + numberFormat(totals.newRxErrCallPharm) + "</td>" + "</tr>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:100px; text-align: right;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRx) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>"+ numberFormat(totals.newRxPatientNotElig) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPatientNotFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxProviderNotElig) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxProviderNotFound) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxNotEligRefills) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxNonFormulary) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDuplicate) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxInvalidQty) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDupTheraClass) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCsNotAllowed) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMultiErrCallPharm) + "</td>" +
+ 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxIncorrectPharm) + "</td>" +
+ 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxErrCallPharm) + "</td>" + "</tr>" +
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
-	// now update the record totals.
-	
+	    // now update the record totals.
+	 
 	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
 		
 		var summaryReportRecNumber = dojo.byId("reportRecNumber");
@@ -1011,7 +1007,7 @@ function buildRejectReasonsReportTotalsGrid(parentContainer, gridData, recordsTo
 			    summaryReportRecNumber.innerHTML= recordsTotal;
            }
 
-	}
+	
 }
 
 function rejectReasonsReportDataGridInit(responseData, parentContainer) {
@@ -1114,34 +1110,35 @@ function buildErxSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal
 
 			  
 		}
+		
+	}	
 	
 	//leverage layout of eRxSummaryReport
 	var layout = buildErxSummaryReportLayout(null, null);
 	
-	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + 36; //36px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[5].width) 
-		+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width)
-		+ parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width)+ parseInt(layout[12].width);
-
-
+	
 	sumTable = 
 
-		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<table  style='width:1123px;'>" +
 		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.refillRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>"+ numberFormat(totals.refillResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.cancelRx) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxFill) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
+		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.refillRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>"+ numberFormat(totals.refillResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.cancelRx) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxFill) + "</td>" +
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
-	// now update the record totals.
+	    // now update the record totals.
 	
 	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
 		
@@ -1160,7 +1157,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal
 			    summaryReportRecNumber.innerHTML= recordsTotal;
          }
 
-	}
+	
 }
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
@@ -1196,8 +1193,6 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			
 			
 		}	
-		  		   
-		  
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer);
 			
@@ -1284,7 +1279,7 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 		var elementFormatterArray = [];
 		
 		//variable for aria label
-		var divTableStart = "<div class=\"generatedDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Pharmacies\ Table\" aria-describedby=\"divTableInfo\">";
+		var divTableStart = "<div class=\"generatedReportsDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Reports\ Table\" aria-describedby=\"divTableInfo\">";
 		var divTableEnd = "</div>" ;
 		var divTableBodyStart ="<div class=\"generatedDivTableBody\" role=\"row\">";
 		var divTableBodyEnd ="</div>" ;
@@ -1515,7 +1510,7 @@ function generateDummyDivTable(layout, gridData, dataGridDivId) {
 		var elementFormatterArray = [];
 		
 		//variable for aria label
-		var divTableStart = "<div class=\"generatedDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Pharmacies\ Table\" aria-describedby=\"divTableInfo\">";
+		var divTableStart = "<div class=\"generatedReportsDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Reports\ Table\" aria-describedby=\"divTableInfo\">";
 		var divTableEnd = "</div>" ;
 		var divTableBodyStart ="<div class=\"generatedDivTableBody\" role=\"row\">";
 		var divTableBodyEnd ="</div>" ;
