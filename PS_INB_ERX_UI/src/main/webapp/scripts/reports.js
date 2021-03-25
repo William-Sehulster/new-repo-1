@@ -38,11 +38,9 @@ dojo.ready(function() {
 
 			var valid = getSummaryReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
 				
-				toggleDivs(selected);						
+				toggleDivs();						
 				
 			}
 			
@@ -51,11 +49,9 @@ dojo.ready(function() {
 
 			var valid = getAutoCheckReport();	
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
 				
-				toggleDivs(selected);				
+				toggleDivs();				
 				
 			}
 
@@ -65,11 +61,9 @@ dojo.ready(function() {
 
 			var valid = getRejectReasonsReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
 				
-				toggleDivs(selected);			
+				toggleDivs();			
 				
 			}
 
@@ -78,11 +72,9 @@ dojo.ready(function() {
 
 			var valid = getErxSummaryReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();
 				
 				
 			}
@@ -90,7 +82,7 @@ dojo.ready(function() {
 			
 		}
 		else{
-			toggleDivs(selected);
+			toggleDivs();
 		}
 		
 	});
@@ -162,17 +154,15 @@ function getSummaryReport() {
 			
 			hideModalWin();			
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
+			toggleDivs();	
 			
 			
 		}
 		if (selected == "AUTOCHECKRPT") {
 			var valid = getAutoCheckReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
-				toggleDivs(selected);			
+				toggleDivs();			
 				
 			}
 	
@@ -181,10 +171,8 @@ function getSummaryReport() {
 			
 			var valid = getRejectReasonsReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){
-				toggleDivs(selected);	
+				toggleDivs();	
 				
 				
 			}
@@ -193,10 +181,8 @@ function getSummaryReport() {
 		if (selected == "ERXSUMMRPT") {
 			var valid = getErxSummaryReport();
 			
-			setTimeout(function(){ adjustWidths(); }, 800);
-			
 			if(valid == true){			
-				toggleDivs(selected);
+				toggleDivs();
 				
 				
 			}
@@ -232,42 +218,13 @@ function getVisnSelect() {
 
 	 
 
-function toggleDivs(selected){
+function toggleDivs(){
 
     
-  if( selected == "SUMMRPT"){
-	  dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block"); 
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
+	 dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
+     dojo.style(dojo.byId('summaryReport'), "display", "block"); 
+     dojo.style(dojo.byId('summaryReportTotals'), "display", "block");  
      
-  } else if ( selected == "AUTOCHECKRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-
-      
-      
-  } else if ( selected == "REJECTRESNRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      
-      
-     
-  } else if ( selected == "ERXSUMMRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");     
-      
-     
-  } else {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "none");
-      dojo.style(dojo.byId('summaryReport'), "display", "none");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "none");
-  }
-  
- 
- 
 }
 
 
@@ -667,35 +624,4 @@ function hideCSVModalWin() {
 }
 
 
-// make the width of the total div same as the main div table.
-function adjustWidths() {	
-	 
 
-	var colWidth = new Array();
-	
-	var divTableHeaderElements = document.getElementsByClassName("generatedDivTableHeaderCell");
-	
-	var tableHeaderElements = document.getElementsByClassName("summaryReportTotalsTd");
-	
-	
-	if(tableHeaderElements!=null){
-		
-		for(var i=0; i<divTableHeaderElements.length;i++)
-		{
-			var item = divTableHeaderElements[i];
-			var itemWidth= item.offsetWidth;
-		    //console.log("length:"+item.offsetWidth);
-		    colWidth.push(item.offsetWidth);
-		}
-		
-		for (var j=0; j<tableHeaderElements.length;j++){
-			
-			var tableElement = tableHeaderElements[j];
-			
-			tableElement.style.width=""+colWidth[j] +"px";	
-			
-		}
-  }
-	
-	
-}

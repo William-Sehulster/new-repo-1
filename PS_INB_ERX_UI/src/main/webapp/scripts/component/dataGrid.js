@@ -566,106 +566,7 @@ function buildErxSummaryReportLayout(servlet, target) {
 }
 
 
-// note if this updated with column addition/removal please also update columns in resetSummaryReportTotalsGrid function, otherwise the display will be out of sync.
-function buildSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
-	
-	// clear parent div, defect fix.
-	dojo.byId(parentContainer).innerHTML = "";
-	
-	//sum up the data summaryReportGrid
-	var gridId = dijit.byId('summaryReportGrid');
-	var totals = {};	
-	var sumTable =  "";
-	
 
-	totals ["newRxCnt"] = 0;
-	totals ["newRxPharmDisabledAtHub"] = 0;
-	totals ["newRxRejectedAtHub"] = 0;
-	totals ["newRxPassAutoChk"] = 0;
-	totals ["newRxFailAutoChk"] = 0;
-	totals ["newRxRejectedByPharmacist"] = 0;
-	totals ["newRxFilled"] = 0;
-	totals ["newRxInProcess"] = 0;
-	
-	totals.newRxCnt  = 0;
-	totals.newRxPharmDisabledAtHub  = 0;
-	totals.newRxRejectedAtHub  = 0;
-	totals.newRxPassAutoChk  = 0;
-	totals.newRxFailAutoChk  = 0;
-	totals.newRxRejectedByPharmacist  = 0;
-	totals.newRxFilled  = 0;
-	totals.newRxInProcess  = 0;
-	
-	
-	var storeArray = gridData._arrayOfAllItems; 		
-			
-	for(var arrayElement in storeArray)
-	{			
-			
-		var arrayItem  = storeArray[arrayElement];
-					
-		for (var s in arrayItem)
-		{
-			for (var k in totals) 
-			{       
-				 				  
-			  if(k == s) 
-			  {						   
-			    totals[k] += parseInt(arrayItem[s]);  
-			  }	
-			}  
-
-			  
-		}	
-	 }	
-	
-	//leverage layout of summaryReport
-	var layout = buildSummaryReportLayout(null, null);
-		
-	sumTable = 
-
-		"<table style='width:1123px;'>" +
-		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px;  text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:11px; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:10px; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:8px;  text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:4px;  text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:0px;  text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" + "</tr>"
-	"</table>";
-	
-	dojo.byId(parentContainer).innerHTML = sumTable;
-	
-	    // now update the record totals.
-	
-	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
-		
-		var summaryReportRecNumber = dojo.byId("reportRecNumber");
-		
-		
-		if(summaryReportRecNumberTitle!=null){				 
-			 
-			  summaryReportRecNumberTitle.style.display="block";				
-         }
-		
-		 if(summaryReportRecNumber!=null){				 
-		 	 
-		    	summaryReportRecNumber.style.display="block";
-				
-			    summaryReportRecNumber.innerHTML= recordsTotal;
-           }
-	
-   
-
-
-}
 
 function summaryReportDataGridInit(responseData, parentContainer) {
 	try {
@@ -703,9 +604,7 @@ function summaryReportDataGridInit(responseData, parentContainer) {
 		
 	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer);			
-			
-			buildSummaryReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length); 
+			generateDivTable(gridLayout,gridData,parentContainer, "summaryReport");		
 			
 			// remove the grid widget
 			 dojo.destroy(grid);
@@ -718,121 +617,6 @@ function summaryReportDataGridInit(responseData, parentContainer) {
 }
 
 
-
-//note if this updated with column addition/removal please also update columns in resetAutoCheckReportTotalsGrid function, otherwise the display will be out of sync.
-function buildAutoCheckReportTotalsGrid(parentContainer, gridData, recordsTotal) {
-	
-	// clear parent div, defect fix.
-	dojo.byId(parentContainer).innerHTML = "";
-	
-	//sum up the data summaryReportGrid
-	var gridId = dijit.byId('summaryReportGrid2');
-	var totals = {};	
-	var sumTable =  "";
-	
-
-	totals ["newRxCnt"] = 0;
-	totals ["newRxPassAutoChk"] = 0;
-	totals ["newRxFailAutoChk"] = 0;
-	totals ["newRxMviPatFound"] = 0;
-	totals ["newRxMviPatNotFound"] = 0;
-	totals ["newRxEneElgbEnrl"] = 0;
-	totals ["newRxEneNotElgbEnrl"] = 0;
-	totals ["newRxPatNotEnrlSite"] = 0;
-	totals ["newRxDrgMtchFnd"] = 0;
-	totals ["newRxDrgMtchNotFnd"] = 0;
-	totals ["newRxPvdMtchFnd"] = 0;
-	totals ["newRxPvdMtchNotFnd"] = 0;
-
-		
-	totals.newRxCnt  = 0;
-	totals.newRxPassAutoChk  = 0;
-	totals.newRxFailAutoChk  = 0;
-	totals.newRxMviPatFound  = 0;
-	totals.newRxMviPatNotFound  = 0;
-	totals.newRxEneElgbEnrl  = 0;
-	totals.newRxEneNotElgbEnrl  = 0;
-	totals.newRxPatNotEnrlSite  = 0;
-	totals.newRxDrgMtchFnd  = 0;
-	totals.newRxDrgMtchNotFnd  = 0;
-	totals.newRxPvdMtchFnd  = 0;
-	totals.newRxPvdMtchNotFnd  = 0;	
-
-	var storeArray = gridData._arrayOfAllItems; 		
-	
-	for(var arrayElement in storeArray)
-	{			
-			
-		var arrayItem  = storeArray[arrayElement];
-					
-		for (var s in arrayItem)
-		{
-			for (var k in totals) 
-			{       
-				 				  
-			  if(k == s) 
-			  {						   
-			    totals[k] += parseInt(arrayItem[s]);  
-			  }	
-			}  
-
-			  
-		}
-		
-	}
-		
-	//leverage layout
-	var layout = buildAutoCheckReportLayout(null, null);
-		
-
-	sumTable = 
-		"<table style='width:1123px;'>" +
-		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMviPatFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMviPatNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxEneElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxEneNotElgbEnrl) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPatNotEnrlSite) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDrgMtchFnd) + "</td>"  +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDrgMtchNotFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPvdMtchFnd) + "</td>"  +
- 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPvdMtchNotFnd) + "</td>" + "</tr>" +
-	"</table>";
-	
-	dojo.byId(parentContainer).innerHTML = sumTable;
-	
-	    // now update the record totals.
-	
-	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
-		
-		var summaryReportRecNumber = dojo.byId("reportRecNumber");
-		
-		
-		if(summaryReportRecNumberTitle!=null){				 
-			 
-			  summaryReportRecNumberTitle.style.display="block";				
-         }
-		
-		 if(summaryReportRecNumber!=null){				 
-		 	 
-		    	summaryReportRecNumber.style.display="block";
-				
-			    summaryReportRecNumber.innerHTML= recordsTotal;
-           }
-	
-		
-  
-
-
-}
 
 function autoCheckReportDataGridInit(responseData, parentContainer) {
 	try {
@@ -854,7 +638,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			}
 			grid.setStore(gridData);
 				
-	} else {
+		} else {
 			// DataGrid does not exist.			
 			// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
@@ -867,9 +651,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer);
-			
-			buildAutoCheckReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);		
+			generateDivTable(gridLayout,gridData,parentContainer, "autoCheckReport");				
 			
 			// remove the grid widget
 			dojo.destroy(grid);
@@ -885,130 +667,7 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 
 
 
-//RejectReasonsReport
-//note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildRejectReasonsReportTotalsGrid(parentContainer, gridData, recordsTotal) {
-	
-	// clear parent div, defect fix.
-	dojo.byId(parentContainer).innerHTML = "";
-	
-	//sum up the data summaryReportGrid
-	var gridId = dijit.byId('summaryReportGrid3');
-	var totals = {};	
-	var sumTable =  "";
-	
-	totals ["newRx"] = 0;
-	totals ["newRxInProcess"] = 0;
-	totals ["newRxRejectedByPharmacist"] = 0;
-	totals ["newRxPatientNotElig"] = 0;
-	totals ["newRxPatientNotFound"] = 0;
-	totals ["newRxProviderNotElig"] = 0;
-	totals ["newRxProviderNotFound"] = 0;
-	totals ["newRxNotEligRefills"] = 0;
-	totals ["newRxNonFormulary"] = 0;
-	totals ["newRxDuplicate"] = 0;
-	totals ["newRxInvalidQty"] = 0;
-	totals ["newRxDupTheraClass"] = 0;
-	totals ["newRxCsNotAllowed"] = 0;
-	totals ["newRxMultiErrCallPharm"] = 0;
-	totals ["newRxIncorrectPharm"] = 0;
-	totals ["newRxErrCallPharm"] = 0;
-		
-	totals.newRx  = 0;
-	totals.newRxInProcess  = 0;
-	totals.newRxRejectedByPharmacist  = 0;
-	totals.newRxPatientNotElig  = 0;
-	totals.newRxPatientNotFound  = 0;
-	totals.newRxProviderNotElig  = 0;
-	totals.newRxProviderNotFound  = 0;
-	totals.newRxNotEligRefills = 0;
-	totals.newRxNonFormulary  = 0;
-	totals.newRxDuplicate  = 0;
-	totals.newRxInvalidQty  = 0;
-	totals.newRxDupTheraClass  = 0;
-	totals.newRxCsNotAllowed  = 0;
-	totals.newRxMultiErrCallPharm  = 0;
-	totals.newRxIncorrectPharm  = 0;
-	totals.newRxErrCallPharm  = 0;
-	
-	
-	var storeArray = gridData._arrayOfAllItems; 		
-	
-	for(var arrayElement in storeArray)
-	{			
-			
-		var arrayItem  = storeArray[arrayElement];
-					
-		for (var s in arrayItem)
-		{
-			for (var k in totals) 
-			{       
-				 				  
-			  if(k == s) 
-			  {						   
-			    totals[k] += parseInt(arrayItem[s]);  
-			  }	
-			}  
 
-			  
-		}
-		
-	}
-	
-	//leverage layout
-	var layout = buildRejectReasonsReportLayout(null, null);
-	
-	
-	sumTable = 
-
-		"<table  style='width:1123px;'>" +
-		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:100px; text-align: right;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRx) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>"+ numberFormat(totals.newRxPatientNotElig) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxPatientNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxProviderNotElig) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxProviderNotFound) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxNotEligRefills) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxNonFormulary) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDuplicate) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxInvalidQty) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxDupTheraClass) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCsNotAllowed) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxMultiErrCallPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxIncorrectPharm) + "</td>" +
- 		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxErrCallPharm) + "</td>" + "</tr>" +
-	"</table>";
-	
-	dojo.byId(parentContainer).innerHTML = sumTable;
-	
-	    // now update the record totals.
-	 
-	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
-		
-		var summaryReportRecNumber = dojo.byId("reportRecNumber");
-		
-		
-		if(summaryReportRecNumberTitle!=null){				 
-			 
-			  summaryReportRecNumberTitle.style.display="block";				
-         }
-		
-		 if(summaryReportRecNumber!=null){				 
-		 	 
-		    	summaryReportRecNumber.style.display="block";
-				
-			    summaryReportRecNumber.innerHTML= recordsTotal;
-           }
-
-	
-}
 
 function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 	try {
@@ -1030,7 +689,7 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 			}
 			grid.setStore(gridData);
 				
-	} else {
+		} else {
 			// DataGrid does not exist.
 			
 			// create dummy grid so that item file store works.
@@ -1044,9 +703,7 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer);
-			
-			buildRejectReasonsReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);
+			generateDivTable(gridLayout,gridData,parentContainer, "rejectReasonsReport");			
 			
 			// remove the grid widget
 			dojo.destroy(grid);
@@ -1059,106 +716,7 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 
 };
 
-//eRxSummaryReport
-//note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildErxSummaryReportTotalsGrid(parentContainer, gridData, recordsTotal) {
-	
-	// clear parent div, defect fix.
-	dojo.byId(parentContainer).innerHTML = "";
-	
-	//sum up the data summaryReportGrid
-	var gridId = dijit.byId('summaryReportGrid4');
-	var totals = {};	
-	var sumTable =  "";
-	
 
-	totals ["newRxCnt"] = 0;
-	totals ["refillRequest"] = 0;
-	totals ["refillResponse"] = 0;
-	totals ["rxChangeRequest"] = 0;
-	totals ["rxChangeResponse"] = 0;
-	totals ["cancelRx"] = 0;
-	totals ["cancelRxResponse"] = 0;
-	totals ["rxFill"] = 0;
-		
-	totals.newRxCnt  = 0;
-	totals.refillRequest  = 0;
-	totals.refillResponse  = 0;
-	totals.rxChangeRequest  = 0;
-	totals.rxChangeResponse  = 0;
-	totals.cancelRx  = 0;
-	totals.cancelRxResponse  = 0;
-	totals.rxFill = 0;
-	
-	var storeArray = gridData._arrayOfAllItems; 		
-	
-	for(var arrayElement in storeArray)
-	{			
-			
-		var arrayItem  = storeArray[arrayElement];
-					
-		for (var s in arrayItem)
-		{
-			for (var k in totals) 
-			{       
-				 				  
-			  if(k == s) 
-			  {						   
-			    totals[k] += parseInt(arrayItem[s]);  
-			  }	
-			}  
-
-			  
-		}
-		
-	}	
-	
-	//leverage layout of eRxSummaryReport
-	var layout = buildErxSummaryReportLayout(null, null);
-	
-	
-	sumTable = 
-
-		"<table  style='width:1123px;'>" +
-		"<tr>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:13px; text-align: left;'>&nbsp;</td>" +
-		"<td class='summaryReportTotalsTd' style='width:73px; text-align: right;'>Totals >>></td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.refillRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>"+ numberFormat(totals.refillResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.cancelRx) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width:6px; text-align: left;'>" + numberFormat(totals.rxFill) + "</td>" +
-	"</table>";
-	
-	dojo.byId(parentContainer).innerHTML = sumTable;
-	
-	    // now update the record totals.
-	
-	    var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
-		
-		var summaryReportRecNumber = dojo.byId("reportRecNumber");
-		
-		
-		if(summaryReportRecNumberTitle!=null){				 
-			 
-			  summaryReportRecNumberTitle.style.display="block";				
-       }
-		
-		 if(summaryReportRecNumber!=null){				 
-		 	 
-		    	summaryReportRecNumber.style.display="block";
-				
-			    summaryReportRecNumber.innerHTML= recordsTotal;
-         }
-
-	
-}
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
 	try {
@@ -1180,7 +738,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			}
 			grid.setStore(gridData);
 				
-	} else {
+		} else {
 			// DataGrid does not exist.
 			
 			// create dummy grid so that item file store works.
@@ -1194,10 +752,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer);
-			
-			buildErxSummaryReportTotalsGrid("summaryReportTotals", gridData, responseData.items.length);
-			
+			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport");			
 			// remove the grid widget
 			dojo.destroy(grid);
 			 
@@ -1215,8 +770,7 @@ function resetReportTotalsGrid(parentContainer) {
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
 	
-	//sum up the data summaryReportGrid
-	var gridId = dijit.byId('summaryReportGrid3');
+	//sum up the data summaryReportGrid	
 	var totals = {};	
 	var sumTable =  "";
 	
@@ -1266,17 +820,141 @@ var comparer = function(idx, asc) {
 
 
 // div table generation.
-function generateDivTable(layout, gridData, dataGridDivId) {
+function generateDivTable(layout, gridData, dataGridDivId,reportType) {
 
 	    // clear the parent div first.
         dojo.byId(dataGridDivId).innerHTML ="";
+        
+        var totals = {};
+        
+        
+        if(reportType === "summaryReport")
+        {
+
+            totals ["newRxCnt"] = 0;
+        	totals ["newRxPharmDisabledAtHub"] = 0;
+        	totals ["newRxRejectedAtHub"] = 0;
+        	totals ["newRxPassAutoChk"] = 0;
+        	totals ["newRxFailAutoChk"] = 0;
+        	totals ["newRxRejectedByPharmacist"] = 0;
+        	totals ["newRxFilled"] = 0;
+        	totals ["newRxInProcess"] = 0;
+        	
+        	totals.newRxCnt  = 0;
+        	totals.newRxPharmDisabledAtHub  = 0;
+        	totals.newRxRejectedAtHub  = 0;
+        	totals.newRxPassAutoChk  = 0;
+        	totals.newRxFailAutoChk  = 0;
+        	totals.newRxRejectedByPharmacist  = 0;
+        	totals.newRxFilled  = 0;
+        	totals.newRxInProcess  = 0;
+            
+        }
+        else if(reportType === "autoCheckReport")
+        {
+
+            totals ["newRxCnt"] = 0;
+        	totals ["newRxPassAutoChk"] = 0;
+        	totals ["newRxFailAutoChk"] = 0;
+        	totals ["newRxMviPatFound"] = 0;
+        	totals ["newRxMviPatNotFound"] = 0;
+        	totals ["newRxEneElgbEnrl"] = 0;
+        	totals ["newRxEneNotElgbEnrl"] = 0;
+        	totals ["newRxPatNotEnrlSite"] = 0;
+        	totals ["newRxDrgMtchFnd"] = 0;
+        	totals ["newRxDrgMtchNotFnd"] = 0;
+        	totals ["newRxPvdMtchFnd"] = 0;
+        	totals ["newRxPvdMtchNotFnd"] = 0;
+
+        		
+        	totals.newRxCnt  = 0;
+        	totals.newRxPassAutoChk  = 0;
+        	totals.newRxFailAutoChk  = 0;
+        	totals.newRxMviPatFound  = 0;
+        	totals.newRxMviPatNotFound  = 0;
+        	totals.newRxEneElgbEnrl  = 0;
+        	totals.newRxEneNotElgbEnrl  = 0;
+        	totals.newRxPatNotEnrlSite  = 0;
+        	totals.newRxDrgMtchFnd  = 0;
+        	totals.newRxDrgMtchNotFnd  = 0;
+        	totals.newRxPvdMtchFnd  = 0;
+        	totals.newRxPvdMtchNotFnd  = 0;	
+        }
+        else if(reportType === "rejectReasonsReport")
+        {
+            totals ["newRx"] = 0;
+        	totals ["newRxInProcess"] = 0;
+        	totals ["newRxRejectedByPharmacist"] = 0;
+        	totals ["newRxPatientNotElig"] = 0;
+        	totals ["newRxPatientNotFound"] = 0;
+        	totals ["newRxProviderNotElig"] = 0;
+        	totals ["newRxProviderNotFound"] = 0;
+        	totals ["newRxNotEligRefills"] = 0;
+        	totals ["newRxNonFormulary"] = 0;
+        	totals ["newRxDuplicate"] = 0;
+        	totals ["newRxInvalidQty"] = 0;
+        	totals ["newRxDupTheraClass"] = 0;
+        	totals ["newRxCsNotAllowed"] = 0;
+        	totals ["newRxMultiErrCallPharm"] = 0;
+        	totals ["newRxIncorrectPharm"] = 0;
+        	totals ["newRxErrCallPharm"] = 0;
+        		
+        	totals.newRx  = 0;
+        	totals.newRxInProcess  = 0;
+        	totals.newRxRejectedByPharmacist  = 0;
+        	totals.newRxPatientNotElig  = 0;
+        	totals.newRxPatientNotFound  = 0;
+        	totals.newRxProviderNotElig  = 0;
+        	totals.newRxProviderNotFound  = 0;
+        	totals.newRxNotEligRefills = 0;
+        	totals.newRxNonFormulary  = 0;
+        	totals.newRxDuplicate  = 0;
+        	totals.newRxInvalidQty  = 0;
+        	totals.newRxDupTheraClass  = 0;
+        	totals.newRxCsNotAllowed  = 0;
+        	totals.newRxMultiErrCallPharm  = 0;
+        	totals.newRxIncorrectPharm  = 0;
+        	totals.newRxErrCallPharm  = 0;
+        	
+             
+        }
+        else if(reportType === "erxSummaryReport")
+        {
+
+            
+        	totals ["newRxCnt"] = 0;
+        	totals ["refillRequest"] = 0;
+        	totals ["refillResponse"] = 0;
+        	totals ["rxChangeRequest"] = 0;
+        	totals ["rxChangeResponse"] = 0;
+        	totals ["cancelRx"] = 0;
+        	totals ["cancelRxResponse"] = 0;
+        	totals ["rxFill"] = 0;
+        		
+        	totals.newRxCnt  = 0;
+        	totals.refillRequest  = 0;
+        	totals.refillResponse  = 0;
+        	totals.rxChangeRequest  = 0;
+        	totals.rxChangeResponse  = 0;
+        	totals.cancelRx  = 0;
+        	totals.cancelRxResponse  = 0;
+        	totals.rxFill = 0;
+             
+
+        }
+
+
+
 
 		var rowCounter = 1; 
+		
 		var recordCounter = 0;
 		
 		var elementWidthArray = [];
 		
 		var elementFormatterArray = [];
+		
+		var rowColumnCounter = 1;
 		
 		//variable for aria label
 		var divTableStart = "<div class=\"generatedReportsDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Reports\ Table\" aria-describedby=\"divTableInfo\">";
@@ -1367,7 +1045,11 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 		var rowCellFormatterElement ="";
 		
 		var rowCellValue;
-		var tempHyperlink="";
+		var tempHyperlink="";	
+	
+		var totalsRowString ="";	
+		var addTotalsRow = false;
+		var totalsDone = false;
 			
 		for(var arrayElement in storeArray){			
 			
@@ -1376,18 +1058,34 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 			
 			for (var k in arrayItem)
 			{
+				
+				 // do the totals row calculation first 
+				 for (var totalsCounter in totals) 
+    			 {       
+					
+    				 				  
+	     			  if(totalsCounter == k) 
+	     			  {						   
+												 
+	     			    totals[totalsCounter] += parseInt(arrayItem[k]);  
+	     			  }	
+    			  }  
+				
 				if((arrayItem[k]!='') && (k=='stringArray'))
 				{
 			 	
 				 
-				 tempStringArray = arrayItem[k];
+				 tempStringArray = arrayItem[k];				
 				 
 				 rowCounterString = divTableResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
 				 
 				 divTable = divTable.concat(rowCounterString);
+				 
+					 
 				
                  for (var s in tempStringArray)
 			     {
+                	 
 					
 					 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
 					 
@@ -1416,12 +1114,70 @@ function generateDivTable(layout, gridData, dataGridDivId) {
 					 
 								
 					 divTable = divTable.concat(divTableRowCellEnd);
+					 
+					
+					
 				 }
 				
+              
+                 // if this last row add totals row.
+            	 if(rowCounter == storeArray.length ){
+            		 
+            		 //console.log("last row");
+            		 
+            		 var totalsRow = rowCounter +1;
+            		 
+            		 addTotalsRow = true;
+            		 
+            		 totalsRowString += divTableResultRowStart + "aria-describedby=\"Row" +" " + totalsRow+"\">";
+    				 
+    				            		 
+    				 
+    				 for (var s in tempStringArray)
+    			     {
+                  					
+    					    					 
+    					if(rowColumnCounter <5){
+    					
+    						totalsRowString += divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
+    						totalsRowString +=  "&nbsp;";
+    						totalsRowString += divTableRowCellEnd;
+    					}
+    					else if(rowColumnCounter == 5){
+    						totalsRowString += divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";font-weight:bold; text-align:right;\">";
+    						totalsRowString +=  "Totals >>>";
+    						totalsRowString += divTableRowCellEnd;
+    					}
+    					else if(rowColumnCounter > 5 && totalsDone == false){
+    						
+    						for (var totalValues in totals){
+    							
+    							totalsRowString += divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";font-weight:bold\">";
+        						totalsRowString += numberFormat(totals[totalValues]) ;
+        						totalsRowString += divTableRowCellEnd;
+    							
+    						}
+    						
+    						totalsDone = true;
+    						
+    					}	
+    					 
+    					 rowColumnCounter++;
+    				 }
+            	 }
+            
+            	 
 				 rowCounter++;
 				 recordCounter++;
 								
 			 	 divTable = divTable.concat(divTableResultRowEnd);
+			 	 
+			 	 if(addTotalsRow == true)
+			 	 {
+			 		 divTable = divTable.concat(totalsRowString);
+			 		 
+			 		 divTable = divTable.concat(divTableResultRowEnd);
+			 	 }	 
 				 
 				 
 				}		

@@ -8,18 +8,6 @@ dojo.require("dojo.parser");
 var reportsLoadingDialog;
 
 
-function scrollFunction() {
-	topGrid = null;
-	bottomGrid = document.getElementById("summaryReportTotals");
-    scrollGrid = document.getElementsByClassName("generatedDivTableParent");	
-    
-    topGrid  = scrollGrid[0];
-    if (topGrid != null){
-    	topGrid.scrollLeft = bottomGrid.scrollLeft;
-       }
-  
-}
-
 dojo.addOnLoad(function() {
 	dojo.style(dojo.byId('summaryReport'), "display", "none");
     dojo.style(dojo.byId('summaryReportFilter'), "display", "none");
@@ -52,18 +40,19 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();						
 				
 			}
 			
 		}
 		else if (selected == "AUTOCHECKRPT") {
 
-			var valid = getAutoCheckReport();
+			var valid = getAutoCheckReport();	
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();				
+				
 			}
 
 			
@@ -74,7 +63,8 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();			
+				
 			}
 
 		}
@@ -84,13 +74,15 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();
+				
+				
 			}
 
 			
 		}
 		else{
-			toggleDivs(selected);
+			toggleDivs();
 		}
 		
 	});
@@ -160,9 +152,9 @@ function getSummaryReport() {
 			
 			dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 			
-			hideModalWin();
+			hideModalWin();			
 			
-			
+			toggleDivs();	
 			
 			
 		}
@@ -170,15 +162,19 @@ function getSummaryReport() {
 			var valid = getAutoCheckReport();
 			
 			if(valid == true){
-				toggleDivs(selected);
+				toggleDivs();			
+				
 			}
 	
 		}
 		if (selected == "REJECTRESNRPT") {
+			
 			var valid = getRejectReasonsReport();
 			
 			if(valid == true){
-				toggleDivs(selected);	
+				toggleDivs();	
+				
+				
 			}
 			
 		}
@@ -186,7 +182,9 @@ function getSummaryReport() {
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){			
-				toggleDivs(selected);
+				toggleDivs();
+				
+				
 			}
 			
 		}
@@ -220,105 +218,13 @@ function getVisnSelect() {
 
 	 
 
-function toggleDivs(selected){
+function toggleDivs(){
 
     
-  if( selected == "SUMMRPT"){
-	  dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block"); 
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");      
-
-      if (dojo.byId('summaryReportGrid2') != null){
-      dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-      }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-  } else if ( selected == "AUTOCHECKRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid2') != null){
-    	
-    	  dojo.style(dojo.byId('summaryReportGrid2'), "display", "block");
-      }
-      
-      
-  } else if ( selected == "REJECTRESNRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid2') != null){
-          dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid3') != null){
-      	
-    	  dojo.style(dojo.byId('summaryReportGrid3'), "display", "block");
-      }
-      
+	 dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
+     dojo.style(dojo.byId('summaryReport'), "display", "block"); 
+     dojo.style(dojo.byId('summaryReportTotals'), "display", "block");  
      
-  } else if ( selected == "ERXSUMMRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid2') != null){
-          dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid4') != null){
-        	
-    	  dojo.style(dojo.byId('summaryReportGrid4'), "display", "block");
-      }
-      
-     
-  } else {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "none");
-      dojo.style(dojo.byId('summaryReport'), "display", "none");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "none");
-  }
-  
-  scrollGrid = document.getElementsByClassName("generatedDivTableParent");	
-	
- // topGrid = scrollGrid[0];
-  /*
-  if (topGrid != null){
-	  topGrid.style.padding = '0 0 1.4em 0';
-  } //overlap and hide topGrid horizontal scrollbar
-  */
-  
- bottomGrid = document.getElementById("summaryReportTotals");
- 
- 
- 
-  if (bottomGrid != null){
-  	bottomGrid.addEventListener("scroll", scrollFunction);}
-  
 }
 
 
@@ -719,42 +625,3 @@ function hideCSVModalWin() {
 
 
 
-function adjustWidths() {
-	
-	 console.log("inside function");
-
-	var colWidth = new Array();
-	
-	var divTableHeaderElements = document.getElementsByClassName("generatedDivTableHeaderCell");
-	
-	var tableHeaderElements = document.getElementById("summaryReportTable").getElementsByTagName('td');
-	
-	console.log("tableHeaderElements:"+tableHeaderElements.length);
-	
-	for(var i=0; i<divTableHeaderElements.length;i++)
-	{
-		var item = divTableHeaderElements[i];
-		var itemWidth= item.offsetWidth;
-	    console.log("length:"+item.offsetWidth);
-	    colWidth.push(item.offsetWidth);
-	}
-	
-	
-	
-	for (var j=0; j<tableHeaderElements.length;j++){
-		
-		var tableElement = tableHeaderElements[j];
-		
-		console.log("tableHeaderElements:"+tableHeaderElements[j]);
-		
-		for(var s in colWidth){
-		
-			console.log("s:"+s);
-			
-			tableElement.style.width=colWidth[s] +"px";
-			continue;
-		}
-		
-	}
-}
-	

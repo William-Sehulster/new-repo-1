@@ -1185,6 +1185,7 @@ label:focus {
 
 .generatedReportsDivTable {
 	display: table;	
+	width:100%;	
 	position: relative;	
 	overflow: auto;
 	float: left;
