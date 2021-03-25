@@ -606,6 +606,26 @@ function summaryReportDataGridInit(responseData, parentContainer) {
 			// generate the table.
 			generateDivTable(gridLayout,gridData,parentContainer, "summaryReport");		
 			
+		   	var recordsTotal = responseData.items.length;
+		   	
+		   	var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
+			
+			var summaryReportRecNumber = dojo.byId("reportRecNumber");
+			
+			if(summaryReportRecNumberTitle!=null){				 
+				 
+				  summaryReportRecNumberTitle.style.display="block";				
+	         }
+			
+			 if(summaryReportRecNumber!=null){				 
+			 	 
+			    	summaryReportRecNumber.style.display="block";
+					
+				    summaryReportRecNumber.innerHTML= recordsTotal;
+	           }
+			
+		   	
+			
 			// remove the grid widget
 			 dojo.destroy(grid);
 	} catch (err) {
@@ -651,7 +671,26 @@ function autoCheckReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer, "autoCheckReport");				
+			generateDivTable(gridLayout,gridData,parentContainer, "autoCheckReport");	
+			
+			var recordsTotal = responseData.items.length;	
+			
+			var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
+			
+			var summaryReportRecNumber = dojo.byId("reportRecNumber");
+			
+			
+			if(summaryReportRecNumberTitle!=null){				 
+				 
+				  summaryReportRecNumberTitle.style.display="block";				
+	         }
+			
+			 if(summaryReportRecNumber!=null){				 
+			 	 
+			    	summaryReportRecNumber.style.display="block";
+					
+				    summaryReportRecNumber.innerHTML= recordsTotal;
+	           }
 			
 			// remove the grid widget
 			dojo.destroy(grid);
@@ -703,7 +742,26 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer, "rejectReasonsReport");			
+			generateDivTable(gridLayout,gridData,parentContainer, "rejectReasonsReport");
+			
+			var recordsTotal = responseData.items.length;	
+			
+			var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
+			
+			var summaryReportRecNumber = dojo.byId("reportRecNumber");
+			
+			
+			if(summaryReportRecNumberTitle!=null){				 
+				 
+				  summaryReportRecNumberTitle.style.display="block";				
+	         }
+			
+			 if(summaryReportRecNumber!=null){				 
+			 	 
+			    	summaryReportRecNumber.style.display="block";
+					
+				    summaryReportRecNumber.innerHTML= recordsTotal;
+	           }
 			
 			// remove the grid widget
 			dojo.destroy(grid);
@@ -752,7 +810,27 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport");			
+			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport");	
+			
+			var recordsTotal = responseData.items.length;	
+			
+			var summaryReportRecNumberTitle = dojo.byId("reportRecNumberTitle");
+			
+			var summaryReportRecNumber = dojo.byId("reportRecNumber");
+			
+			
+			if(summaryReportRecNumberTitle!=null){				 
+				 
+				  summaryReportRecNumberTitle.style.display="block";				
+	         }
+			
+			 if(summaryReportRecNumber!=null){				 
+			 	 
+			    	summaryReportRecNumber.style.display="block";
+					
+				    summaryReportRecNumber.innerHTML= recordsTotal;
+	           }
+			 
 			// remove the grid widget
 			dojo.destroy(grid);
 			 

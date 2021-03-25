@@ -154,7 +154,7 @@ function buildTrackGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'messageType';
 	obj["name"] = 'Message Type';
-	obj["width"] = '100px';
+	obj["width"] = '115px';
 //	obj["noresize"] = 'true';
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
