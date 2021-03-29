@@ -1,0 +1,1 @@
+This version (4.0.6.011) includes minor cosmetic fixes to the UI (CSS and JS) since the last scanned and submitted version (4.0.6.009).  
