@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.json.JsonObject;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
@@ -79,7 +82,7 @@ public class PharmacyManagementController {
 	private UserService userService;
 
 	
-	final private String[] DISALLOWED_FIELDS = new String[]{"updatedDate", "createdDate"};
+	final private String[] DISALLOWED_FIELDS = new String[]{"updatedDate", "createdDate, _csrf"};
 	
 	//TO-DO update with fields not to bind from form.
 	@InitBinder
@@ -101,7 +104,7 @@ public class PharmacyManagementController {
 		 
 		session.setAttribute("USER_STATIONS_IDS", currentUser.getVaStationIds());
 
-		ModelAndView view = new ModelAndView("managepharmacy.homepage");
+		ModelAndView view = new ModelAndView("managepharmacy");
 		
 		List<VisnSelectModel>  visnList = getVisnSelect(currentUser.getVaStationIds());
 		
@@ -131,7 +134,7 @@ public class PharmacyManagementController {
 		
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
 		
-		ObjectMapper jsonMapper = new ObjectMapper();
+		ObjectMapper jsonMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		ManagePharmacyFilter managePharmacyFilter = jsonMapper.readValue(jsonString, ManagePharmacyFilter.class);
 		
@@ -170,7 +173,7 @@ public class PharmacyManagementController {
 
 		//System.out.println("NCPDP Id is: "+NCPDPId);
 		
-		ModelAndView view = new ModelAndView("editpharmacy.homepage");
+		ModelAndView view = new ModelAndView("editpharmacy");
 		
 		PharmacyEntity pharmacyInfo = pharmacyService.findByNCPDPId(NCPDPId);
 				
@@ -192,6 +195,7 @@ public class PharmacyManagementController {
 		
 	}
 	
+	
 	@RequestMapping(value = "/updatePharmacy",  method = RequestMethod.POST)	
 	public ModelAndView updatePharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyEditForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
 
@@ -200,133 +204,169 @@ public class PharmacyManagementController {
 		ResponseMessage responseMessage = new ResponseMessage();
 		List<String> errorsList = new ArrayList<String>();
 		
-		// validation		
-		 if (bindingResult.hasErrors()) 
-		 {
+		// validation
+		
+		 if (bindingResult.hasErrors()) {
 			 List<ObjectError> errors = bindingResult.getAllErrors();
 			 
-			 for (ObjectError objectError : errors) 
-			 {
+			 for (ObjectError objectError : errors) {
 				 errorsList.add(objectError.getDefaultMessage());
-			 }
+		 }
+		
+       
         }
 				
-		ModelAndView view = new ModelAndView("editpharmacy.homepage");
+		ModelAndView view = new ModelAndView("editpharmacy");
 		
 		// we need to use find by id as NCPDP ID can change and findByNCPDPId wont work.
 		PharmacyEntity pharmacyInfo = null;
 		
-		if(pharmacyForm != null && pharmacyForm.getPharmacyId() != null)
-		{	
-			pharmacyInfo = getPharmacyEntity(request, pharmacyForm);//checking to make sure pharmacyId is a correct one
-			if(pharmacyInfo != null)
-			{
-				try 
-				{														
-					Date updatedDate = new Date();				
+			
+		try {
+			
+			
+			// Fortify fix.
+			String userStationIds = getUserStationIds(request);
+			
+			boolean  stationIdFound = false;
+			
+			if(!"All".equalsIgnoreCase(userStationIds)){
+				 
+				List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
+				
+				// search the station id.
+				
+				for (String str: stationIdsList) {
 					
-					pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
-					pharmacyInfo.setNcpdpId(HtmlUtils.htmlEscape(pharmacyForm.getNcpdpId()));
-						
-					pharmacyInfo.setStoreName(HtmlUtils.htmlEscape(pharmacyForm.getStoreName()));
-					pharmacyInfo.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistLastName()));
-					pharmacyInfo.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistFirstName()));
-					pharmacyInfo.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistMiddleName()));
-					pharmacyInfo.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistSuffix()));
-					pharmacyInfo.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistPrefix()));
-					pharmacyInfo.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine1()));
-					pharmacyInfo.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine2()));
-					pharmacyInfo.setPharmacyCity(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyCity()));
-					pharmacyInfo.setPharmacyState(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyState()));
-					pharmacyInfo.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyZipcode()));
-					pharmacyInfo.setCrossStreet(HtmlUtils.htmlEscape(pharmacyForm.getCrossStreet()));
-					pharmacyInfo.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyPhoneNumber()));
-					pharmacyInfo.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyFaxNumber()));
-					pharmacyInfo.setUpdatedDate(updatedDate);	
-					
-					pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
-					
-					if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
-					
-						pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
-					}				
-					pharmacyInfo.setDivisionName(HtmlUtils.htmlEscape(pharmacyForm.getDivisionName()));
-					
-					pharmacyInfo.setInboundErxEnabled(Long.valueOf(pharmacyForm.getPharmacyEnabledDisabled()));
-					
-					if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
-						
-						pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
-					}
-					
-					
-					if(!bindingResult.hasErrors() ) {
-					
-				    // get logged in user.
-					Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-					
-					if(authentication!=null){
-						
-						String userName = (String)authentication.getPrincipal();
-						pharmacyInfo.setUpdatedBy(userName);
-					}
-							
-				    pharmacyService.updatePharmacyInfo(pharmacyInfo);
-				    
-					}
-					
-				} catch (PersistenceException e) {
-					
-					e.printStackTrace();
-					
-					Throwable  cause = e.getCause();
-					
-					if(cause instanceof ConstraintViolationException){
-						
-						
-						String constraintName = ((ConstraintViolationException) cause).getConstraintName();
-						
-						if(constraintName.contains("NCPDP_ID")){
-						
-							errorsList.add("Please use unique value for NCPDP ID.");
-						}
-						
-						if(constraintName.contains("DIVISION_NAME")){
-							
-							errorsList.add("Please use unique value for Division Name.");
-						}
-						
-						if(constraintName.contains("NPI")){
-							
-							errorsList.add("Please use unique value for NPI.");
-						}
-						
-						if(constraintName.contains("VA_STATION_ID")){
-							
-							errorsList.add("Please use unique value for VA Station ID.");
-						}
-					}
-					else{
-						
-						errorsList.add("Update Failed. Unable to save record. Please contact production support.");
+					if(str.contains(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()))) {						
+						// allow update.
+						stationIdFound = true;
+						break;
 					}
 				}
-				catch (Exception e) {
-					
-					e.printStackTrace();			
-					
-					errorsList.add("Update Failed. Unable to save record. Please contact production support.");
-				  }
-			}//end of if statement if pharmacyId is matching
-			else
-			{
-				errorsList.add("Updated Failed. Unable to save record user is not authorized to edit this particular pharmacy");
+				 
+				 
 			}
-		}//end of the if statement of pharmacyId and visn
-		else
-		{
-			errorsList.add("Update Failed. Unable to save record due to pharmacyId OR visn is empty. Please contact production support.");
+			
+			if(("All".equalsIgnoreCase(userStationIds)) || (stationIdFound == true)) {
+				
+				
+				// needed for fortify scan issue for access db violation.
+				String pharmacyId = ESAPIValidator.validateStringInput(pharmacyForm.getPharmacyId(), ESAPIValidationType.ACCESS_CONTROL_DB);
+				
+				pharmacyInfo = pharmacyService.findById(Long.valueOf(pharmacyId));	
+					
+					
+				Date updatedDate = new Date();
+				
+							
+				
+				pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
+				pharmacyInfo.setNcpdpId(HtmlUtils.htmlEscape(pharmacyForm.getNcpdpId()));
+					
+				pharmacyInfo.setStoreName(HtmlUtils.htmlEscape(pharmacyForm.getStoreName()));
+				pharmacyInfo.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistLastName()));
+				pharmacyInfo.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistFirstName()));
+				pharmacyInfo.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistMiddleName()));
+				pharmacyInfo.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistSuffix()));
+				pharmacyInfo.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacyForm.getPharmacistPrefix()));
+				pharmacyInfo.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine1()));
+				pharmacyInfo.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyAddressLine2()));
+				pharmacyInfo.setPharmacyCity(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyCity()));
+				pharmacyInfo.setPharmacyState(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyState()));
+				pharmacyInfo.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyZipcode()));
+				pharmacyInfo.setCrossStreet(HtmlUtils.htmlEscape(pharmacyForm.getCrossStreet()));
+				pharmacyInfo.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyPhoneNumber()));
+				pharmacyInfo.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacyForm.getPharmacyFaxNumber()));
+				pharmacyInfo.setUpdatedDate(updatedDate);	
+				
+				pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
+				
+				if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
+				
+					pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
+				}
+				
+				pharmacyInfo.setDivisionName(HtmlUtils.htmlEscape(pharmacyForm.getDivisionName()));
+				
+				pharmacyInfo.setInboundErxEnabled(Long.valueOf(pharmacyForm.getPharmacyEnabledDisabled()));
+				
+				if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
+					
+					pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
+				}
+				
+				
+				if(!bindingResult.hasErrors() ) {
+				
+			    // get logged in user.
+				Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
+				
+				if(authentication!=null){
+					
+					String userName = (String)authentication.getPrincipal();
+					pharmacyInfo.setUpdatedBy(userName);
+				}
+						
+			    pharmacyService.updatePharmacyInfo(pharmacyInfo);
+			    
+				}
+			}
+			
+			else if(stationIdFound == false)
+			{
+				errorsList.add("You are not allowed to update this pharamcy.");
+			}
+			
+		
+			
+			
+		} catch (PersistenceException e) {
+			
+			e.printStackTrace();
+			
+			Throwable  cause = e.getCause();
+			
+			if(cause instanceof ConstraintViolationException){
+				
+				
+				String constraintName = ((ConstraintViolationException) cause).getConstraintName();
+				
+				if(constraintName.contains("NCPDP_ID")){
+				
+					errorsList.add("Please use unique value for NCPDP ID.");
+				}
+				
+				if(constraintName.contains("DIVISION_NAME")){
+					
+					errorsList.add("Please use unique value for Division Name.");
+				}
+				
+				if(constraintName.contains("NPI")){
+					
+					errorsList.add("Please use unique value for NPI.");
+				}
+				
+				if(constraintName.contains("VA_STATION_ID")){
+					
+					errorsList.add("Please use unique value for VA Station ID.");
+				}
+				
+				
+			}
+			else{
+				
+				errorsList.add("Update Failed. Unable to save record. Please contact production support.");
+			}
 		}
+		catch (Exception e) {
+			
+			e.printStackTrace();			
+			
+			errorsList.add("Update Failed. Unable to save record. Please contact production support.");
+			
+			
+		  }
 		
 		
 		responseMessage.setErrorMessage(errorsList);
@@ -454,7 +494,7 @@ public class PharmacyManagementController {
 	@RequestMapping(value = "/addPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView newPharmacy(HttpServletRequest request) throws IOException {
 
-		ModelAndView view = new ModelAndView("addpharmacy.homepage");
+		ModelAndView view = new ModelAndView("addpharmacy");
 		
 		Map<String, String> statesMap = getStatesHashMap();
 		
@@ -471,6 +511,7 @@ public class PharmacyManagementController {
 		return view;
 		
 	}
+	
 	
 	@RequestMapping(value = "/addNewPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView addNewPharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyAddForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
@@ -655,10 +696,10 @@ public class PharmacyManagementController {
 		finally{
 			
 			if(hasErrors== true){
-				view = new ModelAndView("addpharmacy.homepage");
+				view = new ModelAndView("addpharmacy");
 			}
 			else{
-				view = new ModelAndView("managepharmacy.homepage");
+				view = new ModelAndView("managepharmacy");
 				
 				String userStationIds = "";
 						
@@ -715,13 +756,43 @@ public class PharmacyManagementController {
 		try {
 			String jsonString = JsonSanitizer.sanitize(json);
 			
+			// remove _csrf			
+			String formValues[] = jsonString.split(",");
+			
+			StringBuffer tempBuffer = new StringBuffer();
+			
+			for(String formVal: formValues) {
+				
+				String pharmData[]= formVal.split(":");
+				
+				String key=pharmData[0].trim();
+				String val=pharmData[1].trim();
+				
+				if( !"\"_csrf\"".equals(key))	{
+					
+					
+					tempBuffer.append(key).append(":").append(val).append(",");
+				}				
+				
+			}			
+			
+			
+			jsonString = tempBuffer.toString();
+			
+			if(jsonString.endsWith(","))
+			{
+				jsonString = jsonString.substring(0, jsonString.length()-1);	
+			}
+			
+			jsonString+="}";
+			
 			String csvFileName = "PharmacyList.csv";
 			
 			String responseHeaderKey = "Content-Disposition";
 			
 			String responseHeaderValue = String.format("attachment; filename=\"%s\"",   csvFileName);
 			
-			ObjectMapper jsonMapper = new ObjectMapper();
+			ObjectMapper jsonMapper = new ObjectMapper();			
 			
 			ManagePharmacyFilter managePharmacyFilter = jsonMapper.readValue(jsonString, ManagePharmacyFilter.class);
 			
@@ -874,12 +945,12 @@ public class PharmacyManagementController {
 		}
 				
 		
-		for(PharmacyEntity pharm: pharmacyStationIdsList)
-		{
+		for(PharmacyEntity pharm: pharmacyStationIdsList){
+			
 			StationIdSelectModel stationIdModel = new StationIdSelectModel();
-			String pharmacyStationId = ESAPIValidator.validateStringInput((String) pharm.getVaStationId(), ESAPIValidationType.CROSS_SITE_SCRIPTING_REFLECTED);
-			stationIdModel.setId(pharmacyStationId);
-			stationIdModel.setLabel(pharmacyStationId);
+			
+			stationIdModel.setId(pharm.getVaStationId());
+			stationIdModel.setLabel(pharm.getVaStationId());
 			stationIdSelectModelList.add(stationIdModel);
 		}
 		
@@ -914,65 +985,5 @@ public class PharmacyManagementController {
 		return userStationIds;
 	}
 	
-	/**
-	 * getPharmacyEntity is returning PharmacyEntity, return null if the pharmacy id is a incorrect one
-	 * @param request
-	 * @param PharmacyForm
-	 * @return pharmacyEntity. if pharmacyEntity is not null than pharmacy Id is matching to the user
-	 */
-	private PharmacyEntity getPharmacyEntity(final HttpServletRequest request,
-											 final PharmacyForm pharmacyForm)
-	{
-		boolean isPharmacyId = false;
-		PharmacyEntity selectedPharmacyEntity = null;
-		List<PharmacyEntity> pharmacyList = new ArrayList<PharmacyEntity>();
 	
-		ManagePharmacyFilter managePharmacyFilter = new ManagePharmacyFilter();
-		managePharmacyFilter.setNcpdpId(pharmacyForm.getNcpdpId());
-		managePharmacyFilter.setPharmacyFilterFormStationIdSelect(pharmacyForm.getVaStationId());
-		managePharmacyFilter.setPharmacyFilterFormVisnSelect(pharmacyForm.getVisn());
-		managePharmacyFilter.setPharmacyId(pharmacyForm.getPharmacyId());
-		managePharmacyFilter.setPharmacyName(pharmacyForm.getStoreName());
-
-		String userStationIds = getUserStationIds(request);
-		List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-		try 
-		{					
-			if(ALL_VALUE.equalsIgnoreCase(userStationIds))
-			{
-				pharmacyList = pharmacyService.find(managePharmacyFilter);	
-			}
-			else
-			{				 
-				 pharmacyList =  pharmacyService.findSelectedPharmacies(managePharmacyFilter, stationIdsList);
-			}
-			for (PharmacyEntity pharmacyEntity : pharmacyList) 
-			{
-				// needed for fortify scan issue for access db violation.
-				String selectedPharmacyId = ESAPIValidator.validateStringInput(pharmacyForm.getPharmacyId(), ESAPIValidationType.ACCESS_CONTROL_DB);	
-				if(selectedPharmacyId != null && pharmacyEntity.getPharmacyId() != null)
-				{		
-					if(selectedPharmacyId.equalsIgnoreCase(String.valueOf(pharmacyEntity.getPharmacyId())))
-					{
-						isPharmacyId = true;
-						selectedPharmacyEntity = pharmacyEntity;
-						break;
-					}
-				}
-			}			
-		} 
-		catch (Exception e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(isPharmacyId)//pharmacyId is a correct one
-		{
-			return selectedPharmacyEntity;
-		}
-		else// pharmacy ID is a fake ID,  it no good return null
-		{
-			return null;
-		}
-	}
 }

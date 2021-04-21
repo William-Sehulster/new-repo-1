@@ -2,16 +2,17 @@ package gov.va.med.pharmacy.jaxrs.tovista.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
 import gov.va.med.pharmacy.jaxrs.tovista.dao.VistaInboundNcpdpMsgDao;
 import gov.va.med.pharmacy.jaxrs.tovista.model.VistaInboundNcpdpMsg;
-
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 public class VistaInboundNcpdpMsgDaoImpl implements VistaInboundNcpdpMsgDao {
+	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(VistaInboundNcpdpMsgDaoImpl.class);
+	
 	private DataSource dataSource;
 	
 	
@@ -50,7 +51,9 @@ public class VistaInboundNcpdpMsgDaoImpl implements VistaInboundNcpdpMsgDao {
 	@Override
 	public VistaInboundNcpdpMsg findById(long id) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
+		VistaInboundNcpdpMsg vistaInboundNcpdpMsg = new VistaInboundNcpdpMsg(); 
+		
+		try {
         String sql = "select a.message_id as message_id,\r\n" + 
         		"        		a.rel_to_message_id as rel_to_message_id,\r\n" + 
         		"        		a.message_from as message_from, \r\n" + 
@@ -88,12 +91,12 @@ public class VistaInboundNcpdpMsgDaoImpl implements VistaInboundNcpdpMsgDao {
         		"(select distinct ncit_pref_term from ncpdp_code where ncit_code = t.rx_Drug_Strength_Code) rx_Drug_Strength_Text,\r\n" + 
         		"        		(select npi from pharmacy where pharmacy_id = a.pharmacy_id) npi, message_status_info.cancelRxDenied cancel_rx_denied,  \r\n" + 
         		"        		        		message_status_info.relToOutboundNcpdpMsgId rel_to_outbound_ncpdp_msg_id from inbound_ncpdp_msg a,\r\n" + 
-        		"                xmltable(xmlnamespaces('http://www.ncpdp.org/schema/SCRIPT' as \"ns\"), '/ns:Message'\r\n" + 
+        		"                xmltable('Message'\r\n" + 
         		"                passing a.message\r\n" + 
         		"                columns \r\n" + 
-        		"                rx_Potency_Unit_Code varchar2(30) path '//ns:MedicationPrescribed/ns:Quantity/ns:PotencyUnitCode',\r\n" + 
-        		"                rx_Drug_Form varchar2(30) path '//ns:MedicationPrescribed/ns:DrugCoded/ns:FormCode', \r\n" + 
-        		"                rx_Drug_Strength_Code varchar2(30) path '//ns:MedicationPrescribed/ns:DrugCoded/ns:StrengthCode') t,        \r\n" + 
+        		"                rx_Potency_Unit_Code varchar2(30) path '//MedicationPrescribed/Quantity/QuantityUnitofMeasure/Code',\r\n" + 
+        		"                rx_Drug_Form varchar2(30) path '//MedicationPrescribed/Strength/StrengthForm/Code', \r\n" + 
+        		"                rx_Drug_Strength_Code varchar2(30) path '//MedicationPrescribed/Strength/StrengthUnitOfMeasure/Code') t,        \r\n" + 
         		"                xmltable('/patientCheck' passing xmltype(nvl(a.patient_match_details,\r\n" + 
         		"                '<patientCheck></patientCheck>')) \r\n" + 
         		"        		    columns  \r\n" + 
@@ -132,10 +135,64 @@ public class VistaInboundNcpdpMsgDaoImpl implements VistaInboundNcpdpMsgDao {
         		"        		    ) message_status_info    \r\n" + 
         		"        		        		where a.inbound_ncpdp_msg_id = ?";
         
-        VistaInboundNcpdpMsg vistaInboundNcpdpMsg =  (VistaInboundNcpdpMsg) jdbcTemplate.queryForObject(sql, new Object[] { id },new VistaInboundNcpdpMsgRowMapper());
+        vistaInboundNcpdpMsg =  (VistaInboundNcpdpMsg) jdbcTemplate.queryForObject(sql, new Object[] { id },new VistaInboundNcpdpMsgRowMapper());
+       
+        if (vistaInboundNcpdpMsg.getMessageType().equalsIgnoreCase("RxChangeResponse")) {
+        
+        String prrFlag = findPrrFlagById(vistaInboundNcpdpMsg.getMessageId());	//query for Prohibit Renewal Request flag
+       
+        vistaInboundNcpdpMsg.setProhibitRenewalRequest(prrFlag);
+        
+			}
+		} catch (DataAccessException e) {
+			
+			LOG.info("Exception trying to retrieve inbound NCPDP message before delivery to VistA. " + e.getMessage());
+			
+		}
 
 		return vistaInboundNcpdpMsg;
 
 	}
+
+
+	public String findPrrFlagById(String messageID) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		String findPrrResults = "";
+		
+        String sql = "select extractValue(t.message, '//ProhibitRenewalRequest') prohibit_renewal_request from inbound_ncpdp_msg t\r\n" + 
+        		"    where t.inbound_ncpdp_msg_id = (select hub_id from (select * from (select t.message_id,\r\n" + 
+        		"				t.rel_to_message_id,\r\n" + 
+        		"               t.message_type,\r\n" + 
+        		"               t.inbound_ncpdp_msg_id hub_id\r\n" + 
+        		"				from inbound_ncpdp_msg t \r\n" + 
+        		"                where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006')\r\n" + 
+        		"				UNION ALL\r\n" + 
+        		"				select\r\n" + 
+        		"				t.message_id,\r\n" + 
+        		"				t.rel_to_message_id,\r\n" + 
+        		"               t.message_type,\r\n" + 
+        		"               t.outbound_ncpdp_msg_id hub_id\r\n" + 
+        		"				from outbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006')) results\r\n" + 
+        		"				CONNECT BY PRIOR results.message_id = results.rel_to_message_id \r\n" + 
+        		"				 START WITH  \r\n" + 
+        		"				    results.message_id in (select get_newrx_msg_id_func(?) from dual) )\r\n" + 
+        		"                    where message_type = 'NewRx')";
+        try {
+        	
+        	findPrrResults = jdbcTemplate.queryForObject(sql, new Object[]{ messageID }, String.class);
+        	
+        }
+        catch (DataAccessException e) {
+        	
+        	LOG.info("Exception trying to retrieve Prohibit Renewal Request Flag. " + e.getMessage());
+        	
+        }
+       
+        return findPrrResults;
+
+
+    }
 
 }

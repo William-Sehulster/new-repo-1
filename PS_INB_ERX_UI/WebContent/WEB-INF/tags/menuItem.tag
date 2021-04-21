@@ -6,17 +6,17 @@
 <%@ attribute name="pagePermissions" required="false" %>
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onclick" required="false" %>
-
+<%@ attribute name="tabindex" required="false" %>
 <c:set var="user" value="${ sessionScope.sessionUser}" />
 <c:if test="${not empty user }">
 <c:choose> 
 <c:when test="${empty pagePermissions }">
       <c:choose> 
       <c:when test="${id eq 'help' }">
-       <li ><a id="${id }" href="#"  onclick="${onclick}">${name}</a></li> 
+       <li ><a id="${id }" href="#"  onclick="${onclick}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li> 
       </c:when>   
        <c:otherwise>
-	    <li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}">${name}</a></li>
+	    <li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}" tabindex="${tabindex}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li>
 	   </c:otherwise>
        </c:choose>
 </c:when>
@@ -34,7 +34,7 @@
 			<c:set value="true" var="show" scope="page"/>
 		</c:if>
 		
-		<c:if test="${permission eq 'PHARM_TECH' and fn:contains(user,'ROLE_PHARM_TECH') }" >
+		<c:if test="${permission eq 'PHARM_USER' and fn:contains(user,'ROLE_PHARM_USER') }" >
 			<c:set value="true" var="show" scope="page"/>
 		</c:if>
 	
@@ -45,7 +45,7 @@
 	</c:forTokens>
 
 	<c:if test="${show eq 'true'}" >
-	<li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}">${name}</a></li>
+	<li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li>
 	 </c:if>
 </c:otherwise>
 </c:choose>

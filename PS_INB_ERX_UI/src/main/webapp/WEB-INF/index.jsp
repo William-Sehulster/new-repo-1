@@ -1,7 +1,23 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%-- jstl tags are included in css.jsp no need to add again --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%-- header, body start and end includes --%>
+<jsp:include page="/WEB-INF/layouts/headerLayout.jsp" />
+
+<%-- add page specific css --%>
+<link rel="stylesheet" type="text/css" href="/inbound/style/main.css">
+<link rel="stylesheet" type="text/css" href="/inbound/style/tables.css">
+<link rel="stylesheet" type="text/css" href="/inbound/style/forms.css">
+
+<%-- add page specific js --%>
+
+<script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
+
+<title>Inbound eRx</title>
+<%-- page body start --%>
+<jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
+
+<%-- jstl tags includes are added in css.jsp --%>
 <c:set var="user" value="${ sessionScope.sessionUser}" />
 
 
@@ -20,3 +36,6 @@ In order for the Inbound eRx GUI to function properly in Internet Explorer, you 
  3) Remove "va.gov" from Compatibility View<br/>
  4) Uncheck the checkbox next to "Display Intranet sites in Compatibility View" <br/>
 </div>
+
+<%-- end body --%>
+<jsp:include page="/WEB-INF/layouts/bodyLayoutEnd.jsp" />

@@ -17,9 +17,9 @@ public class ReportController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView getMainPage(HttpServletRequest request) {
 
-		String tilesView = "reports.homepage";
+		String viewName = "reports";
 
-		ModelAndView reportView = new ModelAndView(tilesView);
+		ModelAndView reportView = new ModelAndView(viewName);
 
 		return reportView;
 	}

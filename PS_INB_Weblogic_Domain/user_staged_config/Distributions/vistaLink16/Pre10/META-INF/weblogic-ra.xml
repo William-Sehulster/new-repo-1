@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
-<weblogic-connector xmlns="http://www.bea.com/ns/weblogic/90" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
-http://www.bea.com/ns/weblogic/90/weblogic-ra.xsd">
+<weblogic-connector xmlns="http://xmlns.oracle.com/weblogic/weblogic-connector"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-connector
+             http://xmlns.oracle.com/weblogic/weblogic-connector/1.0/weblogic-connector.xsd">
+
 
 	<!-- Warning: The order the elements appear in complex elements is usually important. 
 	     It is a good idea to validate and test the weblogic-ra.xml document before committing. -->
@@ -35,13 +38,13 @@ http://www.bea.com/ns/weblogic/90/weblogic-ra.xsd">
 
 		   	  <connection-instance>
 				<description>This is the connection and JNDI name that applications will be accessing.</description>
-				<jndi-name>vlj741</jndi-name>
+				<jndi-name>vlj500</jndi-name>
 				<connection-properties>
 					<properties>
 						<property>
 							<!-- connectorJndiName value should be the same value as connection instance jndi-name a few lines above -->
 							<name>connectorJndiName</name>
-							<value>vlj741</value>
+							<value>vlj500</value>
 						</property>
 					</properties>
 				</connection-properties>

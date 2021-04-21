@@ -8,6 +8,13 @@ dojo.require("dojox.grid.enhanced.plugins.NestedSorting");
 dojo.require("dojo._base.event");
 dojo.require("dojo.keys");
 dojo.require("dojo.query");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.Deferred");
+dojo.require("dojo.parser");
+
+var csvLoadingDialog;
+
+
 
 function buildTrackGridDataSource(dataSourceURL, query) {
 	try {
@@ -36,48 +43,94 @@ function createLinkRefNum(entry) {
 	
 	inboundOutbound = inboundOutboundBox2.get("value");
 
-	var relatedMsg = null;
+	var relatedMsg = null; 
+		
+	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\" onkeyup=gotoMessageDetails(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+}
+
+function gotoMessageDetails(evt, elementId) {
 	
-	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	var elementEventKey = evt.keyCode || evt.which;
+	
+	// only trigger on enter key.
+	if(elementEventKey ==13)
+	{	
+	  document.getElementById(elementId).click();
+	}
 }
 
 
-function createRelatedMsgLinkRefNum(entry,index) {
+
+function createRelatedMsgLinkRefNum(entry, inbOutVal) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
 	
 	var inboundOutbound = "Unknown";
-	var relatedMsg = true;
 	
-	return "<a aria-label=\"Relates to Message ID "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
+		
+		inboundOutbound = inbOutVal;
+	}
+	else
+	{
+    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
+	
+	inboundOutbound = inboundOutboundBox2.get("value");
+	}
+
+	
+	var relatedMsg = true;
+
+	
+	return "<a aria-label=\"Relates to Message ID "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessageDetails(event,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
 
 
-function createLinkRefNumRelated(entry, index) {
+function gotoRelatedMessageDetails(evt, elementId) {
+	
+	var elementEventKey = evt.keyCode || evt.which;	
+	
+	// only trigger on enter key.
+	if(elementEventKey ==13)
+	{	
+	  document.getElementById(elementId).click();
+	}	
+	
+}
+
+function createLinkRefNumRelated(entry, inbOutVal) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
 	
 	var relatedMessageGridId = 'relatedMessagesListGrid';
 	var relatedMessageGrid = dijit.byId(relatedMessageGridId);
-	if (typeof relatedMessageGrid != 'undefined'){
-		if (relatedMessageGrid.getItem(index).message_status.indexOf("OB_MSG")!== -1){
-			inboundOutbound = 'Outbound';
-		}else{
-			inboundOutbound = 'Inbound';
-		}	
+	
+	var inboundOutbound = "Unknown";
+	
+	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
+		
+		inboundOutbound = inbOutVal;
 	}
-	else{
+	else
+	{
+		
     var inboundOutboundBox2 = dijit.byId("inboundOutbound");
 	
 	inboundOutbound = inboundOutboundBox2.get("value");
 	}
+	
 	var relatedMsg = null;
 	
-	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
+	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessages(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
 
+
+function gotoRelatedMessages(element, elementId) {
+	
+	document.getElementById(elementId).click();
+}
 
 
 function buildTrackGridLayout(servlet, target) {
@@ -101,7 +154,7 @@ function buildTrackGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'messageType';
 	obj["name"] = 'Message Type';
-	obj["width"] = '100px';
+	obj["width"] = '115px';
 //	obj["noresize"] = 'true';
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
@@ -137,7 +190,7 @@ function buildTrackGridLayout(servlet, target) {
 	obj = new Object();
 	obj["field"] = 'rxMessageId';
 	//obj["fields"] = ["inboundNcpdpMsgId", "rxMessageId"];
-	obj["name"] = "Message Id";
+	obj["name"] = "Message ID";
 	obj["width"] = '159px';
 	//obj["noresize"] = 'false';
 	//obj["formatter"] = formatSelectable;
@@ -258,10 +311,54 @@ function trackDataGridInit(servlet, parentContainer, responseData) {
 		var recNumberTitle = dojo.byId("trackRecNumberTitle");
 		
 		var gridData =  new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
+		
+		// define variable here and assign below.
+		var gridLayout = buildTrackGridLayout(servlet, parentContainer);
 			
 		var gridId = parentContainer + 'Grid';
 		
 		var grid = dijit.byId(gridId);
+		
+		
+		dojo.style(dojo.byId('messageList'), "display", "block");	 
+		
+		// If the DataGrid already exists, just clear any selected rows and
+		// replace the store.
+		
+		
+		
+		if (grid != null) {
+			if (grid.selection != null) {
+				grid.selection.clear();
+			}
+			
+			
+			grid.setStore(gridData);
+				
+		} else {
+			// DataGrid does not exist.			
+			// create dummy grid so that item file store works.
+			grid = new dojox.grid.DataGrid({
+				id : gridId								
+			});
+			
+						
+			// hide the inbound_ncpdp_msg_id
+			//grid.layout.setColumnVisibility(0, false);
+			
+		}
+		
+		grid.setStructure(gridLayout);
+		grid.setStore(gridData);
+			
+		// generate the table.
+		generateDivTable(gridLayout,gridData,parentContainer, false);		
+		
+	    // remove the grid widget
+		dojo.destroy(grid);
+
+			 
+		// now show number of records.
 		
 		if(recNumberTitle!=null){				 
 			 
@@ -275,95 +372,9 @@ function trackDataGridInit(servlet, parentContainer, responseData) {
 				
 			 dojo.byId("trackRecNumber").innerHTML= responseData.items.length;
        }
-
-		// If the DataGrid already exists, just clear any selected rows and
-		// replace the store.
-		if (grid != null) {
-			if (grid.selection != null) {
-				grid.selection.clear();
-			}
-			grid.setStore(gridData);
-				
-		} else {
-			// DataGrid does not exist.
-			var gridLayout = buildTrackGridLayout(servlet, parentContainer);
-			grid = new dojox.grid.EnhancedGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectable : true,
-				selectionMode : 'single',	
-				canSort : function(index) {
-					return true;
-				},
-				plugins : {nestedSorting: false}				
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
-			
-			grid.setStore(gridData);
-			
-			grid.setStructure(gridLayout);
-			
-			//grid.canSort = function(){return false};  //turn off sorting for now
-			
-			grid.startup();
-			
-			dojo.connect(grid, "onKeyDown", function(e) {
-				
-				switch(e.keyCode){
-				case dojo.keys.ENTER:
-				case dojo.keys.SPACE:
-					
-					var gridItem = grid.getItem(e.rowIndex);
-					
-					var cell = grid.getCell(e.cellIndex);
-					
-					var node = e.cellNode;
-					
-					// JAWS reads column with respect to their index numbers, since they start out with 0, so this is comment out for now.
-					//var columnInfo = 'Column ' + (cell.index + 1) + ' ' + cell.name;
-					
-					var columnInfo = cell.name;
-					
-					var sortedColumnUp = dojo.query('.dojoxGridSortUp');
-					
-					var sortedColumnDown = dojo.query('.dojoxGridSortDown');
-					
-					var sortedInfo;
-					
-					
-					if( sortedColumnUp !=undefined && sortedColumnUp.length>0) { 
-						
-						sortedInfo = columnInfo + ' is sorted in ascending order. ';
-					}
-					
-					else if(sortedColumnDown !=undefined && sortedColumnDown.length>0){
-						
-						
-						sortedInfo = columnInfo + ' is sorted in descending order. ';
-						
-					}
-					
-					var sortedColumn = dojo.query('.dojoxGridColCaption')[0];
-					
-					sortedColumn.setAttribute("aria-label", sortedInfo);
-					
-					//console.dir(grid.getSortProps());
-			}
-				
-				dojo.stopEvent(e);
-			});
-			
-			
-			// now show number of records.
-			
-			// hide the inbound_ncpdp_msg_id
-			//grid.layout.setColumnVisibility(0, false);
-			
-		}
+		
+	 
+		 
 	} catch (err) {
 		var txt = "An error occurred while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -379,24 +390,63 @@ function getTrackGrid() {
 	var formObject = dojo.formToObject(formId);
 	
 		
-    var dataSourceURL = "/inbound/inb-erx/track/getMessages?json=" + dojo.toJson(formObject);
+   // var dataSourceURL = "/inbound/inb-erx/track/getMessages?json=" + dojo.toJson(formObject);
+    
+    //dataSourceURL = encodeURIComponent(dataSourceURL);
+	
+	 var dataSourceURL = "/inbound/inb-erx/track/getMessages";
+	 
+	 var token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+	 var header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+	 var xhrHeader = '{"' + header + '" : "' + token + '"}';
+	 var xhrHeaderObj = JSON.parse(xhrHeader);
+	 
+    //loading dialog
+    
+    var loadingDialog = new dijit.Dialog({	            
+        title: "Search Status",
+		content: "Search in progress, please wait...",
+        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+        draggable: false,
+        closable: false,
+        onHide: function(){
+        	loadingDialog.destroy()
+        }
+        
+    });
 	
 	try {
-		 
-		dojo.xhrGet({
+		
+		
+		loadingDialog.show();
+		
+		// IAM request filtering issue fix -  Change form get to post method
+		var deferred =  dojo.xhrPost({
 	        url: dataSourceURL,
 	        handleAs: "json", 
+	        postData : "json=" + dojo.toJson(formObject),
+	        headers: xhrHeaderObj,
 	        load: function(data, ioArgs) {
 	        	
 	        	trackDataGridInit("inb-erx","messageList",  data);	           
 	        },
 	        error: function(error) {
-	            console.log("loading of track audit data failed. Exception...", error);
+	            console.log("loading of track audit data failed. Exception...", error);	            
+	            
 	        }
 	    });		
 		
+		deferred.then(function() {
+			
+			setTimeout(function(){ loadingDialog.hide(); }, 1000);
+			
+			//loadingDialog.hide();
+		});
+		
 	} catch (err) {
 		alert(err.message);
+		//hide on error
+		loadingDialog.hide();
 	}
 	
 	
@@ -404,14 +454,40 @@ function getTrackGrid() {
 
 
 function getTrackAuditListCSV() {
+	
+	
+	  csvLoadingDialog = new dijit.Dialog({	            
+	        title: "Export Status",
+			content: "Export in progress, please wait...",
+	        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+	        draggable: false,
+	        closable: false,
+	        onHide: function(){
+	        	csvLoadingDialog.destroy()
+	        }
+	        
+	    });
+	 
+	 
+	var pharmVisnSelect = dojo.byId("csvRequestParam");
+	
+	setTimeout(function(){ csvLoadingDialog.hide(); }, 5000);
+	
 	var formId = "searchCriteriaForm";
+	
 	var formObject = dojo.formToObject(formId);
 	
 	var getCSVUrl ="/inbound/inb-erx/track/getTrackAuditListCSV?json=" + dojo.toJson(formObject);
 	
 	location.href= getCSVUrl;
 	
+	
+	
+	csvLoadingDialog.show();
+		
 }
+
+
 
 
 function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData) {
@@ -427,45 +503,39 @@ function trackRelatedMessagesDataGridInit(servlet, parentContainer, responseData
 		
 		var grid = dijit.byId(gridId);
 		
+		// define variable here and assign below.
+		var  gridLayout = buildTrackGridLayout(servlet, parentContainer);
+		
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
 		if (grid != null) {
 			if (grid.selection != null) {
 				grid.selection.clear();
-			}
+			}			
 			grid.setStore(gridData);
 				
 		} else {
 			// DataGrid does not exist.
-			var gridLayout = buildTrackGridLayout(servlet, parentContainer);
+			
+				// create dummy grid so that item file store works.
 			grid = new dojox.grid.DataGrid({
-				id : gridId,
-				showTitle : true,
-				columnReordering : false,
-				loadingMessage : "Query In Progress...",
-				noDataMessage : "Your Query Returned No Results",
-				onFetchError : gridFetchError,
-				selectionMode : 'single',
-				escapeHTMLInData : false,
-				//autoHeight: true,
-				onKeyEvent : onKeyEvent
-			}, document.createElement('div'));
-			dojo.byId(parentContainer).appendChild(grid.domNode);
+				id : gridId								
+			});
 			
-			grid.setStore(gridData);
-			
-			grid.setStructure(gridLayout);
-			
-			//grid.canSort = function(){return false};  //turn off sorting for now
-			
-			grid.startup();
-			
-			// now show number of records.
-			
+						
 			// hide the inbound_ncpdp_msg_id
 			//grid.layout.setColumnVisibility(0, false);
 			
 		}
+		grid.setStructure(gridLayout);
+		grid.setStore(gridData);	
+		// generate the table.
+		generateDivTable(gridLayout,gridData,parentContainer,true);	
+
+        // remove the grid widget
+		dojo.destroy(grid);		
+		
+		 
 	} catch (err) {
 		var txt = "An error occurred while building the dataGrid.  The error is: "
 				+ err.message + ".";
@@ -547,4 +617,275 @@ function getTrackRelatedMessagesGrid() {
 	}
 	
 	
+}
+
+//sorting functions.
+
+var getCellValue = function(tr, idx)
+{
+		
+	return tr.children[idx].innerText || tr.children[idx].textContent; 
+
+}
+
+var comparer = function(idx, asc) { 
+	
+	//console.log("asc:"+asc);
+	return function(a, b) { return function(v1, v2) {
+		
+        return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+        
+    }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+}};
+
+
+
+//div table generation. This function is different from other generateDivTable functions as it has related messages data.
+function generateDivTable(layout, gridData, dataGridDivId, relatedMessagesData) {
+
+	    // clear the parent div first.
+        dojo.byId(dataGridDivId).innerHTML ="";
+
+		var rowCounter = 1; 
+		var recordCounter = 0;
+		
+		var elementWidthArray = [];
+		
+		var elementFormatterArray = [];
+		
+		//variable for aria label
+		var divTableStart = "<div class=\"generatedDivTable\" id=\"generatedDivTableID\" tabindex=\"0\" role=\"table\" aria-label=\"Pharmacies\ Table\" aria-describedby=\"divTableInfo\">";
+		var divTableEnd = "</div>" ;
+		var divTableBodyStart ="<div class=\"generatedDivTableBody\" role=\"row\">";
+		var divTableBodyEnd ="</div>" ;
+		var divTableRowStart ="<div id=\"generatedDivTableHeaderRowID\" class=\"generatedDivTableRow generatedDivTableHeaderRow\" role=\"row\">";
+		var divTableRowEnd ="</div>" ;
+		var divTableRowHeaderStart ="<div title= \"Column can be sorted in ascending or descending order by mouse click or enter key\" class=\"generatedDivTableHeaderCell\" tabindex=\"0\" role=\"columnheader\"";	
+		var divTableRowHeaderEnd = "</div>" ;
+		var divTableResultRowStart ="<div class=\"generatedDivTableRow\" role=\"row\" ";			
+		var divTableResultRowEnd = "</div>" ;		
+		var divTableRowCellStart= "<div class=\"generatedDivTableCell\" tabindex=\"0\" role=\"cell\"";
+		var divTableRowCellEnd="</div>" ;
+		var divTableNoResultRowStart ="<div class=\"generatedDivTableNoRecordRow\" role=\"row\" ";			
+		var divTableNoResultRowEnd = "</div>" ;			
+		var generatedDivTableNoRecordsCellStart= "<div id=\"generatedDivTableNoRecordsCellID\" class=\"generatedDivTableNoRecordsCell\"  tabindex=\"0\" role=\"cell\"";
+		var generatedDivTableNoRecordsCellEnd="</div>" ;
+		
+		var divTable;
+		
+		divTable = divTableStart.concat(divTableBodyStart);
+		divTable = divTable.concat(divTableRowStart);
+		
+		var layoutObj;
+		var columnNameString ="";
+		var rowHeaderString ="";
+		var isFormatter = false;
+		
+		
+		for (var key in layout){
+			
+			
+			
+			layoutObj = layout[key];
+					
+			for (var nestedKey in layoutObj){
+				
+				
+				
+				if(nestedKey =="name")
+				{
+										
+					columnNameString = layoutObj[nestedKey];	
+
+                 isFormatter = false;					
+					
+				}
+				else if(nestedKey =="width")	{
+					
+					elementWidthArray.push(layoutObj[nestedKey]);					
+					
+					rowHeaderString = divTableRowHeaderStart + "style=\"width:" + " " + layoutObj[nestedKey] + ";\">";					
+					
+					divTable = divTable.concat(rowHeaderString);
+					
+					divTable = divTable.concat(columnNameString);
+					
+					divTable = divTable.concat(divTableRowHeaderEnd);
+					
+					isFormatter = false;
+				}
+				 else if(nestedKey =="formatter")	{
+					
+					elementFormatterArray.push(layoutObj[nestedKey]);	
+
+                 isFormatter = true; 					
+					
+				}
+				
+			}
+
+             if(isFormatter == false)
+				{
+					// no formatter, add empty string.
+					elementFormatterArray.push('');					
+				}
+            		
+			
+		}
+
+		divTable = divTable.concat(divTableRowEnd);
+		
+		
+		var storeArray = gridData._arrayOfAllItems; 
+		var tempStringArray;
+		var rowCounterString ="";
+		var rowCellString ="";
+		var rowCellFormatterElement ="";
+		
+		var rowCellValue;
+		var tempHyperlink="";
+			
+		for(var arrayElement in storeArray){			
+			
+			
+			var arrayItem  = storeArray[arrayElement];
+			
+			for (var k in arrayItem)
+			{
+				if((arrayItem[k]!='') && (k=='stringArray'))
+				{
+			 	
+					 tempStringArray = arrayItem[k];
+					 
+					 rowCounterString = divTableResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
+					 
+					 divTable = divTable.concat(rowCounterString);
+					 
+					  
+				
+	              for (var s in tempStringArray)
+				     {
+						
+						 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
+						 
+						 divTable = divTable.concat(rowCellString);
+						 
+						 rowCellValue = tempStringArray[s];					
+						 
+						 if(typeof elementFormatterArray[s] ==='function')
+						 {
+						   rowCellFormatterElement = elementFormatterArray[s];		
+						   
+						   // only for related messages
+						   if(relatedMessagesData == true)
+						   {
+								 if(tempStringArray.indexOf("OB_MSG")!= -1)
+								  {
+									   // call the formatter function.
+									   tempHyperlink = rowCellFormatterElement(rowCellValue, "Outbound");
+								  }
+								 else
+								 {
+									   // call the formatter function.
+									   tempHyperlink = rowCellFormatterElement(rowCellValue, "Inbound");
+								 }
+							}
+						   else
+							{
+							   // call the formatter function.
+							   tempHyperlink = rowCellFormatterElement(rowCellValue);
+							}
+						   
+						  					   
+						   
+						   divTable = divTable.concat(tempHyperlink);
+						 }
+	                  else
+	                  {	
+	                	  if(rowCellValue == null || rowCellValue ==="null")
+	                	  {
+	                		  rowCellValue ="";
+	                	  }	  
+						  
+	                	  divTable = divTable.concat(rowCellValue);
+					  }
+	                  					 
+						 
+									
+						 divTable = divTable.concat(divTableRowCellEnd);
+					 }
+				
+				 rowCounter++;
+				 recordCounter++;
+								
+			 	 divTable = divTable.concat(divTableResultRowEnd);
+				 
+				 
+				}		
+				
+			}	
+			
+			
+			
+		}	
+		
+		 // if no records found add a dummy row.
+		 
+		 if(recordCounter == 0)
+	     {	
+				rowCounterString = divTableNoResultRowStart + "aria-describedby=\"Row" +" " + rowCounter+"\">";
+				 
+				 divTable = divTable.concat(rowCounterString);
+				 
+				 rowCellString = generatedDivTableNoRecordsCellStart + "style=\"width:" + " " + "600px" + ";\">";
+					 
+				 divTable = divTable.concat(rowCellString);
+
+                 divTable = divTable.concat("&nbsp;No record found.");	
+
+                 divTable = divTable.concat(generatedDivTableNoRecordsCellEnd);				 
+				 
+				 divTable = divTable.concat(divTableNoResultRowEnd);
+		 }
+		 
+		 
+		divTable = divTable.concat(divTableBodyEnd);
+		divTable = divTable.concat(divTableEnd);
+		dojo.byId(dataGridDivId).innerHTML = divTable;
+				
+		
+		// add click event
+		Array.prototype.slice.call(document.querySelectorAll('.generatedDivTableHeaderCell')).forEach(function(th) { th.addEventListener('click', function() {
+     var table = th.parentNode;
+     
+			
+			// sorting function
+			while(table.id.toUpperCase() != 'GENERATEDDIVTABLEID') table = table.parentNode;
+			Array.prototype.slice.call(table.querySelectorAll('.generatedDivTableRow:nth-child(n+2)'))
+				.sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(function(tr) { table.appendChild(tr) });
+		   })
+    });
+	   
+	   // add keyup event and trigger on the enter.
+	   Array.prototype.slice.call(document.querySelectorAll('.generatedDivTableHeaderCell')).forEach(function(th) { th.addEventListener('keyup', function(evt) {
+     
+		var columnEventKey = evt.keyCode || evt.which;	
+		// Trigger on enter key only
+		if(columnEventKey ==13)
+		{	
+	       var table = th.parentNode;
+     
+			
+			// sorting function
+			while(table.id.toUpperCase() != 'GENERATEDDIVTABLEID') table = table.parentNode;
+			Array.prototype.slice.call(table.querySelectorAll('.generatedDivTableRow:nth-child(n+2)'))
+				.sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(function(tr) { table.appendChild(tr) });
+		 
+		}		
+		   })
+    });
+	
+		
 }

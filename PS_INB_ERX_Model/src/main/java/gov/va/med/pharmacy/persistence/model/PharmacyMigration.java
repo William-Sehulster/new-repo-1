@@ -19,12 +19,10 @@ import org.hibernate.annotations.Type;
 @Table(name = "PHARMACY_MIGRATION", schema = "ERX")
 public class PharmacyMigration implements java.io.Serializable {
 
-
 	
-	
-	private static final long serialVersionUID = -8537575399638631347L;
+	private static final long serialVersionUID = 4506138398612311794L;
 	private String pharmacyNcpdpid;
-	private Boolean versionThree;	
+	private Boolean migrated;	
 	private Date updatedDate;
 	private Date createdDate;
 	
@@ -35,9 +33,9 @@ public class PharmacyMigration implements java.io.Serializable {
 		this.pharmacyNcpdpid = pharmacyNcpdpid;
 	}
 
-	public PharmacyMigration(String pharmacyNcpdpid, Boolean versionThree, Date updatedDate, Date createdDate) {
+	public PharmacyMigration(String pharmacyNcpdpid, Boolean migrated, Date updatedDate, Date createdDate) {
 		this.pharmacyNcpdpid = pharmacyNcpdpid;
-		this.versionThree = versionThree;
+		this.migrated = migrated;
 		this.updatedDate = updatedDate;
 		this.createdDate = createdDate;
 		
@@ -53,16 +51,16 @@ public class PharmacyMigration implements java.io.Serializable {
 		this.pharmacyNcpdpid = pharmacyNcpdpid;
 	}
 	
-	@Type(type="yes_no")
-	@Column(name = "VERSION_THREE", nullable = false, length = 1)
-	public Boolean getVersionThree() {
-		return versionThree;
+			 
+	@Type(type="yes_no")	  
+	@Column(name = "MIGRATED", nullable = false, length = 1)   
+	public Boolean getMigrated() {
+		return migrated;
 	}
 
-	public void setVersionThree(Boolean versionThree) {
-		this.versionThree = versionThree;
+	public void setMigrated(Boolean migrated) {
+		this.migrated = migrated;
 	}
-
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "UPDATED_DATE", length = 7)

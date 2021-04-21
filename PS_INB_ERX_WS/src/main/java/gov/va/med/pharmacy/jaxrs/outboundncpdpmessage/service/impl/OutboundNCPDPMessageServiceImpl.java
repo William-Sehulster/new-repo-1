@@ -62,8 +62,6 @@ public class OutboundNCPDPMessageServiceImpl implements OutboundNCPDPMessageServ
 
 	private static final String DAS_OUTBOUND_ENDPOINT = "das.outbound.endpoint";
 
-	private static final String OUTBOUND_ERX_MESSAGES = "OutboundErxMessages";
-
 	private static final String TEXT_XML = "text/xml";
 
 	private static final String STATUS_0000 = "0000";
@@ -75,6 +73,8 @@ public class OutboundNCPDPMessageServiceImpl implements OutboundNCPDPMessageServ
 	private static final String KEYSTORE_FILE_TYPE = "JKS";
 	private static final String KEYSTORE_FILE_NAME_PROPERTY = "keystore.filename";
 	private static final String KEYSTORE_PASSWD_PROPERTY = "keystore.password";
+	
+	private static final String SCRIPT_VERSION = "2017071";
 	
 	@Autowired
 	private OutboundNcpdpMsgService outboundNcpdpMsgService;
@@ -139,7 +139,7 @@ public class OutboundNCPDPMessageServiceImpl implements OutboundNCPDPMessageServ
 					// call method to setup TLS security parameters.
 					setupTLS(webclient, properties);
 
-					webclient.path(OUTBOUND_ERX_MESSAGES).accept(TEXT_XML);
+					webclient.accept(TEXT_XML);
 
 					Response outboundResponse = webclient.post(outboundMessage);
 
@@ -180,6 +180,8 @@ public class OutboundNCPDPMessageServiceImpl implements OutboundNCPDPMessageServ
 							inboundeRx.setUpdatedDate(date);
 
 							inboundeRx.setReceivedDate(date);
+							
+							inboundeRx.setScriptVersion(SCRIPT_VERSION);
 
 							inboundNcpdpMsgService.saveInboundERx(inboundeRx);
 						}

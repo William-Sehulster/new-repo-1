@@ -15,11 +15,12 @@ import gov.va.med.pharmacy.persistence.BaseDao;
 import gov.va.med.pharmacy.persistence.dao.AutoCheckReportDao;
 import gov.va.med.pharmacy.persistence.model.AutoCheckReportVw;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
-import org.apache.commons.text.StringEscapeUtils; 
+
 
 @Repository("autoCheckReportDao")
 public class AutoCheckReportDaoImpl extends BaseDao<Integer, AutoCheckReportVw> implements AutoCheckReportDao{
    
+	
 	@Override
 	public AutoCheckReportVw findByVisn(String visn) {
 		Criteria crit = createEntityCriteria();
@@ -48,12 +49,13 @@ public class AutoCheckReportDaoImpl extends BaseDao<Integer, AutoCheckReportVw> 
 		//System.out.print("DateFrom: " + summaryReportFilter.getDateFrom()
 		//+ " DateTo: " + summaryReportFilter.getDateTo() + "VISN: " + summaryReportFilter.getVisn()
 		//+ "Station ID: " + summaryReportFilter.getStationId());
+		
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("pharmacyDivisionName"));
 
 		criteria.add(Restrictions.ge("newRxMessageDate", getFormattedFromDateTime(summaryReportFilter.getDateFrom())));
 		criteria.add(Restrictions.le("newRxMessageDate", getFormattedToDateTime(summaryReportFilter.getDateTo())));
 
-		if (summaryReportFilter.getVisn() != null && summaryReportFilter.getVisn().length() > 0){ //check for All value
+		if (summaryReportFilter.getVisn().length() > 0){ //check for All value
 			criteria.add(Restrictions.eq("visn", summaryReportFilter.getVisn()));
 		}
 		if (summaryReportFilter.getStationId() != null){
@@ -80,19 +82,13 @@ public class AutoCheckReportDaoImpl extends BaseDao<Integer, AutoCheckReportVw> 
 				.add(Projections.sum("newRxPvdMtchFnd").as("newRxPvdMtchFnd"))
 				.add(Projections.sum("newRxPvdMtchNotFnd").as("newRxPvdMtchNotFnd"))
 				);
+
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(AutoCheckReportVw.class));
 		
 		List<AutoCheckReportVw> autoCheckReportRows = (List<AutoCheckReportVw>) criteria.list();
-		for(AutoCheckReportVw  autoCheckReportVw: autoCheckReportRows)
-		{
-			//Fortify sanitizing the visn, PharmacyNcpdpId, PharmacyAddress, PharmacyVaStationId and PharmacyDivisionName
-			//before being used down the lines.
-			autoCheckReportVw.setVisn(StringEscapeUtils.escapeJson(autoCheckReportVw.getVisn()));
-			autoCheckReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyDivisionName()));
-			autoCheckReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyNcpdpId()));
-			autoCheckReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyAddress()));
-			autoCheckReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(autoCheckReportVw.getPharmacyVaStationId()));
-		}		
+		
+		
+		
         return autoCheckReportRows;
 	}
 
@@ -159,6 +155,7 @@ public class AutoCheckReportDaoImpl extends BaseDao<Integer, AutoCheckReportVw> 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(AutoCheckReportVw.class));
 		
 		List<AutoCheckReportVw> autoCheckReportRows = (List<AutoCheckReportVw>)criteria.list();
+		
         return autoCheckReportRows;
 	}
 

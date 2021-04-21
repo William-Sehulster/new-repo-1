@@ -52,5 +52,20 @@
 		 		
 	</jaxrs:server>
 	
+	
+	 <!--  outbound Filtering WS used for migration -->   
+	<bean id="outboundFilteringWS" class="gov.va.med.pharmacy.jaxrs.vistaoutboundmessage.migrationservice.impl.VistaOutboundMessageFilteringServiceImpl"/>	
+		
+	<jaxrs:server id="inboundREST" address="/rest/outbound">	
+		<jaxrs:serviceBeans>
+			<ref bean="outboundFilteringWS" />
+		</jaxrs:serviceBeans>		 
+		<jaxrs:providers>
+			<ref bean='jsonProvider' />
+			<ref bean='jaxbXmlProvider' />
+		</jaxrs:providers>		
+		 		
+	</jaxrs:server>
+	
 
 </beans>

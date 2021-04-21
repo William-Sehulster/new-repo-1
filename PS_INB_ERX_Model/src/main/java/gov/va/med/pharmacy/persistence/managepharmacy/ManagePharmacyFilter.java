@@ -21,6 +21,8 @@ public class ManagePharmacyFilter {
 	private String pharmacyName;
 	
 	private String ncpdpId;
+	
+	
 
 	public String getPharmacyId() {
 		return pharmacyId;
@@ -61,4 +63,7 @@ public class ManagePharmacyFilter {
 	public void setNcpdpId(String ncpdpId) {
 		this.ncpdpId = ncpdpId;
 	}
+
+	
+	
 }

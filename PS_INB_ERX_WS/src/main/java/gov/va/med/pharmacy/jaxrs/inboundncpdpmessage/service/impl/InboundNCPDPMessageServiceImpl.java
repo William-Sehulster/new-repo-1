@@ -40,6 +40,16 @@ import gov.va.med.pharmacy.utility.StreamUtilities;
 @Produces("application/xml")
 public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageService {
 	
+	private static final String SENDER_SOFTWARE_END = "</SenderSoftware>";
+
+	private static final String SENDER_SOFTWARE_VERSION_RELEASE_ELEMENT = "<SenderSoftwareVersionRelease>v4.0</SenderSoftwareVersionRelease>";
+
+	private static final String SENDER_SOFTWARE_PRODUCT_ELEMENT = "<SenderSoftwareProduct>Inbound ePrescribing</SenderSoftwareProduct>";
+
+	private static final String SENDER_SOFTWARE_DEVELOPER_ELEMENT = "<SenderSoftwareDeveloper>TECHNATOMY</SenderSoftwareDeveloper>";
+
+	private static final String SENDER_SOFTWARE_START = "<SenderSoftware>";
+
 	private static final String CODE_010 = "<Code>010</Code>";
 	
 	private static final String INCOMING_VERIFY_MESSAGE_START = "<Verify>";
@@ -87,7 +97,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 
 	private static final String MESSAGE_BODY_START = "<Body>";
 
-	private static final String SENT_TIME_EBD = "</SentTime>";
+	private static final String SENT_TIME_END = "</SentTime>";
 
 	private static final String SENT_TIME_START = "<SentTime>";
 
@@ -117,7 +127,9 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 
 	private static final String MESSAGE_END = "</Message>";
 
-	private static final String MESSAGE_START = "<Message version=\"010\" release=\"006\" HighestVersionSupported=\"\" xmlns=\"http://www.ncpdp.org/schema/SCRIPT\">";
+	
+	private static final String MESSAGE_START = "<Message DatatypesVersion=\"20170715\" TransportVersion=\"20170715\" "
+			+ "									TransactionDomain=\"SCRIPT\" TransactionVersion=\"20170715\" StructuresVersion=\"20170715\" ECLVersion=\"20170715\">";
 
 	private static final String SENT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
@@ -127,13 +139,14 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 
 	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(InboundNCPDPMessageServiceImpl.class);
 
+	private static final String SCRIPT_VERSION = "2017071";
 
 	@Autowired
 	private InboundNcpdpMsgService inboundNcpdpMsgService;
 
 	
 	@POST
-	@Path("/inBoundNCPDPMessage/")
+	@Path("/inBoundNCPDPMessage2017071/")
 	public String getInboundMessage(String incomingMessage) {
 
 		Date receivedDate = new Date();
@@ -296,6 +309,8 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			inboundeRx.setUpdatedDate(date);
 
 			inboundeRx.setReceivedDate(date);
+			
+			inboundeRx.setScriptVersion(SCRIPT_VERSION);
 
 			inboundNcpdpMsgService.saveInboundERx(inboundeRx);
 
@@ -314,7 +329,14 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(RELATES_TO_MESSAGE_ID_END_TAG);
 			responseBuffer.append(SENT_TIME_START);
 			responseBuffer.append(sentDateString);
-			responseBuffer.append(SENT_TIME_EBD);
+			responseBuffer.append(SENT_TIME_END);
+			// sender software start 201707
+			responseBuffer.append(SENDER_SOFTWARE_START);
+			responseBuffer.append(SENDER_SOFTWARE_DEVELOPER_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_PRODUCT_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_VERSION_RELEASE_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_END);
+			// sender software end.
 			responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_STATUS_START);
@@ -353,7 +375,14 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(RELATES_TO_MESSAGE_ID_END_TAG);
 			responseBuffer.append(SENT_TIME_START);
 			responseBuffer.append(sentDateString);
-			responseBuffer.append(SENT_TIME_EBD);
+			responseBuffer.append(SENT_TIME_END);
+			// sender software start 201707
+			responseBuffer.append(SENDER_SOFTWARE_START);
+			responseBuffer.append(SENDER_SOFTWARE_DEVELOPER_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_PRODUCT_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_VERSION_RELEASE_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_END);
+			// sender software end.
 			responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_ERROR_START);
@@ -385,7 +414,14 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(RELATES_TO_MESSAGE_ID_END_TAG);
 			responseBuffer.append(SENT_TIME_START);
 			responseBuffer.append(sentDateString);
-			responseBuffer.append(SENT_TIME_EBD);
+			responseBuffer.append(SENT_TIME_END);
+			// sender software start 201707
+			responseBuffer.append(SENDER_SOFTWARE_START);
+			responseBuffer.append(SENDER_SOFTWARE_DEVELOPER_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_PRODUCT_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_VERSION_RELEASE_ELEMENT);
+			responseBuffer.append(SENDER_SOFTWARE_END);
+			// sender software end.
 			responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_ERROR_START);

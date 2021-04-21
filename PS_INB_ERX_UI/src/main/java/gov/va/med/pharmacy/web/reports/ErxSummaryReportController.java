@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.apache.commons.text.StringEscapeUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -40,11 +40,11 @@ public class ErxSummaryReportController {
 	
 	
 	private static final String[] ERX_SUMMARY_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", 
-			                                               "#Refill Request", "#Refill Response", "#Rx Change Request","#Rx Change Response","#Rx Cancel Request",
-			                                               "#Cancel Rx Response","#RxFill"};
+			                                               "#RxRenewal Request", "#RxRenewal Response", "#RxChange Request","#RxChange Response","#RxCancel Request",
+			                                               "#CancelRx Response","#RxFill"};
 	
 	private static final String[] ERX_SUMMARY_REPORT_TOTALS_HEADER = {"#New Rx", 
-            "#Refill Request", "#Refill Response", "#Rx Change Request","#Rx Change Response","#Rx Cancel Request",
+            "#Rx Renewal Request", "#Rx Renewal Response", "#Rx Change Request","#Rx Change Response","#Rx Cancel Request",
             "#Cancel Rx Response","#RxFill"};
 
 	@Autowired
@@ -56,12 +56,13 @@ public class ErxSummaryReportController {
 	@Autowired
 	private SummaryReportService summaryReportService;
 
-	@RequestMapping(value = "/getReport", method = RequestMethod.GET)
-	@CacheControl(policy = {CachePolicy.NO_CACHE})
-	@ResponseBody
-	public List<ErxSummaryReportVw> getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
+	@RequestMapping(value = "/getReport", method = RequestMethod.GET, produces = "application/json")
+	@CacheControl(policy = {CachePolicy.NO_CACHE})	
+	public ModelAndView getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
 			throws JsonParseException, JsonMappingException, IOException {
 
+		ModelAndView mav = new ModelAndView(new org.springframework.web.servlet.view.json.MappingJackson2JsonView());
+		
 		List<ErxSummaryReportVw> erxSummaryReportVwList = new ArrayList<ErxSummaryReportVw>();
 
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
@@ -71,18 +72,11 @@ public class ErxSummaryReportController {
 		
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
-		erxSummaryReportVwList.addAll(erxSummaryReportService.find(summaryReportFilter));
+		erxSummaryReportVwList= erxSummaryReportService.find(summaryReportFilter);
 		
-		for(ErxSummaryReportVw  erxSummaryReportVw: erxSummaryReportVwList)
-		{
-			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
-			//before being used down the lines.
-			erxSummaryReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyAddress()));
-			erxSummaryReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyDivisionName()));
-			erxSummaryReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyNcpdpId()));
-			erxSummaryReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(erxSummaryReportVw.getPharmacyVaStationId()));
-		}
-		return erxSummaryReportVwList;
+		mav.addObject("items", erxSummaryReportVwList);
+		
+		return mav;
 	}
 
 	@RequestMapping(value = "/getStationIdSelect", method = RequestMethod.GET, produces = "application/json")
@@ -109,13 +103,6 @@ public class ErxSummaryReportController {
 		
 		stationIdSelectModelList.add(stationIdSelectModel);
 
-		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
-		{
-			//Fortify sanitizing the Id and label before being used down the lines.
-			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
-			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
-		}
-		
 		return stationIdSelectModelList;
 	}
 
@@ -243,8 +230,8 @@ public class ErxSummaryReportController {
 		String[][] dataRows = new String[1][totalHeaders.length];
 		
 		String[][] summaryReportHeaders = { {"#New Rx", 
-            "#Refill Request", "#Refill Response", "#Rx Change Request","#Rx Change Response","#Rx Cancel Request",
-            "#Cancel Rx Response","#RxFill"}};
+            "#RxRenewal Request", "#RxRenewal Response", "#RxChange Request","#RxChange Response","#RxCancel Request",
+            "#CancelRx Response","#RxFill"}};
 		
 		int sumVal = 0;
 		

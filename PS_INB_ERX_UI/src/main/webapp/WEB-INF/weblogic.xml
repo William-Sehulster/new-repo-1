@@ -9,6 +9,40 @@
 		<precompile>false</precompile>
 		<compress-html-template>true</compress-html-template>
 	</jsp-descriptor> 
-    <weblogic-version>12.1.3</weblogic-version>
+    <weblogic-version>12.2.1.3</weblogic-version>
+    
+    <container-descriptor>
+    
+    <prefer-web-inf-classes>false</prefer-web-inf-classes>
+    
+     <prefer-application-packages>
+			  <package-name>javassist</package-name>
+			  <package-name>org.slf4j.*</package-name>
+			  <package-name>org.apache.*</package-name>
+			  <package-name>com.fasterxml.jackson.*</package-name>	  
+	  </prefer-application-packages>
+    
+    
+      <gzip-compression>
+         <enabled>true</enabled>
+         <min-content-length>4096</min-content-length>
+         <content-type>text/html</content-type>
+         <content-type>text/xml</content-type>
+         <content-type>text/javascript</content-type>
+         <content-type>text/css</content-type>
+      </gzip-compression>
+          
+   
+   </container-descriptor>
+     
+     <!--    
+       <library-ref>
+	    <library-name>jax-rs</library-name>  
+	    <specification-version>2.0</specification-version>	   
+	    <exact-match>false</exact-match>
+	    </library-ref>
+	  -->   
+	    
+
   
 </weblogic-web-app>

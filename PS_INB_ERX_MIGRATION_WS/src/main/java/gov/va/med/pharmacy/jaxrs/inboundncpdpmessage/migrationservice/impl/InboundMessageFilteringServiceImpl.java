@@ -306,7 +306,7 @@ public class InboundMessageFilteringServiceImpl implements InboundMessageFilteri
 			}
 			
 			// if we found the version 3.0 pharmacy call the newer 3.0 inbound WS url, otherwise call the 2.0 WS url by using the lookup table.
-			if(null!=pharmacyMigration && pharmacyMigration.getVersionThree().equals(true)){
+			if(null!=pharmacyMigration && pharmacyMigration.getMigrated().equals(true)){
 				
 				// get url for v3.0 ws
 				appConfiguration = pharmacyMigrationService.findByKey("INB_V3_WS_URI");

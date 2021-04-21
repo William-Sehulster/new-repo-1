@@ -8,10 +8,11 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<listener>
-		<listener-class>org.apache.tiles.extras.module.ModularTilesListener</listener-class>
-	</listener>
+
+	<!--  Use Weblogic 12.2.x gzip support -->
 	
+	<!--  The following url patterns and content types should be put into weblogic GZIP Compression Content Type:  -->
+	<!-- 
 	<filter>
         <filter-name>gzip</filter-name>
         <filter-class>net.sf.ehcache.constructs.web.filter.GzipFilter</filter-class>
@@ -43,6 +44,10 @@
         <url-pattern>/inb-erx/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    
+     -->
+     
+
     
      <filter>
         <filter-name>etagFilter</filter-name>

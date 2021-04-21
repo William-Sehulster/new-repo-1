@@ -45,11 +45,13 @@
 							<artifactId>PS_INB_ERX_Model</artifactId>
 							<bundleDir>/lib</bundleDir>
 						</jarModule>
+						<!-- 
 						<jarModule>
 							<groupId>gov.va.med.pharmacy</groupId>
 							<artifactId>PS_INB_ERX_Service</artifactId>
 							<bundleDir>/lib</bundleDir>
-						</jarModule>											
+						</jarModule>
+						 -->											
 					</modules>
 
 				</configuration>				
@@ -68,18 +70,46 @@
 			<groupId>gov.va.med.pharmacy</groupId>
 			<artifactId>PS_INB_ERX_Common</artifactId>		
 			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>gov.va.med.pharmacy</groupId>
 			<artifactId>PS_INB_ERX_Model</artifactId>			
 			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>txw2</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>jaxb-runtime</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		 <dependency>
+		     <groupId>org.slf4j</groupId>
+			  <artifactId>slf4j-api</artifactId>
+			 <type>jar</type>
+	     </dependency>
+		 <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-simple</artifactId>
+	        <type>jar</type>	        
+	    </dependency>
+		<!-- 
 		<dependency>
 			<groupId>gov.va.med.pharmacy</groupId>
 			<artifactId>PS_INB_ERX_Service</artifactId>
 			<version>${version.number}</version>	
 			<type>jar</type>
-		</dependency>		
+		</dependency>
+		 -->		
 	</dependencies>
 
 </project>

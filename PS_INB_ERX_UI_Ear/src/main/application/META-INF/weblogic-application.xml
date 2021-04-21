@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wls:weblogic-application xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-application" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_5.xsd http://xmlns.oracle.com/weblogic/weblogic-application http://xmlns.oracle.com/weblogic/weblogic-application/1.5/weblogic-application.xsd">
-    <wls:prefer-application-resources>
-        <wls:resource-name>META-INF/services/*</wls:resource-name>     
-     </wls:prefer-application-resources>
+<weblogic-application xmlns="http://xmlns.oracle.com/weblogic/weblogic-application/1.7/weblogic-application.xsd">   
+    	        
+		  <prefer-application-packages>
+			  <package-name>javassist</package-name>
+			  <package-name>org.slf4j.*</package-name>
+			  <package-name>org.apache.*</package-name>
+		  </prefer-application-packages>
+		  
+		  <prefer-application-resources>
+	       <resource-name>META-INF/services/*</resource-name>
+	     </prefer-application-resources>
      
-     
-    <wls:prefer-application-packages>
-        <wls:package-name>javassist</wls:package-name>
-    </wls:prefer-application-packages>
-
-
-</wls:weblogic-application> 
+</weblogic-application>
 
 

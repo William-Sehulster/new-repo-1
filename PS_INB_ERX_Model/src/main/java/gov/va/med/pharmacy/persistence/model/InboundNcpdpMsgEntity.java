@@ -29,8 +29,8 @@ import gov.va.med.pharmacy.persistence.model.usertypes.InboundNcpdpMsgUserType;
 public class InboundNcpdpMsgEntity implements java.io.Serializable {
 
 
-	private static final long serialVersionUID = -757598674345177624L;
 	
+	private static final long serialVersionUID = 1752786901264899331L;
 
 	@Id	
 	@SequenceGenerator(name="INB_MSG_SEQ_GEN", sequenceName="ERX.IB_NCPDP_MSG_ID_SEQ", allocationSize=1)
@@ -65,7 +65,7 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 	@Column(name = "MESSAGE_FROM", length = 35)
 	private String messageFrom;
 	
-	@Type(type = "InboundNcpdpMsgUserType") 
+	@Type(type = "gov.va.med.pharmacy.persistence.model.usertypes.InboundNcpdpMsgUserType") 
 	@Column(name = "MESSAGE")
 	private String message;
 	
@@ -90,6 +90,9 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATED_DATE", length = 7)
 	private Date createdDate;	
+	
+	@Column(name = "SCRIPT_VERSION", length = 10)
+	private String scriptVersion;
 
 	public InboundNcpdpMsgEntity() {
 	}
@@ -111,7 +114,7 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 			String erxStatusByMessageStatus, String erxStatusByProviderChkStatus,
 			String erxStatusByDrugChkStatus, long pharmacyId, String messageId, String relToMessageId,
 			String messageFrom,String messageType, String message, String patientMatchDetails, String providerMatchDetails,
-			String drugMatchDetails, Date receivedDate, Date updatedDate, Date createdDate) {
+			String drugMatchDetails, Date receivedDate, Date updatedDate, Date createdDate, String scriptVersion) {
 		this.inboundNcpdpMsgId = inboundNcpdpMsgId;
 		this.erxStatusByPatientChkStatus = erxStatusByPatientChkStatus;
 		this.erxStatusByMessageStatus = erxStatusByMessageStatus;
@@ -129,6 +132,7 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 		this.receivedDate = receivedDate;
 		this.updatedDate = updatedDate;
 		this.createdDate = createdDate;
+		this.scriptVersion = scriptVersion;
 		
 	}
 	
@@ -294,6 +298,11 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 		this.createdDate = createdDate;
 	}
 
-	
+	public String getScriptVersion() {
+		return this.scriptVersion;
+	}
 
+	public void setScriptVersion(String scriptVersion) {
+		this.scriptVersion = scriptVersion;
+	}
 }

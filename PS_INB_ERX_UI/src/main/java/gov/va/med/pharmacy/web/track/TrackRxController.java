@@ -49,6 +49,8 @@ public class TrackRxController {
 
 	private static final String ALL_VALUE = "All";
 	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(TrackRxController.class);
+
 	@Autowired
 	private TrackMessageService trackMessageService;
 	
@@ -68,7 +70,7 @@ public class TrackRxController {
 		 
 		session.setAttribute("USER_STATIONS_IDS", currentUser.getVaStationIds());
 		
-		ModelAndView view = new ModelAndView("trackeRx.homepage");
+		ModelAndView view = new ModelAndView("trackeRx");
 		
 		List<VisnSelectModel>  visnList = getVisnSelect(currentUser.getVaStationIds());
 		
@@ -99,11 +101,12 @@ public class TrackRxController {
 		String inboundOutbound = node.get("inboundOutbound").asText();
 		
 		String relatedMsgSearch = node.get("relatedMsgSearch").asText();
-				
+
 		return trackMessageService.findByMessageId(messageId, inboundOutbound, relatedMsgSearch);
 	}
 	
-	@RequestMapping(value = "/getMessages", method = RequestMethod.GET, produces = "application/json")
+	// IAM request filtering issue fix -  Change form get to post method
+	@RequestMapping(value = "/getMessages", method = RequestMethod.POST, produces = "application/json")
 	@CacheControl(policy = {CachePolicy.NO_CACHE})
 	
 	public ModelAndView getMessages(HttpServletRequest request, @RequestParam("json") String json)
@@ -128,10 +131,11 @@ public class TrackRxController {
 		String messageId = "%";
 		String relatesToId = "%";
 		String visn = "";
-		String vaStationId = "%";
+		String vaStationId = "";
 		String fromDate = "";
 		String toDate = "";
 		String patientSsn = "";
+		String patientSSN2017071 ="";
 		String patientLastName = "%";
 		String patientFirstName = "%";
 		String patientDob = "";
@@ -143,6 +147,7 @@ public class TrackRxController {
 		String messageStatus = "";
 		String inboundNcpdpMsgId = "%";
 		String inboundOutbound = "";
+		String numberOfRecords = "100"; // set default value to 100 records.
 		
 		JsonNode node = jsonMapper.readValue(jsonString, JsonNode.class);
 		if (node.get("inboundNcpdpMessageId") != null){
@@ -156,13 +161,17 @@ public class TrackRxController {
 		if (node.get("trackauditVisnSelection") != null){
 			visn = node.get("trackauditVisnSelection").asText();}
 		if (node.get("pharmacyVaStationId") != null){
-			vaStationId = node.get("pharmacyVaStationId").asText().trim() + '%';}
+			vaStationId = node.get("pharmacyVaStationId").asText().trim(); }
 		if (node.get("dateFrom") != null){
 			fromDate = node.get("dateFrom").asText();}
 		if (node.get("dateTo") != null){
 			toDate = node.get("dateTo").asText();}
 		if (node.get("patientSsn") != null){
-			patientSsn = node.get("patientSsn").asText().trim().replace("-", "");}
+			
+			patientSSN2017071 = node.get("patientSsn").asText().trim();
+			
+			patientSsn = node.get("patientSsn").asText().trim().replace("-", "");
+			}
 		if (node.get("patientLastName") != null){
 			patientLastName = node.get("patientLastName").asText().toUpperCase().trim() + '%';}
 		if (node.get("patientFirstName") != null){
@@ -184,6 +193,14 @@ public class TrackRxController {
 		if (node.get("inboundOutbound") != null){
 			inboundOutbound = node.get("inboundOutbound").asText();	
 		}
+		
+		// get record size.
+		
+		if (node.get("recordSizeValue") != null){
+			
+			numberOfRecords = node.get("recordSizeValue").asText();
+		}
+		
 		
 		// before doing search check if user has MbM station Id, otherwise return blank result.
 		
@@ -211,7 +228,8 @@ public class TrackRxController {
 			mbmSearchAllowed = true;
 		}
 			eRxMessageList = trackMessageService.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate, patientSsn, patientLastName,
-						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId, inboundOutbound, mbmSearchAllowed);
+						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId,
+						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071);
 			
 		
 		return eRxMessageList;
@@ -244,21 +262,18 @@ public class TrackRxController {
 	}
 
 	
-	@RequestMapping(value = "/getTrackAuditListCSV", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/getTrackAuditListCSV", method = {RequestMethod.GET})
 	public void csvExport(HttpServletRequest request, @RequestParam("json") String json,HttpServletResponse response) 
 			throws JsonParseException, JsonMappingException, IOException{
 		
 		try {
 			
+					
 			String csvFileName = "TrackAudit.csv";
 			
 			String responseHeaderKey = "Content-Disposition";
 			
 			String responseHeaderValue = String.format("attachment; filename=\"%s\"",   csvFileName);
-			
-			//response.setContentType("text/csv");
-			
-			//response.setHeader(responseHeaderKey, responseHeaderValue);
 			
 			List<NcpdpMessageListModel> eRxMessageList = trackAuditSearch(request,json);
 			
@@ -299,14 +314,19 @@ public class TrackRxController {
 
 			String data = view.getStringRepresentation(csvModel);
 
-			response.getOutputStream().print(data);
+			response.getOutputStream().print(data);			
 
-			response.getOutputStream().flush();
+			response.getOutputStream().flush();		
+			
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			
+			LOG.error("Error while generating Track Audit CSV", e.getMessage());
 		}
+		
 		
 	}
 	

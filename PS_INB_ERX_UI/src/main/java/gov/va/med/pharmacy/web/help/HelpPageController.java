@@ -15,7 +15,7 @@ public class HelpPageController {
 		
 		// TODO Help pages logic
 		
-		return new ModelAndView ("help.homepage");
+		return new ModelAndView ("help");
 	}
 
 	

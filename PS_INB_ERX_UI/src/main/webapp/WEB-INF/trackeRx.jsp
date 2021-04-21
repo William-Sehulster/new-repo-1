@@ -1,3 +1,23 @@
+<%-- header, body start and end includes --%>
+<jsp:include page="/WEB-INF/layouts/headerLayout.jsp" />
+
+<%-- add page specific css --%>
+<link rel="stylesheet" type="text/css" href="/inbound/style/main.css">
+<link rel="stylesheet" type="text/css" href="/inbound/style/forms.css">
+<link rel="stylesheet" type="text/css" href="/inbound/style/tables.css">
+
+<%-- add page specific js --%>
+<script type="text/javascript" src="/inbound/scripts/component/dataGridSupport.js"> </script>
+<script type="text/javascript" src="/inbound/scripts/component/dataGrid.js"> </script>
+<script type="text/javascript" src="/inbound/scripts/component/trackDataGrid.js"> </script>
+<script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
+<script type="text/javascript" src="/inbound/scripts/trackeRx.js"> </script>
+
+<title>Track/Audit eRx</title>
+<%-- page body start --%>
+<jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -26,6 +46,12 @@
 	
 </div> 
 </div>
+ <div id="trackAuditFromDateInfo" style="display: none;">
+    Please select or enter From Date in MM/DD/YYYY Format.
+ </div>
+ <div id="trackAuditToDateInfo" style="display: none;">
+    Please select or To Date in MM/DD/YYYY Format.
+ </div>
 <div style="width: 233px; padding-left: 5px;" >
 <label for="pharmacyVaStationId" style="width: 90px;height: 20px;padding-top:2px;">VA Station ID:</label>
 <input id="pharmacyVaStationId" name="pharmacyVaStationId"  data-dojo-type="dijit/form/TextBox" value="" maxlength="20" style="width: 127px;padding-top:0px;" title="Station ID of the VA pharmacy"></input> 
@@ -36,12 +62,12 @@
 	<c:set var ="yesterdaysDateVal" value="<%=new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)%>"/>
 	<fmt:formatDate  pattern="yyyy-MM-dd" value="${yesterdaysDateVal}" var="yesterdayDateFormatted"/>
 	<input type="text" name="dateFrom" id="dateFrom" constraints="{max: new Date()}" value="${yesterdayDateFormatted}" 
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="From Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditFromDateInfo" style="padding-top:0px;"/>
 </div>
 <div style="width: 350px;" title="Ending date range">
 	<label for="dateTo" style="width: 125px;height: 20px;padding-top:2px; padding-right: 29px;">To Date:</label> 
 	<input type="text" name="dateTo" id="dateTo" constraints="{max: new Date()}" value="now"
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="To Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditToDateInfo" style="padding-top:0px;"/>
 </div>
 </div>
 
@@ -54,11 +80,10 @@
 	<span value="CancelRxResponse">CancelRxResponse</span>
 	<span value="Error">Error</span>
 	<span value="NewRx">NewRx</span>
-	<span value="RefillResponse">RefillResponse</span>
-	<span value="RefillRequest">RefillRequest</span>
+	<span value="RefillResponse">RxRenewalResponse</span>
+	<span value="RefillRequest">RxRenewalRequest</span>
 	<span value="RxChangeResponse">RxChangeResponse</span>
 	<span value="RxChangeRequest">RxChangeRequest</span>
-	<span value="RxFill">RxFill</span>
 	<span value="Status">Status</span>
 	<span value="Verify">Verify</span>
 </div>
@@ -69,6 +94,7 @@
 <input id="relatedMessageId2" name="relatedMessageId" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Related to Message Identifier"></input>
 </div>
 
+
 <div style="width: 1100px;" >
 <label for="patientSsn2" style="width: 125px;height: 20px;padding-top:2px;">Patient SSN:</label>
 <input id="patientSsn2" name="patientSsn" data-dojo-type="dijit/form/ValidationTextBox" value="" style="width: 200px;"
@@ -78,7 +104,7 @@
  		return true;
  		}
  		return dojox.validate.us.isSocialSecurityNumber(text);
- 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number"  ></input>    
+ 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number, maximum characters allowed is 11."  ></input>    
 <label for="patientLastName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient Last Name:</label>
 <input id="patientLastName2" name="patientLastName" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Patient Last Name"></input>
 <label for="patientFirstName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient First Name:</label>
@@ -135,11 +161,22 @@
 
 
 </div>
+ <div id="trackAuditSearchButtonInfo" style="display: none;">
+     The search will take sometime to load the result.
+  </div>
 
-<div style="width: 900px;">
-<button id="searchButton" type="button"></button>
+<div style="width: 190px;">
+<button id="searchButton" type="button" aria-describedby="trackAuditSearchButtonInfo"></button>
 <button id="clearButton"  type="button"></button>
 <button id="exportButton"  type="button"></button>
+</div>
+<div style="width: 200px;" >
+<label for="recordSize" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">Max Records:</label> 
+<div id="recordSize" name="recordSizeValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Record Size">
+	<span value="100">100</span>
+	<span value="7500">7500</span>
+	<span value="10000">10000</span>
+</div> 
 </div>
 
 </div>
@@ -153,7 +190,8 @@
 <h2 class="h2title"><span class="reportTitle"></span></h2>
 <div id="queryStatus" style="width: 900px;padding-left: 5px;"></div>
 
-<span id="messageList" tabindex="0"  style="width: 1125px; height: 290px; display: block;"></span><br/>
+<div id="messageList" tabindex="0"  class="generatedDivTableParent"></div><br/>
+
 <span id="trackRecNumberTitle" style="width: 250px;display: none;">
 Number of Records:
 <span id="trackRecNumber" style="position:relative;top:-14px;left:112px;display: none;">
@@ -162,7 +200,7 @@ Number of Records:
 
 <%-- Related Message Start --%>
 <span id="relatedMessagesParentInfo" tabindex="0"  style="width: 1125px;margin-top:-30px;margin-bottom:10px;  display: none;"></span> 
-<span id="relatedMessagesList" tabindex="0"  style="width: 1125px; height: 290px; display: none;"></span>
+<div id="relatedMessagesList" tabindex="0"  class="generatedDivTableParent" style="display: none;"></div>
 <span id="trackRelatedMessagesRecNumberTitle" style="width: 250px;display: none;">
 <br/>
 Number of Records:
@@ -199,9 +237,9 @@ Number of Records:
    <div role="row" class="trackRowGroup">
 	   <div class="ColumnLbls">
 	   <div role="rowheader" class="trackLbl">Name: </div> <div role="cell" id="pharmacyName" class="trackDataMoreRight trackDataLeft">&nbsp;</div> 
-	   <div class="Column2">
+	   
 	   <div role="columnheader" class="trackLblRight">NCPDP ID: </div><div  role="cell" id="pharmacyNCPDPID" class="trackDataRight">&nbsp;</div><br/> 
-	   </div>
+	
    	  </div> 
    </div>	  
    <div role="row" class="trackRowGroup">
@@ -296,6 +334,18 @@ Number of Records:
 	   <div role="columnheader" class="trackLblRight">Gender: </div><div role="cell" id="patientGender"  class="trackDataRight">&nbsp;</div>
     </div>
     </div>   
+        <div role="row" class="trackRowGroup">
+	   <div class="ColumnLbls">	   
+	   <div role="rowheader" class="trackLbl">Height: </div>  <div role="cell" id="patientHeight" class="trackDataMoreRight trackDataLeft">&nbsp;</div>
+	   <div role="columnheader" class="trackLblRight">Weight: </div><div role="cell" id="patientWeight"  class="trackDataRight">&nbsp;</div>
+    </div>
+    </div>  
+       <div role="row" class="trackRowGroup">
+	   <div class="ColumnLbls">	   
+	   <div role="rowheader" class="trackLbl">Primary Phone: </div>  <div role="cell" id="patientPrimaryPhone" class="trackDataMoreRight trackDataLeft">&nbsp;</div>
+	   <div role="columnheader" class="trackLblRight">Home Phone: </div><div role="cell" id="patientHomePhone"  class="trackDataRight">&nbsp;</div>
+    </div>
+    </div>  
    <div role="row">
   	 <div role="rowheader" class="trackH1">PRESCRIPTION</div>
    </div>
@@ -321,7 +371,7 @@ Number of Records:
   
   <div  role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div id="rxPotencyUnitCode" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div id="rxPotencyUnitCode" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div><div id="rxDaysSupply" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Date Written:  </div> <div id="rxDateWritten" style="width: 100px;" class="trackDataRight">&nbsp;</div>
   </div>
@@ -334,7 +384,9 @@ Number of Records:
   
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls"> 
-    <div role="rowheader" class="trackLbl">Drug Form: </div> <div role="cell" id="rxDrugForm" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>  
+     <div role="rowheader" class="trackLbl">Drug Form: </div> <div role="cell" id="rxDrugForm" style="width: 557px;" class="trackDataCenter">&nbsp;</div>  
+    <div role="columnheader" class="trackLbl">&nbsp;</div><div id="rxBlank" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
+  	<div role="columnheader" class="trackLbl">Issue Date:  </div> <div id="rxEffectiveDate" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div>
   </div>
   
@@ -350,9 +402,15 @@ Number of Records:
   </div>
   </div>
   
+   <div role="row" id="prohibitRenew" class="trackRowGroup">
+  <div class="ColumnLbls">  
+   <div role="rowheader"  class="trackLbl">Prohibit Renew: </div>  <div role="cell" id="rxProhibitRenewal" style="width: 1000px;" class="trackDataRight"> </div>   
+  </div>
+  </div>
+  
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -401,39 +459,18 @@ Number of Records:
 
   
   <div role="row" class="trackRowGroup">
-  <div class="ColumnLbls"> 
+  <div id="benefitsCoordination1" class="ColumnLbls"> 
    <div role="rowheader" class="trackLbl">Plan ID:  </div><div role="cell" id="patientPlanId" style="width: 558px;" class="trackDataLeft">&nbsp;</div>  
    <div role="columnheader" class="trackLbl">RxGRP: </div> <div role="cell" id="rxGrp" style="width: 200px;" class="trackDataCenter">&nbsp;</div>  
   </div> 
   </div>
   
    <div role="row" class="trackRowGroup">
-  <div class="ColumnLbls">  
+  <div id="benefitsCoordination2" class="ColumnLbls">  
    <div role="rowheader" class="trackLbl">RxBIN#: </div>  <div role="cell" id="rxBinNum" style="width: 558px;" class="trackDataLeft">&nbsp;</div>
    <div role="columnheader" class="trackLbl">RxPCN: </div> <div role="cell" id="rxPcn" style="width: 200px;" class="trackDataCenter">&nbsp;</div>   
   </div> 
   </div>  
- <%-- NewRx Autocheck validations--%>
- <div role="table" id="trackAutoCheck" style="display: none;">
-   <div role="row">
-     <div role="rowheader" class="trackH1">AUTOCHECK VALIDATIONS</div> 
-   </div>	 
-     <div role="row" class="trackRowGroup">
-  		<div class="ColumnLbls">
-  		<div role="rowheader" class="trackLbl">Patient Check: </div><div role="cell" id="rxPatientCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
-  		</div>  		
-  	</div>
-  	  <div role="row" class="trackRowGroup">
-  		<div class="ColumnLbls">
-  		<div role="rowheader" class="trackLbl">Provider Check: </div><div role="cell" id="rxProviderCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
-  		</div>  		
-  	</div>
-  	 <div role="row" class="trackRowGroup">
-  		<div class="ColumnLbls">
-  		<div role="rowheader" class="trackLbl">Drug Check: </div><div role="cell" id="rxDrugCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
-  		</div>  	
-  	</div>
-  </div>
   </div> <%-- NewRx table end --%>
   <%-- Medication Dispensed --%>
   <div role="table" id="trackMedDisp" style="display: none;" class="trackTable"> 
@@ -457,7 +494,7 @@ Number of Records:
 	  </div>
 	  <div role="row" class="trackRowGroup">
 	  <div class="ColumnLbls">	  
-	  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeDispensed" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+	  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeDispensed" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
 	   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyDispensed" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
 	   <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenDispensed" style="width: 100px;" class="trackDataRight">&nbsp;</div> 	  
 	  </div>	  
@@ -474,12 +511,12 @@ Number of Records:
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
 	  <div class="ColumnLbls"> 	   
-	   <div role="rowheader" class="trackLbl">Refills: </div> <div role="cell" id="rxRefillsDispensed" style="width: 1000px;" class="trackDataRight"> </div> 	    
+	   <div role="rowheader" class="trackLbl">Req. Refills: </div> <div role="cell" id="rxRefillsDispensed" style="width: 1000px;" class="trackDataRight"> </div> 	    
 	  </div>
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
 	  <div class="ColumnLbls"> 	  
-	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px;" class="trackDataRight"> </div>	   
+	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>	   
 	  </div>
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
@@ -501,7 +538,7 @@ Number of Records:
 		</div>
 	    <div role="row" class="trackRowGroup">
 	    <div class="ColumnLbls"> 
-	    <div role="rowheader" class="trackLbl">Req Ref Num: </div> <div role="cell" id="reqRefNum" class="trackDataLeft"></div>
+	    <div role="rowheader" class="trackLbl">Rel Ref Num: </div> <div role="cell" id="reqRefNum" class="trackDataLeft"></div>
 	    </div>   
 	    </div>
 	    </div>
@@ -530,9 +567,52 @@ Number of Records:
     </div>	
 	<div role="row" class="trackRowGroup">
     <div class="ColumnLbls">    
-    <div class="trackLbl">Resp Ref Num: </div><div  role="cell" id="resRefNum" class="trackDataLeft"></div> 
-    </div> 
-    </div> 	
+    <div class="trackLbl">Resp Ref Num: </div><div  role="cell" id="resRefNum" class="trackDataLeft"></div>
+    </div>  
+    </div>
+    <%-- RxChangeResponse Validated Being--%>
+    <div id="rxChangeRespVadlidatedDiv" style="display: none;">
+    <div role="row" class="trackRowGroup">
+    <div class="ColumnLbls">	 
+	 	<div class="trackLbl">Val. Prescr. NPI: </div>  <div role="cell" id="rxChgRespValidatedPrescriberNPI"  class="trackDataLeft">&nbsp;</div>	 
+	 	</div> 
+	 </div>
+	<div role="row" class="trackRowGroup">
+   	 <div class="ColumnLbls">
+	 <div class="trackLbl">Val. Prescr. DEA: </div> <div role="cell" id="rxChgRespValidatedPrescriberDEA"  class="trackDataLeft">&nbsp;</div>	 
+	 </div>   
+   </div>
+   <div role="row" class="trackRowGroup">
+   <div class="ColumnLbls">		 
+	 <div class="trackLbl" style="width: 130px;">Val. Prescr. State Lic: </div><div role="cell" id="rxChgRespValidatedPrescriberStateLic"   class="trackDataLeft">&nbsp;</div>
+	 </div> 
+   </div>  
+   	<div role="row" class="trackRowGroup">
+   	 <div class="ColumnLbls">
+	 <div class="trackLbl">Val. Date: </div> <div role="cell" id="rxChgRespValidatedDate"  class="trackDataLeft">&nbsp;</div>	 
+	 </div>   
+   </div>
+    </div><%-- Drug Coverage and  PriorAuthorization --%>
+    <div id="rxChangeRespDrugCoveragePADiv" style="display: none;">
+	    <div role="row" class="trackRowGroup">
+	   	 <div class="ColumnLbls">
+		 <div class="trackLbl">Drug Cov Status: </div> <div role="cell" id="rxChgRespDrugCoverageStatus"  class="trackDataLeft">&nbsp;</div>	 
+		 </div>   
+	   </div> 
+	    <div role="row" class="trackRowGroup">
+	   	 <div class="ColumnLbls">
+		 <div class="trackLbl">Prior Aut: </div> <div role="cell" id="rxChgRespPriorAuthorization"  class="trackDataLeft">&nbsp;</div>	 
+		 </div>   
+	   </div> 
+	    <div role="row" class="trackRowGroup">
+	   	 <div class="ColumnLbls">
+		 <div class="trackLbl">Prior Aut Status: </div> <div role="cell" id="rxChgRespPriorAuthorizationStatus"  class="trackDataLeft">&nbsp;</div>	 
+		 </div>   
+	   </div> 
+   </div>
+    <%-- RxChangeResponse Validated End --%>
+     
+    	
    </div>
    <%-- Error Verify Status --%>
     <div role="table" id="trackErrVerStat" style="display: none;"> 
@@ -599,7 +679,7 @@ Number of Records:
     <%--ChangeRequest Medication Requested --%> 
   <div role="table" id="trackChangeRequest" style="display: none;" class="trackTable"> 
      <div role="row">
-    <div role="rowheader" class="trackH1">MEDICATION REQUESTED</div>
+    <div role="rowheader" class="trackH1" id="rxChangeRequestMedRequstDiv1">MEDICATION REQUESTED</div>
     </div>
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">
@@ -618,17 +698,17 @@ Number of Records:
   </div> 
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div> <div role="cell" id="rxPotencyUnitCodeRequested" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div> <div role="cell" id="rxPotencyUnitCodeRequested" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div><div role="cell" id="rxDaysSupplyRequested" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
-  <div role="columnheader" class="trackLbl">Date Written:  </div><div role="cell" id="rxDateWrittenRequested" style="width: 100px;" class="trackDataRight">&nbsp;</div>
+  <div role="columnheader" class="trackLbl" id="rxDateWrittenRequestedLabel">Date Written:  </div><div role="cell" id="rxDateWrittenRequested" style="width: 100px;" class="trackDataRight">&nbsp;</div>
   </div>
   </div>   
-  <div role="row" class="trackRowGroup">
+  <div role="row" class="trackRowGroup" id="rxChangeRequestDrugFormRequested">
   <div class="ColumnLbls"> 
    <div role="rowheader" class="trackLbl">Drug Form: </div><div role="cell" id="rxDrugFormRequested" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>   
   </div>
   </div>
-    <div role="row" class="trackRowGroup">
+    <div role="row" class="trackRowGroup" id="rxChangeRequestDrugStrengthRequested">
   <div class="ColumnLbls">    
    <div role="rowheader" class="trackLbl">Drug Strength: </div><div role="cell" id="rxDrugStrengthRequested" style="width: 1000px;" class="trackDataRight">&nbsp;</div>   
   </div>
@@ -640,7 +720,7 @@ Number of Records:
   </div>
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px;" class="trackDataRight"> </div>     
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>     
   </div>
   </div>
     <div role="row" class="trackRowGroup">
@@ -675,17 +755,17 @@ Number of Records:
   </div>
    <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div> <div role="cell" id="rxPotencyUnitCodeRequested2" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div> <div role="cell" id="rxPotencyUnitCodeRequested2" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested2" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
-  <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested2" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
+  <div role="columnheader" class="trackLbl" id="rxDateWrittenRequested2Label">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested2" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div> 
   </div>
-  <div role="row" class="trackRowGroup">
+  <div role="row" class="trackRowGroup" id="rxChangeRequestDrugFormRequested2">
   <div class="ColumnLbls"> 
    <div role="rowheader" class="trackLbl">Drug Form: </div> <div role="cell" id="rxDrugFormRequested2" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>   
   </div>
   </div>
-   <div role="row" class="trackRowGroup">
+   <div role="row" class="trackRowGroup" id="rxChangeRequestDrugStrengthRequested2">
   <div class="ColumnLbls">    
   <div role="rowheader" class="trackLbl">Drug Strength: </div><div role="cell" id="rxDrugStrengthRequested2" style="width: 1000px;" class="trackDataRight">&nbsp;</div>  
   </div>
@@ -699,7 +779,7 @@ Number of Records:
   
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -736,19 +816,19 @@ Number of Records:
   </div> 
   </div>
   <div role="row" class="trackRowGroup">
-  <div class="ColumnLbls">  < 
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested3" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div class="ColumnLbls"> 
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested3" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested3" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
-  <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested3" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
+  <div role="columnheader" class="trackLbl" id="rxDateWrittenRequested3Label">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested3" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div> 
   </div>      
-  <div role="row" class="trackRowGroup">
+  <div role="row" class="trackRowGroup" id="rxChangeRequestDrugFormRequested3">
   <div class="ColumnLbls"> 
    <div role="rowheader" class="trackLbl">Drug Form: </div> <div role="cell" id="rxDrugFormRequested3" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>   
   </div>
   </div>
-  </div>
-    <div role="row" class="trackRowGroup">
+  
+    <div role="row" class="trackRowGroup" id="rxChangeRequestDrugStrengthRequested3">
   <div class="ColumnLbls">    
    <div role="rowheader" class="trackLbl">Drug Strength: </div><div role="cell" id="rxDrugStrengthRequested3" style="width: 1000px;" class="trackDataRight">&nbsp;</div>
   </div>
@@ -762,7 +842,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -777,6 +857,7 @@ Number of Records:
    <div role="rowheader" class="trackLbl">Comments: </div> <div role="cell" id="rxCommentsRequested3" style="width: 1000px;" class="trackDataRight"> </div> 
   </div>
   </div>  
+  </div> <!--  Medication Requested 3 RxChangeRequest Fix -->
     <!--4-->
     <div id="trackMedRequested4" style="display: none;">
   <div role="row">	
@@ -799,7 +880,7 @@ Number of Records:
   </div> 
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested4" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested4" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested4" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
   <div role="columnheader" class="trackLbl">Date Written:  </div>  <div role="cell" id="rxDateWrittenRequested4" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div>
@@ -824,7 +905,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -863,7 +944,7 @@ Number of Records:
   </div>
    <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested5" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested5" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div><div role="cell" id="rxDaysSupplyRequested5" style="width: 150px;" class="trackDataCenter">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Date Written:  </div>  <div role="cell" id="rxDateWrittenRequested5" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div> 
@@ -896,7 +977,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -934,7 +1015,7 @@ Number of Records:
   </div> 
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested6" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested6" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested6" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
   <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested6" style="width: 100px;" class="trackDataRight">&nbsp;</div>
   </div>
@@ -959,7 +1040,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -997,7 +1078,7 @@ Number of Records:
   </div>  
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested7" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested7" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested7" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
   <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested7" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div> 
@@ -1022,7 +1103,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1061,7 +1142,7 @@ Number of Records:
   </div>
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested8" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested8" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div><div role="cell" id="rxDaysSupplyRequested8" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
   <div role="columnheader" class="trackLbl">Date Written:  </div>  <div role="cell" id="rxDateWrittenRequested8" style="width: 100px;" class="trackDataRight">&nbsp;</div>
   </div>
@@ -1086,7 +1167,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1125,7 +1206,7 @@ Number of Records:
   </div>  
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-  <div role="rowheader" class="trackLbl">Potency Unit Cd:</div><div role="cell" id="rxPotencyUnitCodeRequested9" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
+  <div role="rowheader" class="trackLbl">Quantity UOM:</div><div role="cell" id="rxPotencyUnitCodeRequested9" style="width: 557px;" class="trackDataLeft">&nbsp;</div>
   <div role="columnheader" class="trackLbl">Days Supply: </div> <div role="cell" id="rxDaysSupplyRequested9" style="width: 150px;" class="trackDataCenter">&nbsp;</div> 
   <div role="columnheader" class="trackLbl">Date Written:  </div> <div role="cell" id="rxDateWrittenRequested9" style="width: 100px;" class="trackDataRight">&nbsp;</div> 
   </div> 
@@ -1150,7 +1231,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -1176,7 +1257,7 @@ Number of Records:
     </div>
 	<div role="row" class="trackRowGroup">
     <div class="ColumnLbls">     
-    <div role="rowheader" class="trackLbl">Req Ref Num: </div><div id="requestReferenceNumber" class="trackDataLeft"></div>
+    <div role="rowheader" class="trackLbl">Rel Ref Num: </div><div id="requestReferenceNumber" class="trackDataLeft"></div>
     </div>  
     </div>	
    </div>
@@ -1206,10 +1287,33 @@ Number of Records:
 	    <div role="rowheader" class="trackLbl">Reason Code: </div><div role="cell" id="rxFillReasonCd" class="trackDataLeft"></div>
 	    </div>
 	    </div>
-    </div>    
+    </div>  
+    <%-- NewRx Autocheck validations--%>
+ <div role="table" id="trackAutoCheck" style="display: none;">
+   <div role="row">
+     <div role="rowheader" class="trackH1">AUTOCHECK VALIDATIONS</div> 
+   </div>	 
+     <div role="row" class="trackRowGroup">
+  		<div class="ColumnLbls">
+  		<div role="rowheader" class="trackLbl">Patient Check: </div><div role="cell" id="rxPatientCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
+  		</div>  		
+  	</div>
+  	  <div role="row" class="trackRowGroup">
+  		<div class="ColumnLbls">
+  		<div role="rowheader" class="trackLbl">Provider Check: </div><div role="cell" id="rxProviderCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
+  		</div>  		
+  	</div>
+  	 <div role="row" class="trackRowGroup">
+  		<div class="ColumnLbls">
+  		<div role="rowheader" class="trackLbl">Drug Check: </div><div role="cell" id="rxDrugCheck" style="width: 1000px;" class="trackDataCenter">&nbsp;</div>
+  		</div>  	
+  	</div>
+  </div>  
     <input id="trackMsgIdHidden" name="trackMsgIdHidden"  type="hidden" value="" style="display: none;"></input> 
     <input id="trackHubMsgIdHidden" name="trackHubMsgIdHidden"  type="hidden" value="" style="display: none;"></input> 
      <input id="trackMsgTypeHidden" name="trackMsgTypeHidden"  type="hidden" value="" style="display: none;"></input>
      <input id="trackParentMsgStatusHidden" name="trackParentMsgStatusHidden"  type="hidden" value="" style="display: none;"></input>   
-    </div><%--result1 div end --%>
+    </div><%--result1 div end --%>   
     
+<%-- end body --%>
+<jsp:include page="/WEB-INF/layouts/bodyLayoutEnd.jsp" />

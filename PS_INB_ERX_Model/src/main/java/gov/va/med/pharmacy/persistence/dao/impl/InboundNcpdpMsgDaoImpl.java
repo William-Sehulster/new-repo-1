@@ -1,5 +1,7 @@
 package gov.va.med.pharmacy.persistence.dao.impl;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import gov.va.med.pharmacy.persistence.BaseDao;
@@ -11,8 +13,25 @@ public class InboundNcpdpMsgDaoImpl extends BaseDao<Integer, InboundNcpdpMsgEnti
 
 	@Override
 	public void save(InboundNcpdpMsgEntity inboundeRx) {
-		 persist(inboundeRx);
-		
+		persist(inboundeRx);
+
+	}
+
+	@Override
+	public InboundNcpdpMsgEntity findByMessageId(String msgId) {
+
+		Criteria criteria = createEntityCriteria();
+
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // for unique results
+
+		if (msgId != null) {
+
+			criteria.add(Restrictions.eq("messageId", msgId));
+		}
+
+		InboundNcpdpMsgEntity inboundNcpdpMsg = (InboundNcpdpMsgEntity) criteria.uniqueResult();
+
+		return inboundNcpdpMsg;
 	}
 
 }

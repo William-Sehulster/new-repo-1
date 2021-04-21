@@ -3,14 +3,20 @@
     xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/security 
-    http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+    http://www.springframework.org/schema/security/spring-security.xsd">
       
-    <http auto-config="true">
-        <headers>
-            <content-security-policy policy-directives="any" />          
-        </headers>     
+    <http auto-config="true" >  
+    
+         <!-- 	<headers>    
+    		<content-security-policy policy-directives="default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'" />
+    	</headers> -->
+    	
+    	<headers>    
+    		<content-security-policy policy-directives="default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'" />
+    	</headers>
+    	
         <!-- 
         <intercept-url pattern="/**" access="permitAll" />
         -->

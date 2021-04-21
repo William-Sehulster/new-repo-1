@@ -17,9 +17,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
-import gov.va.med.pharmacy.ncpdpmsgs.MessageType;
 import gov.va.med.pharmacy.persistence.model.usertypes.OutboundNcpdpMsgUserType;
-
+import gov.va.med.pharmacy.ncpdpmsgs.MessageType;
 
 
 @Entity(name = "OutboundNcpdpMsgEntity")
@@ -27,7 +26,9 @@ import gov.va.med.pharmacy.persistence.model.usertypes.OutboundNcpdpMsgUserType;
 @Table(name = "OUTBOUND_NCPDP_MSG", schema = "ERX")
 public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 
-	private static final long serialVersionUID = -7893927440837337009L;
+
+	
+	private static final long serialVersionUID = -4277236723847807744L;
 
 	@Id	
 	@SequenceGenerator(name="OB_MSG_SEQ_GEN", sequenceName="ERX.OB_NCPDP_MSG_ID_SEQ", allocationSize=1)
@@ -50,7 +51,7 @@ public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 	@Column(name = "MESSAGE_TYPE", length = 35)
 	private String messageType;
 	
-	@Type(type = "MessageType") 
+	@Type(type = "gov.va.med.pharmacy.persistence.model.usertypes.OutboundNcpdpMsgUserType") 
 	@Column(name = "MESSAGE")
 	private MessageType message;
 	
@@ -66,6 +67,8 @@ public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 	@Column(name = "CREATED_DATE", length = 7)
 	private Date createdDate;
 	
+	@Column(name = "SCRIPT_VERSION", length = 10)
+	private String scriptVersion;
 
 	public OutboundNcpdpMsgEntity() {
 	}
@@ -78,7 +81,7 @@ public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 
 	public OutboundNcpdpMsgEntity(long outboundNcpdpMsgId, String erxStatus, long pharmacyId, String messageId,
 			String relToMessageId, String messageType, MessageType message, Date receivedDate,
-			Date updatedDate, Date createdDate) {
+			Date updatedDate, Date createdDate, String scriptVersion ) {
 		this.outboundNcpdpMsgId = outboundNcpdpMsgId;
 		this.erxStatus = erxStatus;
 		this.pharmacyId = pharmacyId;
@@ -88,7 +91,8 @@ public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 		this.message = message;
 		this.receivedDate = receivedDate;
 		this.updatedDate = updatedDate;
-		this.createdDate = createdDate;		
+		this.createdDate = createdDate;
+		this.scriptVersion = scriptVersion;
 	}
 
 	
@@ -180,6 +184,12 @@ public class OutboundNcpdpMsgEntity implements java.io.Serializable {
 		this.pharmacyId = pharmacyId;
 	}
 
-	
 
+	public String getScriptVersion() {
+		return this.scriptVersion;
+	}
+
+	public void setScriptVersion(String scriptVersion) {
+		this.scriptVersion = scriptVersion;
+	}
 }

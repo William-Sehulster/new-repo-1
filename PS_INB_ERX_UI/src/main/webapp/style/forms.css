@@ -357,9 +357,10 @@ label[for=pharmacyFilterFormVisnSelect] {
 	font-size: 12px;
 	font-weight: bold;
 	padding-left: 200px;
+	min-height: 1px;
 }
 
 .trackDataMoreRight {
 	width:  355px;
-	
+	min-height: 1px;
 }

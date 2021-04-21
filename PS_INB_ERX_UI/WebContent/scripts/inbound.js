@@ -12,6 +12,12 @@ var sessionTime = null;
 
 var timeoutTime = null;
 
+var finalTimeoutTime = null;
+
+var userResponse = false;
+
+var sessionExtended = false;
+
 	dojo.addOnLoad(function() {
 		
 		setSessionWarningTimer();
@@ -20,7 +26,7 @@ var timeoutTime = null;
 		
 		var ie = IeVersion();
 
-		if( ie.IsIE == true && ie.CompatibilityMode == true){
+		if( ie.IsIE == true && ie.CompatibilityMode == true && ie.TrueVersion == 11){
 			
 			if(dojo.byId("compatWarning")!=null){
 				
@@ -36,68 +42,131 @@ function highlightTab(){
 	if ((path.match("index") != null) || (path.match("homepage")) )
 	{
         dojo.addClass(dojo.byId("index"), "activeTab");
+        dojo.byId("indexSelectedInfo").innerHTML= "HomePage Selected";
     }
 	else if (path.match("vieweRx") != null) 
 	{
         dojo.addClass(dojo.byId("vieweRx"), "activeTab");
+        dojo.byId("vieweRxSelectedInfo").innerHTML= "View Rx Page Selected";
     } 
 	else if (path.match("managePharm") != null) 
 	{
         dojo.addClass(dojo.byId("managepharmacy"), "activeTab");
+        dojo.byId("managepharmacySelectedInfo").innerHTML= "Pharmacy Management Page Selected";
     }
 	else if (path.match("track") != null) 
 	{
         dojo.addClass(dojo.byId("trackeRx"), "activeTab");
+        dojo.byId("trackeRxSelectedInfo").innerHTML= "Track Audit Page Selected";
     } 
 	else if (path.match("reports") != null) 
 	{
         dojo.addClass(dojo.byId("reports"), "activeTab");
+        dojo.byId("reportsSelectedInfo").innerHTML= "Reports Page Selected";
     } 
 	else if (path.match("manageUsers") != null) 
 	{
         dojo.addClass(dojo.byId("manageusers"), "activeTab");
+        dojo.byId("manageusersSelectedInfo").innerHTML= "User Management Page Selected";
     } 
 	else if (path.match("help") != null) 
 	{
         dojo.addClass(dojo.byId("help"), "activeTab");
+        dojo.byId("helpSelectedInfo").innerHTML= "Help Page Selected";
     }
 }
 
 function sessionTimeOutWarning() {  
-    alert("Your Inbound eRx session will end in two minutes.");
+    
+	userResponse = confirm("Your Inbound eRx session will end in two minutes. Do you want to extend it to 30 minutes.");
 
 }
 
 function sessionTimeOutWinClose() {  
-    // check if browser is IE.
-	var ie = IeVersion();
 	
-	//alert("Window will be closed.");
-	
-	if( ie.IsIE == true ){
+	if(sessionExtended == false){
 		
-		 window.open('', '_self', '');
-		 window.close();
+		 // check if browser is IE.
+		var ie = IeVersion();
+		
+		
+		if( ie.IsIE == true ){
+			
+			     var url ="/inbound/inb-erx/logout";
+			
+				 window.location.href= url;
+		    	
+		    	 window.open('', '_self', '');
+		    	 
+				 window.close();
+			
+		}
+		else
+		{
+			var url ="/inbound/inb-erx/logout";
+			
+			window.location.href= url;
+		}
 		
 	}
-	else
-	{
-		var url ="/inbound/inb-erx/logout";
-		
-		window.location.href= url;
-	}
-
+	
 }
+
+function extendSession(){
+	
+	    // reset
+	    sessionExtended = false;
+	     
+	    if(userResponse == true)
+	    {
+	  	    	
+	    	var url ="/inbound/inb-erx/appManagement/extendSession";
+	    	
+	    	
+	    	dojo.xhrGet({
+	            url: url,
+	            handleAs: "json", 
+	            load: function(data, ioArgs) {
+	            	if(data.message =="success"){
+	    				  
+	    				  alert("Your session has been extented for 30 minutes.");
+	    				  sessionExtended = true;
+	    				  setSessionWarningTimer();
+	    			  }
+	    			  else{
+	    				  
+	    				 alert("Your session request failed. Please close your browser window and relaunch Inbound eRx web application.");
+	    			  }
+	               
+	            },
+	            error: function(error) {
+	                console.log("Error occurred while submitting session extension request.", error);
+	            }
+	        });
+	    	
+	    }	
+	    else
+	    {
+	    	sessionExtended = false;
+	    	
+	    	sessionTimeOutWinClose();	
+	    }    
+	    
+}
+
 
 function setSessionWarningTimer(){
 	/* Assumes Session timout in the web.xml is set to 29 minutes.  
-	   Will send a warning alert at 28 minutes */
+	   Will send a warning alert at 28 minutes */	
 	var maxTime = 60 * 28 * 1000;
 	timeoutTime =  60 * 29 * 1000;
     sessionTime = window.setTimeout(sessionTimeOutWarning, maxTime);
     
-    window.setTimeout(sessionTimeOutWinClose, timeoutTime);
+    window.setTimeout(extendSession, timeoutTime);	
     
+    finalTimeoutTime = 60 * 30 * 1000;
+    
+    window.setTimeout(sessionTimeOutWinClose, finalTimeoutTime);	
 }
 
 

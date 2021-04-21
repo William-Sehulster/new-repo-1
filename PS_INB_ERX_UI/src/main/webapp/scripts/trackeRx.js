@@ -3,34 +3,56 @@ dojo.require("dojo.parser");
 dojo.require("dojo.dom-construct");
 dojo.require("dojox.validate.us");
 dojo.require("dijit.registry");
+dojo.require("dijit.Dialog");
 
 
 dojo.ready(function() {
 
 	
-	require(["dojo/on", "dojo/domReady!"], function(on) {
+	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
 	        if (event.keyCode == '13'){
-		        var searchCritForm = dijit.byId("searchCriteriaForm");
-		        if(searchCritForm.validate()){
-		        	dojo.style(dojo.byId('messageList'), "display", "block");
-		        	getTrackGrid();
-		        }else{
-		        	alert('Search form contains invalid values. Please correct and try your search again.')
-		        	return false;
-		        }
-		        return true;
+	        	
+	        
+	        	var triggeringElementTagName = event.target.tagName;
+	        	
+	        	//console.log(triggeringElementTagName);
+	        	
+	        	if(triggeringElementTagName =="INPUT" || triggeringElementTagName =="SPAN" ){
+	        		
+	        	  var searchCritForm = dijit.byId("searchCriteriaForm");
+	        	  
+	 		        if(searchCritForm.validate()){
+	 		        	
+	 		        	
+	 		        	
+	 		        	dojo.style(dojo.byId('messageList'), "display", "block");
+	 		        	
+	 		        	getTrackGrid();
+	 		        	
+	 		        	
+	 		        	
+	 		        }else{
+	 		        	alert('Search form contains invalid values. Please correct and try your search again.')
+	 		        	return false;
+	 		        }
+	 		        return true;
+	        	}
+	        	
+		       
 	        }
 	    });
 	});
 
-	require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, dom){
+	require(["dijit/form/Button","dojo/dom", "dojo/domReady!"], function(Button, dom){
 	    var myButton = new Button({
 	        label: "Search",
 	        onClick: function(){
 	        var dateValidation = true;	
 	        var startDate = dijit.byId('dateFrom');
 	    	var endDate = dijit.byId('dateTo');
+	    	
+                        
 	        
 	    	dateValidation = validateDates(startDate.get("value"), endDate.get("value"));	
 	        
@@ -41,8 +63,10 @@ dojo.ready(function() {
 		        
 		        	var searchCritForm = dijit.byId("searchCriteriaForm");
 			        if(searchCritForm.validate()){
-			        	dojo.style(dojo.byId('messageList'), "display", "block");
+			        	
 			        	getTrackGrid();
+			        	
+			        	
 			        }else{
 			        	alert('Search form contains invalid values. Please correct and try your search again.')
 			        	return false;
@@ -71,7 +95,11 @@ dojo.ready(function() {
 	        	
 	        	 dojo.byId("trackRecNumberTitle").style.display="none";
 	        }
-	        	
+	        
+	         // clear search status
+	         dojo.byId("queryStatus").innerHTML = "";
+	         
+	        
 	         //clearDetail();
 	 		 var messageIdBox = dijit.byId("messageId2");
 			 messageIdBox.set("value", "");
@@ -133,6 +161,12 @@ dojo.ready(function() {
 			 var visnSelect = dojo.byId("trackauditVisnSelection");
 			 
 			 visnSelect.selectedIndex = 0;
+			 
+			 
+			 // reset Max Records
+			 
+			 var maxRecordsSelect = dijit.byId("recordSize");
+			 maxRecordsSelect.set("value", "100");
 			 
 
 	 		 var inboundNcpdpMessageIdBox = dijit.byId("inboundNcpdpMessageId");
@@ -321,13 +355,23 @@ function clearDetail(){
 		dojo.byId("patientAddr2").innerHTML = "&nbsp;";
 		dojo.byId("patientDob").innerHTML = "";
 		dojo.byId("patientGender").innerHTML = "&nbsp;";
-		dojo.byId("patientPlanId").innerHTML = "&nbsp;";
-        //Prescription
+		dojo.byId("patientPrimaryPhone").innerHTML = "&nbsp;";
+		dojo.byId("patientHomePhone").innerHTML = "&nbsp;";	
+		dojo.byId("patientPlanId").innerHTML = "&nbsp;";		
+		//Observations...part of Patient section
+		dojo.byId("patientWeight").innerHTML = "&nbsp;";
+		dojo.byId("patientHeight").innerHTML = "&nbsp;";
+		
+		dojo.byId("rxProhibitRenewal").innerHTML = "&nbsp;";
+        
+		//Prescription
         dojo.byId("rxDrugPrescribed").innerHTML = "&nbsp;";
         dojo.byId("rxDrugPrescribedNdc").innerHTML = "&nbsp;";
         dojo.byId("rxQuantity").innerHTML = "&nbsp;";
 		dojo.byId("rxDaysSupply").innerHTML = "&nbsp;";
 		dojo.byId("rxDateWritten").innerHTML = "&nbsp;";
+		dojo.byId("rxBlank").innerHTML = "&nbsp;";
+		dojo.byId("rxEffectiveDate").innerHTML = "&nbsp;";
 		dojo.byId("rxPotencyUnitCode").innerHTML = "&nbsp;";
 		dojo.byId("rxDrugForm").innerHTML = "&nbsp;";
 		dojo.byId("rxDrugStrength").innerHTML = "&nbsp;";
@@ -534,6 +578,7 @@ function clearDetail(){
 
 function getMessage(id, inOut,relatedMsg){
 	
+	var changeRequestTypeVal = null;
 	// hide number of records
 	
 	 var recNumber = dojo.byId("trackRecNumber");
@@ -730,9 +775,22 @@ function getMessage(id, inOut,relatedMsg){
 		if (data.patientDob != null){
 		dojo.byId("patientDob").innerHTML = data.patientDob};
 		if (data.patientGender != null){
-		dojo.byId("patientGender").innerHTML = data.patientGender};
+		dojo.byId("patientGender").innerHTML = data.patientGender};	
+		if (data.patientPrimaryPhone != null){
+			dojo.byId("patientPrimaryPhone").innerHTML = formatUsPhone(data.patientPrimaryPhone)};
+		if (data.patientHomePhone != null){
+				dojo.byId("patientHomePhone").innerHTML = formatUsPhone(data.patientHomePhone)};			
 		if (data.planId != null){
 		dojo.byId("patientPlanId").innerHTML = data.planId};
+		//Observations		
+    	if (data.patientWeight != null){
+			dojo.byId("patientWeight").innerHTML = data.patientWeight};	
+		if (data.patientHeight != null){
+			dojo.byId("patientHeight").innerHTML = data.patientHeight};
+			
+		if (data.prohibitRenewalRequest != null){
+				dojo.byId("rxProhibitRenewal").innerHTML = data.prohibitRenewalRequest};		
+
         //Prescription
         if (data.rxDrugPrescribed != null){
         dojo.byId("rxDrugPrescribed").innerHTML = data.rxDrugPrescribed};
@@ -744,6 +802,8 @@ function getMessage(id, inOut,relatedMsg){
 		dojo.byId("rxDaysSupply").innerHTML = data.rxDaysSupply};
 		if (data.rxDateWritten != null){
 		dojo.byId("rxDateWritten").innerHTML = data.rxDateWritten};
+		if (data.rxIssueDate != null){
+		dojo.byId("rxEffectiveDate").innerHTML = data.rxIssueDate};
 		if (data.rxPotencyUnitCode != null){
 		dojo.byId("rxPotencyUnitCode").innerHTML = data.rxPotencyUnitCode};
 		if (data.rxDrugForm != null){
@@ -783,6 +843,7 @@ function getMessage(id, inOut,relatedMsg){
 		if (data.prescriberOrderNumber != null){
 		dojo.byId("prescriberOrderNumber").innerHTML = data.prescriberOrderNumber};
 		
+			
 		//AutoCheck Status
 		if (data.rxPatientCheck != null){
 			 dojo.byId("rxPatientCheck").innerHTML = data.rxPatientCheck};
@@ -827,6 +888,7 @@ function getMessage(id, inOut,relatedMsg){
 		if (data.resAprvReasonCd != null){
 		dojo.byId("resReasonCode").innerHTML = data.resAprvReasonCd;
 		}
+				
 		if (data.resAprvRefno != null){
 		dojo.byId("resRefNum").innerHTML = data.resAprvRefno;
 		}
@@ -861,8 +923,8 @@ function getMessage(id, inOut,relatedMsg){
 		dojo.byId("resReason").innerHTML = data.resDenialNrxReason;
 		}
 		
-		//display patient-provider-drug validation status for NEWRX only	
-		if (data.messageType.toUpperCase() == 'NEWRX')
+		//display patient-provider-drug validation status for NEWRX and RXRENEWALRESPONSE only	
+		if (data.messageType.toUpperCase() == 'NEWRX'  || data.messageType.toUpperCase() == 'RXCHANGERESPONSE' || (data.messageType.toUpperCase() == 'RXRENEWALRESPONSE' && data.resType.toUpperCase() == 'REPLACE'))
 		{
 			dojo.style(dojo.byId('trackAutoCheck'), "display", "block"); 
 		}
@@ -873,10 +935,20 @@ function getMessage(id, inOut,relatedMsg){
 		//display medication dispensed for REFILLREQUEST and others	
 		if (data.rxDrugDispensed != null){
 			dojo.style(dojo.byId('trackMedDisp'), "display", "block"); 
-			}		
+			}
+		dojo.style(dojo.byId('prohibitRenew'), "display", "block");
+		dojo.style(dojo.byId('benefitsCoordination1'), "display", "block");
+		dojo.style(dojo.byId('benefitsCoordination2'), "display", "block");
+		//don't display prohibitRenewal
+		if (data.messageType.toUpperCase() == 'RXRENEWALREQUEST' || data.messageType.toUpperCase() == 'RXRENEWALRESPONSE'){ 
+			dojo.style(dojo.byId('prohibitRenew'), "display", "none");
+			}
 		//display response/request if present
-		if (data.messageType.toUpperCase() == 'REFILLRESPONSE' || data.messageType.toUpperCase() == 'RXCHANGERESPONSE' || data.messageType.toUpperCase() == 'CANCELRXRESPONSE' ){
-		dojo.style(dojo.byId('trackReqRes'), "display", "block"); 		
+		if (data.messageType.toUpperCase() == 'RXRENEWALRESPONSE' ||data.messageType.toUpperCase() == 'REFILLRESPONSE' || data.messageType.toUpperCase() == 'RXCHANGERESPONSE' || data.messageType.toUpperCase() == 'CANCELRXRESPONSE' ){
+		dojo.style(dojo.byId('trackReqRes'), "display", "block");
+		//don't display benefits coordination
+		dojo.style(dojo.byId('benefitsCoordination1'), "display", "none");
+		dojo.style(dojo.byId('benefitsCoordination2'), "display", "none");
 		}
 		//if Error or Verify don't show empty Patient or Prescription
 		if (data.messageType.toUpperCase() == 'ERROR' || data.messageType.toUpperCase() == 'VERIFY' || data.messageType.toUpperCase() == 'STATUS' ){
@@ -912,278 +984,931 @@ function getMessage(id, inOut,relatedMsg){
 		
 		if (data.messageType.toUpperCase() == 'RXCHANGEREQUEST'){
 			if (data.changeRequestType != null){
-				dojo.byId("changeRequestType").innerHTML = data.changeRequestType};	 
-			if (data.requestReferenceNumber != null){
-				dojo.byId("requestReferenceNumber").innerHTML = data.requestReferenceNumber};
-			//Medication Requested
-			if (data.rxDrugRequested != null){
-			 dojo.byId("rxDrugRequested").innerHTML = data.rxDrugRequested};
-		    if (data.rxDrugRequestedNdc != null){
-		     dojo.byId("rxDrugRequestedNdc").innerHTML = data.rxDrugRequestedNdc};
-			if (data.rxQuantityRequested != null){
-			 dojo.byId("rxQuantityRequested").innerHTML = data.rxQuantityRequested};
-			if (data.rxDaysSupplyRequested != null){
-			 dojo.byId("rxDaysSupplyRequested").innerHTML = data.rxDaysSupplyRequested};
-		    if (data.rxDateWrittenRequested != null){
-			 dojo.byId("rxDateWrittenRequested").innerHTML = data.rxDateWrittenRequested};
-			if (data.rxPotencyUnitCodeRequested != null){
-			 dojo.byId("rxPotencyUnitCodeRequested").innerHTML = data.rxPotencyUnitCodeRequested};
-			if (data.rxDrugFormRequested != null){
-		     dojo.byId("rxDrugFormRequested").innerHTML = data.rxDrugFormRequested};
-			if (data.rxDrugStrengthRequested != null){
-			 dojo.byId("rxDrugStrengthRequested").innerHTML = data.rxDrugStrengthRequested};
-			if (data.rxRefillsRequested != null){
-			 dojo.byId("rxRefillsRequested").innerHTML = data.rxRefillsRequested};
-			if (data.rxSigRequested != null){
-			 dojo.byId("rxSigRequested").innerHTML = data.rxSigRequested};
-			if (data.rxDispenseNotesRequested != null){
-			 dojo.byId("rxDispenseNotesRequested").innerHTML = data.rxDispenseNotesRequested};
-			if (data.rxCommentsRequested != null){
-			 dojo.byId("rxCommentsRequested").innerHTML = data.rxCommentsRequested};
-			 
-			 dojo.style(dojo.byId('trackChangeRequest'), "display", "block");
-			 //<!--2-->
-			if(data.rxDrugRequested2 !=null){
-				dojo.byId("rxDrugRequested2").innerHTML = data.rxDrugRequested2;
-			    if (data.rxDrugRequestedNdc2 != null){
-			     dojo.byId("rxDrugRequestedNdc2").innerHTML = data.rxDrugRequestedNdc2};
-				if (data.rxQuantityRequested2 != null){
-				 dojo.byId("rxQuantityRequested2").innerHTML = data.rxQuantityRequested2};
-				if (data.rxDaysSupplyRequested2 != null){
-				 dojo.byId("rxDaysSupplyRequested2").innerHTML = data.rxDaysSupplyRequested2};
-			    if (data.rxDateWrittenRequested2 != null){
-				 dojo.byId("rxDateWrittenRequested2").innerHTML = data.rxDateWrittenRequested2};
-				if (data.rxPotencyUnitCodeRequested2 != null){
-				 dojo.byId("rxPotencyUnitCodeRequested2").innerHTML = data.rxPotencyUnitCodeRequested2};
-				if (data.rxDrugFormRequested2 != null){
-			     dojo.byId("rxDrugFormRequested2").innerHTML = data.rxDrugFormRequested2};
-				if (data.rxDrugStrengthRequested2 != null){
-				 dojo.byId("rxDrugStrengthRequested2").innerHTML = data.rxDrugStrengthRequested2};
-				if (data.rxRefillsRequested2 != null){
-				 dojo.byId("rxRefillsRequested2").innerHTML = data.rxRefillsRequested2};
-				if (data.rxSigRequested2 != null){
-				 dojo.byId("rxSigRequested2").innerHTML = data.rxSigRequested2};
-				if (data.rxDispenseNotesRequested2 != null){
-				 dojo.byId("rxDispenseNotesRequested2").innerHTML = data.rxDispenseNotesRequested2};
-				if (data.rxCommentsRequested2 != null){
-				 dojo.byId("rxCommentsRequested2").innerHTML = data.rxCommentsRequested2};
-				 dojo.style(dojo.byId('trackMedRequested2'), "display", "block");
-				 }
-			else {
-				dojo.style(dojo.byId('trackMedRequested2'), "display", "none");
+				dojo.byId("changeRequestType").innerHTML = data.changeRequestType;
+				
+				changeRequestTypeVal =  data.changeRequestType;
+				
 			}
-			 //<!--3-->
-			 if(data.rxDrugRequested3 !=null){
-					dojo.byId("rxDrugRequested3").innerHTML = data.rxDrugRequested3;
-				    if (data.rxDrugRequestedNdc3 != null){
-				     dojo.byId("rxDrugRequestedNdc3").innerHTML = data.rxDrugRequestedNdc3};
-					if (data.rxQuantityRequested3 != null){
-					 dojo.byId("rxQuantityRequested3").innerHTML = data.rxQuantityRequested3};
-					if (data.rxDaysSupplyRequested3 != null){
-					 dojo.byId("rxDaysSupplyRequested3").innerHTML = data.rxDaysSupplyRequested3};
-				    if (data.rxDateWrittenRequested3 != null){
-					 dojo.byId("rxDateWrittenRequested3").innerHTML = data.rxDateWrittenRequested3};
-					if (data.rxPotencyUnitCodeRequested3 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested3").innerHTML = data.rxPotencyUnitCodeRequested3};
-					if (data.rxDrugFormRequested3 != null){
-				     dojo.byId("rxDrugFormRequested3").innerHTML = data.rxDrugFormRequested3};
-					if (data.rxDrugStrengthRequested3 != null){
-					 dojo.byId("rxDrugStrengthRequested3").innerHTML = data.rxDrugStrengthRequested3};
-					if (data.rxRefillsRequested3 != null){
-					 dojo.byId("rxRefillsRequested3").innerHTML = data.rxRefillsRequested3};
-					if (data.rxSigRequested3 != null){
-					 dojo.byId("rxSigRequested3").innerHTML = data.rxSigRequested3};
-					if (data.rxDispenseNotesRequested3 != null){
-					 dojo.byId("rxDispenseNotesRequested3").innerHTML = data.rxDispenseNotesRequested3};
-					if (data.rxCommentsRequested3 != null){
-					 dojo.byId("rxCommentsRequested3").innerHTML = data.rxCommentsRequested3};
-					 dojo.style(dojo.byId('trackMedRequested3'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested3'), "display", "none");
-				}
-			 //<!--4-->
-			 if(data.rxDrugRequested4 !=null){
-					dojo.byId("rxDrugRequested4").innerHTML = data.rxDrugRequested4;
-				    if (data.rxDrugRequestedNdc4 != null){
-				     dojo.byId("rxDrugRequestedNdc4").innerHTML = data.rxDrugRequestedNdc4};
-					if (data.rxQuantityRequested4 != null){
-					 dojo.byId("rxQuantityRequested4").innerHTML = data.rxQuantityRequested4};
-					if (data.rxDaysSupplyRequested4 != null){
-					 dojo.byId("rxDaysSupplyRequested4").innerHTML = data.rxDaysSupplyRequested4};
-				    if (data.rxDateWrittenRequested4 != null){
-					 dojo.byId("rxDateWrittenRequested4").innerHTML = data.rxDateWrittenRequested4};
-					if (data.rxPotencyUnitCodeRequested4 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested4").innerHTML = data.rxPotencyUnitCodeRequested4};
-					if (data.rxDrugFormRequested4 != null){
-				     dojo.byId("rxDrugFormRequested4").innerHTML = data.rxDrugFormRequested4};
-					if (data.rxDrugStrengthRequested4 != null){
-					 dojo.byId("rxDrugStrengthRequested4").innerHTML = data.rxDrugStrengthRequested4};
-					if (data.rxRefillsRequested2 != null){
-					 dojo.byId("rxRefillsRequested4").innerHTML = data.rxRefillsRequested4};
-					if (data.rxSigRequested4 != null){
-					 dojo.byId("rxSigRequested4").innerHTML = data.rxSigRequested4};
-					if (data.rxDispenseNotesRequested4 != null){
-					 dojo.byId("rxDispenseNotesRequested4").innerHTML = data.rxDispenseNotesRequested4};
-					if (data.rxCommentsRequested4 != null){
-					 dojo.byId("rxCommentsRequested4").innerHTML = data.rxCommentsRequested4};
-					 dojo.style(dojo.byId('trackMedRequested4'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested4'), "display", "none");
-				}
-			 //<!--5-->
-			 if(data.rxDrugRequested5 !=null){
-					dojo.byId("rxDrugRequested5").innerHTML = data.rxDrugRequested5;
-				    if (data.rxDrugRequestedNdc5 != null){
-				     dojo.byId("rxDrugRequestedNdc5").innerHTML = data.rxDrugRequestedNdc5};
-					if (data.rxQuantityRequested5 != null){
-					 dojo.byId("rxQuantityRequested5").innerHTML = data.rxQuantityRequested5};
-					if (data.rxDaysSupplyRequested5 != null){
-					 dojo.byId("rxDaysSupplyRequested5").innerHTML = data.rxDaysSupplyRequested5};
-				    if (data.rxDateWrittenRequested5 != null){
-					 dojo.byId("rxDateWrittenRequested5").innerHTML = data.rxDateWrittenRequested5};
-					if (data.rxPotencyUnitCodeRequested5 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested5").innerHTML = data.rxPotencyUnitCodeRequested5};
-					if (data.rxDrugFormRequested5 != null){
-				     dojo.byId("rxDrugFormRequested5").innerHTML = data.rxDrugFormRequested5};
-					if (data.rxDrugStrengthRequested5 != null){
-					 dojo.byId("rxDrugStrengthRequested5").innerHTML = data.rxDrugStrengthRequested5};
-					if (data.rxRefillsRequested5 != null){
-					 dojo.byId("rxRefillsRequested5").innerHTML = data.rxRefillsRequested5};
-					if (data.rxSigRequested5 != null){
-					 dojo.byId("rxSigRequested5").innerHTML = data.rxSigRequested5};
-					if (data.rxDispenseNotesRequested5 != null){
-					 dojo.byId("rxDispenseNotesRequested5").innerHTML = data.rxDispenseNotesRequested5};
-					if (data.rxCommentsRequested5 != null){
-					 dojo.byId("rxCommentsRequested5").innerHTML = data.rxCommentsRequested5};
-					 dojo.style(dojo.byId('trackMedRequested5'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested5'), "display", "none");
-				}
-			 //<!--6-->
-			 if(data.rxDrugRequested6 !=null){
-					dojo.byId("rxDrugRequested6").innerHTML = data.rxDrugRequested6;
-				    if (data.rxDrugRequestedNdc6 != null){
-				     dojo.byId("rxDrugRequestedNdc6").innerHTML = data.rxDrugRequestedNdc6};
-					if (data.rxQuantityRequested6 != null){
-					 dojo.byId("rxQuantityRequested6").innerHTML = data.rxQuantityRequested6};
-					if (data.rxDaysSupplyRequested6 != null){
-					 dojo.byId("rxDaysSupplyRequested6").innerHTML = data.rxDaysSupplyRequested6};
-				    if (data.rxDateWrittenRequested6 != null){
-					 dojo.byId("rxDateWrittenRequested6").innerHTML = data.rxDateWrittenRequested6};
-					if (data.rxPotencyUnitCodeRequested6 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested6").innerHTML = data.rxPotencyUnitCodeRequested6};
-					if (data.rxDrugFormRequested6 != null){
-				     dojo.byId("rxDrugFormRequested6").innerHTML = data.rxDrugFormRequested6};
-					if (data.rxDrugStrengthRequested6 != null){
-					 dojo.byId("rxDrugStrengthRequested6").innerHTML = data.rxDrugStrengthRequested6};
-					if (data.rxRefillsRequested6 != null){
-					 dojo.byId("rxRefillsRequested6").innerHTML = data.rxRefillsRequested6};
-					if (data.rxSigRequested6 != null){
-					 dojo.byId("rxSigRequested6").innerHTML = data.rxSigRequested6};
-					if (data.rxDispenseNotesRequested6 != null){
-					 dojo.byId("rxDispenseNotesRequested6").innerHTML = data.rxDispenseNotesRequested6};
-					if (data.rxCommentsRequested6 != null){
-					 dojo.byId("rxCommentsRequested6").innerHTML = data.rxCommentsRequested6};
-					 dojo.style(dojo.byId('trackMedRequested6'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested6'), "display", "none");
-				}
-			 //<!--7-->
-			 if(data.rxDrugRequested7 !=null){
-					dojo.byId("rxDrugRequested7").innerHTML = data.rxDrugRequested7;
-				    if (data.rxDrugRequestedNdc7 != null){
-				     dojo.byId("rxDrugRequestedNdc7").innerHTML = data.rxDrugRequestedNdc7};
-					if (data.rxQuantityRequested7 != null){
-					 dojo.byId("rxQuantityRequested7").innerHTML = data.rxQuantityRequested7};
-					if (data.rxDaysSupplyRequested7 != null){
-					 dojo.byId("rxDaysSupplyRequested7").innerHTML = data.rxDaysSupplyRequested7};
-				    if (data.rxDateWrittenRequested7 != null){
-					 dojo.byId("rxDateWrittenRequested7").innerHTML = data.rxDateWrittenRequested7};
-					if (data.rxPotencyUnitCodeRequested7 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested7").innerHTML = data.rxPotencyUnitCodeRequested7};
-					if (data.rxDrugFormRequested7 != null){
-				     dojo.byId("rxDrugFormRequested7").innerHTML = data.rxDrugFormRequested7};
-					if (data.rxDrugStrengthRequested7 != null){
-					 dojo.byId("rxDrugStrengthRequested7").innerHTML = data.rxDrugStrengthRequested7};
-					if (data.rxRefillsRequested7 != null){
-					 dojo.byId("rxRefillsRequested7").innerHTML = data.rxRefillsRequested7};
-					if (data.rxSigRequested7 != null){
-					 dojo.byId("rxSigRequested7").innerHTML = data.rxSigRequested7};
-					if (data.rxDispenseNotesRequested7 != null){
-					 dojo.byId("rxDispenseNotesRequested7").innerHTML = data.rxDispenseNotesRequested7};
-					if (data.rxCommentsRequested7 != null){
-					 dojo.byId("rxCommentsRequested7").innerHTML = data.rxCommentsRequested7};
-					 dojo.style(dojo.byId('trackMedRequested7'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested7'), "display", "none");
-				}
-			 //<!--8-->
-			 if(data.rxDrugRequested8 !=null){
-					dojo.byId("rxDrugRequested8").innerHTML = data.rxDrugRequested8;
-				    if (data.rxDrugRequestedNdc8 != null){
-				     dojo.byId("rxDrugRequestedNdc8").innerHTML = data.rxDrugRequestedNdc8};
-					if (data.rxQuantityRequested8 != null){
-					 dojo.byId("rxQuantityRequested8").innerHTML = data.rxQuantityRequested8};
-					if (data.rxDaysSupplyRequested8 != null){
-					 dojo.byId("rxDaysSupplyRequested8").innerHTML = data.rxDaysSupplyRequested8};
-				    if (data.rxDateWrittenRequested8 != null){
-					 dojo.byId("rxDateWrittenRequested8").innerHTML = data.rxDateWrittenRequested8};
-					if (data.rxPotencyUnitCodeRequested8 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested8").innerHTML = data.rxPotencyUnitCodeRequested8};
-					if (data.rxDrugFormRequested8 != null){
-				     dojo.byId("rxDrugFormRequested8").innerHTML = data.rxDrugFormRequested8};
-					if (data.rxDrugStrengthRequested8 != null){
-					 dojo.byId("rxDrugStrengthRequested8").innerHTML = data.rxDrugStrengthRequested8};
-					if (data.rxRefillsRequested8 != null){
-					 dojo.byId("rxRefillsRequested8").innerHTML = data.rxRefillsRequested8};
-					if (data.rxSigRequested8 != null){
-					 dojo.byId("rxSigRequested8").innerHTML = data.rxSigRequested8};
-					if (data.rxDispenseNotesRequested8 != null){
-					 dojo.byId("rxDispenseNotesRequested8").innerHTML = data.rxDispenseNotesRequested8};
-					if (data.rxCommentsRequested8 != null){
-					 dojo.byId("rxCommentsRequested8").innerHTML = data.rxCommentsRequested8};
-					 dojo.style(dojo.byId('trackMedRequested8'), "display", "block");
-					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested8'), "display", "none");
-				}
-			 //<!--9-->
-			 if(data.rxDrugRequested9 !=null){
-					dojo.byId("rxDrugRequested9").innerHTML = data.rxDrugRequested9;
-				    if (data.rxDrugRequestedNdc9 != null){
-				     dojo.byId("rxDrugRequestedNdc9").innerHTML = data.rxDrugRequestedNdc9};
+			
+			
+			if (data.rxReferenceNumber != null){
+			
+				dojo.byId("requestReferenceNumber").innerHTML = data.rxReferenceNumber;
+			}
+			
+			if((null!= changeRequestTypeVal) && (changeRequestTypeVal =='Prior Authorization' ||changeRequestTypeVal =='Prescriber Authorization' ))
+			{
+				// Medication Requested section is blank.
+				
+				// Defect fix - reset- if more than one medication request than change title of medication request to medication requested # 1, else don't change it.
+				dojo.byId("rxChangeRequestMedRequstDiv1").innerHTML = "MEDICATION REQUESTED";
+				
+				if (data.requestReferenceNumber != null){
+					dojo.byId("requestReferenceNumber").innerHTML = data.requestReferenceNumber;
+					}
+				//Medication Requested
+				if (data.rxDrugRequested != null){
+					dojo.byId("rxDrugRequested").innerHTML = "&nbsp;";
+					}
+			    if (data.rxDrugRequestedNdc != null){
+			    	dojo.byId("rxDrugRequestedNdc").innerHTML= "&nbsp;";
+					}
+				if (data.rxQuantityRequested != null){
+					dojo.byId("rxQuantityRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxDaysSupplyRequested != null){
+					dojo.byId("rxDaysSupplyRequested").innerHTML = "&nbsp;";
+					}
+			    if (data.rxDateWrittenRequested != null){
+			    	dojo.byId("rxDateWrittenRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxPotencyUnitCodeRequested != null){
+					dojo.byId("rxPotencyUnitCodeRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxDrugFormRequested != null){
+					dojo.byId("rxDrugFormRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxDrugStrengthRequested != null){
+					dojo.byId("rxDrugStrengthRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxRefillsRequested != null){
+					dojo.byId("rxRefillsRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxSigRequested != null){
+					dojo.byId("rxSigRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxDispenseNotesRequested != null){
+					dojo.byId("rxDispenseNotesRequested").innerHTML = "&nbsp;";
+					}
+				if (data.rxCommentsRequested != null){
+					dojo.byId("rxCommentsRequested").innerHTML = "&nbsp;";
+					}
+				 
+				 dojo.style(dojo.byId('trackChangeRequest'), "display", "block");
+				 //<!--2-->
+				if(data.rxDrugRequested2 !=null){
+					dojo.byId("rxDrugRequested2").innerHTML = "&nbsp;";
+					
+					// Defect fix - if more than one medication request than change title of medication request to medication requested # 1, else don't change it.					
+					
+					dojo.byId("rxChangeRequestMedRequstDiv1").innerHTML = "MEDICATION REQUESTED #1";
+				    
+					if (data.rxDrugRequestedNdc2 != null){
+				     dojo.byId("rxDrugRequestedNdc2").innerHTML = "&nbsp;";
+					}
 					if (data.rxQuantityRequested2 != null){
-					 dojo.byId("rxQuantityRequested9").innerHTML = data.rxQuantityRequested9};
+					 dojo.byId("rxQuantityRequested2").innerHTML = "&nbsp;";
+					}
 					if (data.rxDaysSupplyRequested2 != null){
-					 dojo.byId("rxDaysSupplyRequested9").innerHTML = data.rxDaysSupplyRequested9};
-				    if (data.rxDateWrittenRequested9 != null){
-					 dojo.byId("rxDateWrittenRequested9").innerHTML = data.rxDateWrittenRequested9};
-					if (data.rxPotencyUnitCodeRequested9 != null){
-					 dojo.byId("rxPotencyUnitCodeRequested9").innerHTML = data.rxPotencyUnitCodeRequested9};
-					if (data.rxDrugFormRequested9 != null){
-				     dojo.byId("rxDrugFormRequested9").innerHTML = data.rxDrugFormRequested9};
-					if (data.rxDrugStrengthRequested9 != null){
-					 dojo.byId("rxDrugStrengthRequested9").innerHTML = data.rxDrugStrengthRequested9};
-					if (data.rxRefillsRequested9 != null){
-					 dojo.byId("rxRefillsRequested9").innerHTML = data.rxRefillsRequested9};
-					if (data.rxSigRequested9 != null){
-					 dojo.byId("rxSigRequested9").innerHTML = data.rxSigRequested9};
-					if (data.rxDispenseNotesRequested9 != null){
-					 dojo.byId("rxDispenseNotesRequested9").innerHTML = data.rxDispenseNotesRequested9};
-					if (data.rxCommentsRequested9 != null){
-					 dojo.byId("rxCommentsRequested9").innerHTML = data.rxCommentsRequested9};
-					 dojo.style(dojo.byId('trackMedRequested9'), "display", "block");
+					 dojo.byId("rxDaysSupplyRequested2").innerHTML = "&nbsp;";
+					}
+				    if (data.rxDateWrittenRequested2 != null){
+					 dojo.byId("rxDateWrittenRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxPotencyUnitCodeRequested2 != null){
+					 dojo.byId("rxPotencyUnitCodeRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxDrugFormRequested2 != null){
+				     dojo.byId("rxDrugFormRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxDrugStrengthRequested2 != null){
+					 dojo.byId("rxDrugStrengthRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxRefillsRequested2 != null){
+					 dojo.byId("rxRefillsRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxSigRequested2 != null){
+					 dojo.byId("rxSigRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxDispenseNotesRequested2 != null){
+					 dojo.byId("rxDispenseNotesRequested2").innerHTML = "&nbsp;";
+					}
+					if (data.rxCommentsRequested2 != null){
+					 dojo.byId("rxCommentsRequested2").innerHTML = "&nbsp;";
+					}
+					 dojo.style(dojo.byId('trackMedRequested2'), "display", "block");
 					 }
-			 else {
-					dojo.style(dojo.byId('trackMedRequested9'), "display", "none");
+				else {
+					dojo.style(dojo.byId('trackMedRequested2'), "display", "none");
 				}
+				 //<!--3-->
+				 if(data.rxDrugRequested3 !=null){
+						dojo.byId("rxDrugRequested3").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc3 != null){
+					     dojo.byId("rxDrugRequestedNdc3").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested3 != null){
+						 dojo.byId("rxQuantityRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested3 != null){
+						 dojo.byId("rxDaysSupplyRequested3").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested3 != null){
+						 dojo.byId("rxDateWrittenRequested3").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested3 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested3 != null){
+					     dojo.byId("rxDrugFormRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested3 != null){
+						 dojo.byId("rxDrugStrengthRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested3 != null){
+						 dojo.byId("rxRefillsRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested3 != null){
+						 dojo.byId("rxSigRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested3 != null){
+						 dojo.byId("rxDispenseNotesRequested3").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested3 != null){
+						 dojo.byId("rxCommentsRequested3").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested3'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested3'), "display", "none");
+					}
+				 //<!--4-->
+				 if(data.rxDrugRequested4 !=null){
+						dojo.byId("rxDrugRequested4").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc4 != null){
+					     dojo.byId("rxDrugRequestedNdc4").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested4 != null){
+						 dojo.byId("rxQuantityRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested4 != null){
+						 dojo.byId("rxDaysSupplyRequested4").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested4 != null){
+						 dojo.byId("rxDateWrittenRequested4").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested4 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested4 != null){
+					     dojo.byId("rxDrugFormRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested4 != null){
+						 dojo.byId("rxDrugStrengthRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested2 != null){
+						 dojo.byId("rxRefillsRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested4 != null){
+						 dojo.byId("rxSigRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested4 != null){
+						 dojo.byId("rxDispenseNotesRequested4").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested4 != null){
+						 dojo.byId("rxCommentsRequested4").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested4'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested4'), "display", "none");
+					}
+				 //<!--5-->
+				 if(data.rxDrugRequested5 !=null){
+						dojo.byId("rxDrugRequested5").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc5 != null){
+					     dojo.byId("rxDrugRequestedNdc5").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested5 != null){
+						 dojo.byId("rxQuantityRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested5 != null){
+						 dojo.byId("rxDaysSupplyRequested5").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested5 != null){
+						 dojo.byId("rxDateWrittenRequested5").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested5 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested5 != null){
+					     dojo.byId("rxDrugFormRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested5 != null){
+						 dojo.byId("rxDrugStrengthRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested5 != null){
+						 dojo.byId("rxRefillsRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested5 != null){
+						 dojo.byId("rxSigRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested5 != null){
+						 dojo.byId("rxDispenseNotesRequested5").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested5 != null){
+						 dojo.byId("rxCommentsRequested5").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested5'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested5'), "display", "none");
+					}
+				 //<!--6-->
+				 if(data.rxDrugRequested6 !=null){
+						dojo.byId("rxDrugRequested6").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc6 != null){
+					     dojo.byId("rxDrugRequestedNdc6").innerHTML = data.rxDrugRequestedNdc6;
+					    }
+						if (data.rxQuantityRequested6 != null){
+						 dojo.byId("rxQuantityRequested6").innerHTML = data.rxQuantityRequested6;
+						}
+						if (data.rxDaysSupplyRequested6 != null){
+						 dojo.byId("rxDaysSupplyRequested6").innerHTML = data.rxDaysSupplyRequested6;
+						}
+					    if (data.rxDateWrittenRequested6 != null){
+						 dojo.byId("rxDateWrittenRequested6").innerHTML = data.rxDateWrittenRequested6;
+					    }
+						if (data.rxPotencyUnitCodeRequested6 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested6").innerHTML = data.rxPotencyUnitCodeRequested6;
+						}
+						if (data.rxDrugFormRequested6 != null){
+					     dojo.byId("rxDrugFormRequested6").innerHTML = data.rxDrugFormRequested6;
+						}
+						if (data.rxDrugStrengthRequested6 != null){
+						 dojo.byId("rxDrugStrengthRequested6").innerHTML = data.rxDrugStrengthRequested6;
+						}
+						if (data.rxRefillsRequested6 != null){
+						 dojo.byId("rxRefillsRequested6").innerHTML = data.rxRefillsRequested6;
+						}
+						if (data.rxSigRequested6 != null){
+						 dojo.byId("rxSigRequested6").innerHTML = data.rxSigRequested6;
+						}
+						if (data.rxDispenseNotesRequested6 != null){
+						 dojo.byId("rxDispenseNotesRequested6").innerHTML = data.rxDispenseNotesRequested6;
+						}
+						if (data.rxCommentsRequested6 != null){
+						 dojo.byId("rxCommentsRequested6").innerHTML = data.rxCommentsRequested6;
+						}
+						 dojo.style(dojo.byId('trackMedRequested6'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested6'), "display", "none");
+					}
+				 //<!--7-->
+				 if(data.rxDrugRequested7 !=null){
+						dojo.byId("rxDrugRequested7").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc7 != null){
+					     dojo.byId("rxDrugRequestedNdc7").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested7 != null){
+						 dojo.byId("rxQuantityRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested7 != null){
+						 dojo.byId("rxDaysSupplyRequested7").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested7 != null){
+						 dojo.byId("rxDateWrittenRequested7").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested7 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested7 != null){
+					     dojo.byId("rxDrugFormRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested7 != null){
+						 dojo.byId("rxDrugStrengthRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested7 != null){
+						 dojo.byId("rxRefillsRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested7 != null){
+						 dojo.byId("rxSigRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested7 != null){
+						 dojo.byId("rxDispenseNotesRequested7").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested7 != null){
+						 dojo.byId("rxCommentsRequested7").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested7'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested7'), "display", "none");
+					}
+				 //<!--8-->
+				 if(data.rxDrugRequested8 !=null){
+						dojo.byId("rxDrugRequested8").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc8 != null){
+					     dojo.byId("rxDrugRequestedNdc8").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested8 != null){
+						 dojo.byId("rxQuantityRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested8 != null){
+						 dojo.byId("rxDaysSupplyRequested8").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested8 != null){
+						 dojo.byId("rxDateWrittenRequested8").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested8 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested8 != null){
+					     dojo.byId("rxDrugFormRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested8 != null){
+						 dojo.byId("rxDrugStrengthRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested8 != null){
+						 dojo.byId("rxRefillsRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested8 != null){
+						 dojo.byId("rxSigRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested8 != null){
+						 dojo.byId("rxDispenseNotesRequested8").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested8 != null){
+						 dojo.byId("rxCommentsRequested8").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested8'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested8'), "display", "none");
+					}
+				 //<!--9-->
+				 if(data.rxDrugRequested9 !=null){
+						dojo.byId("rxDrugRequested9").innerHTML = "&nbsp;";
+					    if (data.rxDrugRequestedNdc9 != null){
+					     dojo.byId("rxDrugRequestedNdc9").innerHTML = "&nbsp;";
+					    }
+						if (data.rxQuantityRequested2 != null){
+						 dojo.byId("rxQuantityRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxDaysSupplyRequested2 != null){
+						 dojo.byId("rxDaysSupplyRequested9").innerHTML = "&nbsp;";
+						}
+					    if (data.rxDateWrittenRequested9 != null){
+						 dojo.byId("rxDateWrittenRequested9").innerHTML = "&nbsp;";
+					    }
+						if (data.rxPotencyUnitCodeRequested9 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugFormRequested9 != null){
+					     dojo.byId("rxDrugFormRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxDrugStrengthRequested9 != null){
+						 dojo.byId("rxDrugStrengthRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxRefillsRequested9 != null){
+						 dojo.byId("rxRefillsRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxSigRequested9 != null){
+						 dojo.byId("rxSigRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxDispenseNotesRequested9 != null){
+						 dojo.byId("rxDispenseNotesRequested9").innerHTML = "&nbsp;";
+						}
+						if (data.rxCommentsRequested9 != null){
+						 dojo.byId("rxCommentsRequested9").innerHTML = "&nbsp;";
+						}
+						 dojo.style(dojo.byId('trackMedRequested9'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested9'), "display", "none");
+					}
+				
+				 
+				 
+			
+			}	
+			else
+			{
+				if (data.requestReferenceNumber != null){
+					dojo.byId("requestReferenceNumber").innerHTML = data.requestReferenceNumber;
+					}
+				//Medication Requested
+				if (data.rxDrugRequested != null){
+					dojo.byId("rxDrugRequested").innerHTML = data.rxDrugRequested;
+					
+					// Defect fix - reset- if more than one medication request than change title of medication request to medication requested # 1, else don't change it.
+					dojo.byId("rxChangeRequestMedRequstDiv1").innerHTML = "MEDICATION REQUESTED";
+					
+					}
+			    if (data.rxDrugRequestedNdc != null){
+			    	dojo.byId("rxDrugRequestedNdc").innerHTML = data.rxDrugRequestedNdc;
+					}
+				if (data.rxQuantityRequested != null){
+					dojo.byId("rxQuantityRequested").innerHTML = data.rxQuantityRequested;
+					}
+				if (data.rxDaysSupplyRequested != null){
+					dojo.byId("rxDaysSupplyRequested").innerHTML = data.rxDaysSupplyRequested;
+					}
+			    if (data.rxDateWrittenRequested != null){
+			    	dojo.byId("rxDateWrittenRequested").innerHTML = data.rxDateWrittenRequested;
+					}
+				if (data.rxPotencyUnitCodeRequested != null){
+					dojo.byId("rxPotencyUnitCodeRequested").innerHTML = data.rxPotencyUnitCodeRequested;
+					}
+				if (data.rxDrugFormRequested != null){
+					dojo.byId("rxDrugFormRequested").innerHTML = data.rxDrugFormRequested;
+					}
+				if (data.rxDrugStrengthRequested != null){
+					dojo.byId("rxDrugStrengthRequested").innerHTML = data.rxDrugStrengthRequested;
+					}
+				if (data.rxRefillsRequested != null){
+					dojo.byId("rxRefillsRequested").innerHTML = data.rxRefillsRequested;
+					}
+				if (data.rxSigRequested != null){
+					dojo.byId("rxSigRequested").innerHTML = data.rxSigRequested;
+					}
+				if (data.rxDispenseNotesRequested != null){
+					dojo.byId("rxDispenseNotesRequested").innerHTML = data.rxDispenseNotesRequested;
+					}
+				if (data.rxCommentsRequested != null){
+					dojo.byId("rxCommentsRequested").innerHTML = data.rxCommentsRequested;
+					}
+				 
+				 dojo.style(dojo.byId('trackChangeRequest'), "display", "block");
+				 //<!--2-->
+				if(data.rxDrugRequested2 !=null){
+					dojo.byId("rxDrugRequested2").innerHTML = data.rxDrugRequested2;
+				    
+					
+					// Defect fix - if more than one medication request than change title of medication request to medication requested # 1, else don't change it.					
+					
+					dojo.byId("rxChangeRequestMedRequstDiv1").innerHTML = "MEDICATION REQUESTED #1";
+					
+					if (data.rxDrugRequestedNdc2 != null){
+				     dojo.byId("rxDrugRequestedNdc2").innerHTML = data.rxDrugRequestedNdc2;
+					}
+					if (data.rxQuantityRequested2 != null){
+					 dojo.byId("rxQuantityRequested2").innerHTML = data.rxQuantityRequested2;
+					}
+					if (data.rxDaysSupplyRequested2 != null){
+					 dojo.byId("rxDaysSupplyRequested2").innerHTML = data.rxDaysSupplyRequested2;
+					}
+				    if (data.rxDateWrittenRequested2 != null){
+					 dojo.byId("rxDateWrittenRequested2").innerHTML = data.rxDateWrittenRequested2;
+					}
+					if (data.rxPotencyUnitCodeRequested2 != null){
+					 dojo.byId("rxPotencyUnitCodeRequested2").innerHTML = data.rxPotencyUnitCodeRequested2;
+					}
+					if (data.rxDrugFormRequested2 != null){
+				     dojo.byId("rxDrugFormRequested2").innerHTML = data.rxDrugFormRequested2;
+					}
+					if (data.rxDrugStrengthRequested2 != null){
+					 dojo.byId("rxDrugStrengthRequested2").innerHTML = data.rxDrugStrengthRequested2;
+					}
+					if (data.rxRefillsRequested2 != null){
+					 dojo.byId("rxRefillsRequested2").innerHTML = data.rxRefillsRequested2;
+					}
+					if (data.rxSigRequested2 != null){
+					 dojo.byId("rxSigRequested2").innerHTML = data.rxSigRequested2;
+					}
+					if (data.rxDispenseNotesRequested2 != null){
+					 dojo.byId("rxDispenseNotesRequested2").innerHTML = data.rxDispenseNotesRequested2;
+					}
+					if (data.rxCommentsRequested2 != null){
+					 dojo.byId("rxCommentsRequested2").innerHTML = data.rxCommentsRequested2;
+					}
+					 dojo.style(dojo.byId('trackMedRequested2'), "display", "block");
+					 }
+				else {
+					dojo.style(dojo.byId('trackMedRequested2'), "display", "none");
+				}
+				 //<!--3-->
+				 if(data.rxDrugRequested3 !=null){
+						dojo.byId("rxDrugRequested3").innerHTML = data.rxDrugRequested3;
+					    if (data.rxDrugRequestedNdc3 != null){
+					     dojo.byId("rxDrugRequestedNdc3").innerHTML = data.rxDrugRequestedNdc3;
+					    }
+						if (data.rxQuantityRequested3 != null){
+						 dojo.byId("rxQuantityRequested3").innerHTML = data.rxQuantityRequested3;
+						}
+						if (data.rxDaysSupplyRequested3 != null){
+						 dojo.byId("rxDaysSupplyRequested3").innerHTML = data.rxDaysSupplyRequested3;
+						}
+					    if (data.rxDateWrittenRequested3 != null){
+						 dojo.byId("rxDateWrittenRequested3").innerHTML = data.rxDateWrittenRequested3;
+					    }
+						if (data.rxPotencyUnitCodeRequested3 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested3").innerHTML = data.rxPotencyUnitCodeRequested3;
+						}
+						if (data.rxDrugFormRequested3 != null){
+					     dojo.byId("rxDrugFormRequested3").innerHTML = data.rxDrugFormRequested3;
+						}
+						if (data.rxDrugStrengthRequested3 != null){
+						 dojo.byId("rxDrugStrengthRequested3").innerHTML = data.rxDrugStrengthRequested3;
+						}
+						if (data.rxRefillsRequested3 != null){
+						 dojo.byId("rxRefillsRequested3").innerHTML = data.rxRefillsRequested3;
+						}
+						if (data.rxSigRequested3 != null){
+						 dojo.byId("rxSigRequested3").innerHTML = data.rxSigRequested3;
+						}
+						if (data.rxDispenseNotesRequested3 != null){
+						 dojo.byId("rxDispenseNotesRequested3").innerHTML = data.rxDispenseNotesRequested3;
+						}
+						if (data.rxCommentsRequested3 != null){
+						 dojo.byId("rxCommentsRequested3").innerHTML = data.rxCommentsRequested3;
+						}
+						 dojo.style(dojo.byId('trackMedRequested3'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested3'), "display", "none");
+					}
+				 //<!--4-->
+				 if(data.rxDrugRequested4 !=null){
+						dojo.byId("rxDrugRequested4").innerHTML = data.rxDrugRequested4;
+					    if (data.rxDrugRequestedNdc4 != null){
+					     dojo.byId("rxDrugRequestedNdc4").innerHTML = data.rxDrugRequestedNdc4;
+					    }
+						if (data.rxQuantityRequested4 != null){
+						 dojo.byId("rxQuantityRequested4").innerHTML = data.rxQuantityRequested4;
+						}
+						if (data.rxDaysSupplyRequested4 != null){
+						 dojo.byId("rxDaysSupplyRequested4").innerHTML = data.rxDaysSupplyRequested4;
+						}
+					    if (data.rxDateWrittenRequested4 != null){
+						 dojo.byId("rxDateWrittenRequested4").innerHTML = data.rxDateWrittenRequested4;
+					    }
+						if (data.rxPotencyUnitCodeRequested4 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested4").innerHTML = data.rxPotencyUnitCodeRequested4;
+						}
+						if (data.rxDrugFormRequested4 != null){
+					     dojo.byId("rxDrugFormRequested4").innerHTML = data.rxDrugFormRequested4;
+						}
+						if (data.rxDrugStrengthRequested4 != null){
+						 dojo.byId("rxDrugStrengthRequested4").innerHTML = data.rxDrugStrengthRequested4;
+						}
+						if (data.rxRefillsRequested2 != null){
+						 dojo.byId("rxRefillsRequested4").innerHTML = data.rxRefillsRequested4;
+						}
+						if (data.rxSigRequested4 != null){
+						 dojo.byId("rxSigRequested4").innerHTML = data.rxSigRequested4;
+						}
+						if (data.rxDispenseNotesRequested4 != null){
+						 dojo.byId("rxDispenseNotesRequested4").innerHTML = data.rxDispenseNotesRequested4;
+						}
+						if (data.rxCommentsRequested4 != null){
+						 dojo.byId("rxCommentsRequested4").innerHTML = data.rxCommentsRequested4;
+						}
+						 dojo.style(dojo.byId('trackMedRequested4'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested4'), "display", "none");
+					}
+				 //<!--5-->
+				 if(data.rxDrugRequested5 !=null){
+						dojo.byId("rxDrugRequested5").innerHTML = data.rxDrugRequested5;
+					    if (data.rxDrugRequestedNdc5 != null){
+					     dojo.byId("rxDrugRequestedNdc5").innerHTML = data.rxDrugRequestedNdc5;
+					    }
+						if (data.rxQuantityRequested5 != null){
+						 dojo.byId("rxQuantityRequested5").innerHTML = data.rxQuantityRequested5;
+						}
+						if (data.rxDaysSupplyRequested5 != null){
+						 dojo.byId("rxDaysSupplyRequested5").innerHTML = data.rxDaysSupplyRequested5;
+						}
+					    if (data.rxDateWrittenRequested5 != null){
+						 dojo.byId("rxDateWrittenRequested5").innerHTML = data.rxDateWrittenRequested5;
+					    }
+						if (data.rxPotencyUnitCodeRequested5 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested5").innerHTML = data.rxPotencyUnitCodeRequested5;
+						}
+						if (data.rxDrugFormRequested5 != null){
+					     dojo.byId("rxDrugFormRequested5").innerHTML = data.rxDrugFormRequested5;
+						}
+						if (data.rxDrugStrengthRequested5 != null){
+						 dojo.byId("rxDrugStrengthRequested5").innerHTML = data.rxDrugStrengthRequested5;
+						}
+						if (data.rxRefillsRequested5 != null){
+						 dojo.byId("rxRefillsRequested5").innerHTML = data.rxRefillsRequested5;
+						}
+						if (data.rxSigRequested5 != null){
+						 dojo.byId("rxSigRequested5").innerHTML = data.rxSigRequested5;
+						}
+						if (data.rxDispenseNotesRequested5 != null){
+						 dojo.byId("rxDispenseNotesRequested5").innerHTML = data.rxDispenseNotesRequested5;
+						}
+						if (data.rxCommentsRequested5 != null){
+						 dojo.byId("rxCommentsRequested5").innerHTML = data.rxCommentsRequested5;
+						}
+						 dojo.style(dojo.byId('trackMedRequested5'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested5'), "display", "none");
+					}
+				 //<!--6-->
+				 if(data.rxDrugRequested6 !=null){
+						dojo.byId("rxDrugRequested6").innerHTML = data.rxDrugRequested6;
+					    if (data.rxDrugRequestedNdc6 != null){
+					     dojo.byId("rxDrugRequestedNdc6").innerHTML = data.rxDrugRequestedNdc6;
+					    }
+						if (data.rxQuantityRequested6 != null){
+						 dojo.byId("rxQuantityRequested6").innerHTML = data.rxQuantityRequested6;
+						}
+						if (data.rxDaysSupplyRequested6 != null){
+						 dojo.byId("rxDaysSupplyRequested6").innerHTML = data.rxDaysSupplyRequested6;
+						}
+					    if (data.rxDateWrittenRequested6 != null){
+						 dojo.byId("rxDateWrittenRequested6").innerHTML = data.rxDateWrittenRequested6;
+					    }
+						if (data.rxPotencyUnitCodeRequested6 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested6").innerHTML = data.rxPotencyUnitCodeRequested6;
+						}
+						if (data.rxDrugFormRequested6 != null){
+					     dojo.byId("rxDrugFormRequested6").innerHTML = data.rxDrugFormRequested6;
+						}
+						if (data.rxDrugStrengthRequested6 != null){
+						 dojo.byId("rxDrugStrengthRequested6").innerHTML = data.rxDrugStrengthRequested6;
+						}
+						if (data.rxRefillsRequested6 != null){
+						 dojo.byId("rxRefillsRequested6").innerHTML = data.rxRefillsRequested6;
+						}
+						if (data.rxSigRequested6 != null){
+						 dojo.byId("rxSigRequested6").innerHTML = data.rxSigRequested6;
+						}
+						if (data.rxDispenseNotesRequested6 != null){
+						 dojo.byId("rxDispenseNotesRequested6").innerHTML = data.rxDispenseNotesRequested6;
+						}
+						if (data.rxCommentsRequested6 != null){
+						 dojo.byId("rxCommentsRequested6").innerHTML = data.rxCommentsRequested6;
+						}
+						 dojo.style(dojo.byId('trackMedRequested6'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested6'), "display", "none");
+					}
+				 //<!--7-->
+				 if(data.rxDrugRequested7 !=null){
+						dojo.byId("rxDrugRequested7").innerHTML = data.rxDrugRequested7;
+					    if (data.rxDrugRequestedNdc7 != null){
+					     dojo.byId("rxDrugRequestedNdc7").innerHTML = data.rxDrugRequestedNdc7;
+					    }
+						if (data.rxQuantityRequested7 != null){
+						 dojo.byId("rxQuantityRequested7").innerHTML = data.rxQuantityRequested7;
+						}
+						if (data.rxDaysSupplyRequested7 != null){
+						 dojo.byId("rxDaysSupplyRequested7").innerHTML = data.rxDaysSupplyRequested7;
+						}
+					    if (data.rxDateWrittenRequested7 != null){
+						 dojo.byId("rxDateWrittenRequested7").innerHTML = data.rxDateWrittenRequested7;
+					    }
+						if (data.rxPotencyUnitCodeRequested7 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested7").innerHTML = data.rxPotencyUnitCodeRequested7;
+						}
+						if (data.rxDrugFormRequested7 != null){
+					     dojo.byId("rxDrugFormRequested7").innerHTML = data.rxDrugFormRequested7;
+						}
+						if (data.rxDrugStrengthRequested7 != null){
+						 dojo.byId("rxDrugStrengthRequested7").innerHTML = data.rxDrugStrengthRequested7;
+						}
+						if (data.rxRefillsRequested7 != null){
+						 dojo.byId("rxRefillsRequested7").innerHTML = data.rxRefillsRequested7;
+						}
+						if (data.rxSigRequested7 != null){
+						 dojo.byId("rxSigRequested7").innerHTML = data.rxSigRequested7;
+						}
+						if (data.rxDispenseNotesRequested7 != null){
+						 dojo.byId("rxDispenseNotesRequested7").innerHTML = data.rxDispenseNotesRequested7;
+						}
+						if (data.rxCommentsRequested7 != null){
+						 dojo.byId("rxCommentsRequested7").innerHTML = data.rxCommentsRequested7;
+						}
+						 dojo.style(dojo.byId('trackMedRequested7'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested7'), "display", "none");
+					}
+				 //<!--8-->
+				 if(data.rxDrugRequested8 !=null){
+						dojo.byId("rxDrugRequested8").innerHTML = data.rxDrugRequested8;
+					    if (data.rxDrugRequestedNdc8 != null){
+					     dojo.byId("rxDrugRequestedNdc8").innerHTML = data.rxDrugRequestedNdc8;
+					    }
+						if (data.rxQuantityRequested8 != null){
+						 dojo.byId("rxQuantityRequested8").innerHTML = data.rxQuantityRequested8;
+						}
+						if (data.rxDaysSupplyRequested8 != null){
+						 dojo.byId("rxDaysSupplyRequested8").innerHTML = data.rxDaysSupplyRequested8;
+						}
+					    if (data.rxDateWrittenRequested8 != null){
+						 dojo.byId("rxDateWrittenRequested8").innerHTML = data.rxDateWrittenRequested8;
+					    }
+						if (data.rxPotencyUnitCodeRequested8 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested8").innerHTML = data.rxPotencyUnitCodeRequested8;
+						}
+						if (data.rxDrugFormRequested8 != null){
+					     dojo.byId("rxDrugFormRequested8").innerHTML = data.rxDrugFormRequested8;
+						}
+						if (data.rxDrugStrengthRequested8 != null){
+						 dojo.byId("rxDrugStrengthRequested8").innerHTML = data.rxDrugStrengthRequested8;
+						}
+						if (data.rxRefillsRequested8 != null){
+						 dojo.byId("rxRefillsRequested8").innerHTML = data.rxRefillsRequested8;
+						}
+						if (data.rxSigRequested8 != null){
+						 dojo.byId("rxSigRequested8").innerHTML = data.rxSigRequested8;
+						}
+						if (data.rxDispenseNotesRequested8 != null){
+						 dojo.byId("rxDispenseNotesRequested8").innerHTML = data.rxDispenseNotesRequested8;
+						}
+						if (data.rxCommentsRequested8 != null){
+						 dojo.byId("rxCommentsRequested8").innerHTML = data.rxCommentsRequested8;
+						}
+						 dojo.style(dojo.byId('trackMedRequested8'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested8'), "display", "none");
+					}
+				 //<!--9-->
+				 if(data.rxDrugRequested9 !=null){
+						dojo.byId("rxDrugRequested9").innerHTML = data.rxDrugRequested9;
+					    if (data.rxDrugRequestedNdc9 != null){
+					     dojo.byId("rxDrugRequestedNdc9").innerHTML = data.rxDrugRequestedNdc9;
+					    }
+						if (data.rxQuantityRequested2 != null){
+						 dojo.byId("rxQuantityRequested9").innerHTML = data.rxQuantityRequested9;
+						}
+						if (data.rxDaysSupplyRequested2 != null){
+						 dojo.byId("rxDaysSupplyRequested9").innerHTML = data.rxDaysSupplyRequested9;
+						}
+					    if (data.rxDateWrittenRequested9 != null){
+						 dojo.byId("rxDateWrittenRequested9").innerHTML = data.rxDateWrittenRequested9;
+					    }
+						if (data.rxPotencyUnitCodeRequested9 != null){
+						 dojo.byId("rxPotencyUnitCodeRequested9").innerHTML = data.rxPotencyUnitCodeRequested9;
+						}
+						if (data.rxDrugFormRequested9 != null){
+					     dojo.byId("rxDrugFormRequested9").innerHTML = data.rxDrugFormRequested9;
+						}
+						if (data.rxDrugStrengthRequested9 != null){
+						 dojo.byId("rxDrugStrengthRequested9").innerHTML = data.rxDrugStrengthRequested9;
+						}
+						if (data.rxRefillsRequested9 != null){
+						 dojo.byId("rxRefillsRequested9").innerHTML = data.rxRefillsRequested9;
+						}
+						if (data.rxSigRequested9 != null){
+						 dojo.byId("rxSigRequested9").innerHTML = data.rxSigRequested9;
+						}
+						if (data.rxDispenseNotesRequested9 != null){
+						 dojo.byId("rxDispenseNotesRequested9").innerHTML = data.rxDispenseNotesRequested9;
+						}
+						if (data.rxCommentsRequested9 != null){
+						 dojo.byId("rxCommentsRequested9").innerHTML = data.rxCommentsRequested9;
+						}
+						 dojo.style(dojo.byId('trackMedRequested9'), "display", "block");
+						 }
+				 else {
+						dojo.style(dojo.byId('trackMedRequested9'), "display", "none");
+					}
+			}
+			
+				 
+			 //For RxChange hide RxBIN and others.			 
+			 dojo.style(dojo.byId('benefitsCoordination1'), "display", "none");
+			 dojo.style(dojo.byId('benefitsCoordination2'), "display", "none");
+			 
+			 //hide Drug form and Drug strength fields.
+			 dojo.style(dojo.byId('rxChangeRequestDrugFormRequested'), "display", "none");
+			 dojo.style(dojo.byId('rxChangeRequestDrugStrengthRequested'), "display", "none");
+			 
+			 //hide Drug form and Drug strength fields.
+			 dojo.style(dojo.byId('rxChangeRequestDrugFormRequested2'), "display", "none");
+			 dojo.style(dojo.byId('rxChangeRequestDrugStrengthRequested2'), "display", "none");
+			 
+			 //hide Drug form and Drug strength fields.
+			 dojo.style(dojo.byId('rxChangeRequestDrugFormRequested3'), "display", "none");
+			 dojo.style(dojo.byId('rxChangeRequestDrugStrengthRequested3'), "display", "none");
+			 
+			 //hide Date Written
+			 dojo.style(dojo.byId('rxDateWrittenRequestedLabel'), "display", "none");
+			 dojo.style(dojo.byId('rxDateWrittenRequested'), "display", "none");
+			 
+			 dojo.style(dojo.byId('rxDateWrittenRequested2Label'), "display", "none");
+			 dojo.style(dojo.byId('rxDateWrittenRequested2'), "display", "none");
+			 
+			 dojo.style(dojo.byId('rxDateWrittenRequested3Label'), "display", "none");
+			 dojo.style(dojo.byId('rxDateWrittenRequested3'), "display", "none");
+			 
+			 
 		} else{
 			dojo.style(dojo.byId('trackChangeRequest'), "display", "none");	
+		}
+		
+		// RxChangeResponse
+		if ( data.messageType.toUpperCase() == 'RXCHANGERESPONSE' )  
+		{
+			
+			//Update Response Reference # to that RxChangeResponse.
+			
+			dojo.byId("resRefNum").innerHTML = data.inboundNcpdpMsgId;
+			
+			
+			if (data.rxChangeResponseNote != null){
+			     dojo.byId("resNote").innerHTML = data.rxChangeResponseNote;
+			}
+			
+			
+			
+			
+			
+			if ( (data.resType != null ) && (data.resType.toUpperCase() == 'VALIDATED')  )
+			{
+				dojo.style(dojo.byId('rxChangeRespVadlidatedDiv'), "display", "block");	
+				
+				
+				if (data.validatedPrescriberNPI != null){
+					 dojo.byId("rxChgRespValidatedPrescriberNPI").innerHTML = data.validatedPrescriberNPI;
+				    }
+					if (data.validatedPrescriberDEA != null){
+					 dojo.byId("rxChgRespValidatedPrescriberDEA").innerHTML = data.validatedPrescriberDEA;
+					}
+					if (data.validatedPrescriberStateLic != null){
+				     dojo.byId("rxChgRespValidatedPrescriberStateLic").innerHTML = data.validatedPrescriberStateLic;
+					}
+					if (data.rxChangeResponseValidatedDate != null){
+					     dojo.byId("rxChgRespValidatedDate").innerHTML = data.rxChangeResponseValidatedDate;
+					}
+					
+					if (data.rxChangValidatedReasonCode != null){
+					     dojo.byId("resReasonCode").innerHTML = data.rxChangValidatedReasonCode;
+					}
+					
+					if (data.rxChangeVLDReasonDescription != null){
+					     dojo.byId("resReason").innerHTML = data.rxChangeVLDReasonDescription;
+					}
+					
+			}
+			else if ( (data.resType != null ) && (data.resType.toUpperCase() == 'DENIED')  )
+			{
+				
+				// hide validated div.				
+				dojo.style(dojo.byId('rxChangeRespVadlidatedDiv'), "display", "none");	
+				
+				if (data.rxChangeDeniedReasonCode != null){
+				     dojo.byId("resReasonCode").innerHTML = data.rxChangeDeniedReasonCode;
+				}
+					
+				
+				if (data.rxChangeDNDReasonDescription != null){
+				     dojo.byId("resReason").innerHTML = data.rxChangeDNDReasonDescription;
+				}
+				
+				if (data.rxChangeResponseDenialReason != null){
+				     dojo.byId("resNote").innerHTML = data.rxChangeResponseDenialReason;
+				}
+				
+				
+				//Drug Coverage
+				dojo.style(dojo.byId('rxChangeRespDrugCoveragePADiv'), "display", "block");
+				
+				if (data.rxChangeDrugCoverageStatusCode != null){
+				     dojo.byId("rxChgRespDrugCoverageStatus").innerHTML = data.rxChangeDrugCoverageStatusCode;
+				}
+				
+				// PA and PA status
+				if (data.rxChangeResponsePriorAuthorization != null){
+				     dojo.byId("rxChgRespPriorAuthorization").innerHTML = data.rxChangeResponsePriorAuthorization;
+				}
+				
+				if (data.rxChangeResponsePriorAuthorizationStatus != null){
+				     dojo.byId("rxChgRespPriorAuthorizationStatus").innerHTML = data.rxChangeResponsePriorAuthorizationStatus;
+				}
+				
+					
+			}
+			else{  
+				
+				// hide validated div.				
+				dojo.style(dojo.byId('rxChangeRespVadlidatedDiv'), "display", "none");	
+				
+				// Approved, Approved with Change.
+				
+				//Drug Coverage
+				dojo.style(dojo.byId('rxChangeRespDrugCoveragePADiv'), "display", "block");
+				
+				if (data.rxChangeDrugCoverageStatusCode != null){
+				     dojo.byId("rxChgRespDrugCoverageStatus").innerHTML = data.rxChangeDrugCoverageStatusCode;
+				}
+				
+				// PA and PA status
+				if (data.rxChangeResponsePriorAuthorization != null){
+				     dojo.byId("rxChgRespPriorAuthorization").innerHTML = data.rxChangeResponsePriorAuthorization;
+				}
+				
+				if (data.rxChangeResponsePriorAuthorizationStatus != null){
+				     dojo.byId("rxChgRespPriorAuthorizationStatus").innerHTML = data.rxChangeResponsePriorAuthorizationStatus;
+				}
+			}
+			 
+		}
+		else{
+			
+			dojo.style(dojo.byId('rxChangeRespVadlidatedDiv'), "display", "none"); 
 		}
 		
 		if (data.messageType.toUpperCase() == 'RXFILL'){
@@ -1247,7 +1972,8 @@ function toggleTrackDivs(showIt){
   } else {
       dojo.style(dojo.byId('result1'), "display", "none");
       dojo.style(dojo.byId('messageList'), "display", "block");
-      dojo.style(dojo.byId('messageList'), "height", "290px");
+      dojo.style(dojo.byId('messageList'), "height", "600px");
+      
       dojo.style(dojo.byId('showButtonDiv'), "display", "none");
       dojo.style(dojo.byId('searchCriteriaForm'), "display", "block"); 
       
@@ -1295,8 +2021,7 @@ function showRelatedMessages(){
 
 	      getTrackRelatedMessagesGrid();
 	      
-	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");
-	      dojo.style(dojo.byId('relatedMessagesList'), "height", "290px");
+	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");	     
 	      
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumberTitle'), "display", "none");
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumber'), "display", "none");

@@ -53,77 +53,126 @@ public class VistaInboundRpc {
 		VistaInboundNcpdpMsg vistaInboundNcpdpMsg = new VistaInboundNcpdpMsg();
 
 		RpcResponse rpcResponse;
-
-		String rpcName ="PSOERXA1 INCERX";
+		
+		//10.6 RPC
+		//String rpcName ="PSOERXA1 INCERX";
+		
+		//2017071 RPC
+		String rpcName ="PSOERXI1 INCERX";
 		
 		String rpcContext ="PSO WEB SERVICES OPTION";
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 
 		vistaInboundNcpdpMsg = vistaInboundNcpdpMsgDao.findById(sendObj.getxmlInboundMessageId());
+		
 
 		//Alternate send as a String
 		StringBuilder sb = new StringBuilder(EXPECTED_BUFFER_DATA);
 		StringBuilder sb2 = new StringBuilder(EXPECTED_BUFFER_DATA);
+		StringBuilder sb3 = new StringBuilder(EXPECTED_BUFFER_DATA);
 		String xmlList = "";
 		String xmlList2 = "";
+		String xmlList3 = "";
 	
 		Reader reader = vistaInboundNcpdpMsg.getMessage().getCharacterStream();
         BufferedReader br = new BufferedReader(reader);
         String line = null;
         int i = 0;
         boolean addLine = true;
+        boolean addLine2 = false;
+        String messageType = "";
+        String messageEndTag = "";
+        
         try{
                 sb.setLength(0);
+                sb2.setLength(0);
+                sb3.setLength(0);
                 i = 0;
-                sb2.append("<SIG>");
+                
+                messageType = vistaInboundNcpdpMsg.getMessageType().trim();
+                
+            	sb2.append("<Message><Body><" + messageType + ">");
+                sb3.append("<Message><Body><" + messageType + ">");
+                messageEndTag = "</" + messageType + ">";
+                
+               
                 	while(null != (line = br.readLine())) {
                 		
-                		if (line.trim().equalsIgnoreCase("<StructuredSIG>")){
+                		if (line.trim().equalsIgnoreCase("<Patient>")){
                 			addLine = false;
+                			addLine2 = true;
+                		}
+                		
+                		//Add the message type (/NewRx, etc..), Body and Message tag to the end of the first XML segment
+                		if (line.trim().equalsIgnoreCase(messageEndTag)){
+                			addLine = true;
+                			addLine2 = false;
                 		}
                 			
                 		if (addLine == true){
                 			sb.append(line.trim().replaceAll("[\\000]*", ""));	
                 			LOG.debug("sb1("+ i +")=" +line.trim());	
-                		}else{
+                		}else if (addLine2 == true){
                 			sb2.append(line.trim().replaceAll("[\\000]*", ""));
                 			LOG.debug("sb2("+ i +")=" +line.trim());	
+                		}else{
+                			sb3.append(line.trim().replaceAll("[\\000]*", ""));
+                			LOG.debug("sb3("+ i +")=" +line.trim());	
                 		}
                 			
                 		
-                		if (line.trim().equalsIgnoreCase("</StructuredSIG>")){
-                			addLine = true;
+                		if (line.trim().equalsIgnoreCase("</Prescriber>")){
+                			addLine2 = false;
                 		}
 
-                		//LOG.debug("xml2("+ i +")=" +line.trim().replaceAll("[\\000]*", ""));
-                		//System.out.print("xml2("+ i +")=" +line.trim());
+
                 		if (sb.length() >= MAX_STR_LEN) {
-                          LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb (Message)("+ sb.length() +")");
-                		  throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String Buffer (Message) input too long.");
+                          LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb (first)("+ sb.length() +")");
+                		  throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String Buffer (first) input too long.");
                 		    }
                 		if (sb2.length() >= MAX_STR_LEN) {
-                      	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb2 (SIG)("+ sb2.length() +")");
-               		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String Buffer (SIG) input too long.");
+                      	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb2 (second)("+ sb2.length() +")");
+               		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String Buffer (second) input too long.");
                		    	}
+                		if (sb3.length() >= MAX_STR_LEN) {
+                        	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb3 (third)("+ sb3.length() +")");
+                 		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String Buffer (third) input too long.");
+                 		    }
                 		i++;     		
                 	}
-                    sb2.append("</SIG>");
+                	               	
+                	sb2.append("</" + messageType + ">" + "</Body></Message>");
+                    sb3.append("</" + messageType + ">" + "</Body></Message>");
+
 
                 	if (String.valueOf(sb).getBytes().length >= MAX_STR_SIZE) {
-                      LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb (Message bytes)("+ String.valueOf(sb).getBytes().length +")");
-          		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String byte size of message too large.");
+                      LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb (bytes)("+ String.valueOf(sb).getBytes().length +")");
+          		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String byte size of first XML segment of message too large.");
           		    }
                 	if (String.valueOf(sb2).getBytes().length >= MAX_STR_SIZE) {
-                	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb2 (SIG bytes)("+ String.valueOf(sb2).getBytes().length +")");
-         		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String byte size of SIG segment of message too large.");
+                	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb2 (bytes)("+ String.valueOf(sb2).getBytes().length +")");
+         		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String byte size of second XML segment of message too large.");
          		    	}
+                	if (String.valueOf(sb3).getBytes().length >= MAX_STR_SIZE) {
+                  	  LOG.error("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " Length of StringBuffer sb3 (bytes)("+ String.valueOf(sb3).getBytes().length +")");
+           		      throw new IOException("MSG:" + vistaInboundNcpdpMsg.getInboundNcpdpMsgId() + " String byte size of third XML segment of message too large.");
+           		    	}
         	
 
-        	xmlList = sb.toString(); 	
-            xmlList2 = sb2.toString();
+        	xmlList = sb.toString(); 
+        	
+        	//If messageType is Error or Verify then send empty xml2 and xml3 parameters
+			if (messageType.equalsIgnoreCase("Error") || messageType.equalsIgnoreCase("Verify")) {
+				xmlList2 = "";
+				xmlList3 = "";
+			} else {
+				xmlList2 = sb2.toString();
+				xmlList3 = sb3.toString();
+			}
 
         }
+        
         finally{
         		StreamUtilities.safeClose(br);
 
@@ -158,6 +207,9 @@ public class VistaInboundRpc {
 		if (vistaInboundNcpdpMsg.getDrugStrengthCode() != null && vistaInboundNcpdpMsg.getDrugStrengthText()!=null ) {
 			codeTransHm.put("StrengthCode", vistaInboundNcpdpMsg.getDrugStrengthCode().concat("^").concat(vistaInboundNcpdpMsg.getDrugStrengthText()));
 		};
+		if (vistaInboundNcpdpMsg.getProhibitRenewalRequest() != null && vistaInboundNcpdpMsg.getProhibitRenewalRequest()!=null ) {
+			codeTransHm.put("PRRFlag", vistaInboundNcpdpMsg.getProhibitRenewalRequest());
+		};
 
 	    LOG.debug(codeTransHm.toString());
 	    
@@ -180,13 +232,22 @@ public class VistaInboundRpc {
         	params.add(String.valueOf(vistaInboundNcpdpMsg.getInboundNcpdpMsgId()).concat("^").concat(vistaInboundNcpdpMsg.getCancelRxDenied()));  // ERXREFNUM - the inbound_ncpdp_msg.inbound_ncpdp_msg_id	ERXREFNUM^1 if CancelRx = Denied
         } else if (vistaInboundNcpdpMsg.getRelToOutboundNcpdpMsgId() == 0) {
         	params.add(String.valueOf(vistaInboundNcpdpMsg.getInboundNcpdpMsgId()).concat("^^"));  // ERXREFNUM - the inbound_ncpdp_msg.inbound_ncpdp_msg_id
-        } else{
+        } else {
         	params.add(String.valueOf(vistaInboundNcpdpMsg.getInboundNcpdpMsgId()).concat("^^V").concat(String.valueOf(vistaInboundNcpdpMsg.getRelToOutboundNcpdpMsgId())));  // ERXREFNUM - the inbound_ncpdp_msg.inbound_ncpdp_msg_id
         }
         
 		params.add(codeTransHm); //C-code translations
 
-		params.add(xmlList2); //Structured Sig segment of xml
+		params.add(xmlList2); //Structured Sig segment etc. of xml (second chunk)
+		
+		params.add(""); //blank parameter
+		
+		//send a blank parameter instead of <Message><Body><RxChangeResponse></RxChangeResponse></Body></Message> when no MedicationPrescribed segment is sent
+		if (xmlList3.contains("<Message><Body><RxChangeResponse></RxChangeResponse></Body></Message>")) {
+			params.add(""); //blank parameter
+		} else {
+			params.add(xmlList3); //after Sig segment of xml (third chunk)
+		}
 		
 		LOG.debug("RPC Params: " + params.toString());
 

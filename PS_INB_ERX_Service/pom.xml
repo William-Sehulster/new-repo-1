@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
   <name>PS_INB_ERX_Service</name>
@@ -51,12 +51,12 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
-
+  <!-- 
 		<pluginManagement>
 			<plugins>
 
 				<plugin>
-					<artifactId>maven-surefire-report-plugin</artifactId>
+					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
 						<skipTests>${skipTests}</skipTests>
 						<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
@@ -77,5 +77,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		 -->
 	</build>	
 </project>

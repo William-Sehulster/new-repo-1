@@ -10,7 +10,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.util.HtmlUtils;
 
 import gov.va.med.pharmacy.persistence.BaseDao;
 import gov.va.med.pharmacy.persistence.dao.ErxSummaryReportDao;
@@ -50,7 +49,7 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 		//System.out.print("DateFrom: " + summaryReportFilter.getDateFrom()
 		//+ " DateTo: " + summaryReportFilter.getDateTo() + "VISN: " + summaryReportFilter.getVisn()
 		//+ "Station ID: " + summaryReportFilter.getStationId());
-
+		
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("pharmacyDivisionName"));
 
 		criteria.add(Restrictions.ge("newRxMessageDate", getFormattedFromDateTime(summaryReportFilter.getDateFrom())));
@@ -80,17 +79,11 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.sum("rxFill").as("rxFill")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
+		
 		List<ErxSummaryReportVw> erxSummaryReportRows = (List<ErxSummaryReportVw>) criteria.list();
-		for(ErxSummaryReportVw  erxSummaryReportRow: erxSummaryReportRows)
-		{
-			//Fortify sanitizing the visn, PharmacyNcpdpId, PharmacyAddress, PharmacyVaStationId and PharmacyDivisionName
-			//before being used down the lines.
-			erxSummaryReportRow.setVisn(HtmlUtils.htmlEscape(erxSummaryReportRow.getVisn()));
-			erxSummaryReportRow.setPharmacyNcpdpId(HtmlUtils.htmlEscape(erxSummaryReportRow.getPharmacyNcpdpId()));
-			erxSummaryReportRow.setPharmacyAddress(HtmlUtils.htmlEscape(erxSummaryReportRow.getPharmacyAddress()));
-			erxSummaryReportRow.setPharmacyVaStationId(HtmlUtils.htmlEscape(erxSummaryReportRow.getPharmacyVaStationId()));
-			erxSummaryReportRow.setPharmacyDivisionName(HtmlUtils.htmlEscape(erxSummaryReportRow.getPharmacyDivisionName()));
-		}	
+		
+		
+		
         return erxSummaryReportRows;
 	}
 

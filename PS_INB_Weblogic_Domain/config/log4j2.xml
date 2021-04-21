@@ -11,9 +11,7 @@
 
 	<Appenders>
 		<Console name="ConsoleAppender" target="SYSTEM_OUT">
-			<PatternLayout>
-				<Pattern>${logPattern}</Pattern>
-			</PatternLayout>
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
 		</Console>
 
 		<RollingFile name="ApacheAppender" filename="${logDir}/apache.log" filePattern="${logDir}/apache-%i.log">
@@ -141,6 +139,10 @@
 		<logger name="net.sf.ehcache" level="error" additivity="false">
 			<AppenderRef ref="INBERXAppender" />
 		</logger>
+		
+		 <Logger name="gov.va.med.vistalink" level="all" additivity="false">
+         <AppenderRef ref="Console"/>
+       </Logger>
 
 		<!-- Special performance metrics Loggers -->
 		<!-- AOP-based -->

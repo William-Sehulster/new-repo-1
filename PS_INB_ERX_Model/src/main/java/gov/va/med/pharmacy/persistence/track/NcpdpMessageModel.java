@@ -1,8 +1,10 @@
 package gov.va.med.pharmacy.persistence.track;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@RequestScope
 public class NcpdpMessageModel {
 	
 	private Long inboundNcpdpMsgId;
@@ -34,11 +36,16 @@ public class NcpdpMessageModel {
 	private String patientDob;
 	private String patientSocSn;
 	private String patientGender;
+	private String patientPrimaryPhone;
+	private String patientHomePhone;
+	private String patientWeight;
+	private String patientHeight;
 	private String planId;
 	private String rxDrugPrescribed;
 	private String rxQuantity;
 	private String rxDaysSupply;
 	private String rxDateWritten;
+	private String rxIssueDate;
 	private String rxPotencyUnitCode;
 	private String rxDrugForm;
 	private String rxDrugStrength;
@@ -97,6 +104,7 @@ public class NcpdpMessageModel {
 	private String rxFillReasonCd;
 	private String changeRequestType;
 	private String requestReferenceNumber;
+	private String prohibitRenewalRequest;
 	// Med Requested 1
 	private String rxDrugRequested;
 	private String rxDrugRequestedNdc;
@@ -227,6 +235,22 @@ public class NcpdpMessageModel {
 	private String rxPatientCheck;
 	private String rxProviderCheck;
 	private String rxDrugCheck;
+	
+	//rxChangeResponse
+	private String validatedPrescriberNPI;
+	private String validatedPrescriberDEA;
+	private String validatedPrescriberStateLic;
+	private String rxChangeResponseValidatedDate;
+	private String rxChangValidatedReasonCode;
+	private String rxChangeDeniedReasonCode;
+	private String rxChangeVLDReasonDescription;
+	private String rxChangeDNDReasonDescription;
+	private String rxChangeResponseDenialReason;
+	private String rxChangeResponseNote;
+	private String rxChangeDrugCoverageStatusCode;
+	private String rxChangeResponsePriorAuthorization;
+	private String rxChangeResponsePriorAuthorizationStatus;
+	
 	
 	public Long getInboundNcpdpMsgId() {
 		return inboundNcpdpMsgId;
@@ -431,6 +455,12 @@ public class NcpdpMessageModel {
 	}
 	public void setRxDateWritten(String rxDateWritten) {
 		this.rxDateWritten = rxDateWritten;
+	}
+	public String getRxIssueDate() {
+		return rxIssueDate;
+	}
+	public void setRxIssueDate(String rxIssueDate) {
+		this.rxIssueDate = rxIssueDate;
 	}
 	public String getRxPotencyUnitCode() {
 		return rxPotencyUnitCode;
@@ -1507,6 +1537,118 @@ public class NcpdpMessageModel {
 	public void setRxCommentsRequested9(String rxCommentsRequested9) {
 		this.rxCommentsRequested9 = rxCommentsRequested9;
 	}
+	public String getPatientWeight() {
+		return patientWeight;
+	}
+	public void setPatientWeight(String patientWeight) {
+		this.patientWeight = patientWeight;
+	}
+	public String getPatientHeight() {
+		return patientHeight;
+	}
+	public void setPatientHeight(String patientHeight) {
+		this.patientHeight = patientHeight;
+	}
+	public String getPatientPrimaryPhone() {
+		return patientPrimaryPhone;
+	}
+	public void setPatientPrimaryPhone(String patientPrimaryPhone) {
+		this.patientPrimaryPhone = patientPrimaryPhone;
+	}
+	public String getPatientHomePhone() {
+		return patientHomePhone;
+	}
+	public void setPatientHomePhone(String patientHomePhone) {
+		this.patientHomePhone = patientHomePhone;
+	}
+	public String getProhibitRenewalRequest() {
+		return prohibitRenewalRequest;
+	}
+	public void setProhibitRenewalRequest(String prohibitRenewalReq) {
+		this.prohibitRenewalRequest = prohibitRenewalReq;
+	}
+	public String getValidatedPrescriberNPI() {
+		return validatedPrescriberNPI;
+	}
+	public void setValidatedPrescriberNPI(String validatedPrescriberNPI) {
+		this.validatedPrescriberNPI = validatedPrescriberNPI;
+	}
+	public String getValidatedPrescriberDEA() {
+		return validatedPrescriberDEA;
+	}
+	public void setValidatedPrescriberDEA(String validatedPrescriberDEA) {
+		this.validatedPrescriberDEA = validatedPrescriberDEA;
+	}
+	public String getValidatedPrescriberStateLic() {
+		return validatedPrescriberStateLic;
+	}
+	public void setValidatedPrescriberStateLic(String validatedPrescriberStateLic) {
+		this.validatedPrescriberStateLic = validatedPrescriberStateLic;
+	}
+	public String getRxChangeResponseValidatedDate() {
+		return rxChangeResponseValidatedDate;
+	}
+	public void setRxChangeResponseValidatedDate(String rxChangeResponseValidatedDate) {
+		this.rxChangeResponseValidatedDate = rxChangeResponseValidatedDate;
+	}
+	public String getRxChangValidatedReasonCode() {
+		return rxChangValidatedReasonCode;
+	}
+	public void setRxChangValidatedReasonCode(String rxChangValidatedReasonCode) {
+		this.rxChangValidatedReasonCode = rxChangValidatedReasonCode;
+	}
+	public String getRxChangeDeniedReasonCode() {
+		return rxChangeDeniedReasonCode;
+	}
+	public void setRxChangeDeniedReasonCode(String rxChangeDeniedReasonCode) {
+		this.rxChangeDeniedReasonCode = rxChangeDeniedReasonCode;
+	}
+	public String getRxChangeVLDReasonDescription() {
+		return rxChangeVLDReasonDescription;
+	}
+	public void setRxChangeVLDReasonDescription(String rxChangeVLDReasonDescription) {
+		this.rxChangeVLDReasonDescription = rxChangeVLDReasonDescription;
+	}
+	public String getRxChangeDNDReasonDescription() {
+		return rxChangeDNDReasonDescription;
+	}
+	public void setRxChangeDNDReasonDescription(String rxChangeDNDReasonDescription) {
+		this.rxChangeDNDReasonDescription = rxChangeDNDReasonDescription;
+	}
+	public String getRxChangeResponseDenialReason() {
+		return rxChangeResponseDenialReason;
+	}
+	public void setRxChangeResponseDenialReason(String rxChangeResponseDenialReason) {
+		this.rxChangeResponseDenialReason = rxChangeResponseDenialReason;
+	}
+	public String getRxChangeResponseNote() {
+		return rxChangeResponseNote;
+	}
+	public void setRxChangeResponseNote(String rxChangeResponseNote) {
+		this.rxChangeResponseNote = rxChangeResponseNote;
+	}
+	public String getRxChangeDrugCoverageStatusCode() {
+		return rxChangeDrugCoverageStatusCode;
+	}
+	public void setRxChangeDrugCoverageStatusCode(String rxChangeDrugCoverageStatusCode) {
+		this.rxChangeDrugCoverageStatusCode = rxChangeDrugCoverageStatusCode;
+	}
+	public String getRxChangeResponsePriorAuthorization() {
+		return rxChangeResponsePriorAuthorization;
+	}
+	public void setRxChangeResponsePriorAuthorization(String rxChangeResponsePriorAuthorization) {
+		this.rxChangeResponsePriorAuthorization = rxChangeResponsePriorAuthorization;
+	}
+	public String getRxChangeResponsePriorAuthorizationStatus() {
+		return rxChangeResponsePriorAuthorizationStatus;
+	}
+	public void setRxChangeResponsePriorAuthorizationStatus(String rxChangeResponsePriorAuthorizationStatus) {
+		this.rxChangeResponsePriorAuthorizationStatus = rxChangeResponsePriorAuthorizationStatus;
+	}
+	
+	
 
+	
+   
 	
 }

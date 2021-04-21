@@ -2,13 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	<name>PS_INB_ERX_Common</name>
 	<artifactId>PS_INB_ERX_Common</artifactId>
+	
 	<parent>
 		<groupId>gov.va.med.pharmacy</groupId>
 		<artifactId>PS_INB_ERX</artifactId>
 		<version>${version.number}</version>
 		<relativePath>../PS_INB_ERX/pom.xml</relativePath>
 	</parent>
+	
 	<packaging>jar</packaging>
 
 
@@ -78,6 +81,11 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-core</artifactId>
 			<scope>compile</scope>
@@ -112,37 +120,6 @@
 			<artifactId>cxf-rt-rs-client</artifactId>
 			<scope>compile</scope>
 		</dependency>		
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-core</artifactId>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jcl-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-servlet</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-template</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-extras</artifactId>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
@@ -207,12 +184,12 @@
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
+		</dependency>		
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<scope>compile</scope>
-		</dependency>
+			<artifactId>javax.servlet-api</artifactId>
+			<type>jar</type>
+		</dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -258,12 +235,5 @@
 			<artifactId>esapi</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
-		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-api</artifactId>
-		   <scope>compile</scope>
-		</dependency>
-			
 	</dependencies>
 </project>

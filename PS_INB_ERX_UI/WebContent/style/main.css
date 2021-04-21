@@ -28,17 +28,13 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	
-	background: #EFEFEF
-		url('/inbound/inb-erx/resources/dojox/image/resources/images/loading.gif')
-		no-repeat scroll center center;
-		
+	background: #EFEFEF	url('/inbound/inb-erx/resources/dojox/image/resources/images/loading.gif')	no-repeat scroll center center;
 	position: fixed;
 	z-index: 999;
 	opacity: .7;
 }
 
-h1,h2,h3 {
+h1, h2, h3 {
 	font-weight: normal;
 }
 
@@ -47,11 +43,9 @@ h1,h2,h3 {
 	float: left;
 }
 
-a.headerLinks:link,a.headerLinks:VISITED {
+a.headerLinks:link, a.headerLinks:VISITED {
 	color: #FFFFCC;
 }
-
-
 
 a.headerLinks:hover {
 	color: #E2144A;
@@ -67,14 +61,14 @@ a.headerLinks:hover {
 }
 
 h1 {
-	font-size: 16px; 
-	line-height: 1.636em; 
+	font-size: 16px;
+	line-height: 1.636em;
 	margin: 0px;
 }
 
 h2 {
-	font-size: 14px; 
-	margin: 1em 0; 
+	font-size: 14px;
+	margin: 1em 0;
 	clear: both;
 }
 
@@ -96,19 +90,20 @@ td .radio {
 }
 
 .error {
-	color: red;
+	color: #EE0000;
 }
 
 .errorHeader {
-	color: red;
+	color: #EE0000;
 	font-weight: bold;
 }
 
 .warning {
-	
+	color: black;
 }
 
 .warningHeader {
+	color: black;
 	font-weight: bold;
 }
 
@@ -137,7 +132,7 @@ td .radio {
 	list-style-type: none;
 }
 
-.tabNavigation a:link,.tabNavigation a:visited {
+.tabNavigation a:link, .tabNavigation a:visited {
 	background: #990000;
 	border: 1px solid #ccc;
 	color: #FFF;
@@ -150,7 +145,7 @@ td .radio {
 }
 
 /** Navigation highlighting for active tabs **/
-.tabNavigation a.activeTab:link,.tabNavigation a.activeTab:visited {
+.tabNavigation a.activeTab:link, .tabNavigation a.activeTab:visited {
 	background: #fff;
 	border-bottom: 1px solid #fff;
 	color: #000;
@@ -173,7 +168,7 @@ td .radio {
 	margin: 0 2em 0 2em;
 }
 
-.footerMenu a:link,.footerMenu a:visited {
+.footerMenu a:link, .footerMenu a:visited {
 	font-weight: bold;
 	color: #003366;
 }
@@ -193,7 +188,7 @@ td .radio {
 	padding: 0px 10px 0px 10px;
 }
 
-.tablesList a:link,.tablesList a:visited {
+.tablesList a:link, .tablesList a:visited {
 	color: #000000;
 	font-weight: normal;
 	text-decoration: normal;
@@ -201,7 +196,7 @@ td .radio {
 
 .tablesList li {
 	border-collapse: collapse;
-	margin: 0px;	
+	margin: 0px;
 	border: 1px solid #CCC;
 	list-style-type: none;
 	padding: 5px 0px 5px 20px;
@@ -222,7 +217,7 @@ div.buttons {
 	width: auto;
 }
 
-.buttons a,.buttons button {
+.buttons a, .buttons button {
 	display: block;
 	float: left;
 	margin: 10px 5px 5px 0px;
@@ -254,7 +249,7 @@ div.buttons {
 	padding: 4px 10px 3px 7px; /* IE7 */
 }
 
-.buttons button img,.buttons a img {
+.buttons button img, .buttons a img {
 	margin: 0 3px -3px 0 !important;
 	padding: 0;
 	border: none;
@@ -263,7 +258,7 @@ div.buttons {
 }
 
 /* STANDARD */
-button:hover,.buttons a:hover {
+button:hover, .buttons a:hover {
 	background-color: #dff4ff;
 	border: 1px solid #c2e1ef;
 	color: #336699;
@@ -276,11 +271,11 @@ button:hover,.buttons a:hover {
 }
 
 /* POSITIVE */
-button.positive,.buttons a.positive {
+button.positive, .buttons a.positive {
 	color: #FFF;
 }
 
-.buttons a.positive:hover,button.positive:hover {
+.buttons a.positive:hover, button.positive:hover {
 	background-color: #3A558C;
 	border: 1px solid #C6D880;
 	color: #FFF;
@@ -293,11 +288,11 @@ button.positive,.buttons a.positive {
 }
 
 /* NEGATIVE */
-.buttons a.negative,button.negative {
+.buttons a.negative, button.negative {
 	color: #FFF;
 }
 
-.buttons a.negative:hover,button.negative:hover {
+.buttons a.negative:hover, button.negative:hover {
 	background: #fbe3e4;
 	border: 1px solid #fbc2c4;
 	color: #FF0000;
@@ -310,13 +305,13 @@ button.positive,.buttons a.positive {
 }
 
 /* DISABLED */
-.buttons a.disabled,button.disabled {
+.buttons a.disabled, button.disabled {
 	background: #EDF5FF;
 	border: 1px solid #AFAFAF;
 	color: #BECEE0;
 }
 
-.buttons a.disabled,button.disabled:hover {
+.buttons a.disabled, button.disabled:hover {
 	background: #EDF5FF;
 	border: 1px solid #AFAFAF;
 	color: #C8D0D8;
@@ -382,7 +377,6 @@ div.inputbuttons {
 	width: 100%;
 }
 
-
 input#history {
 	display: inline;
 }
@@ -429,11 +423,11 @@ label[for=history] {
 	clear: both;
 }
 
-#constraintsSelect,#columnsSelect,#valueText {
+#constraintsSelect, #columnsSelect, #valueText {
 	width: 225px;
 }
 
-#content form h2 a,tent form h2 a:active,#content form h2 a:visited {
+#content form h2 a, tent form h2 a:active, #content form h2 a:visited {
 	border: 0pt none;
 	color: white;
 	letter-spacing: 0.005em;
@@ -450,8 +444,8 @@ label[for=history] {
 }
 
 #content form h2 a.closed {
-	background: transparent url("/images/close_item.gif") no-repeat
-		scroll 0pt 3px;
+	background: transparent url("/images/close_item.gif") no-repeat scroll
+		0pt 3px;
 }
 
 #content .hide {
@@ -461,7 +455,6 @@ label[for=history] {
 #content .show {
 	display: block;
 }
-
 
 /** Query Results Form Section **/
 #queryResultsForm {
@@ -603,11 +596,9 @@ form #help {
 	padding-bottom: 8px;
 }
 
-
 #removeAll {
 	float: right;
 }
-
 
 .clearfix:after {
 	content: ".";
@@ -675,8 +666,6 @@ html[xmlns] .clearfix {
 	width: 8em;
 }
 
-
-
 .bsaresults {
 	float: left;
 	margin: 4px 0 10px 10px;
@@ -686,10 +675,6 @@ html[xmlns] .clearfix {
 #list {
 	clear: both;
 }
-
-
-
-
 
 /* make TD elements pretty. Provide alternating classes for striping the table */
 .even {
@@ -738,9 +723,6 @@ img {
 	word-wrap: break-word; /* IE */
 }
 
-
-
-
 div.comparisonreport {
 	float: right;
 	height: 100%;
@@ -758,7 +740,7 @@ div.comparisonreportslist {
 }
 
 #interactionTable {
-	clear: both; 
+	clear: both;
 }
 
 form {
@@ -803,17 +785,17 @@ pre {
 
 #skiptomain a:focus {
 	position: absolute;
-	left: 1100px;
+	left: 1087px;
 	top: 42px;
 	color: white;
-	border: 4px solid #000000!important;
+	border: 4px solid #000000 !important;
 }
 
 #skiptomain a {
-    position: absolute;
-	left: 1100px;
-	top:42px;
-    color: white;
+	position: absolute;
+	left: 1087px;
+	top: 42px;
+	color: white;
 }
 
 .user-comment {
@@ -829,14 +811,13 @@ pre {
 .years {
 	clear: both;
 	list-style: none;
-	
 }
 
 .months {
 	margin-left: 2em;
 	list-style: none;
 	font-size: 16px;
-	background-color:white;
+	background-color: white;
 }
 
 .custom-updates {
@@ -845,53 +826,54 @@ pre {
 }
 
 a.year {
-  color: white;
+	color: white;
 }
 
-a.year:visited{
-   color: white;
+a.year:visited {
+	color: white;
 }
 
-a.year:active{
-   color: white;
+a.year:active {
+	color: white;
 }
 
-a.month{
-    color: blue;	
+a.month {
+	color: blue;
 }
 
-a.updatefiles{
-	color:blue;
+a.updatefiles {
+	color: blue;
 }
 
-.yearBar{
+.yearBar {
 	background-color: #003366;
-    border: 1px solid #000000;
-    clear: both;
-    color: #FFFFFF;
-    font-size: 16px;
-    line-height: 140%;
-    margin: 10px 0;
-    width: 100%;
+	border: 1px solid #000000;
+	clear: both;
+	color: #FFFFFF;
+	font-size: 16px;
+	line-height: 140%;
+	margin: 10px 0;
+	width: 100%;
 }
 
-.customInfo{
-	 padding-left:2em;
-	list-style=none;
-}
-@import url("dojo-release-1.9.1-src/dojo-release-1.9.1-src/dojox/rid/resources/Grid.css");
-
-
-.dojoxGridMasterHeader
-{
-   aria-describedby: Master Table Header;
-   color: red;
+.customInfo {
+	padding-left: 2em;
+	list-style
+	=none;
 }
 
+@import
+	url("dojo-release-1.9.1-src/dojo-release-1.9.1-src/dojox/rid/resources/Grid.css")
+	;
+
+.dojoxGridMasterHeader {
+	aria-describedby: Master Table Header;
+	color: red;
+}
 
 #manageUsersForm label {
 	float: left;
-	width: 10%;
+	width: 11%;
 }
 
 div.manageUsersFields {
@@ -901,8 +883,51 @@ div.manageUsersFields {
 }
 
 .manageusersSelect {
-	float: left;	
+	float: left;
 	width: 19%;
+}
+
+.manageusersStationSelect {
+	float: left;
+	width: 30%;
+	height: 18px;
+}
+
+.selectedStationdIdsLabelDiv {
+	position: relative;
+	top: 56px;
+	height: 2px;
+	margin-left: 650px;
+	margin-right: auto;
+}
+
+.manageusersStationSelected {
+	float: left;
+	top: 10px;
+	width: 30%;
+	height: 120px;
+	margin-left: 30px;
+}
+
+.manageusersAddBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersRemoveBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersStationSelectRow {
+	float: left;
+	position: relative;
+	width: 100%;
+	height: 60px;
 }
 
 span.manageusersRequiredField {
@@ -915,13 +940,11 @@ span.manageusersRequiredField {
 	color: #DF0000;
 }
 
-
-
-.divUserMgmtTable{
+.divUserMgmtTable {
 	float: left;
 	margin: .5em 0;
 	width: 100%;
-	display:table;
+	display: table;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
 	border-color: gray transparent transparent gray;
@@ -929,11 +952,14 @@ span.manageusersRequiredField {
 
 .divUserMgmtTableHeaderRow {
 	display: table-row;
-	background-color:#9dcfff;
+	background-color: #BECEE0;
 	border-top: 1px solid transparent;
 	border-color: #F5F5F5;
 	font-weight: bold;
 	width: 150px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366;
 }
 
 .divUserMgmtTableRow {
@@ -945,7 +971,25 @@ span.manageusersRequiredField {
 	border-width: 0 1px 1px 0;
 	border-color: transparent gray gray transparent;
 	display: table-cell;
-	padding: 3px 10px;
+	padding: 1px 3px;
+}
+
+.divUserMgmtTableCellToggleUser {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 1px 3px;
+	width: 100px;
+}
+
+.divUserMgmtTableCellStatioinID {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	border-color: transparent gray gray transparent;
+	display: table-cell;
+	padding: 5px 2px;
+	width: 100px;
 }
 
 .divUserMgmtTableCellCheckbox {
@@ -953,10 +997,203 @@ span.manageusersRequiredField {
 	border-width: 0 1px 1px 0;
 	border-color: transparent gray gray transparent;
 	display: table-cell;
-	padding:  10px 10px 10px 16px;
+	padding: 10px 10px 10px 6px;
 	margin: 10px 10px 10px 10px;
 }
 
 .divUserMgmtTableBody {
 	display: table-row-group;
+}
+
+#manageUsersForm label[for=selectedStationdIds] {
+	float: left;
+	width: 100%;
+}
+
+.dijitDialogPaneContent {
+	width: 1200px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#manageUsersForm label[for=updateStationId] {
+	float: left;
+	width: 100%;
+}
+
+.manageusersUpdateStationIdsAddBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersUpdateStationIdsRemoveBtn {
+	float: left;
+	position: relative;
+	top: -4px;
+	margin-left: 30px;
+}
+
+.manageusersUpdateStationIdsUpdateBtn {
+	float: left;
+	position: relative;
+	top: 10px;
+	margin-left: -56px;
+}
+
+.manageusersUpdateStationIdsCancelBtn {
+	float: left;
+	position: relative;
+	top: 10px;
+	margin-left: 10px;
+}
+
+.selectedStationdIdsUpdateLabelDiv {
+	position: relative;
+	top: 11px;
+	height: 2px;
+	margin-left: 586px;
+	margin-right: auto;
+}
+
+/*
+input:focus {
+	border: 4px solid #000000 !important;
+}
+
+label:focus {
+	border: 4px solid #000000 !important;
+}
+*/
+
+
+
+
+
+.generatedDivTableParent {			
+	width:1125px;
+	height: 600px;	
+	overflow: auto;	
+	display: block;
+	
+}
+
+.generatedDivTable {
+	display: table;		
+	width:600px;
+	position: relative;	
+	overflow: auto;
+	float: left;
+	margin: .5em 0;		
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+	table-layout:fixed;
+	max-width:100%;
+	
+}
+
+.generatedDivTableHeaderRow {
+	display: table-row;	
+	background-color: #BECEE0;
+	border-top: 1px solid transparent;
+	border-color: #F5F5F5;
+	font-weight: bold;
+	width:100%;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366
+}
+
+.generatedDivTableRow {
+	display: table-row; 	
+	width:100%;	
+}
+
+.generatedDivTableHeaderCell {
+	/*used for sorting */
+	display:table-cell; 	
+	position: relative;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: transparent gray gray transparent;	
+	margin: 0px 0px;
+	padding: 3px 2px 3px 3px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;	
+	width:100%;
+	overflow:auto;	
+}
+
+
+.generatedDivTableCell {
+	display:table-cell; 	
+	position: relative;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: transparent gray gray transparent;	
+	margin: 0px 0px;
+	padding: 1px 1px 0px 2px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;	
+	width:100%;
+	overflow:auto;	
+}
+
+
+
+.generatedDivTableBody {
+	display: table-row-group;	
+	width:100%;
+}
+
+
+.generatedDivTableCellLink{
+	/* dummy class used for links */
+}
+
+.generatedDivTableNoRecordRow {
+	display: table-row; 	
+	width:100%;	
+}
+
+.generatedDivTableNoRecordsCell {
+	display:inline-block; 	
+	position: absolute;
+	/*border-style: solid;*/
+	/*border-width: 1px 1px 1px 1px;*/
+	/*border-color: transparent gray gray gray;	*/
+	margin: 0px 0px;
+	padding: 3px 3px 3px 400px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;		
+	overflow:auto;		
+	font-size:12px;
+}
+
+.generatedReportsDivTableParent {			
+	width:1125px;
+	height: 400px;	
+	overflow: auto;	
+	display: block;
+	
+}
+
+.generatedReportsDivTable {
+	display: table;	
+	width:100%;	
+	position: relative;	
+	overflow: auto;
+	float: left;
+	margin: .5em 0;		
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+	table-layout:fixed;
+	max-width:100%;
+	
 }

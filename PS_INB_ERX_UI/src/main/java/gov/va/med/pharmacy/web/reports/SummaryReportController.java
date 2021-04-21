@@ -2,7 +2,6 @@ package gov.va.med.pharmacy.web.reports;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.apache.commons.text.StringEscapeUtils; 
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
-import gov.va.med.pharmacy.persistence.model.AutoCheckReportVw;
 import gov.va.med.pharmacy.persistence.model.SummaryReportVw;
 import gov.va.med.pharmacy.persistence.report.StationIdSelectModel;
 import gov.va.med.pharmacy.persistence.report.SummaryReportFilter;
@@ -54,12 +52,13 @@ public class SummaryReportController {
 	@Autowired
 	private TrackMessageService trackMessageService;
 
-	@RequestMapping(value = "/getSummary", method = RequestMethod.GET)
-	@CacheControl(policy = {CachePolicy.NO_CACHE})
-	@ResponseBody
-	public List<SummaryReportVw> getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
+	@RequestMapping(value = "/getSummary", method = RequestMethod.GET, produces = "application/json")
+	@CacheControl(policy = {CachePolicy.NO_CACHE})	
+	public ModelAndView getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
 			throws JsonParseException, JsonMappingException, IOException {
 
+		ModelAndView mav = new ModelAndView(new org.springframework.web.servlet.view.json.MappingJackson2JsonView());
+		
 		List<SummaryReportVw> summaryReportVwList = new ArrayList<SummaryReportVw>();
 
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
@@ -69,18 +68,11 @@ public class SummaryReportController {
 		
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
-		summaryReportVwList.addAll(summaryReportService.find(summaryReportFilter));
-		for(SummaryReportVw  summaryReportVw: summaryReportVwList)
-		{
-			//Fortify sanitizing the PharmacyAddress, PharmacyDivisionName, getPharmacyNcpdpId and PharmacyVaStationId
-			//before being used down the lines.
-			summaryReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyAddress()));
-			summaryReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyDivisionName()));
-			summaryReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyNcpdpId()));
-			summaryReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(summaryReportVw.getPharmacyVaStationId()));
-		}
+		summaryReportVwList = summaryReportService.find(summaryReportFilter);
 		
-		return summaryReportVwList;
+		mav.addObject("items", summaryReportVwList);
+		
+		return mav;
 	}
 
 	@RequestMapping(value = "/getStationIdSelect", method = RequestMethod.GET, produces = "application/json")
@@ -107,12 +99,6 @@ public class SummaryReportController {
 		
 		stationIdSelectModelList.add(stationIdSelectModel);
 
-		for(StationIdSelectModel  stationSelectModel: stationIdSelectModelList)
-		{
-			//Fortify sanitizing the Id and label before being used down the lines.
-			stationSelectModel.setId(StringEscapeUtils.escapeJson(stationSelectModel.getId()));
-			stationSelectModel.setLabel(StringEscapeUtils.escapeJson(stationSelectModel.getLabel()));
-		}
 		return stationIdSelectModelList;
 	}
 

@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import gov.va.med.pharmacy.utility.ESAPIValidationType;
 import gov.va.med.pharmacy.utility.ESAPIValidator;
@@ -31,29 +33,29 @@ public class LoginController implements InitializingBean  {
 	@Autowired
 	private Environment environment;
 	
-	@RequestMapping(value = "/homepage")
-	public String getHomePage(HttpServletRequest request) {
+	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	public ModelAndView getHomePage(HttpServletRequest request) {
 		
-		String tilesView ="inberx.homepage";
+		ModelAndView mav = new ModelAndView("inboundHomePage");
 				
-		return tilesView;
+		return mav;
 	}
 	
-	@RequestMapping(value = "/index")
-	public String index(HttpServletRequest request) {
+	@RequestMapping(value = "/index", method = RequestMethod.POST)
+	public ModelAndView index(HttpServletRequest request) {
 		
-		String tilesView ="inberx.homepage";
+		ModelAndView mav = null;
 		
 		boolean isValid = authenticateUser(request);
 		
 		if(isValid == true){
-			tilesView = "inberx.homepage";
+			mav = new ModelAndView("inboundHomePage");
 		}
 		else{
-			tilesView = "inberx.landingPageWithErrors";	
+			mav =  new ModelAndView("loginErrorLayout");	
 		}
 		
-		return tilesView;
+		return mav;
 	}
 
 	private boolean authenticateUser(HttpServletRequest request) {

@@ -25,21 +25,23 @@ public final class AccessController {
     	 HttpSession session = request.getSession();
     	 
     	if (session.getAttribute(Constants.SESSION_USER) == null) {
-    		
+    					
     		return new ModelAndView("landing");
     	}
     	else
     	{
-    		 return new ModelAndView("inberx.homepage");
+    		 return new ModelAndView("inboundHomePage");
     	}
     	
        
     }
     
+   
+    
     @RequestMapping(value = "/AccessDenied")
     public ModelAndView accessDenied(HttpServletRequest request) {
     	
-    	return new ModelAndView("accessDenied.page");
+    	return new ModelAndView("accessDenied");
     	
        
     }

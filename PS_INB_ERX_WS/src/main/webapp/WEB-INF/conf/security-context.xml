@@ -1,77 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:beans="http://www.springframework.org/schema/beans" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-	
-	<context:component-scan base-package="gov.va.med.pharmacy.jaxrs" />
-<!-- 	
-	<http pattern="/services/rest/inbound/**" create-session="stateless">
-	
-	    <intercept-url pattern="/services/rest/inbound/**" access="hasRole('ROLE_WSUSER')" />
-		<x509 subject-principal-regex="CN=(.*?)," user-service-ref="userDetailsService"/>
-		<csrf disabled ="true"/>
-	</http>
-	-->
-		
-	<!-- HTTP basic authentication in Spring Security with http intercept url pattern -->
-	<http  auto-config="true" entry-point-ref="basicAuthEntryPoint" create-session="stateless">
-	    <headers>
-            <content-security-policy policy-directives="any" />          
-        </headers>
-		<intercept-url pattern="/services/rest/patientSearch/**" access="hasRole('ROLE_WSUSER')" />		
-		<intercept-url pattern="/services/rest/eandeVerify/**" access="hasRole('ROLE_WSUSER')" />
-		<intercept-url pattern="/services/rest/provider/**" access="hasRole('ROLE_WSUSER')" />
-		<intercept-url pattern="/services/rest/drug/**" access="hasRole('ROLE_WSUSER')" />
-		<intercept-url pattern="/services/rest/sendInboundMessage/**" access="hasRole('ROLE_WSUSER')" />		
-		<intercept-url pattern="/services/rest/vistaoutboundMsg/**" access="hasRole('ROLE_WSUSER')" />
-		<intercept-url pattern="/services/rest/outbound/**" access="hasRole('ROLE_WSUSER')" />
-		<intercept-url pattern="/services/rest/appInfo/**" access="hasRole('ROLE_WSUSER')" />
-		
-		 
-		 <!--  left out inBoundNCPDPMessage as it will be with CH and cert exchange -->
-		 
-		<custom-filter after="BASIC_AUTH_FILTER" ref="basicAuthenticationFilter"/>
-		
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<context:component-scan
+		base-package="gov.va.med.pharmacy.jaxrs" />
+	<!-- <http pattern="/services/rest/inbound/**" create-session="stateless"> 
+		<intercept-url pattern="/services/rest/inbound/**" access="hasRole('ROLE_WSUSER')" 
+		/> <x509 subject-principal-regex="CN=(.*?)," user-service-ref="userDetailsService"/> 
+		<csrf disabled ="true"/> </http> -->
+
+	<!-- HTTP basic authentication in Spring Security with http intercept url 
+		pattern -->
+	<http auto-config="true" entry-point-ref="basicAuthEntryPoint"		create-session="stateless">
+		<headers>    
+     		<content-security-policy policy-directives="default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'" />
+     	</headers>
+
+		<intercept-url pattern="/services/rest/patientSearch/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url pattern="/services/rest/eandeVerify/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url pattern="/services/rest/provider/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url pattern="/services/rest/drug/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url
+			pattern="/services/rest/sendInboundMessage/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url
+			pattern="/services/rest/vistaoutboundMsg/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url pattern="/services/rest/outbound/**"
+			access="hasRole('ROLE_WSUSER')" />
+		<intercept-url pattern="/services/rest/appInfo/**"
+			access="hasRole('ROLE_WSUSER')" />
+
+
+		<!-- left out inBoundNCPDPMessage as it will be with CH and cert exchange -->
+
+		<custom-filter after="BASIC_AUTH_FILTER"	ref="basicAuthenticationFilter" />
+
 		<http-basic />
-		
-		<csrf disabled ="true"/>
+
+		<csrf disabled="true" />
 	</http>
-	
-	
-	
-	<beans:bean id="basicAuthEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">	
-	 <beans:property name="realmName" value="Inbound eRx WS Realm"  />	
+
+
+
+	<beans:bean id="basicAuthEntryPoint"	class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<beans:property name="realmName"	value="Inbound eRx WS Realm" />
+	</beans:bean>
+
+
+	<beans:bean id="basicAuthenticationFilter"	class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<beans:constructor-arg ref="authenticationManager" />
+		<beans:constructor-arg ref="basicAuthEntryPoint" />
+	</beans:bean>
+
+	<beans:bean		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="location"		value="classpath:gov.va.med.pharmacy.inboundeRx.properties" />
+		<!-- This is need to have multiple property placeholder -->
+		<beans:property name="ignoreUnresolvablePlaceholders" value="true" />
+	</beans:bean>
+
+
+
+	<!-- Authentication manager configuration -->	
+	     
+	<authentication-manager	 alias="authenticationManager">
+		<authentication-provider>
+			<user-service id="userDetailsService">
+				<user name="${ws.user}" password="${ws.user.password}"	authorities="ROLE_WSUSER" />
+			</user-service>
+			<password-encoder ref="pwdEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="pwdEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder">
 	</beans:bean>
 	
-	
-	<beans:bean id="basicAuthenticationFilter"  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
-        <beans:constructor-arg ref="authenticationManager"/>
-        <beans:constructor-arg ref="basicAuthEntryPoint"/>
-    </beans:bean>
-	
-	<beans:bean	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<beans:property name="location" value="classpath:gov.va.med.pharmacy.inboundeRx.properties" />
-		 <!--  This is need to have multiple property placeholder -->
-		 <beans:property name="ignoreUnresolvablePlaceholders" value="true"/>
-	</beans:bean>
-	
-	
-    <!-- Authentication manager configuration -->	
-	
-	<authentication-manager alias="authenticationManager">    
-    <authentication-provider user-service-ref ="userDetailsService"/>       
-    </authentication-manager>
-     
-     <user-service id = "userDetailsService">
-            <user name="${ws.user}" password="${ws.user.password}" authorities="ROLE_WSUSER" />
-          <!--   <user name="${ws.cn_cert_user}" password="" authorities="ROLE_WSUSER" />	-->
-     </user-service>
-   
-   	
+	 
+
 </beans:beans>

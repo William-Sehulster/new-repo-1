@@ -21,20 +21,7 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 
-	<dependencies>
-	    <dependency>
-    		<groupId>org.apache.commons</groupId>
-    		<artifactId>commons-text</artifactId>
-    		<version>1.8</version>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+	<dependencies>		
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -58,17 +45,22 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jcache</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>			
 		</dependency>
 		<!-- EHCACHE -->			 
 		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
 		</dependency> 
+		<!--  JCache -->		
 		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-web</artifactId>
-		</dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>			
+		</dependency>		
 		
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
@@ -143,7 +135,7 @@
 		<!-- Oracle JDBC -->
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
+			<artifactId>ojdbc8</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>

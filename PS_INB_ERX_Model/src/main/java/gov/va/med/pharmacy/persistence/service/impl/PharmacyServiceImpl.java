@@ -3,6 +3,7 @@ package gov.va.med.pharmacy.persistence.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -168,30 +169,104 @@ public class PharmacyServiceImpl implements PharmacyService {
 		filteredPharmacyEntity.setVaStationId(HtmlUtils.htmlEscape(pharmacy.getVaStationId()));
 		filteredPharmacyEntity.setNcpdpId(HtmlUtils.htmlEscape(pharmacy.getNcpdpId()));
 		filteredPharmacyEntity.setNpi(pharmacy.getNpi());
+		
 		filteredPharmacyEntity.setStoreName(HtmlUtils.htmlEscape(pharmacy.getStoreName()));
 
-		filteredPharmacyEntity.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacy.getPharmacistLastName()));
-		filteredPharmacyEntity.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacy.getPharmacistFirstName()));
-		filteredPharmacyEntity.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacy.getPharmacistMiddleName()));
-		filteredPharmacyEntity.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacy.getPharmacistSuffix()));
-		filteredPharmacyEntity.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacy.getPharmacistPrefix()));
-		filteredPharmacyEntity.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacy.getPharmacyAddressLine1()));
-		filteredPharmacyEntity.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacy.getPharmacyAddressLine2()));
-		filteredPharmacyEntity.setPharmacyCity(HtmlUtils.htmlEscape(pharmacy.getPharmacyCity()));
-		filteredPharmacyEntity.setPharmacyState(HtmlUtils.htmlEscape(pharmacy.getPharmacyState()));
-		filteredPharmacyEntity.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacy.getPharmacyZipcode()));
+		if(StringUtils.isNoneEmpty(pharmacy.getPharmacistLastName())) {
+		
+			filteredPharmacyEntity.setPharmacistLastName(HtmlUtils.htmlEscape(pharmacy.getPharmacistLastName()));
+		}
+		
+		if(StringUtils.isNotEmpty((pharmacy.getPharmacistFirstName()))){
+			
+			filteredPharmacyEntity.setPharmacistFirstName(HtmlUtils.htmlEscape(pharmacy.getPharmacistFirstName()));
+		}
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacistMiddleName())){
+			
+			filteredPharmacyEntity.setPharmacistMiddleName(HtmlUtils.htmlEscape(pharmacy.getPharmacistMiddleName()));
+		}		
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacistSuffix())){
+			
+			filteredPharmacyEntity.setPharmacistSuffix(HtmlUtils.htmlEscape(pharmacy.getPharmacistSuffix()));
+		}
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacistPrefix())){
+			
+			filteredPharmacyEntity.setPharmacistPrefix(HtmlUtils.htmlEscape(pharmacy.getPharmacistPrefix()));
+		}
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyAddressLine1())){
+			
+			filteredPharmacyEntity.setPharmacyAddressLine1(HtmlUtils.htmlEscape(pharmacy.getPharmacyAddressLine1()));
+		}
+			
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyAddressLine2())){
+			
+			filteredPharmacyEntity.setPharmacyAddressLine2(HtmlUtils.htmlEscape(pharmacy.getPharmacyAddressLine2()));
+		}
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyCity())){
+			
+			filteredPharmacyEntity.setPharmacyCity(HtmlUtils.htmlEscape(pharmacy.getPharmacyCity()));
+		}
 
-		filteredPharmacyEntity.setCrossStreet(HtmlUtils.htmlEscape(pharmacy.getCrossStreet()));
+		
+		
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyState())){
+			
+			filteredPharmacyEntity.setPharmacyState(HtmlUtils.htmlEscape(pharmacy.getPharmacyState()));
+		}
 
-		filteredPharmacyEntity.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacy.getPharmacyPhoneNumber()));
-		filteredPharmacyEntity.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacy.getPharmacyFaxNumber()));
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyZipcode())){
+			
+			filteredPharmacyEntity.setPharmacyZipcode(HtmlUtils.htmlEscape(pharmacy.getPharmacyZipcode()));
+		}
+		
+		
+
+		if(StringUtils.isNotEmpty(pharmacy.getCrossStreet())){
+			
+			filteredPharmacyEntity.setCrossStreet(HtmlUtils.htmlEscape(pharmacy.getCrossStreet()));
+		}
+
+
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyPhoneNumber())){
+			
+			filteredPharmacyEntity.setPharmacyPhoneNumber(HtmlUtils.htmlEscape(pharmacy.getPharmacyPhoneNumber()));
+		}
+
+		
+		
+		if(StringUtils.isNotEmpty(pharmacy.getPharmacyFaxNumber())){
+			
+			filteredPharmacyEntity.setPharmacyFaxNumber(HtmlUtils.htmlEscape(pharmacy.getPharmacyFaxNumber()));
+		}
+
+		
 		filteredPharmacyEntity.setInboundErxEnabled(pharmacy.getInboundErxEnabled());
 		filteredPharmacyEntity.setUpdatedDate(pharmacy.getUpdatedDate());
 		filteredPharmacyEntity.setCreatedDate(pharmacy.getCreatedDate());
 		filteredPharmacyEntity.setVisn(pharmacy.getVisn());
 		filteredPharmacyEntity.setDivisionName(HtmlUtils.htmlEscape(pharmacy.getDivisionName()));
-		filteredPharmacyEntity.setCreatedBy(HtmlUtils.htmlEscape(pharmacy.getCreatedBy()));
-		filteredPharmacyEntity.setUpdatedBy(HtmlUtils.htmlEscape(pharmacy.getUpdatedBy()));
+		
+		
+		if(StringUtils.isNotEmpty(pharmacy.getCreatedBy())){
+			
+			filteredPharmacyEntity.setCreatedBy(HtmlUtils.htmlEscape(pharmacy.getCreatedBy()));
+		}
+
+		
+		
+		if(StringUtils.isNotEmpty(pharmacy.getUpdatedBy())){
+			
+			filteredPharmacyEntity.setUpdatedBy(HtmlUtils.htmlEscape(pharmacy.getUpdatedBy()));
+		}
+
+		
 		filteredPharmacyEntity.setEandeCheck(pharmacy.getEandeCheck());
 		
 		return filteredPharmacyEntity;

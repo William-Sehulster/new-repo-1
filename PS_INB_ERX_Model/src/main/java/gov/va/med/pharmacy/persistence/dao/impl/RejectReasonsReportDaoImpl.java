@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -50,12 +49,13 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 		//System.out.print("DateFrom: " + summaryReportFilter.getDateFrom()
 		//+ " DateTo: " + summaryReportFilter.getDateTo() + "VISN: " + summaryReportFilter.getVisn()
 		//+ "Station ID: " + summaryReportFilter.getStationId());
+		
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("pharmacyDivisionName"));
 
 		criteria.add(Restrictions.ge("newRxMessageDate", getFormattedFromDateTime(summaryReportFilter.getDateFrom())));
 		criteria.add(Restrictions.le("newRxMessageDate", getFormattedToDateTime(summaryReportFilter.getDateTo())));
 
-		if (summaryReportFilter.getVisn() != null && summaryReportFilter.getVisn().length() > 0){ //check for All value
+		if (summaryReportFilter.getVisn().length() > 0){ //check for All value
 			criteria.add(Restrictions.eq("visn", summaryReportFilter.getVisn()));
 		}
 		if (summaryReportFilter.getStationId() != null){
@@ -86,19 +86,12 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxIncorrectPharm").as("newRxIncorrectPharm"))
 				.add(Projections.sum("newRxErrCallPharm").as("newRxErrCallPharm"))
 				);
+
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
 		
-		List<RejectReasonsReportVw> rejectReasonsReportRows = (List<RejectReasonsReportVw>) criteria.list();	
-		for(RejectReasonsReportVw  rejectReasonsReportVw: rejectReasonsReportRows)
-		{
-			//Fortify sanitizing the visn, PharmacyNcpdpId, PharmacyAddress, PharmacyVaStationId and PharmacyDivisionName
-			//before being used down the lines.
-			rejectReasonsReportVw.setVisn(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getVisn()));
-			rejectReasonsReportVw.setPharmacyNcpdpId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyNcpdpId()));
-			rejectReasonsReportVw.setPharmacyAddress(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyAddress()));
-			rejectReasonsReportVw.setPharmacyVaStationId(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyVaStationId()));
-			rejectReasonsReportVw.setPharmacyDivisionName(StringEscapeUtils.escapeJson(rejectReasonsReportVw.getPharmacyDivisionName()));
-		}
+		List<RejectReasonsReportVw> rejectReasonsReportRows = (List<RejectReasonsReportVw>) criteria.list();
+		
+		
 		
         return rejectReasonsReportRows;
 	}

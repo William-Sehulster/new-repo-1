@@ -38,6 +38,7 @@ public class VistaInboundNcpdpMsg  {
 	private String npi;
 	private String cancelRxDenied;
 	private long relToOutboundNcpdpMsgId;
+	private String prohibitRenewalRequest;
 	
 	public long getInboundNcpdpMsgId() {
 		return inboundNcpdpMsgId;
@@ -320,6 +321,16 @@ public class VistaInboundNcpdpMsg  {
 
 	public void setRelToOutboundNcpdpMsgId(long relToOutboundNcpdpMsgId) {
 		this.relToOutboundNcpdpMsgId = relToOutboundNcpdpMsgId;
+	}
+
+
+	public String getProhibitRenewalRequest() {
+		return prohibitRenewalRequest;
+	}
+
+
+	public void setProhibitRenewalRequest(String prohibitRenewalRequest) {
+		this.prohibitRenewalRequest = prohibitRenewalRequest;
 	}
 
 

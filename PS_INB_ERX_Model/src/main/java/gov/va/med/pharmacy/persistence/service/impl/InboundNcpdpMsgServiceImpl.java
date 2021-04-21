@@ -31,4 +31,19 @@ public class InboundNcpdpMsgServiceImpl implements InboundNcpdpMsgService {
 		LOG.info("saved incoming WS message.");
 	}
 
+	@Override
+	public InboundNcpdpMsgEntity findByMessageId(String msgId) throws Exception {
+
+		try {
+
+			LOG.info("returned NewRx by message id.");
+
+			return inboundNcpdpMsgDao.findByMessageId(msgId);
+
+		} catch (Exception e) {
+
+			throw new Exception(e);
+		}
+
+	}
 }

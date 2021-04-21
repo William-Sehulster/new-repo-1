@@ -57,7 +57,7 @@ public class UserManagementController {
 
     private static final String TILDE = "~";
     
-    private final static String USER_MANAGEMENT_TILES_VIEW = "manageusers.homepage";
+    private final static String USER_MANAGEMENT_VIEW = "manageusers";
 	
 
 	final private String[] DISALLOWED_FIELDS = new String[] { "updatedDate", "createdDate", "_csrf" };
@@ -68,10 +68,10 @@ public class UserManagementController {
 		binder.setDisallowedFields(DISALLOWED_FIELDS);
 	}
 
-	@RequestMapping(value = "/main")
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView getMainPage(HttpServletRequest request, @ModelAttribute(USER_MANAGEMENT_MODEL) UserManagementModel userManagementModel, BindingResult result, Model model) {
 
-		ModelAndView mav = new ModelAndView(USER_MANAGEMENT_TILES_VIEW);
+		ModelAndView mav = new ModelAndView(USER_MANAGEMENT_VIEW);
 
 		 List<UserManagementModel> userRoles = getUsersAndRoles();
 		 
@@ -196,7 +196,7 @@ public class UserManagementController {
     	
     	List<String> errorsList = new ArrayList<String>();
     	
-    	 ModelAndView mav = new ModelAndView(USER_MANAGEMENT_TILES_VIEW);
+    	 ModelAndView mav = new ModelAndView(USER_MANAGEMENT_VIEW);
     	 
     	 if (StringUtils.isEmpty(userManagementModel.getModifiedIds()) && StringUtils.isEmpty(userManagementModel.getAddUserText()) && StringUtils.isEmpty(userManagementModel.getModifiedFields())
     			 && StringUtils.isEmpty(userManagementModel.getEnableDisableRecords())  && StringUtils.isEmpty(userManagementModel.getModifiedStationIds())){

@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.owasp.esapi.ESAPI;
-import org.springframework.web.util.HtmlUtils;
 
 
 /**
@@ -51,7 +50,8 @@ public final class ESAPIValidator {
             } catch (Exception e) {
                 throw new RuntimeException("Invalid characters found in input.  Access Control: DB violation.");
             }
-       case COMMAND_INJECTION:
+// commented out as not currently used and for Fortify code quality fix.
+/*        case COMMAND_INJECTION:
             try {
 
                 return validator().getValidInput("commandInjection", input, "commandInjection", Integer.MAX_VALUE, false, false);
@@ -68,16 +68,11 @@ public final class ESAPIValidator {
             }
 
         case CROSS_SITE_SCRIPTING_REFLECTED:
-            try 
-            {
+            try {
                return validator().getValidInput("crossSiteScriptingReflected", input, "crossSiteScriptingReflected",Integer.MAX_VALUE, false, false);
-            } 
-            catch (Exception e) 
-            {
-            	//1- html encoded if there is an & Or <script tag
-            	//2- return the encoded value
-            	return HtmlUtils.htmlEscape(input);
-            }            
+            } catch (Exception e) {
+                throw new RuntimeException("Invalid characters found in input.  Cross Site Scripting:  Reflected violation.");
+            }
 
         case DENIAL_OF_SERVICE_REG_EXP:
             try {
@@ -93,7 +88,8 @@ public final class ESAPIValidator {
             } catch (Exception e) {
                 throw new RuntimeException("Invalid characters found in input.  JSON Injection violation.");
             }
-      
+
+  */          
         case LOG_FORGING:
             // remove cr/lf
             input = input.replace('\n', ' ').replace('\r', ' ');
