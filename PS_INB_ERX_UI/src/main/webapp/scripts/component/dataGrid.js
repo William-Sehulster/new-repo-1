@@ -76,6 +76,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxCntCS';
+	obj["name"] = "CS #New Rx";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxPharmDisabledAtHub';
@@ -92,6 +100,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedAtHubCS';
+	obj["name"] = "CS #Rejected at Hub";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxPassAutoChk';
@@ -100,6 +116,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxPassAutoChkCS';
+	obj["name"] = "CS #Passed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxFailAutoChk';
@@ -110,12 +134,28 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFailAutoChkCS';
+	obj["name"] = "CS #Failed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxRejectedByPharmacist';
 	obj["name"] = "#Rejected by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedByPharmacistCS';
+	obj["name"] = "CS #Rejected by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'newRxFilled';
@@ -126,12 +166,28 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFilledCS';
+	obj["name"] = "CS #Rx Filled";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxInProcess';
 	obj["name"] = "#Accepted by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxInProcessCS';
+	obj["name"] = "CS #Accepted by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	return layout;
 }
@@ -486,6 +542,13 @@ function buildRejectReasonsReportLayout(servlet, target) {
 function buildErxSummaryReportLayout(servlet, target) {
 	var layout = new Array();
 	
+	//M. Bolden - 5.0 - get Filter value for eRxType and build grid based off of filter type provided
+	//var eRxTypeselectBox = dojo.byId("erxTypeSelection");
+	//var selectedIndex = eRxTypeselectBox.options.selectedIndex;
+	//var selected = eRxTypeselectBox.options[selectedIndex].value;
+	//var selected = erxFilter;
+	//selected = "NONCS";
+	
 	var obj = new Object();
 	obj["field"] = 'visn';
 	obj["name"] = 'VISN';
@@ -522,69 +585,189 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//obj["formatter"] = formatSelectable;
 	//layout.push(obj);
 
-	obj = new Object();
-	obj["field"] = 'newRxCnt';
-	obj["name"] = "#New Rx";
-	obj["width"] = '156px';
-//	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    //if (selected == "ALL" || selected == "NONCS")
+	//{
+		obj = new Object();
+		obj["field"] = 'newRxCnt';
+		obj["name"] = "#New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 	
-	obj = new Object();
-	obj["field"] = 'refillRequest';
-	obj["name"] = "#RxRenewal Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   // if (selected == "ALL" || selected == "CS")
+	//{	
+		obj = new Object();
+		obj["field"] = 'newRxCntCS';
+		obj["name"] = "CS #New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+	
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'refillRequest';
+		obj["name"] = "#RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 
-	obj = new Object();
-	obj["field"] = 'refillResponse';
-	obj["name"] = "#RxRenewal Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
-	
-	obj = new Object();
-	obj["field"] = 'rxChangeRequest';
-	obj["name"] = "#RxChange Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'refillRequestCS';
+		obj["name"] = "CS #RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	//}
 
-	obj = new Object();
-	obj["field"] = 'rxChangeResponse';
-	obj["name"] = "#RxChange Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'refillResponse';
+		obj["name"] = "#RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 
-	obj = new Object();
-	obj["field"] = 'cancelRx';
-	obj["name"] = "#CancelRx Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'refillResponseCS';
+		obj["name"] = "CS #RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	//}
+
+	//if (selected == "ALL" || selected == "NONCS")
+	//{	
+		obj = new Object();
+		obj["field"] = 'rxChangeRequest';
+		obj["name"] = "#RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'rxChangeRequestCS';
+		obj["name"] = "CS #RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 	
-	obj = new Object();
-	obj["field"] = 'cancelRxResponse';
-	obj["name"] = "#CancelRx Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   //if (selected == "ALL" || selected == "NONCS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponse';
+		obj["name"] = "#RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 	
-	obj = new Object();
-	obj["field"] = 'rxFill';
-	obj["name"] = "#RxFill";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponseCS';
+		obj["name"] = "CS #RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "NONCS")
+	//{	
+		obj = new Object();
+		obj["field"] = 'cancelRx';
+		obj["name"] = "#CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'cancelRxCS';
+		obj["name"] = "CS #CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponse';
+		obj["name"] = "#CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponseCS';
+		obj["name"] = "CS #CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+
+    //if (selected == "ALL" || selected == "NONCS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'rxFill';
+		obj["name"] = "#RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
+	
+    //if (selected == "ALL" || selected == "CS")
+	//{		
+		obj = new Object();
+		obj["field"] = 'rxFillCS';
+		obj["name"] = "CS #RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+
+		obj = new Object();
+		obj["field"] = 'rxDoNotFillCS';
+		obj["name"] = "CS #RxDoNotFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	//}
 
 	return layout;
 }
@@ -603,33 +786,49 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	
 
 	totals ["newRxCnt"] = 0;
+	totals ["newRxCntCS"] = 0;
 	totals ["newRxPharmDisabledAtHub"] = 0;
 	totals ["newRxRejectedAtHub"] = 0;
+	totals ["newRxRejectedAtHubCS"] = 0;
 	totals ["newRxPassAutoChk"] = 0;
+	totals ["newRxPassAutoChkCS"] = 0;
 	totals ["newRxFailAutoChk"] = 0;
+	totals ["newRxFailAutoChkCS"] = 0;
 	totals ["newRxRejectedByPharmacist"] = 0;
+	totals ["newRxRejectedByPharmacistCS"] = 0;
 	totals ["newRxFilled"] = 0;
+	totals ["newRxFilledCS"] = 0;
 	totals ["newRxInProcess"] = 0;
+	totals ["newRxInProcessCS"] = 0;
 	
 	totals.newRxCnt  = 0;
+	totals.newRxCntCS  = 0;
 	totals.newRxPharmDisabledAtHub  = 0;
 	totals.newRxRejectedAtHub  = 0;
+	totals.newRxRejectedAtHubCS  = 0;
 	totals.newRxPassAutoChk  = 0;
+	totals.newRxPassAutoChkCS  = 0;
 	totals.newRxFailAutoChk  = 0;
+	totals.newRxFailAutoChkCS  = 0;
 	totals.newRxRejectedByPharmacist  = 0;
+	totals.newRxRejectedByPharmacistCS  = 0;
 	totals.newRxFilled  = 0;
+	totals.newRxFilledCS  = 0;
 	totals.newRxInProcess  = 0;
+	totals.newRxInProcessCS  = 0;
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
 
 	gridId.store.fetch({onComplete: function(item, request){
-		
+		 
+		console.log("Calculating Totals:   Item: " + item[0]); 
+		console.log("Calculating Totals:   Item Length: " + item.length);
 	if (item != null){
 		for (var i = item.length; i--;) {
 			for (var k in totals) {
 				totals[k] += item[i][k];
-	
+	             console.log("item["+i+"]["+k+"] = " + item[i][k]);
 			}
 		}
 	}
@@ -640,7 +839,9 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 	var layout = buildSummaryReportLayout(null, null);
 	
 	var totColWidth = parseInt(layout[0].width)+ parseInt(layout[1].width) + parseInt(layout[2].width) + parseInt(layout[3].width) + parseInt(layout[4].width) + 46; //45px to account for padding differences
-	var tableWidth = totColWidth + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width);
+	var tableWidth = totColWidth + parseInt(layout[5].width)+ parseInt(layout[6].width) + parseInt(layout[7].width) + parseInt(layout[8].width) + parseInt(layout[9].width) 
+	                 + parseInt(layout[10].width) + parseInt(layout[11].width) + parseInt(layout[12].width) + parseInt(layout[13].width) + parseInt(layout[14].width) + parseInt(layout[15].width) 
+					 + parseInt(layout[16].width) + parseInt(layout[17].width) + parseInt(layout[18].width) + parseInt(layout[19].width);
 
 	sumTable = 
 
@@ -648,13 +849,20 @@ function buildSummaryReportTotalsGrid(parentContainer) {
 		"<tr>" +
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + "; text-align: left;'>" + numberFormat(totals.newRxCnt) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" + "</tr>"
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + "; text-align: left;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + "; text-align: left;'>" + numberFormat(totals.newRxPharmDisabledAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHub) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedAtHubCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + "; text-align: left;'>" + numberFormat(totals.newRxPassAutoChkCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChk) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + "; text-align: left;'>" + numberFormat(totals.newRxFailAutoChkCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacist) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + "; text-align: left;'>" + numberFormat(totals.newRxRejectedByPharmacistCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + "; text-align: left;'>" + numberFormat(totals.newRxFilled) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + "; text-align: left;'>" + numberFormat(totals.newRxFilledCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcess) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + "; text-align: left;'>" + numberFormat(totals.newRxInProcessCS) + "</td>" + "</tr>"
 	"</table>";
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
@@ -1099,7 +1307,7 @@ function rejectReasonsReportDataGridInit(servlet, parentContainer, dataSourceURL
 
 //eRxSummaryReport
 //note if this updated with column addition/removal please also update columns in resetRejectReasonsReportTotalsGrid function, otherwise the display will be out of sync.
-function buildErxSummaryReportTotalsGrid(parentContainer) {
+function buildErxSummaryReportTotalsGrid(parentContainer, eRxFilter) {
 	
 	// clear parent div, defect fix.
 	dojo.byId(parentContainer).innerHTML = "";
@@ -1109,24 +1317,49 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	var totals = {};	
 	var sumTable =  "";
 	
+	//M. Bolden - 5.0 - get Filter value for eRxType and build grid based off of filter type provided
+	//var eRxTypeselectBox = dojo.byId("erxTypeSelection");
+	//var selectedIndex = eRxTypeselectBox.options.selectedIndex;
+	//var selected = eRxTypeselectBox.options[selectedIndex].value;
+	var selected = eRxFilter;
+	//selected = "NONCS";
+	//M. Bolden - add new columns requested for 5.0 Control Substance summary report
 
 	totals ["newRxCnt"] = 0;
+	totals ["newRxCntCS"] = 0;   //5.0
 	totals ["refillRequest"] = 0;
+	totals ["refillRequestCS"] = 0; //5.0
 	totals ["refillResponse"] = 0;
+	totals ["refillResponseCS"] = 0; //5.0
 	totals ["rxChangeRequest"] = 0;
+	totals ["rxChangeRequestCS"] = 0; //5.0
 	totals ["rxChangeResponse"] = 0;
+	totals ["rxChangeResponseCS"] = 0; //5.0
 	totals ["cancelRx"] = 0;
+	totals ["cancelRxCS"] = 0; //5.0
 	totals ["cancelRxResponse"] = 0;
+	totals ["cancelRxResponseCS"] = 0; //5.0
 	totals ["rxFill"] = 0;
+	totals ["rxFillCS"] = 0; //5.0
+	totals ["rxDoNotFillCS"] = 0; //5.0
 		
 	totals.newRxCnt  = 0;
+	totals.newRxCntCS = 0;  //5.0
 	totals.refillRequest  = 0;
+	totals.refillRequestCS = 0; //5.0
 	totals.refillResponse  = 0;
+	totals.refillResponseCS = 0; //5.0
 	totals.rxChangeRequest  = 0;
+	totals.rxChangeRequestCS = 0; //5.0
 	totals.rxChangeResponse  = 0;
+	totals.rxChangeResponseCS = 0; //5.0
 	totals.cancelRx  = 0;
+	totals.cancelRxCS = 0; //5.0
 	totals.cancelRxResponse  = 0;
+	totals.cancelRxResponseCS = 0; //5.0
 	totals.rxFill = 0;
+	totals.rxFillCS = 0; //5.0
+	totals.rxDoNotFillCS = 0; //5.0
 	
 	
 	//TODO this fetch is calling the Rest Service again when we should be able to sum the data from the current store
@@ -1153,6 +1386,31 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 		+ parseInt(layout[9].width) + parseInt(layout[10].width) + parseInt(layout[11].width);
 
 
+
+    //M. Bolden - Add new columns for Controlled Substance to sumTable as well as build it based off of filter type chosen
+	
+	if(selected == "CS")
+	{
+     sumTable = 
+
+		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.refillRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.rxChangeRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.rxChangeResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.cancelRxCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.cancelRxResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxFillCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + ";'>" + numberFormat(totals.doNotFillCS) + "</td>" +
+	"</table>";		
+		
+	}
+	
+	else if (selected == "NONCS")
+	{
 	sumTable = 
 
 		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
@@ -1160,13 +1418,41 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCnt) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.refillRequest) + "</td>" +
-		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>"+ numberFormat(totals.refillResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.cancelRx) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
 		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxFill) + "</td>" +
 	"</table>";
+	}
+	
+	else if(selected == "ALL")
+	{
+	sumTable =	
+		
+		"<table style='width: " + tableWidth + "px; table-layout: fixed;'>" +
+		"<tr>" +
+		"<td class='summaryReportTotalsTd' style='width: " + totColWidth + "px; text-align: right; font-weight: bold;'>Totals >>></td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[4].width + "; text-align: left; padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 3px;'>" + numberFormat(totals.newRxCnt) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[5].width + ";'>" + numberFormat(totals.newRxCntCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[6].width + ";'>" + numberFormat(totals.refillRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[7].width + ";'>" + numberFormat(totals.refillRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[8].width + ";'>" + numberFormat(totals.refillResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[9].width + ";'>" + numberFormat(totals.refillResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[10].width + ";'>" + numberFormat(totals.rxChangeRequest) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[11].width + ";'>" + numberFormat(totals.rxChangeRequestCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[12].width + ";'>" + numberFormat(totals.rxChangeResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[13].width + ";'>" + numberFormat(totals.rxChangeResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[14].width + ";'>" + numberFormat(totals.cancelRx) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[15].width + ";'>" + numberFormat(totals.cancelRxCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[16].width + ";'>" + numberFormat(totals.cancelRxResponse) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[17].width + ";'>" + numberFormat(totals.cancelRxResponseCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[18].width + ";'>" + numberFormat(totals.rxFill) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[19].width + ";'>" + numberFormat(totals.rxFillCS) + "</td>" +
+		"<td class='summaryReportTotalsTd' style='width: " + layout[20].width + ";'>" + numberFormat(totals.doNotFillCS) + "</td>" +
+	"</table>";
+	}
 	
 	dojo.byId(parentContainer).innerHTML = sumTable;
 	
@@ -1192,7 +1478,7 @@ function buildErxSummaryReportTotalsGrid(parentContainer) {
 	}});
 }
 
-function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
+function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL, eRxselected) {
 	try {
 		var gridData = buildGridDataSource("/inbound/" + servlet + "/" + dataSourceURL);
 			
@@ -1209,6 +1495,9 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 				grid.selection.clear();
 			}
 			grid.setStore(gridData);
+			
+			var gridLayout2 = buildErxSummaryReportLayout(servlet, parentContainer);
+			grid.setStructure(gridLayout2);
 				
 	} else {
 			// DataGrid does not exist.
@@ -1236,6 +1525,7 @@ function erxSummaryReportDataGridInit(servlet, parentContainer, dataSourceURL) {
 			grid.startup();
 			
 		}
+
 	} catch (err) {
 		var txt = "An error occured while building the dataGrid.  The error is: "
 				+ err.message + ".";

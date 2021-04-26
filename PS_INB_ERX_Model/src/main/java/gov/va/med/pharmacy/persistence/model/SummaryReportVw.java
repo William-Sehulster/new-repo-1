@@ -11,7 +11,7 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "SUMMARY_REPORT_MVW", schema = "ERX")
+@Table(name = "SUMMARY_REPORT_MVW1", schema = "ERX")
 @Immutable
 public class SummaryReportVw implements java.io.Serializable {
 
@@ -24,13 +24,20 @@ public class SummaryReportVw implements java.io.Serializable {
 	private String visn;
 	private String pharmacyAddress;
 	private long newRxCnt;
+	private long newRxCntCS;
 	private long newRxPharmDisabledAtHub;
 	private long newRxRejectedAtHub;
+	private long newRxRejectedAtHubCS;
 	private long newRxPassAutoChk;
+	private long newRxPassAutoChkCS;
 	private long newRxFailAutoChk;
+	private long newRxFailAutoChkCS;
 	private long newRxRejectedByPharmacist;
+	private long newRxRejectedByPharmacistCS;
 	private long newRxFilled;
+	private long newRxFilledCS;
 	private long newRxInProcess;
+	private long newRxInProcessCS;
 	private Date newRxMessageDate;
 	
 	
@@ -49,8 +56,8 @@ public class SummaryReportVw implements java.io.Serializable {
 	}
 
 	public SummaryReportVw(String pharmacyNcpdpId, String pharmacyVaStationId, String pharmacyDivisionName, String visn,
-			String pharmacyAddress, long newRxCnt, long newRxPharmDisabledAtHub,
-			long newRxRejectedAtHub, long newRxPassAutoChk, long newRxFailAutoChk,
+			String pharmacyAddress, long newRxCnt, long newRxCntCS, long newRxPharmDisabledAtHub,
+			long newRxRejectedAtHub, long newRxRejectedAtHubCS, long newRxPassAutoChk, long newRxPassAutoChkCS, long newRxFailAutoChk, long newRxFailAutoChkCS,
 			Date newRxMessageDate) {
 		this.pharmacyNcpdpId = pharmacyNcpdpId;
 		this.pharmacyVaStationId = pharmacyVaStationId;
@@ -58,10 +65,14 @@ public class SummaryReportVw implements java.io.Serializable {
 		this.visn = visn;
 		this.pharmacyAddress = pharmacyAddress;
 		this.newRxCnt = newRxCnt;
+		this.newRxCntCS = newRxCntCS;
 		this.newRxPharmDisabledAtHub = newRxPharmDisabledAtHub;
 		this.newRxRejectedAtHub = newRxRejectedAtHub;
+		this.newRxRejectedAtHubCS = newRxRejectedAtHubCS;
 		this.newRxPassAutoChk = newRxPassAutoChk;
+		this.newRxPassAutoChkCS = newRxPassAutoChkCS;
 		this.newRxFailAutoChk = newRxFailAutoChk;
+		this.newRxFailAutoChkCS = newRxFailAutoChkCS;
 		this.newRxMessageDate = newRxMessageDate;
 	}
 
@@ -122,6 +133,17 @@ public class SummaryReportVw implements java.io.Serializable {
 		this.newRxCnt = newRxCnt;
 	}
 
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_CNT_CS", precision = 22, scale = 0)
+	public long getNewRxCntCS() {
+		return this.newRxCntCS;
+	}
+
+	public void setNewRxCntCS(long newRxCntCS) {
+		this.newRxCntCS = newRxCntCS;
+	}
+	
+	
 	@Column(name = "NEW_RX_PHARM_DISABLED_AT_HUB", precision = 22, scale = 0)
 	public long getNewRxPharmDisabledAtHub() {
 		return this.newRxPharmDisabledAtHub;
@@ -139,6 +161,16 @@ public class SummaryReportVw implements java.io.Serializable {
 	public void setNewRxRejectedAtHub(long newRxRejectedAtHub) {
 		this.newRxRejectedAtHub = newRxRejectedAtHub;
 	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_REJ_AT_HUB_CS", precision = 22, scale = 0)
+	public long getNewRxRejectedAtHubCS() {
+		return this.newRxRejectedAtHubCS;
+	}
+
+	public void setNewRxRejectedAtHubCS(long newRxRejectedAtHubCS) {
+		this.newRxRejectedAtHubCS = newRxRejectedAtHubCS;
+	}
 
 	@Column(name = "NEW_RX_PASS_AUTO_CHK", precision = 22, scale = 0)
 	public long getNewRxPassAutoChk() {
@@ -147,6 +179,26 @@ public class SummaryReportVw implements java.io.Serializable {
 
 	public void setNewRxPassAutoChk(long newRxPassAutoChk) {
 		this.newRxPassAutoChk = newRxPassAutoChk;
+	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_PASS_AUTO_CHK_CS", precision = 22, scale = 0)
+	public long getNewRxPassAutoChkCS() {
+		return this.newRxPassAutoChkCS;
+	}
+
+	public void setNewRxPassAutoChkCS(long newRxPassAutoChkCS) {
+		this.newRxPassAutoChkCS = newRxPassAutoChkCS;
+	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_FAIL_AUTO_CHK_CS", precision = 22, scale = 0)
+	public long getNewRxFailAutoChkCS() {
+		return this.newRxFailAutoChkCS;
+	}
+
+	public void setNewRxFailAutoChkCS(long newRxFailAutoChkCS) {
+		this.newRxFailAutoChkCS = newRxFailAutoChkCS;
 	}
 
 	@Column(name = "NEW_RX_FAIL_AUTO_CHK", precision = 22, scale = 0)
@@ -166,6 +218,16 @@ public class SummaryReportVw implements java.io.Serializable {
 	public void setNewRxRejectedByPharmacist(long newRxRejectedByPharmacist) {
 		this.newRxRejectedByPharmacist = newRxRejectedByPharmacist;
 	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_REJ_BY_PHARMACIST_CS", precision = 22, scale = 0)
+	public long getNewRxRejectedByPharmacistCS() {
+		return this.newRxRejectedByPharmacistCS;
+	}
+
+	public void setNewRxRejectedByPharmacistCS(long newRxRejectedByPharmacistCS) {
+		this.newRxRejectedByPharmacistCS = newRxRejectedByPharmacistCS;
+	}
 
 	@Column(name = "NEW_RX_FILLED", precision = 22, scale = 0)
 	public long getNewRxFilled() {
@@ -175,6 +237,16 @@ public class SummaryReportVw implements java.io.Serializable {
 	public void setNewRxFilled(long newRxFilled) {
 		this.newRxFilled = newRxFilled;
 	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_FILLED_CS", precision = 22, scale = 0)
+	public long getNewRxFilledCS() {
+		return this.newRxFilledCS;
+	}
+
+	public void setNewRxFilledCS(long newRxFilledCS) {
+		this.newRxFilledCS = newRxFilledCS;
+	}
 
 	@Column(name = "NEW_RX_IN_PROCESS", precision = 22, scale = 0)
 	public long getNewRxInProcess() {
@@ -183,6 +255,16 @@ public class SummaryReportVw implements java.io.Serializable {
 
 	public void setNewRxInProcess(long newRxInProcess) {
 		this.newRxInProcess = newRxInProcess;
+	}
+	
+	//M. Bolden - 5.0
+	@Column(name = "NEW_RX_IN_PROCESS_CS", precision = 22, scale = 0)
+	public long getNewRxInProcessCS() {
+		return this.newRxInProcessCS;
+	}
+
+	public void setNewRxInProcessCS(long newRxInProcessCS) {
+		this.newRxInProcessCS = newRxInProcessCS;
 	}
 
 	@Column(name = "NEW_RX_MESSAGE_DATE", length = 8)
@@ -205,13 +287,20 @@ public class SummaryReportVw implements java.io.Serializable {
 					this.getPharmacyDivisionName(),
 					this.getPharmacyAddress(),
 					String.valueOf(this.getNewRxCnt()),
+					String.valueOf(this.getNewRxCntCS()),
 					String.valueOf(this.getNewRxPharmDisabledAtHub()),
 					String.valueOf(this.getNewRxRejectedAtHub()),
+					String.valueOf(this.getNewRxRejectedAtHubCS()),
 					String.valueOf(this.getNewRxPassAutoChk()),
+					String.valueOf(this.getNewRxPassAutoChkCS()),
 					String.valueOf(this.getNewRxFailAutoChk()),
+					String.valueOf(this.getNewRxFailAutoChkCS()),
 					String.valueOf(this.getNewRxRejectedByPharmacist()),
+					String.valueOf(this.getNewRxRejectedByPharmacistCS()),
 					String.valueOf(this.getNewRxFilled()),
-					String.valueOf(this.getNewRxInProcess())
+					String.valueOf(this.getNewRxFilledCS()),
+					String.valueOf(this.getNewRxInProcess()),
+					String.valueOf(this.getNewRxInProcessCS())
 		};
 		
 		return stringArray;
