@@ -314,9 +314,11 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			xmlReader.parse(inputparseXML);
 			
 			
-			if(validateDS.getHasDSIndicator() || validateDS.getHasDigitalSignature()) {
+			//if(validateDS.getHasDSIndicator() || validateDS.getHasDigitalSignature()) {
+			if(validateDS.getDSIndicator() || validateDS.getHasDigitalSignature()) {				
 				inb_checkpoint++; //0
-				if(validateDS.getValidation()== false) {
+				//if(validateDS.getValidation()== false && validateDS.getHasDSIndicator()) {
+				if(validateDS.getValidation()== false ) {
 					inb_checkpoint++; //1
 					throw new Exception("Digital Signature Invalid");
 				}
@@ -386,7 +388,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			 else if (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==true )) {
 				//Digital Signature Valid: set inbound table columns to show CS script
 				inboundeRx.seterxtype("CS");
-				inboundeRx.setdigitalsignature("Verified");
+				inboundeRx.setdigitalsignature("VERIFIED");
 				 inb_checkpoint=20; //20
 				inboundeRx.setschedule(validateDS.getSchedule());
 				 inb_checkpoint++; //21
@@ -410,10 +412,10 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				
 				}		 
 			//}
-			else if (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false )) {
+/*			else if (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false )) {
 				    inb_checkpoint=30; //30 
 					inboundeRx.seterxtype("CS");
-					inboundeRx.setdigitalsignature("Failed");
+					inboundeRx.setdigitalsignature("FAILED");
 					inb_checkpoint++; //31
 					String emptyStr = new String("");
 					responseBuffer.append(DIGITAL_SIGNATURE_START);
@@ -432,10 +434,17 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 					responseBuffer.append(DIGITAL_SIGNATURE_END);
 					inb_checkpoint++; //32
 			 }
+			else if ( (validateDS.getDSIndicator() == true) && (validateDS.getHasDSIndicator() == false) && ( validateDS.getHasDigitalSignature() == false)) {
+				inboundeRx.seterxtype("CS");
+				inboundeRx.setdigitalsignature("FALSE");
+				
+			}
+*/			
 				//Digital Signature not present also no Digital Signature Indicator: set inbound table to show NONCS script
 			else { 
 				inboundeRx.seterxtype("NONCS");
 				inboundeRx.setdigitalsignature("NULL");
+				inboundeRx.setschedule(validateDS.getSchedule());
 			 }
 			
 			inb_checkpoint=40; //40 

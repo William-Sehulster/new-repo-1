@@ -79,8 +79,9 @@ public class TrackRxController {
 		return view;
 	}
 	
+	//M. Bolden - 5.0 - Added additional table header columns "eRx Type", "Schedule", and "Digital Signature"
 	
-	private static final String[] TRACK_AUDIT_HEADERS = { "eRx Reference #", "Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Message Id", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
+	private static final String[] TRACK_AUDIT_HEADERS = { "eRx Reference #","eRx Type","Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Schedule", "Message Id", "Digital Signature", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
             "Relates to Message ID", "Received Date","Patient AutoCheck Status","Provider AutoCheck Status",
             "Drug AutoCheck Status","Message Status"};
 	
@@ -148,6 +149,8 @@ public class TrackRxController {
 		String inboundNcpdpMsgId = "%";
 		String inboundOutbound = "";
 		String numberOfRecords = "100"; // set default value to 100 records.
+		int    erx_filter = 0;
+		int    schedule_filter = 0;
 		
 		JsonNode node = jsonMapper.readValue(jsonString, JsonNode.class);
 		if (node.get("inboundNcpdpMessageId") != null){
@@ -201,6 +204,18 @@ public class TrackRxController {
 			numberOfRecords = node.get("recordSizeValue").asText();
 		}
 		
+		//M. Bolden - 5.0 - get eRx Type Filter value
+		if (node.get("erx_typeValue") != null) {
+		
+			erx_filter = node.get("erx_typeValue").asInt();
+		}
+		
+		//M. Bolden - 5.0 - get Schedule Filter value
+		if (node.get("ScheduleValue") != null) {
+			
+			schedule_filter = node.get("ScheduleValue").asInt();
+		}
+		
 		
 		// before doing search check if user has MbM station Id, otherwise return blank result.
 		
@@ -228,11 +243,11 @@ public class TrackRxController {
 			mbmSearchAllowed = true;
 		}
 		
-		//inboundOutbound = "Both"; 
-		
+
+		//M. Bolden - 5.0 - Added new filter fields eRx type and Schedule to the search message function.		
 			eRxMessageList = trackMessageService.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate, patientSsn, patientLastName,
 						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId,
-						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071);
+						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071, erx_filter, schedule_filter);
 			
 		
 		return eRxMessageList;

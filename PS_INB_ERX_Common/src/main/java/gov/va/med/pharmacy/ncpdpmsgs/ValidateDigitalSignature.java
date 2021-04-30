@@ -26,7 +26,11 @@ public class ValidateDigitalSignature {
 	private ArrayList<String> elementsToSignWith = null;
 	
 	private boolean Ds_created = false;
+	
+	// Exist Digital Signature indicator or not
+	private boolean DSIndicator = false;
 
+	// Digital Signature indicator value true or false
 	private boolean isDSIndicator = false;
 
 	private boolean isDigitalSignature = false;
@@ -47,10 +51,11 @@ public class ValidateDigitalSignature {
 	
 	private boolean signatureVerified = false;
 	
-	private String schedule_cs="";
+	private String schedule_code="";
 	
 	private String incomingMsg_digestMethod;
 	
+
 	// Built-in logger for Inbound eRx: taken from InboundNCPDPMessageServiceImpl.java.
 	//private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(ValidateDigitalSignature.class);
 	
@@ -111,6 +116,7 @@ public class ValidateDigitalSignature {
 			    boolean bDate = false;
 			    boolean bDateTime = false;
 				boolean bSchedule = false;
+				boolean bScheduleCode = false;
 			    
 			    @Override
 			    public void startElement(String uri, String localName,String qName, 
@@ -198,6 +204,14 @@ public class ValidateDigitalSignature {
 			        	bStrengthValue = true;
 			        }
 			        
+					if (qName.equalsIgnoreCase("DEASchedule")  ){
+						bSchedule = true;
+					}
+					
+					if (qName.equalsIgnoreCase("Code") && bMedicationPrescribedHeader == true && bSchedule == true ){
+						bScheduleCode = true;
+					}
+			        
 			        if (qName.equalsIgnoreCase("Value")) {
 			        	bValue = true;
 			        }
@@ -209,10 +223,7 @@ public class ValidateDigitalSignature {
 			        if (qName.equalsIgnoreCase("DateTime")) {
 			        	bDateTime = true;
 			        }
-					
-					if (qName.equalsIgnoreCase("Schedule")){
-						bSchedule = true;
-					}
+
 			    }
 			    
 			    @Override
@@ -227,6 +238,8 @@ public class ValidateDigitalSignature {
 		        public void characters(char ch[], int start, int length) throws SAXException {
 			    	
 			    	if (bDSIndicator) {
+			    		
+			    		DSIndicator = true;
 		                
 		            	String temp = new String(ch, start, length);
 		            	
@@ -234,7 +247,7 @@ public class ValidateDigitalSignature {
 		            		isDSIndicator = true;
 		            	}
 		            	
-		            	else {
+		            	else if(temp.equalsIgnoreCase("false")) {
 		            		isDSIndicator = false;
 		            	}
 		            	
@@ -332,6 +345,12 @@ public class ValidateDigitalSignature {
 		            	elementsToSignWith.add(new String(ch, start, length));
 		                bStrengthValue = false;
 		            }
+		            
+					if (bSchedule && bScheduleCode) {
+						
+						schedule_code = new String(ch, start, length);
+						bSchedule = false;
+					}
 
 		            if (bValue) {
 		            	elementsToSignWith.add(new String(ch, start, length));
@@ -347,11 +366,7 @@ public class ValidateDigitalSignature {
 		            	elementsToSignWith.add(new String(ch, start, length));
 		                bDateTime = false;
 		            }
-					
-					if (bSchedule) {
-						schedule_cs = new String(ch, start, length);
-						bSchedule = false;
-					}
+
 		        }
 
 				@Override
@@ -449,7 +464,7 @@ public class ValidateDigitalSignature {
 			//return signatureVerified = sig.verify(sigToVerify);
 			//signatureVerified = sig.verify(sigToVerify);
 			setSignatureVerified (sig.verify(sigToVerify));
-			checkpoint=20; //12
+			checkpoint=20; //20
 			return getSignatureVerified();
 	
 		} 
@@ -597,6 +612,10 @@ public class ValidateDigitalSignature {
 
 	// Getters for the created digital signature so that it may be appended onto the 
     // response buffer in InboundNCPDPMessageServiceImpl.java.
+	public boolean getDSIndicator() {
+		return DSIndicator;
+	}
+	
 	public boolean getDs_created() {
 		return Ds_created;
 	}
@@ -671,7 +690,7 @@ public class ValidateDigitalSignature {
 	
 	public String getSchedule() {
 		
-		return schedule_cs;
+		return schedule_code;
 	}
  // Start ELSA
     public String getTestingPubKeyString() {
