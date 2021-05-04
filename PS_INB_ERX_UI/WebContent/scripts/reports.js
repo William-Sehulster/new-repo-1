@@ -163,30 +163,6 @@ dojo.ready(function() {
 				grid_obj.layout.setColumnVisibility(18, true);        //#RxFill
 				grid_obj.layout.setColumnVisibility(19, true);        //CS #RxFill
 				grid_obj.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill	
-				
-				//Adjust Totals Grid
-		      /*grid_obj_totals.layout.setColumnVisibility(0, true);         //visn
-				grid_obj_totals.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj_totals.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj_totals.layout.setColumnVisibility(3, true);	     //Pharmacyy Name
-				grid_obj_totals.layout.setColumnVisibility(4, true);         //#New Rx
-				grid_obj_totals.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid_obj_totals.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid_obj_totals.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid_obj_totals.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(18, true);        //#RxFill
-				grid_obj_totals.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid_obj_totals.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill					
-				*/
             				
 			}
 			
@@ -218,29 +194,6 @@ dojo.ready(function() {
 				grid_obj.layout.setColumnVisibility(19, true);        //CS #RxFill
 				grid_obj.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill	
 				
-				//Adjust Totals Grid
-				/*grid_obj_totals.layout.setColumnVisibility(0, true);         //visn
-				grid_obj_totals.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj_totals.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj_totals.layout.setColumnVisibility(3, true);	     //Pharmacyy Name
-				grid_obj_totals.layout.setColumnVisibility(4, false);        //#New Rx
-				grid_obj_totals.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid_obj_totals.layout.setColumnVisibility(6, false);        //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(8, false);        //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(10, false);       //#RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(12, false);       //#RxChange Response	
-				grid_obj_totals.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid_obj_totals.layout.setColumnVisibility(14, false);       //#Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(16, false);       //#Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(18, false);       //#RxFill
-				grid_obj_totals.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid_obj_totals.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill					
-				*/
 		}
 		else if (selected_eRx == "NONCS") {
             
@@ -270,29 +223,6 @@ dojo.ready(function() {
 				grid_obj.layout.setColumnVisibility(19, false);       //CS #RxFill
 				grid_obj.layout.setColumnVisibility(20, false);       //CS #RxDoNotFill
 				
-				//Adjust Totals Grid
-				/*grid_obj_totals.layout.setColumnVisibility(0, true);         //visn
-				grid_obj_totals.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj_totals.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj_totals.layout.setColumnVisibility(3, true);	     //Pharmacyy Name
-				grid_obj_totals.layout.setColumnVisibility(4, true);         //#New Rx
-				grid_obj_totals.layout.setColumnVisibility(5, false);        //CS #New Rx
-				grid_obj_totals.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(7, false);        //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(9, false);        //CS #RxRenewal Request
-				grid_obj_totals.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(11, false);       //CS #RxChange Request
-				grid_obj_totals.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid_obj_totals.layout.setColumnVisibility(13, false);       //CS #RxChange Response
-				grid_obj_totals.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(15, false);       //CS #Cancel Rx Request
-				grid_obj_totals.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(17, false);       //CS #Cancel Response
-				grid_obj_totals.layout.setColumnVisibility(18, true);        //#RxFill
-				grid_obj_totals.layout.setColumnVisibility(19, false);       //CS #RxFill
-				grid_obj_totals.layout.setColumnVisibility(20, false);       //CS #RxDoNotFill				
-		*/
 		}
 
 		else{
@@ -363,9 +293,7 @@ function getSummaryReport() {
 		if (selected == "SUMMRPT") {
 			showModalWin();
 			
-			console.log("getSummaryReport: eRx Summary Report Selected");
-			//M. Bolden - 5.0 - set eRx Visibility to not visible
-			//eRxWidjitID.style.display = "none";			
+			console.log("getSummaryReport: eRx Summary Report Selected");			
 			
 			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
 			buildSummaryReportTotalsGrid("summaryReportTotals");
@@ -375,8 +303,6 @@ function getSummaryReport() {
 		}
 		if (selected == "AUTOCHECKRPT") {
 						
-			//M. Bolden - 5.0 - set eRx Visibility to not visible
-			//eRxWidjitID.style.display = "none";
 			console.log("getSummaryReport: Autocheck Report Selected");
 			
 			var valid = getAutoCheckReport();
@@ -387,10 +313,7 @@ function getSummaryReport() {
 	
 		}
 		if (selected == "REJECTRESNRPT") {
-			
-			//M. Bolden - 5.0 - set eRx Visibility to not visible
-			//eRxWidjitID.style.display = "none";
-			
+						
 			console.log("getSummaryReport: Reject Reasons Report Selected");
 			
 			var valid = getRejectReasonsReport();
@@ -402,8 +325,6 @@ function getSummaryReport() {
 		}
 		if (selected == "ERXSUMMRPT") {
 			
-			//M. Bolden - 5.0 - set eRx Visibility to visible
-			//eRxWidjitID.style.display = "block";
 			console.log("getSummaryReport: New eRx Only Summary Report Selected");
 			
 			dojo.style("erxFilter", "visibility", "visible");

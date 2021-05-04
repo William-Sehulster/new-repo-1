@@ -61,6 +61,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				ncpdpMessageListModel.setMessage_status(rs.getString("message_status"));
 				ncpdpMessageListModel.setPatientDob(rs.getString("patient_dob"));
 				ncpdpMessageListModel.setPatientSsn(rs.getString("patient_ssn"));
+				
+				//M. Bolden - 5.0 - Add calls to new setters to fetch additional data from query
+				ncpdpMessageListModel.seteRxType(rs.getString("erx_type"));
+				ncpdpMessageListModel.setSchedule(rs.getString("schedule"));
+				ncpdpMessageListModel.setDigitalSignature(rs.getString("digitial_signature"));	
 
 	    		return ncpdpMessageListModel;
 			}
@@ -2246,11 +2251,13 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 
 	}
 	
+	//M. Bolden - 5.0 - Added additional filters for Controlled Substance as well as adjusted query to include
+	//                  Digital Signature and CS columns
 	@Override
 	public List<NcpdpMessageListModel> searchMessages(String messageType, String messageId, String relatesToId, String visn, String vaStationId,
 			String fromDate, String toDate, String patientSsn, String patientLastName, String patientFirstName, String patientDob, String prescriberNpi,
 			String prescriberLastName, String prescriberFirstName, String prescriberDEA,  String prescribedDrug, String messageStatus, String inboundNcpdpMsgId,
-			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071) {
+			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071, int erx_filter, int schedule_filter) {
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql_outbound = "";
@@ -2574,8 +2581,28 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         			sql_outbound = sql_outbound +	sql2017071_outbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         
         			LOG.debug("NCPDP Outbound message details Sql is:" + sql_outbound);
-        			//System.out.println("sql is:" + sql);
-        }
+		}
+        		
+ 
+        		//M. Bolden - 5.0 -  Add in filter for eRx Type
+        			/*
+        			if(erx_filter == 1) //show only Controlled Substance Records
+        				sql = sql + "";
+        			else if (erx_filter == 2) //show only Non-controlled Substance Records
+        				sql = sql + "";
+        			else                      //show all records, CS and Non-CS
+        				;
+        			*/
+        		//M. Bolden - 5.0 - Add in filter for Schedule Type	
+        			/*
+        			if(schedule_filter == 1) //show only Schedule III - V Controlled Substance Records
+        				sql = sql + "";
+        			else if (schedule_filter == 2) //show only Schedule II Controlled Substance Records
+        				sql = sql + "";
+        			else                      //show Schedule II - V Controlled Substance Records
+        				;        			
+        			*/
+	
 
 
         List<NcpdpMessageListModel> ncpdpMsgList = new ArrayList<NcpdpMessageListModel>();

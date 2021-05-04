@@ -93,7 +93,16 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 	
 	@Column(name = "SCRIPT_VERSION", length = 10)
 	private String scriptVersion;
-
+	
+	@Column (name = "ERX_TYPE", length = 10)
+	private String erx_type;
+	
+	@Column (name = "SCHEDULE", length = 10)
+	private String schedule;
+	
+	@Column (name = "DIGITAL_SIGNATURE", length = 10)
+    private String digital_signature;
+	
 	public InboundNcpdpMsgEntity() {
 	}
 
@@ -304,5 +313,29 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 
 	public void setScriptVersion(String scriptVersion) {
 		this.scriptVersion = scriptVersion;
+	}
+	
+	public void seterxtype(String erxtype) {
+		this.erx_type = erxtype;
+	}
+	
+	public String geterxtype() {
+		return this.erx_type;
+	}
+	
+	public void setschedule(String schdl) {
+		this.schedule = schdl;
+	}
+	
+	public String getschedule() {
+		return this.schedule;
+	}
+	
+	public void setdigitalsignature(String dig_signature) {
+		this.digital_signature = dig_signature;
+	}
+	
+	public String getdigitalsignature() {
+		return this.digital_signature;
 	}
 }
