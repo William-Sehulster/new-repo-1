@@ -76,14 +76,14 @@ public class TrackMessageServiceImpl implements TrackMessageService {
 			String patientFirstName, String patientDob, String prescriberNpi, String prescriberLastName,
 			String prescriberFirstName, String prescriberDEA, String prescribedDrug, String messageStatus,
 			String inboundNcpdpMsgId, String inboundOutbound, boolean mbmAllowed, String numberOfRecords,
-			String patientSSN2017071, int erx_filter, int schedule_filter) {
+			String patientSSN2017071,String eRxType, String schedule) {
 
 		LOG.info("------ getting inbound/outbound message ---- ");
 
 		return ncpdpMessagesDao.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate,
 				patientSsn, patientLastName, patientFirstName, patientDob, prescriberNpi, prescriberLastName,
 				prescriberFirstName, prescriberDEA, prescribedDrug, messageStatus, inboundNcpdpMsgId, inboundOutbound,
-				mbmAllowed, numberOfRecords, patientSSN2017071, erx_filter, schedule_filter);
+				mbmAllowed, numberOfRecords, patientSSN2017071, eRxType, schedule);
 	}
 
 	public List<VisnSelectModel> getVisns() {

@@ -50,7 +50,7 @@ function buildSummaryReportLayout(servlet, target) {
 	var obj = new Object();
 	obj["field"] = 'pharmacyNcpdpId';
 	obj["name"] = 'NCPDP ID';
-	obj["width"] = "48px";
+	obj["width"] = "52px";
 	obj["noresize"] = 'true';	
 	layout.push(obj);
 	

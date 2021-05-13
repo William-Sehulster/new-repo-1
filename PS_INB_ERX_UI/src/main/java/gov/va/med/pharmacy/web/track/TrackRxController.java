@@ -149,8 +149,9 @@ public class TrackRxController {
 		String inboundNcpdpMsgId = "%";
 		String inboundOutbound = "";
 		String numberOfRecords = "100"; // set default value to 100 records.
-		int    erx_filter = 0;
-		int    schedule_filter = 0;
+		String eRxType="";
+		String schedule="";
+
 		
 		JsonNode node = jsonMapper.readValue(jsonString, JsonNode.class);
 		if (node.get("inboundNcpdpMessageId") != null){
@@ -193,6 +194,26 @@ public class TrackRxController {
 			prescribedDrug = node.get("prescribedDrug").asText().toUpperCase().trim() + '%';}
 		if (node.get("messageStatus") != null){
 			messageStatus = node.get("messageStatus").asText();}
+		if (node.get("erx_typeValue") != null){
+			String in_eRxType = node.get("erx_typeValue").asText().toUpperCase().trim();
+			if ( in_eRxType.equals("ALL") ){
+				eRxType = ""; }//ALL
+			else if ( in_eRxType.equals("CS") ){
+				eRxType = "'CS'"; }//CS
+			else if ( in_eRxType.equals("NONCS") ){
+				eRxType = "'NONCS'"; }//NON-CS			
+		} 
+		if (node.get("ScheduleValue") != null){
+			String schedule_term = node.get("ScheduleValue").asText().toUpperCase().trim();
+			if ( schedule_term.equals("II") ){
+				schedule = "('C48675')"; }//Schedule II
+			else if ( schedule_term.equals("III-IV") ){
+				schedule = "('C48676','C48677')"; }//Schedule III-IV
+			else if ( schedule_term.equals("II-V") ){
+				schedule = "('C48675','C48676','C48677','C48679')"; }//Schedule II-V
+//			else if ( schedule_term.equals("ALL") ){
+//				schedule = ""; }//All
+		}
 		if (node.get("inboundOutbound") != null){
 			inboundOutbound = node.get("inboundOutbound").asText();	
 		}
@@ -205,17 +226,17 @@ public class TrackRxController {
 		}
 		
 		//M. Bolden - 5.0 - get eRx Type Filter value
-		if (node.get("erx_typeValue") != null) {
+/*		if (node.get("erx_typeValue") != null) {
 		
 			erx_filter = node.get("erx_typeValue").asInt();
 		}
-		
+*/		
 		//M. Bolden - 5.0 - get Schedule Filter value
-		if (node.get("ScheduleValue") != null) {
+/*		if (node.get("ScheduleValue") != null) {
 			
 			schedule_filter = node.get("ScheduleValue").asInt();
 		}
-		
+*/		
 		
 		// before doing search check if user has MbM station Id, otherwise return blank result.
 		
@@ -247,7 +268,7 @@ public class TrackRxController {
 		//M. Bolden - 5.0 - Added new filter fields eRx type and Schedule to the search message function.		
 			eRxMessageList = trackMessageService.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate, patientSsn, patientLastName,
 						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId,
-						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071, erx_filter, schedule_filter);
+						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071, eRxType, schedule);
 			
 		
 		return eRxMessageList;

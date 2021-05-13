@@ -10,6 +10,35 @@ dojo.ready(function() {
 
 	console.log("Dojo Ready");
 	
+	//M. Bolden - 5.0 - need to add a check for when erx_type filter is CS.  If it is the Schedule filter is now available to use.
+	//                - if erx_type filter is NONCS or ALL, the Schedule filter is unavailable to use.
+	
+	var erxtype_selectBox = dojo.byId("erx_type");
+	var selected = null;
+	
+	var Schedule_WidjitID = dojo.byId("schedule_filter");
+	
+	dojo.connect(erxtype_selectBox, "onchange", null, function(event) {
+		
+		console.log("ERX Type Filter has changed");
+		selected = getSelected(erxtype_selectBox);
+		console.log("grabbed new selection");
+		
+		if( selected == "CS"){
+		
+		    console.log("ERX Type of CS has been selected and Schedule Filter is Visible");
+		    Schedule_WidjitID.style.display = "block";
+		}
+		
+		else{
+			
+			console.log("ERX Type of Not CS has been selected and Schedule Filter is NOT Visible");
+		   
+		    Schedule_WidjitID.style.display = "none";
+		}
+		
+	});
+	
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
 	        if (event.keyCode == '13'){
@@ -2097,7 +2126,12 @@ function validateDates(startDateVal, endDateVal) {
 		return true;
 	}
 	
-	
-	
+}
+
+// drop down selection.
+function getSelected(selectBox) {
+	var selectedIndex = selectBox.options.selectedIndex;
+	var selected = selectBox.options[selectedIndex].value;
+	return selected;
 }
 

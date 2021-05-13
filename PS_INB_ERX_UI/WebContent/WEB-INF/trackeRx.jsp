@@ -169,26 +169,27 @@
 	<span value="100">100</span>
 	<span value="7500">7500</span>
 	<span value="10000">10000</span>
+	<span value="50000">50000</span>
 	<span value="100000">100000</span>	
 </div> 
 </div>
 
-<div style="width: 135px;" >
-<label for="erx_type" style="width: 60px;height: 20px;padding-top:4px;text-align: left;">eRx Type:</label> 
-<div id="erx_type" name="erx_typeValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="eRx Type">
-	<span value="0">All</span>
-	<span value="1">CS</span>
-	<span value="2">Non-CS</span>
-</div> 
+<div id="erx_filter">
+	<label for="erx_type" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >eRx Type:&nbsp;&nbsp;</label> 
+	<select  id="erx_type">
+		<option value="ALL">All</option>
+		<option value="CS">CS</option>
+		<option value="NONCS">Non-CS</option>		
+	</select>
 </div>
 
-<div style="width: 200px;" >
-<label for="Schedule" style="width: 60px;height: 20px;padding-top:4px;text-align: left;">Schedule:</label> 
-<div id="Schedule" name="ScheduleValue" value="" style="width: 80px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Schedule">
-	<span value="1">Schedule II</span>
-	<span value="2">Schedule III-IV</span>
-	<span value="0">Schedule II-V</span>
-</div> 
+<div id="schedule_filter">
+	<label for="Schedule" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >Schedule:&nbsp;&nbsp;</label> 
+	<select  id="Schedule">
+		<option value="II-V">Schedule II-V</option>
+		<option value="II">Schedule II</option>
+		<option value="III-IV">Schedule III-IV</option>		
+	</select>
 </div>
 
 </div>

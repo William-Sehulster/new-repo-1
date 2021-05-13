@@ -142,7 +142,7 @@ function buildTrackGridLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
-	obj["field"] = 'eRxType';
+	obj["field"] = 'erx_type';
 	obj["name"] = "eRx Type";
 	obj["width"] = '80px';
 	//obj["noresize"] = 'false';
@@ -202,7 +202,7 @@ function buildTrackGridLayout(servlet, target) {
 	layout.push(obj);
 	
 	var obj = new Object();
-	obj["field"] = 'digitalSignature';
+	obj["field"] = 'digital_signature';
 	obj["name"] = 'Digital Signature';
 	obj["width"] = "120px";
 	//obj["noresize"] = 'true';
