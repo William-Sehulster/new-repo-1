@@ -7,7 +7,20 @@ dojo.require("dijit.Dialog");
 
 
 dojo.ready(function() {
+	
+	dojo.style(dojo.byId('scheduleDiv'), "display", "none");
 
+	dojo.connect(dijit.byId('erx_type'),'onItemClick',function(erx_typeValue){
+		if ( erx_typeValue == 'CS')
+		{
+			dojo.style(dojo.byId('scheduleDiv'), "display", "block");
+
+		}
+		else
+		{
+			dojo.style(dojo.byId('scheduleDiv'), "display", "none");
+
+		}
 	
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
@@ -655,15 +668,7 @@ function getMessage(id, inOut,relatedMsg){
     	relatedMsgSearch ="true";
     	
     }
-	
-	//The code assumes right now that if the variable "inOut" is not "Outbound" it is currently set to
-	//"Inbound" and does not account for the fact that "Both can also be a selection.  The below code
-	//corrects this.
-	if (inOut.localeCompare("Outbound") != 0)
-		inOut = "Inbound";
-	
-	
-    console.log("getMessage5");
+
     var param1 = id;
     var param2 = inOut;
     var param3= relatedMsgSearch;
@@ -675,7 +680,6 @@ function getMessage(id, inOut,relatedMsg){
     var jsonStr = JSON.stringify(paramObj);
     var token = document.querySelector("meta[name='_csrf']").getAttribute("content");
     var header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-    
 
     var xhrHeader = '{"' + header + '" : "' + token + '"}';
     //console.log(xhrHeader);
@@ -2075,12 +2079,7 @@ function validateDates(startDateVal, endDateVal) {
 		return true;
 	}
 	
-}
-
-// drop down selection.
-function getSelected(selectBox) {
-	var selectedIndex = selectBox.options.selectedIndex;
-	var selected = selectBox.options[selectedIndex].value;
-	return selected;
+	
+	
 }
 

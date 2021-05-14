@@ -183,7 +183,7 @@
 </div> 
 </div>
 
-<div style="width: 200px;" >
+<div id="scheduleDiv" style="width: 200px;" >
 <label for="Schedule" style="width: 60px;height: 20px;padding-top:4px;text-align: left;">Schedule:</label> 
 <div id="Schedule" name="ScheduleValue" value="" style="width: 160px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Schedule">
 	<span value="II">Schedule II</span>
