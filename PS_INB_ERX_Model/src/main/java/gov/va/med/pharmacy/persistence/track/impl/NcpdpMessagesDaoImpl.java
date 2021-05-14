@@ -2344,7 +2344,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		
 		//erx_typeValue - eRxType - ERX_TYPE		
 				if (eRxType.length() > 0){
-					sqlWhere_onlyInb = sqlWhere +   "    and t.ERX_TYPE = " + eRxType + " \r\n";
+					sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";
 				}
 		//ScheduleValue - SCHEDULE - schedule	
 				if (schedule.length() > 0){
