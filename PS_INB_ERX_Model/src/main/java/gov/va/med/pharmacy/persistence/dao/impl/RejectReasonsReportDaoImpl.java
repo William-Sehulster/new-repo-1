@@ -90,7 +90,7 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue"))
 				);
 
-		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
 		
 		List<RejectReasonsReportVw> rejectReasonsReportRows = (List<RejectReasonsReportVw>) criteria.list();
 		

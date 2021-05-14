@@ -1,11 +1,15 @@
 dojo.require("dojo.hash");
 dojo.require("dijit.registry");
 dojo.require("dijit._base.wai");
-
+dojo.require("dijit.Dialog");
 dojo.require("dojo._base.array");
+dojo.require("dojo.parser");
+dojo.require("dojo.dom-construct");
+
+
 
 var clearClicked = false;
-
+var pharmacyLoadingDialog;
 
 require(["dijit/Tooltip", "dojo/domReady!"], function(Tooltip){
     new Tooltip({
@@ -63,8 +67,14 @@ function buildVisnSelectDataSource(dataSourceURL, query) {
 
 function pharmManagementSearch() {
 	
-	getPharmacyGrid();
+	if (dojo.byId('pharmacyManagementSuccessMessages') != null){
+		 
+		dojo.byId('pharmacyManagementSuccessMessages').innerHTML ="";
+	}
 	
+	showModalWin();
+	getPharmacyGrid();
+	hideModalWin();
 	 
 }
 
@@ -83,13 +93,8 @@ function clearPharmSearch() {
 	dojo.style(dojo.byId('pharmacyListDummy'), "display", "block");
 	dojo.style(dojo.byId('pharmMgmtRecNumberTitle'), "display", "none");
 	dojo.style(dojo.byId('pharmMgmtRecNumber'), "display", "none");
-	
-	if (dojo.byId('pharmacyManagementSuccessMessages') != null){
-		 
-		dojo.byId('pharmacyManagementSuccessMessages').innerHTML ="";
-	}
-	
-	
+		
+	clearAddMessage();	
 	
 	dojo.byId('ncpdpId').value="";
 	dojo.byId('pharmacyName').value="";
@@ -197,4 +202,34 @@ function pharmacyManagementActions(buttonId) {
 }	
 
 
+function showModalWin() {
+	
+	 pharmacyLoadingDialog = new dijit.Dialog({	            
+	        title: "Search Status",
+			content: "Search in progress, please wait...",
+	        style: "width: 230px;height:60px;font-size: 14px;text-align: left;",
+	        draggable: false,
+	        closable: false,
+	        onHide: function(){
+	        	pharmacyLoadingDialog.destroy()
+	        }
+	        
+	    });
+	    
+	    	
+	 pharmacyLoadingDialog.show();
+	
+}
 
+function hideModalWin() {
+
+	setTimeout(function(){ pharmacyLoadingDialog.hide(); }, 1000);
+}
+
+function clearAddMessage(){
+
+	if (dojo.byId('pharmacyManagementSuccessMessages') != null){
+		 
+		dojo.byId('pharmacyManagementSuccessMessages').innerHTML ="";
+	}
+}	

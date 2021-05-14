@@ -13,10 +13,10 @@
 <c:when test="${empty pagePermissions }">
       <c:choose> 
       <c:when test="${id eq 'help' }">
-       <li ><a id="${id }" href="#"  onclick="${onclick}">${name}</a></li> 
+       <li ><a id="${id }" href="#"  onclick="${onclick}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li> 
       </c:when>   
        <c:otherwise>
-	    <li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}" tabindex="${tabindex}">${name}</a></li>
+	    <li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}" tabindex="${tabindex}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li>
 	   </c:otherwise>
        </c:choose>
 </c:when>
@@ -45,7 +45,7 @@
 	</c:forTokens>
 
 	<c:if test="${show eq 'true'}" >
-	<li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}">${name}</a></li>
+	<li ><a id="${id }" href="${pageContext.request.contextPath}/${path}" onclick="${onclick}" aria-describedby="${id }SelectedInfo">${name}</a><span id="${id }SelectedInfo"  style="display: none;"></span></li>
 	 </c:if>
 </c:otherwise>
 </c:choose>

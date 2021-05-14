@@ -90,11 +90,11 @@ td .radio {
 }
 
 .error {
-	color: red;
+	color: #EE0000;
 }
 
 .errorHeader {
-	color: red;
+	color: #EE0000;
 	font-weight: bold;
 }
 
@@ -785,7 +785,7 @@ pre {
 
 #skiptomain a:focus {
 	position: absolute;
-	left: 1100px;
+	left: 1087px;
 	top: 42px;
 	color: white;
 	border: 4px solid #000000 !important;
@@ -793,7 +793,7 @@ pre {
 
 #skiptomain a {
 	position: absolute;
-	left: 1100px;
+	left: 1087px;
 	top: 42px;
 	color: white;
 }
@@ -952,11 +952,14 @@ span.manageusersRequiredField {
 
 .divUserMgmtTableHeaderRow {
 	display: table-row;
-	background-color: #9dcfff;
+	background-color: #BECEE0;
 	border-top: 1px solid transparent;
 	border-color: #F5F5F5;
 	font-weight: bold;
 	width: 150px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366;
 }
 
 .divUserMgmtTableRow {
@@ -1063,3 +1066,134 @@ label:focus {
 	border: 4px solid #000000 !important;
 }
 */
+
+
+
+
+
+.generatedDivTableParent {			
+	width:1125px;
+	height: 600px;	
+	overflow: auto;	
+	display: block;
+	
+}
+
+.generatedDivTable {
+	display: table;		
+	width:600px;
+	position: relative;	
+	overflow: auto;
+	float: left;
+	margin: .5em 0;		
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+	table-layout:fixed;
+	max-width:100%;
+	
+}
+
+.generatedDivTableHeaderRow {
+	display: table-row;	
+	background-color: #BECEE0;
+	border-top: 1px solid transparent;
+	border-color: #F5F5F5;
+	font-weight: bold;
+	width:100%;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#003366
+}
+
+.generatedDivTableRow {
+	display: table-row; 	
+	width:100%;	
+}
+
+.generatedDivTableHeaderCell {
+	/*used for sorting */
+	display:table-cell; 	
+	position: relative;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: transparent gray gray transparent;	
+	margin: 0px 0px;
+	padding: 3px 2px 3px 3px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;	
+	width:100%;
+	overflow:auto;	
+}
+
+
+.generatedDivTableCell {
+	display:table-cell; 	
+	position: relative;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: transparent gray gray transparent;	
+	margin: 0px 0px;
+	padding: 1px 1px 0px 2px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;	
+	width:100%;
+	overflow:auto;	
+}
+
+
+
+.generatedDivTableBody {
+	display: table-row-group;	
+	width:100%;
+}
+
+
+.generatedDivTableCellLink{
+	/* dummy class used for links */
+}
+
+.generatedDivTableNoRecordRow {
+	display: table-row; 	
+	width:100%;	
+}
+
+.generatedDivTableNoRecordsCell {
+	display:inline-block; 	
+	position: absolute;
+	/*border-style: solid;*/
+	/*border-width: 1px 1px 1px 1px;*/
+	/*border-color: transparent gray gray gray;	*/
+	margin: 0px 0px;
+	padding: 3px 3px 3px 400px;	
+	font-size:12px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	word-wrap:break-word;		
+	overflow:auto;		
+	font-size:12px;
+}
+
+.generatedReportsDivTableParent {			
+	width:1125px;
+	height: 400px;	
+	overflow: auto;	
+	display: block;
+	
+}
+
+.generatedReportsDivTable {
+	display: table;	
+	width:100%;	
+	position: relative;	
+	overflow: auto;
+	float: left;
+	margin: .5em 0;		
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: gray transparent transparent gray;
+	table-layout:fixed;
+	max-width:100%;
+	
+}

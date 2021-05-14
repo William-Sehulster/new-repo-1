@@ -2,7 +2,6 @@ package gov.va.med.pharmacy.web.reports;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -52,12 +52,13 @@ public class SummaryReportController {
 	@Autowired
 	private TrackMessageService trackMessageService;
 
-	@RequestMapping(value = "/getSummary", method = RequestMethod.GET)
-	@CacheControl(policy = {CachePolicy.NO_CACHE})
-	@ResponseBody
-	public List<SummaryReportVw> getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
+	@RequestMapping(value = "/getSummary", method = RequestMethod.GET, produces = "application/json")
+	@CacheControl(policy = {CachePolicy.NO_CACHE})	
+	public ModelAndView getSummaryReport(HttpServletRequest request, @RequestParam("json") String json)
 			throws JsonParseException, JsonMappingException, IOException {
 
+		ModelAndView mav = new ModelAndView(new org.springframework.web.servlet.view.json.MappingJackson2JsonView());
+		
 		List<SummaryReportVw> summaryReportVwList = new ArrayList<SummaryReportVw>();
 
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
@@ -67,8 +68,11 @@ public class SummaryReportController {
 		
 		SummaryReportFilter summaryReportFilter = jsonMapper.readValue(jsonString, SummaryReportFilter.class);
 
-		summaryReportVwList.addAll(summaryReportService.find(summaryReportFilter));
-		return summaryReportVwList;
+		summaryReportVwList = summaryReportService.find(summaryReportFilter);
+		
+		mav.addObject("items", summaryReportVwList);
+		
+		return mav;
 	}
 
 	@RequestMapping(value = "/getStationIdSelect", method = RequestMethod.GET, produces = "application/json")

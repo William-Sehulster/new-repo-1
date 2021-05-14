@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="PS_INB_ERX_MIGRATION_WS-4.0.5.005">
+    <wb-module deploy-name="PS_INB_ERX_MIGRATION_WS-4.0.6.003">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
         <dependent-module archiveName="INB_ERX_MIGRATION_WS.war" deploy-path="/" handle="module:/resource/PS_INB_ERX_MIGRATION_WS/PS_INB_ERX_MIGRATION_WS">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Common-4.0.5.005.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
+        <dependent-module archiveName="PS_INB_ERX_Common-4.0.6.003.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Model-4.0.5.005.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
+        <dependent-module archiveName="PS_INB_ERX_Model-4.0.6.003.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-lang3-3.11.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-io-2.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.7/commons-io-2.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-text-1.9.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-text/1.9/commons-text-1.9.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cxf-core-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-core/3.3.7/cxf-core-3.3.7.jar">

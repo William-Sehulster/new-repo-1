@@ -26,7 +26,7 @@ var sessionExtended = false;
 		
 		var ie = IeVersion();
 
-		if( ie.IsIE == true && ie.CompatibilityMode == true){
+		if( ie.IsIE == true && ie.CompatibilityMode == true && ie.TrueVersion == 11){
 			
 			if(dojo.byId("compatWarning")!=null){
 				
@@ -42,30 +42,37 @@ function highlightTab(){
 	if ((path.match("index") != null) || (path.match("homepage")) )
 	{
         dojo.addClass(dojo.byId("index"), "activeTab");
+        dojo.byId("indexSelectedInfo").innerHTML= "HomePage Selected";
     }
 	else if (path.match("vieweRx") != null) 
 	{
         dojo.addClass(dojo.byId("vieweRx"), "activeTab");
+        dojo.byId("vieweRxSelectedInfo").innerHTML= "View Rx Page Selected";
     } 
 	else if (path.match("managePharm") != null) 
 	{
         dojo.addClass(dojo.byId("managepharmacy"), "activeTab");
+        dojo.byId("managepharmacySelectedInfo").innerHTML= "Pharmacy Management Page Selected";
     }
 	else if (path.match("track") != null) 
 	{
         dojo.addClass(dojo.byId("trackeRx"), "activeTab");
+        dojo.byId("trackeRxSelectedInfo").innerHTML= "Track Audit Page Selected";
     } 
 	else if (path.match("reports") != null) 
 	{
         dojo.addClass(dojo.byId("reports"), "activeTab");
+        dojo.byId("reportsSelectedInfo").innerHTML= "Reports Page Selected";
     } 
 	else if (path.match("manageUsers") != null) 
 	{
         dojo.addClass(dojo.byId("manageusers"), "activeTab");
+        dojo.byId("manageusersSelectedInfo").innerHTML= "User Management Page Selected";
     } 
 	else if (path.match("help") != null) 
 	{
         dojo.addClass(dojo.byId("help"), "activeTab");
+        dojo.byId("helpSelectedInfo").innerHTML= "Help Page Selected";
     }
 }
 

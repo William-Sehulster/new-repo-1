@@ -16,7 +16,7 @@
 <script type="text/javascript" src="/inbound/scripts/editpharmacy.js"> </script>
 
 
-
+<title>Edit Pharmacy</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -43,16 +43,17 @@
 <c:if test="${not empty messageData.errorMessage }">
 <div id="errorMessages" class="error" aria-describedby="Informational message or warning message section" tabindex="0">
 <p id="errorTitle">
-<font class="errorHeader">Error Messages: </font>
+<h3><font class="errorHeader">Error Messages: </font></h3>
 <br>
 </p>
 <div id="errorMessageText">
+<ul role="list">
 <c:forEach items="${messageData.errorMessage}" var="error" varStatus="status">
-				<p id="errorOnEditPharm${status.count}">
-					&bull;
+				<li id="errorOnEditPharm${status.count}" role="listitem">					
 					${error}
-				</p>
+				</li>
 			</c:forEach>
+</ul>			
 </div>
 </div>
 </c:if>
@@ -101,7 +102,7 @@
     <span class="required">(Required)</span> 
     </span>
 	</label>	
-	<input id="visn" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.visn}"  size="2" maxlength="2" style="display: block; opacity: 1;" name="visn" title="Veteran Integrated Service Network of pharmacy">
+	<input id="visn" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.visn}"  size="2" maxlength="2" style="display: block; opacity: 1;" name="visn" title="Veteran Integrated Service Network of pharmacy, maximum characters allowed is 2.">
 	</div>	
 	
 	<div id="VA_STATION_ID" class="displayable" style="display: block; opacity: 1;">
@@ -111,7 +112,7 @@
     <span class="required">(Required)</span> 
     </span>:
 	</label>
-	<input id="vaStationId" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.vaStationId}"  size="20" maxlength="10" style="display: block; opacity: 1;" name="vaStationId" title="VA Station ID of pharmacy">
+	<input id="vaStationId" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.vaStationId}"  size="20" maxlength="10" style="display: block; opacity: 1;" name="vaStationId" title="VA Station ID of pharmacy, maximum characters allowed is 10.">
 	</div>
 	
     <div id="DIVISION_NAME" class="displayable" style="display: block; opacity: 1;">
@@ -172,7 +173,7 @@
     <span class="required">(Required)</span> 
     </span>
 	</label>
-	<input id="pharmacyZipcode" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.pharmacyZipcode}"  size="20"  maxlength="10" style="display: block; opacity: 1;" name="pharmacyZipcode" title="Pharmacy's zip code">
+	<input id="pharmacyZipcode" class="editable pharmEditScreen" type="text" value="${ pharmacyInfo.pharmacyZipcode}"  size="20"  maxlength="10" style="display: block; opacity: 1;" name="pharmacyZipcode" title="Pharmacy's zip code, maximum characters allowed is 10.">
 	</div>
 	
 	<div id="CROSS_STREET" class="displayable" style="display: block; opacity: 1;">

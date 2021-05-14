@@ -5664,7 +5664,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/11/23 15:45:55.000</modified_date>
+    <modified_date>2020/12/03 15:40:10.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -5786,13 +5786,13 @@ nvl((select trim(va_station_id) from pharmacy where t.pharmacy_id = pharmacy_id)
 '3009' MESSAGE_STATUS_NEW
 from erx.inbound_ncpdp_msg t
     where 
-    t.message_status = '3001'
-    and t.message is not null
+   (t.message_status = '3001'
+   and t.message is not null
+    and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
     and (t.drug_chk_status = '1004'
     or t.provider_chk_status = '2004'
-    or t.patient_chk_status in ('0004','0107')
-    or (t.message_status_details = '&lt;messageStatusDetails>&lt;relToOutboundNcpdpMsgId>' and t.message_type not in ('NewRx','Verify')))
-    and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate</sql>
+    or t.patient_chk_status in ('0004','0107')))
+  </sql>
     <limit>${JOB_BATCH_SIZE}</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -6476,7 +6476,7 @@ from erx.inbound_ncpdp_msg t
     <created_user>admin</created_user>
     <created_date>2016/08/16 10:21:52.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/12/01 13:15:40.000</modified_date>
+    <modified_date>2021/02/25 11:36:38.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -7372,7 +7372,7 @@ from erx.inbound_ncpdp_msg t
     </file>
     <fields>
       <field>
-        <name>MESSAGE_STATUS_DETAIL</name>
+        <name>MESSAGE_STATUS_DETAIL3</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -7396,7 +7396,7 @@ from erx.inbound_ncpdp_msg t
         <precision>-1</precision>
       </field>
       <field>
-        <name>MESSAGE_STATUS_DETAIL2</name>
+        <name>MESSAGE_STATUS_DETAIL4</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -7765,8 +7765,8 @@ from inbound_ncpdp_msg t, xmltable('/Message'
     clinic_id varchar2(35) path '//Header/From',
 	written_date_time varchar2(35) path '//Body/*/*/WrittenDate/DateTime',
 	written_date varchar2(10) path '//Body/*/*/WrittenDate/Date',
-    other_med_date varchar2(10) path '//Body/*/*/OtherMedicationDate/OtherMedicationDate',
-    other_med_date_qual varchar2(35) path '//Body/*/*/OtherMedicationDate/OtherMedicationDateQualifier',
+    other_med_date varchar2(10) path '//Body/*/*/OtherMedicationDate[1]/OtherMedicationDate',
+    other_med_date_qual varchar2(35) path '//Body/*/*/OtherMedicationDate[1]/OtherMedicationDateQualifier',
     med_pres_drug_desc varchar2(35) path '//Body/*/MedicationPrescribed/DrugDescription',
     med_resp_drug_desc varchar2(35) path '//Body/*/MedicationResponse/DrugDescription',
     error_desc varchar2(200) path '//Error/Description' ) x
@@ -7774,7 +7774,8 @@ from inbound_ncpdp_msg t, xmltable('/Message'
     t.message_status = '0000'
     and t.message is not null
 	and t.message_id is not null
-	and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate</sql>
+	and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+	and rownum &lt;= ${JOB_BATCH_SIZE} </sql>
     <limit>${JOB_BATCH_SIZE}</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -8460,7 +8461,7 @@ from inbound_ncpdp_msg t, xmltable('/Message'
     </remotesteps>
     <GUI>
       <xloc>96</xloc>
-      <yloc>160</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -9388,7 +9389,7 @@ commit;</sql>
     </partitioning>
     <fields>
       <field>
-        <name>MESSAGE_STATUS_DETAIL</name>
+        <name>MESSAGE_STATUS_DETAIL3</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -9400,7 +9401,7 @@ commit;</sql>
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>MESSAGE_STATUS_DETAIL2</name>
+        <name>MESSAGE_STATUS_DETAIL4</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -9438,6 +9439,30 @@ commit;</sql>
       <schema_name/>
     </partitioning>
     <fields>
+      <field>
+        <name>MESSAGE_STATUS_DETAIL3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>MESSAGE_STATUS_DETAIL4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
       <field>
         <name>MESSAGE_STATUS_DETAIL</name>
         <type>String</type>
@@ -13325,7 +13350,7 @@ commit;</sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:39:46.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/23 15:46:06.000</modified_date>
+  <modified_date>2021/01/20 17:19:55.000</modified_date>
   <parameters>
     </parameters>
   <connection>
@@ -13702,115 +13727,15 @@ commit;</sql>
   <shared_objects_file/>
   <entries>
     <entry>
-      <name>IBMP_ProcessERx_Retry_TRN</name>
-      <description/>
-      <type>TRANS</type>
-      <attributes/>
-      <specification_method>rep_ref</specification_method>
-      <trans_object_id>16</trans_object_id>
-      <filename/>
-      <transname>IBMP_ProcessERx_Retry_TRN</transname>
-      <directory>/inbound_main</directory>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration/>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>416</xloc>
-      <yloc>80</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>Check for Messages to Process</name>
-      <description/>
-      <type>WAIT_FOR_SQL</type>
-      <attributes/>
-      <connection>local_erx</connection>
-      <schemaname/>
-      <tablename/>
-      <success_condition>rows_count_greater</success_condition>
-      <rows_count_value>0</rows_count_value>
-      <is_custom_sql>Y</is_custom_sql>
-      <is_usevars>N</is_usevars>
-      <custom_sql>select t.inbound_ncpdp_msg_id,
-t.drug_chk_status drug_chk_status,
-t.provider_chk_status provider_chk_status,
-t.patient_chk_status patient_chk_status,
-nvl((select trim(va_station_id) from pharmacy where t.pharmacy_id = pharmacy_id),0) pharmacy_division,
-'3009' MESSAGE_STATUS_NEW
-from erx.inbound_ncpdp_msg t
-    where 
-    t.message_status = '3001'
-    and t.message is not null
-    and (t.drug_chk_status = '1004'
-    or t.provider_chk_status = '2004'
-    or t.patient_chk_status in ('0004','0107')
-    or (t.message_status_details = '&lt;messageStatusDetails>&lt;relToOutboundNcpdpMsgId>' and t.message_type not in ('NewRx','Verify')))
-    and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate</custom_sql>
-      <add_rows_result>N</add_rows_result>
-      <maximum_timeout>0</maximum_timeout>
-      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
-      <success_on_timeout>N</success_on_timeout>
-      <clear_result_rows>Y</clear_result_rows>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>160</xloc>
-      <yloc>160</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>START</name>
-      <description/>
-      <type>SPECIAL</type>
-      <attributes/>
-      <start>Y</start>
-      <dummy>N</dummy>
-      <repeat>Y</repeat>
-      <schedulerType>0</schedulerType>
-      <intervalSeconds>20</intervalSeconds>
-      <intervalMinutes>0</intervalMinutes>
-      <hour>12</hour>
-      <minutes>0</minutes>
-      <weekDay>1</weekDay>
-      <DayOfMonth>1</DayOfMonth>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>32</xloc>
-      <yloc>160</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>IBMP_AutoChecks_Retry_JOB</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>rep_name</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/IBMP_AutoChecks_Retry_JOB.kjb</filename>
+      <filename/>
       <jobname>IBMP_AutoChecks_Retry_JOB</jobname>
-      <directory/>
+      <directory>/inbound_main</directory>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>Y</params_from_previous>
       <exec_per_row>Y</exec_per_row>
@@ -13859,8 +13784,8 @@ from erx.inbound_ncpdp_msg t
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>656</xloc>
-      <yloc>160</yloc>
+      <xloc>704</xloc>
+      <yloc>96</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -13871,8 +13796,168 @@ from erx.inbound_ncpdp_msg t
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>416</xloc>
-      <yloc>208</yloc>
+      <xloc>992</xloc>
+      <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>IBMP_ProcessERx_Retry_TRN</name>
+      <description/>
+      <type>TRANS</type>
+      <attributes/>
+      <specification_method>rep_name</specification_method>
+      <trans_object_id/>
+      <filename/>
+      <transname>IBMP_ProcessERx_Retry_TRN</transname>
+      <directory>/inbound_main</directory>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>496</xloc>
+      <yloc>64</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>Check for type of Retry (AutoCheck or Message)</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <attributes/>
+      <valuetype>field</valuetype>
+      <fieldname>MESSAGE_STATUS</fieldname>
+      <variablename/>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>3001</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>400</xloc>
+      <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>START</name>
+      <description/>
+      <type>SPECIAL</type>
+      <attributes/>
+      <start>Y</start>
+      <dummy>N</dummy>
+      <repeat>Y</repeat>
+      <schedulerType>0</schedulerType>
+      <intervalSeconds>20</intervalSeconds>
+      <intervalMinutes>0</intervalMinutes>
+      <hour>12</hour>
+      <minutes>0</minutes>
+      <weekDay>1</weekDay>
+      <DayOfMonth>1</DayOfMonth>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>32</xloc>
+      <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>Check for Messages to Process</name>
+      <description/>
+      <type>WAIT_FOR_SQL</type>
+      <attributes/>
+      <connection>local_erx</connection>
+      <schemaname/>
+      <tablename/>
+      <success_condition>rows_count_greater</success_condition>
+      <rows_count_value>0</rows_count_value>
+      <is_custom_sql>Y</is_custom_sql>
+      <is_usevars>N</is_usevars>
+      <custom_sql>select * from (select t.inbound_ncpdp_msg_id,
+t.drug_chk_status drug_chk_status,
+t.provider_chk_status provider_chk_status,
+t.patient_chk_status patient_chk_status,
+nvl((select trim(va_station_id) from pharmacy where t.pharmacy_id = pharmacy_id),0) pharmacy_division,
+'3009' MESSAGE_STATUS_NEW,
+t.message_status message_status
+from erx.inbound_ncpdp_msg t
+    where 
+   (t.message_status = '3001'
+   and t.message is not null
+    and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+    and (t.drug_chk_status = '1004'
+    or t.provider_chk_status = '2004'
+    or t.patient_chk_status in ('0004','0107')))
+    union
+select t.inbound_ncpdp_msg_id,
+t.drug_chk_status drug_chk_status,
+t.provider_chk_status provider_chk_status,
+t.patient_chk_status patient_chk_status,
+nvl((select trim(va_station_id) from pharmacy where t.pharmacy_id = pharmacy_id),0) pharmacy_division,
+'3009' MESSAGE_STATUS_NEW,
+t.message_status message_status
+from erx.inbound_ncpdp_msg t
+    where t.message_status in ('3009','3003') 
+       and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+       and t.updated_date &lt; sysdate - 15 / 24 /60) /* Attempt to reprocess messages stuck in 3009 after 15 Minutes */
+       where rownum &lt; 2</custom_sql>
+      <add_rows_result>Y</add_rows_result>
+      <maximum_timeout>0</maximum_timeout>
+      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
+      <success_on_timeout>N</success_on_timeout>
+      <clear_result_rows>Y</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>160</xloc>
+      <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>Update Status - Reprocess Message</name>
+      <description/>
+      <type>SQL</type>
+      <attributes/>
+      <sql>update inbound_ncpdp_msg t
+set t.message_status = '0000'
+where t.message_status in ('3009','3003') 
+       and t.received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
+       and t.updated_date &lt; sysdate - 15 / 24 /60;
+commit;</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>local_erx</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>496</xloc>
+      <yloc>272</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -13887,8 +13972,17 @@ from erx.inbound_ncpdp_msg t
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>IBMP_ProcessERx_Retry_TRN</from>
-      <to>IBMP_AutoChecks_Retry_JOB</to>
+      <from>Check for Messages to Process</from>
+      <to>Check for type of Retry (AutoCheck or Message)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check for type of Retry (AutoCheck or Message)</from>
+      <to>IBMP_ProcessERx_Retry_TRN</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -13905,8 +13999,26 @@ from erx.inbound_ncpdp_msg t
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Check for Messages to Process</from>
-      <to>IBMP_ProcessERx_Retry_TRN</to>
+      <from>IBMP_ProcessERx_Retry_TRN</from>
+      <to>IBMP_AutoChecks_Retry_JOB</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check for type of Retry (AutoCheck or Message)</from>
+      <to>Update Status - Reprocess Message</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Update Status - Reprocess Message</from>
+      <to>Job Finished Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -13924,13 +14036,6 @@ from erx.inbound_ncpdp_msg t
         <value>{"namespace":"pentaho","id":"Default Run Configuration","name":"Default Run Configuration","description":"Defines a default run configuration","metaStoreName":null}</value>
       </attribute>
     </group>
-    <group>
-      <name>{"_":"Embedded MetaStore Elements","namespace":"pentaho","type":"Default Run Configuration"}</name>
-      <attribute>
-        <key>Pentaho local</key>
-        <value>{"children":[{"children":[],"id":"server","value":null},{"children":[],"id":"clustered","value":"N"},{"children":[],"id":"name","value":"Pentaho local"},{"children":[],"id":"description","value":null},{"children":[],"id":"pentaho","value":"N"},{"children":[],"id":"readOnly","value":"Y"},{"children":[],"id":"sendResources","value":"N"},{"children":[],"id":"logRemoteExecutionLocally","value":"N"},{"children":[],"id":"remote","value":"N"},{"children":[],"id":"local","value":"Y"},{"children":[],"id":"showTransformations","value":"N"}],"id":"Pentaho local","value":null,"name":"Pentaho local","owner":null,"ownerPermissionsList":[]}</value>
-      </attribute>
-    </group>
   </attributes>
 </job>
 
@@ -13944,7 +14049,7 @@ from erx.inbound_ncpdp_msg t
   <created_user>admin</created_user>
   <created_date>2016/08/16 09:57:08.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/09/25 13:28:40.000</modified_date>
+  <modified_date>2021/01/20 17:20:20.000</modified_date>
   <parameters>
     </parameters>
   <connection>
@@ -14321,41 +14426,12 @@ from erx.inbound_ncpdp_msg t
   <shared_objects_file/>
   <entries>
     <entry>
-      <name>Check for Messages to Process</name>
-      <description/>
-      <type>WAIT_FOR_SQL</type>
-      <attributes/>
-      <connection>local_erx</connection>
-      <schemaname/>
-      <tablename/>
-      <success_condition>rows_count_greater</success_condition>
-      <rows_count_value>0</rows_count_value>
-      <is_custom_sql>Y</is_custom_sql>
-      <is_usevars>N</is_usevars>
-      <custom_sql>select inbound_ncpdp_msg_id from inbound_ncpdp_msg 
-where message_status = '0000'
-and message is not null
-and message_id is not null
-and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate</custom_sql>
-      <add_rows_result>N</add_rows_result>
-      <maximum_timeout>0</maximum_timeout>
-      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
-      <success_on_timeout>N</success_on_timeout>
-      <clear_result_rows>Y</clear_result_rows>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>176</xloc>
-      <yloc>64</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>IBMP_ProcessERx_TRN</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
-      <specification_method>rep_ref</specification_method>
-      <trans_object_id>17</trans_object_id>
+      <specification_method>rep_name</specification_method>
+      <trans_object_id/>
       <filename/>
       <transname>IBMP_ProcessERx_TRN</transname>
       <directory>/inbound_main</directory>
@@ -14377,7 +14453,7 @@ and received_date between sysdate - nvl((select value from app_configuration whe
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
-      <run_configuration/>
+      <run_configuration>Pentaho local</run_configuration>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -14409,7 +14485,7 @@ and received_date between sysdate - nvl((select value from app_configuration whe
       <job_object_id/>
       <filename/>
       <jobname>IBMP_AutoChecks_JOB</jobname>
-      <directory>${Internal.Entry.Current.Directory}</directory>
+      <directory>/inbound_main</directory>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>Y</params_from_previous>
       <exec_per_row>Y</exec_per_row>
@@ -14469,17 +14545,39 @@ and received_date between sysdate - nvl((select value from app_configuration whe
       <yloc>64</yloc>
       <attributes_kjc/>
     </entry>
+    <entry>
+      <name>Check for Messages to Process</name>
+      <description/>
+      <type>WAIT_FOR_SQL</type>
+      <attributes/>
+      <connection>local_erx</connection>
+      <schemaname/>
+      <tablename/>
+      <success_condition>rows_count_greater</success_condition>
+      <rows_count_value>0</rows_count_value>
+      <is_custom_sql>Y</is_custom_sql>
+      <is_usevars>N</is_usevars>
+      <custom_sql>select inbound_ncpdp_msg_id from inbound_ncpdp_msg 
+where (message_status = '0000'
+and message is not null
+and message_id is not null
+and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate)
+
+</custom_sql>
+      <add_rows_result>N</add_rows_result>
+      <maximum_timeout>0</maximum_timeout>
+      <check_cycle_time>${JOB_CHECK_CYCLE_TIME}</check_cycle_time>
+      <success_on_timeout>N</success_on_timeout>
+      <clear_result_rows>Y</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>176</xloc>
+      <yloc>64</yloc>
+      <attributes_kjc/>
+    </entry>
   </entries>
   <hops>
-    <hop>
-      <from>START</from>
-      <to>Check for Messages to Process</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
     <hop>
       <from>Check for Messages to Process</from>
       <to>IBMP_ProcessERx_TRN</to>
@@ -14506,6 +14604,15 @@ and received_date between sysdate - nvl((select value from app_configuration whe
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>START</from>
+      <to>Check for Messages to Process</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>

@@ -1985,7 +1985,8 @@ function toggleTrackDivs(showIt){
   } else {
       dojo.style(dojo.byId('result1'), "display", "none");
       dojo.style(dojo.byId('messageList'), "display", "block");
-      dojo.style(dojo.byId('messageList'), "height", "290px");
+      dojo.style(dojo.byId('messageList'), "height", "600px");
+      
       dojo.style(dojo.byId('showButtonDiv'), "display", "none");
       dojo.style(dojo.byId('searchCriteriaForm'), "display", "block"); 
       
@@ -2033,8 +2034,7 @@ function showRelatedMessages(){
 
 	      getTrackRelatedMessagesGrid();
 	      
-	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");
-	      dojo.style(dojo.byId('relatedMessagesList'), "height", "290px");
+	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");	     
 	      
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumberTitle'), "display", "none");
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumber'), "display", "none");

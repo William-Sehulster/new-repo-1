@@ -28,9 +28,8 @@
 		<form action="${index}" method="post" >
 		
 		<div align="center">
-		<p>
-		
-		<strong>Welcome to Inbound ePrescribing!</strong>			
+		<p>	
+		<h1><strong>Welcome to Inbound ePrescribing!</strong></h1>			
 		</p>
 		<p>
 		<br>

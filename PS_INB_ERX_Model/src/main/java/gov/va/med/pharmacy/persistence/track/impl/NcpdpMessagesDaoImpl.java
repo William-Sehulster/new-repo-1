@@ -2778,7 +2778,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"    		    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription' \r\n" ).append(
 				"    		    ) x \r\n" ).append(
 				"where t.pharmacy_id = p.pharmacy_id \r\n" ).append(
-				"and received_date between sysdate - 365 and sysdate \r\n" ).append( 
+				"and received_date between sysdate - 548 and sysdate \r\n" ).append( 
 				"and t.message_status not in ('3006') \r\n" ).append(
 				"and t.script_version is null \r\n" ).append(
 				"UNION ALL \r\n" ).append(
@@ -2833,7 +2833,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"        		    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription' \r\n" ).append(
 				"        		    ) x \r\n" ).append(
 				"where t.pharmacy_id = p.pharmacy_id	\r\n" ).append(
-				"and received_date between sysdate - 365 and sysdate \r\n" ).append(
+				"and received_date between sysdate - 548 and sysdate \r\n" ).append(
 				"and t.message_status not in ('3006') \r\n" ).append(
 						"						and t.script_version is null \r\n" ).append(
 								"UNION ALL \r\n" ).append(
@@ -2889,7 +2889,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 						        	"	    rx_Drug_Response varchar2(105) path '//MedicationResponse/DrugDescription' \r\n" ).append(
 						    		"    ) x \r\n" ).append(
 						" where t.pharmacy_id = p.pharmacy_id \r\n" ).append(
-						" and received_date between sysdate - 365 and sysdate \r\n" ).append(
+						" and received_date between sysdate - 548 and sysdate \r\n" ).append(
 						" and t.message_status not in ('3006') \r\n" ).append(
 						" and t.script_version = '2017071'\r\n" ).append(
 						" UNION ALL \r\n" ).append(
@@ -2944,7 +2944,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 						"         		    rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription' \r\n" ).append(
 						"        		    ) x \r\n" ).append(
 						        		"  	where t.pharmacy_id = p.pharmacy_id	\r\n" ).append(
-								"  	and received_date between sysdate - 365 and sysdate \r\n" ).append(
+								"  	and received_date between sysdate - 548 and sysdate \r\n" ).append(
 						"  	and t.message_status not in ('3006') \r\n" ).append(
 						"  	and t.script_version = '2017071'	\r\n" ).append(				
 				"  ) results \r\n" ).append(
@@ -2957,12 +2957,12 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"select \r\n" ).append(
 				"t.message_id, \r\n" ).append(
 				"t.rel_to_message_id \r\n" ).append(
-				"from inbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006') \r\n" ).append(
+				"from inbound_ncpdp_msg t where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006') \r\n" ).append(
 				"UNION ALL \r\n" ).append(
 				"select \r\n" ).append(
 				"t.message_id, \r\n" ).append(
 				"t.rel_to_message_id \r\n" ).append(
-				"from outbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006') ) results \r\n" ).append(
+				"from outbound_ncpdp_msg t where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006') ) results \r\n" ).append(
 				"CONNECT BY PRIOR results.rel_to_message_id = results.message_id \r\n" ).append(
 				" START WITH \r\n" ).append(
 				"    results.message_id in (select get_newrx_msg_id_func(?) from dual) \r\n" ).append(
@@ -2974,12 +2974,12 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"select \r\n" ).append(
 				"t.message_id, \r\n" ).append(
 				"t.rel_to_message_id \r\n" ).append(
-				"from inbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006') \r\n" ).append(
+				"from inbound_ncpdp_msg t where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006') \r\n" ).append(
 				"UNION ALL \r\n" ).append(
 				"select \r\n" ).append(
 				"t.message_id, \r\n" ).append(
 				"t.rel_to_message_id \r\n" ).append(
-				"from outbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006') ) results \r\n" ).append(
+				"from outbound_ncpdp_msg t where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006') ) results \r\n" ).append(
 				"CONNECT BY PRIOR results.message_id = results.rel_to_message_id \r\n" ).append(
 				" START WITH \r\n" ).append(
 				"    results.message_id in (select get_newrx_msg_id_func(?) from dual) \r\n" ).append(
@@ -3022,14 +3022,14 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"               t.message_type,\r\n" + 
         		"               t.inbound_ncpdp_msg_id hub_id\r\n" + 
         		"				from inbound_ncpdp_msg t \r\n" + 
-        		"                where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006')\r\n" + 
+        		"                where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006')\r\n" + 
         		"				UNION ALL\r\n" + 
         		"				select\r\n" + 
         		"				t.message_id,\r\n" + 
         		"				t.rel_to_message_id,\r\n" + 
         		"               t.message_type,\r\n" + 
         		"               t.outbound_ncpdp_msg_id hub_id\r\n" + 
-        		"				from outbound_ncpdp_msg t where received_date between sysdate - 365 and sysdate and t.message_status not in ('3006')) results\r\n" + 
+        		"				from outbound_ncpdp_msg t where received_date between sysdate - 548 and sysdate and t.message_status not in ('3006')) results\r\n" + 
         		"				CONNECT BY PRIOR results.message_id = results.rel_to_message_id \r\n" + 
         		"				 START WITH  \r\n" + 
         		"				    results.message_id in (select get_newrx_msg_id_func(?) from dual) )\r\n" + 
