@@ -35,7 +35,17 @@ public class NcpdpMessageListModel {
 	
 	
 	public String getSchedule() {
-		return schedule;
+		//Convert code stored in DB to corresponding Roman Numeral
+		if (schedule.compareTo("C48675") == 0)
+			return "II";
+		else if (schedule.compareTo("C48676") == 0)
+			return "III";
+		else if (schedule.compareTo("C48677") == 0)
+			return "IV";
+		else if (schedule.compareTo("C48679") == 0)
+			return "V";
+		else		
+		    return "";
 	}
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
@@ -199,18 +209,17 @@ public class NcpdpMessageListModel {
 		public String[] getStringArray(){
 
 			if (this.getInboundNcpdpMsgId() != null){
-				String[] stringArray = {this.getInboundNcpdpMsgId().toString(),
-						
+				String[] stringArray = {
+						this.getReceivedDate(),
+						this.getInboundNcpdpMsgId().toString(),
 						this.getErx_type(),
 						this.getMessageType(),
 						this.getPatientName(),
 						this.getPatientDob(),
 						this.getPatientSsn(),
 						this.getRxDrugPrescribed(),
-						
 						this.getSchedule(),
 						this.getRxMessageId(),
-						
 						this.getDigital_signature(),
 						this.getPrescriberName(),
 						this.getPrescriberNpi(),
@@ -219,8 +228,7 @@ public class NcpdpMessageListModel {
 						this.getVaStationId(),
 						this.getPharmacyName(),
 						this.getPharmacyAddr1(),			
-						this.getRelToMessageid(),				
-						this.getReceivedDate(),				
+						this.getRelToMessageid(),								
 						this.getPatient_chk_status(),
 						this.getProvider_chk_status(),
 						this.getDrug_chk_status(),

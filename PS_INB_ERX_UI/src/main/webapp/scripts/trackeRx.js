@@ -7,20 +7,7 @@ dojo.require("dijit.Dialog");
 
 
 dojo.ready(function() {
-	
-	dojo.style(dojo.byId('scheduleDiv'), "display", "none");
 
-	dojo.connect(dijit.byId('erx_type'),'onItemClick',function(erx_typeValue){
-		if ( erx_typeValue == 'CS')
-		{
-			dojo.style(dojo.byId('scheduleDiv'), "display", "block");
-
-		}
-		else
-		{
-			dojo.style(dojo.byId('scheduleDiv'), "display", "none");
-
-		}
 	
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {

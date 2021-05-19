@@ -562,7 +562,7 @@ function buildRejectReasonsReportLayout(servlet, target) {
 }
 
 
-function buildErxSummaryReportLayout(servlet, target) {
+function buildErxSummaryReportLayout(servlet, target, selected) {
 	var layout = new Array();
 	
 	var obj = new Object();
@@ -601,8 +601,8 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//obj["formatter"] = numberFormat;
 	layout.push(obj);
 
-    //if (selected == "ALL" || selected == "NONCS")
-	//{
+    if (selected == "ALL" || selected == "NONCS")
+	{
 		obj = new Object();
 		obj["field"] = 'newRxCnt';
 		obj["name"] = "#New Rx";
@@ -610,10 +610,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//	//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 	
-   // if (selected == "ALL" || selected == "CS")
-	//{	
+    if (selected == "ALL" || selected == "CS")
+	{	
 		obj = new Object();
 		obj["field"] = 'newRxCntCS';
 		obj["name"] = "CS #New Rx";
@@ -621,10 +621,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//	//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 	
-    //if (selected == "ALL" || selected == "NONCS")
-	//{		
+    if (selected == "ALL" || selected == "NONCS")
+	{		
 		obj = new Object();
 		obj["field"] = 'refillRequest';
 		obj["name"] = "#RxRenewal Request";
@@ -632,10 +632,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-   //if (selected == "ALL" || selected == "CS")
-	//{		
+   if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'refillRequestCS';
 		obj["name"] = "CS #RxRenewal Request";
@@ -643,10 +643,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);	
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "NONCS")
-	//{		
+    if (selected == "ALL" || selected == "NONCS")
+	{		
 		obj = new Object();
 		obj["field"] = 'refillResponse';
 		obj["name"] = "#RxRenewal Response";
@@ -654,10 +654,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'refillResponseCS';
 		obj["name"] = "CS #RxRenewal Response";
@@ -665,10 +665,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);	
-	//}
+	}
 
-	//if (selected == "ALL" || selected == "NONCS")
-	//{	
+	if (selected == "ALL" || selected == "NONCS")
+	{	
 		obj = new Object();
 		obj["field"] = 'rxChangeRequest';
 		obj["name"] = "#RxChange Request";
@@ -676,10 +676,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'rxChangeRequestCS';
 		obj["name"] = "CS #RxChange Request";
@@ -687,10 +687,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 	
-   //if (selected == "ALL" || selected == "NONCS")
-	//{		
+   if (selected == "ALL" || selected == "NONCS")
+	{		
 		obj = new Object();
 		obj["field"] = 'rxChangeResponse';
 		obj["name"] = "#RxChange Response";
@@ -698,10 +698,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 	
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'rxChangeResponseCS';
 		obj["name"] = "CS #RxChange Response";
@@ -709,10 +709,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "NONCS")
-	//{	
+    if (selected == "ALL" || selected == "NONCS")
+	{	
 		obj = new Object();
 		obj["field"] = 'cancelRx';
 		obj["name"] = "#CancelRx Request";
@@ -720,10 +720,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'cancelRxCS';
 		obj["name"] = "CS #CancelRx Request";
@@ -731,10 +731,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "NONCS")
-	//{		
+    if (selected == "ALL" || selected == "NONCS")
+	{		
 		obj = new Object();
 		obj["field"] = 'cancelRxResponse';
 		obj["name"] = "#CancelRx Response";
@@ -742,10 +742,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'cancelRxResponseCS';
 		obj["name"] = "CS #CancelRx Response";
@@ -753,10 +753,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
-    //if (selected == "ALL" || selected == "NONCS")
-	//{		
+    if (selected == "ALL" || selected == "NONCS")
+	{		
 		obj = new Object();
 		obj["field"] = 'rxFill';
 		obj["name"] = "#RxFill";
@@ -764,10 +764,10 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 	
-    //if (selected == "ALL" || selected == "CS")
-	//{		
+    if (selected == "ALL" || selected == "CS")
+	{		
 		obj = new Object();
 		obj["field"] = 'rxFillCS';
 		obj["name"] = "CS #RxFill";
@@ -783,7 +783,7 @@ function buildErxSummaryReportLayout(servlet, target) {
 		//obj["noresize"] = 'true';
 		obj["formatter"] = numberFormat;
 		layout.push(obj);
-	//}
+	}
 
 	return layout;
 }
@@ -1001,6 +1001,16 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
 	try {
+		
+		//M. Bolden - 5.0 -  After master merge eRx Filter no longer work as intended as the widget
+		//                   being dynamically manipulated was removed. I will manipulate the table
+		//                   directly here everytime the table is called to be generated.  First I 
+		//                   need to know the value of the filter.
+		
+		var eRx_selectbox = dojo.byId("erxTypeSelection");
+		console.log("before selection Widget ID: : Data Grid Init Summary Report");
+		var selected_eRx = getSelected(eRx_selectbox);
+		console.log("after selection: Data Grid Init Summary Report");
 					
 		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
 		
@@ -1009,7 +1019,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 	
 		var grid = dijit.byId(gridId);
 		
-		var gridLayout = buildErxSummaryReportLayout(null, parentContainer);
+		var gridLayout = buildErxSummaryReportLayout(null, parentContainer, selected_eRx);
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -1033,7 +1043,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport");	
+			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport", selected_eRx);	
 			
 			var recordsTotal = responseData.items.length;	
 			
@@ -1053,8 +1063,95 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 					
 				    summaryReportRecNumber.innerHTML= recordsTotal;
 	           }
-			 
-			// remove the grid widget
+			
+/*
+            if (selected_eRx == "ALL")
+			{
+				console.log("You have selected an eRx type of ALL");
+				
+				//Adjust Main Grid
+				//When the selection is ALL, make sure all columns are visible
+				grid.layout.setColumnVisibility(0, true);         //visn
+				grid.layout.setColumnVisibility(1, true);         //VA Station ID
+				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
+				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
+				grid.layout.setColumnVisibility(4, true);         //#New Rx
+				grid.layout.setColumnVisibility(5, true);         //CS #New Rx
+				grid.layout.setColumnVisibility(6, true);         //#RxRenewal Request
+				grid.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(8, true);         //#RxRenewal Request
+				grid.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(10, true);        //#RxChange Request
+				grid.layout.setColumnVisibility(11, true);        //CS #RxChange Request
+				grid.layout.setColumnVisibility(12, true);        //#RxChange Response	
+				grid.layout.setColumnVisibility(13, true);        //CS #RxChange Response
+				grid.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
+				grid.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
+				grid.layout.setColumnVisibility(16, true);        //#Cancel Response
+				grid.layout.setColumnVisibility(17, true);        //CS #Cancel Response
+				grid.layout.setColumnVisibility(18, true);        //#RxFill
+				grid.layout.setColumnVisibility(19, true);        //CS #RxFill
+				grid.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill
+			}
+			
+			if (selected_eRx == "CS")
+			{
+				console.log("You have selected an eRx type of CS");
+				
+				//Adjust Main Grid
+				//When the selection is CS, make sure all columns that are CS are visible and those not CS are hidden
+				grid.layout.setColumnVisibility(0, true);         //visn
+				grid.layout.setColumnVisibility(1, true);         //VA Station ID
+				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
+				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
+				grid.layout.setColumnVisibility(4, false);        //#New Rx
+				grid.layout.setColumnVisibility(5, true);         //CS #New Rx
+				grid.layout.setColumnVisibility(6, false);        //#RxRenewal Request
+				grid.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(8, false);        //#RxRenewal Request
+				grid.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(10, false);       //#RxChange Request
+				grid.layout.setColumnVisibility(11, true);        //CS #RxChange Request
+				grid.layout.setColumnVisibility(12, false);       //#RxChange Response	
+				grid.layout.setColumnVisibility(13, true);        //CS #RxChange Response
+				grid.layout.setColumnVisibility(14, false);       //#Cancel Rx Request
+				grid.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
+				grid.layout.setColumnVisibility(16, false);       //#Cancel Response
+				grid.layout.setColumnVisibility(17, true);        //CS #Cancel Response
+				grid.layout.setColumnVisibility(18, false);       //#RxFill
+				grid.layout.setColumnVisibility(19, true);        //CS #RxFill
+				grid.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill
+			}
+			
+			if (selected_eRx == "NONCS")
+			{
+				console.log("You have selected an eRx type of NONCS");
+				
+				//Adjust main Grid
+				//When the selection is CS, make sure all columns that are not CS are visible and those CS are hidden
+				grid.layout.setColumnVisibility(0, true);         //visn
+				grid.layout.setColumnVisibility(1, true);         //VA Station ID
+				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
+				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
+				grid.layout.setColumnVisibility(4, true);         //#New Rx
+				grid.layout.setColumnVisibility(5, false);        //CS #New Rx
+				grid.layout.setColumnVisibility(6, true);         //#RxRenewal Request
+				grid.layout.setColumnVisibility(7, false);        //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(8, true);         //#RxRenewal Request
+				grid.layout.setColumnVisibility(9, false);        //CS #RxRenewal Request
+				grid.layout.setColumnVisibility(10, true);        //#RxChange Request
+				grid.layout.setColumnVisibility(11, false);       //CS #RxChange Request
+				grid.layout.setColumnVisibility(12, true);        //#RxChange Response	
+				grid.layout.setColumnVisibility(13, false);       //CS #RxChange Response
+				grid.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
+				grid.layout.setColumnVisibility(15, false);       //CS #Cancel Rx Request
+				grid.layout.setColumnVisibility(16, true);        //#Cancel Response
+				grid.layout.setColumnVisibility(17, false);       //CS #Cancel Response
+				grid.layout.setColumnVisibility(18, true);        //#RxFill
+				grid.layout.setColumnVisibility(19, false);       //CS #RxFill
+				grid.layout.setColumnVisibility(20, false);       //CS #RxDoNotFill
+			}
+	*/		// remove the grid widget
 			dojo.destroy(grid);
 			 
 	} catch (err) {
@@ -1121,7 +1218,7 @@ var comparer = function(idx, asc) {
 
 
 // div table generation.
-function generateDivTable(layout, gridData, dataGridDivId,reportType) {
+function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) {
 
 	    // clear the parent div first.
         dojo.byId(dataGridDivId).innerHTML ="";
@@ -1133,22 +1230,36 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         {
 
             totals ["newRxCnt"] = 0;
+			totals ["newRxCntCS"] = 0;
         	totals ["newRxPharmDisabledAtHub"] = 0;
         	totals ["newRxRejectedAtHub"] = 0;
+			totals ["newRxRejectedAtHubCS"] = 0;
         	totals ["newRxPassAutoChk"] = 0;
+			totals ["newRxPassAutoChkCS"] = 0;
         	totals ["newRxFailAutoChk"] = 0;
+			totals ["newRxFailAutoChkCS"] = 0;
         	totals ["newRxRejectedByPharmacist"] = 0;
+			totals ["newRxRejectedByPharmacistCS"] = 0;
         	totals ["newRxFilled"] = 0;
+			totals ["newRxFilledCS"] = 0;
         	totals ["newRxInProcess"] = 0;
+			totals ["newRxInProcessCS"] = 0;
         	
         	totals.newRxCnt  = 0;
+			totals.newRxCntCS  = 0;
         	totals.newRxPharmDisabledAtHub  = 0;
         	totals.newRxRejectedAtHub  = 0;
+			totals.newRxRejectedAtHubCS  = 0;
         	totals.newRxPassAutoChk  = 0;
+			totals.newRxPassAutoChkCS  = 0;
         	totals.newRxFailAutoChk  = 0;
+			totals.newRxFailAutoChkCS  = 0;
         	totals.newRxRejectedByPharmacist  = 0;
+			totals.newRxRejectedByPharmacistCS  = 0;
         	totals.newRxFilled  = 0;
+			totals.newRxFilledCS  = 0;
         	totals.newRxInProcess  = 0;
+			totals.newRxInProcessCS  = 0;
             
         }
         else if(reportType === "autoCheckReport")
@@ -1156,7 +1267,9 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
 
             totals ["newRxCnt"] = 0;
         	totals ["newRxPassAutoChk"] = 0;
+			totals ["newRxPassAutoChkCS"] = 0;
         	totals ["newRxFailAutoChk"] = 0;
+			totals ["newRxFailAutoChkCS"] = 0;
         	totals ["newRxMviPatFound"] = 0;
         	totals ["newRxMviPatNotFound"] = 0;
         	totals ["newRxEneElgbEnrl"] = 0;
@@ -1170,7 +1283,9 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         		
         	totals.newRxCnt  = 0;
         	totals.newRxPassAutoChk  = 0;
+			totals.newRxPassAutoChkCS  = 0;
         	totals.newRxFailAutoChk  = 0;
+			totals.newRxFailAutoChkCS  = 0;
         	totals.newRxMviPatFound  = 0;
         	totals.newRxMviPatNotFound  = 0;
         	totals.newRxEneElgbEnrl  = 0;
@@ -1195,10 +1310,13 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         	totals ["newRxDuplicate"] = 0;
         	totals ["newRxInvalidQty"] = 0;
         	totals ["newRxDupTheraClass"] = 0;
-        	totals ["newRxCsNotAllowed"] = 0;
         	totals ["newRxMultiErrCallPharm"] = 0;
         	totals ["newRxIncorrectPharm"] = 0;
         	totals ["newRxErrCallPharm"] = 0;
+			totals ["newRxInvalidCsDs"] = 0;
+			totals ["newRxPrescriberCsCredInvalid"] = 0;
+			totals ["newRxPatientAddrMissing"] = 0;
+			totals ["newRxCsDateIssue"] = 0;
         		
         	totals.newRx  = 0;
         	totals.newRxInProcess  = 0;
@@ -1212,34 +1330,101 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         	totals.newRxDuplicate  = 0;
         	totals.newRxInvalidQty  = 0;
         	totals.newRxDupTheraClass  = 0;
-        	totals.newRxCsNotAllowed  = 0;
         	totals.newRxMultiErrCallPharm  = 0;
         	totals.newRxIncorrectPharm  = 0;
         	totals.newRxErrCallPharm  = 0;
+			totals.newRxInvalidCsDs = 0;
+			totals.newRxPrescriberCsCredInvalid = 0;
+			totals.newRxPatientAddrMissing = 0;
+			totals.newRxCsDateIssue = 0;
         	
              
         }
         else if(reportType === "erxSummaryReport")
         {
 
-            
-        	totals ["newRxCnt"] = 0;
-        	totals ["refillRequest"] = 0;
-        	totals ["refillResponse"] = 0;
-        	totals ["rxChangeRequest"] = 0;
-        	totals ["rxChangeResponse"] = 0;
-        	totals ["cancelRx"] = 0;
-        	totals ["cancelRxResponse"] = 0;
-        	totals ["rxFill"] = 0;
-        		
-        	totals.newRxCnt  = 0;
-        	totals.refillRequest  = 0;
-        	totals.refillResponse  = 0;
-        	totals.rxChangeRequest  = 0;
-        	totals.rxChangeResponse  = 0;
-        	totals.cancelRx  = 0;
-        	totals.cancelRxResponse  = 0;
-        	totals.rxFill = 0;
+            if (selected == "ALL")
+			{
+				totals ["newRxCnt"] = 0;
+				totals ["newRxCntCS"] = 0;
+				totals ["refillRequest"] = 0;
+				totals ["refillRequestCS"] = 0;
+				totals ["refillResponse"] = 0;
+				totals ["refillResponseCS"] = 0;
+				totals ["rxChangeRequest"] = 0;
+				totals ["rxChangeRequestCS"] = 0;
+				totals ["rxChangeResponse"] = 0;
+				totals ["rxChangeResponseCS"] = 0;
+				totals ["cancelRx"] = 0;
+				totals ["cancelRxCS"] = 0;
+				totals ["cancelRxResponse"] = 0;
+				totals ["cancelRxResponseCS"] = 0;
+				totals ["rxFill"] = 0;
+				totals ["rxFillCS"] = 0;
+				totals ["rxDoNotFillCS"] = 0;
+					
+				totals.newRxCnt  = 0;
+				totals.newRxCntCS  = 0;
+				totals.refillRequest  = 0;
+				totals.refillRequestCS  = 0;
+				totals.refillResponse  = 0;
+				totals.refillResponseCS  = 0;
+				totals.rxChangeRequest  = 0;
+				totals.rxChangeRequestCS  = 0;
+				totals.rxChangeResponse  = 0;
+				totals.rxChangeResponseCS  = 0;
+				totals.cancelRx  = 0;
+				totals.cancelRxCS  = 0;
+				totals.cancelRxResponse  = 0;
+				totals.cancelRxResponseCS  = 0;
+				totals.rxFill = 0;
+				totals.rxFillCS = 0;
+				totals.rxDoNotFillCS = 0;
+			}
+			
+			else if (selected == "CS")
+			{
+				totals ["newRxCntCS"] = 0;
+				totals ["refillRequestCS"] = 0;
+				totals ["refillResponseCS"] = 0;
+				totals ["rxChangeRequestCS"] = 0;
+				totals ["rxChangeResponseCS"] = 0;
+				totals ["cancelRxCS"] = 0;
+				totals ["cancelRxResponseCS"] = 0;
+				totals ["rxFillCS"] = 0;
+				totals ["rxDoNotFillCS"] = 0;
+					
+				totals.newRxCntCS  = 0;
+				totals.refillRequestCS  = 0;
+				totals.refillResponseCS  = 0;
+				totals.rxChangeRequestCS  = 0;
+				totals.rxChangeResponseCS  = 0;
+				totals.cancelRxCS  = 0;
+				totals.cancelRxResponseCS  = 0;
+				totals.rxFillCS = 0;
+				totals.rxDoNotFillCS = 0;
+			}
+			
+			else if (selected == "NONCS")
+			{
+				totals ["newRxCnt"] = 0;
+				totals ["refillRequest"] = 0;
+				totals ["refillResponse"] = 0;
+				totals ["rxChangeRequest"] = 0;
+				totals ["rxChangeResponse"] = 0;
+				totals ["cancelRx"] = 0;
+				totals ["cancelRxResponse"] = 0;
+				totals ["rxFill"] = 0;
+					
+				totals.newRxCnt  = 0;
+				totals.refillRequest  = 0;
+				totals.refillResponse  = 0;
+				totals.rxChangeRequest  = 0;
+				totals.rxChangeResponse  = 0;
+				totals.cancelRx  = 0;
+				totals.cancelRxResponse  = 0;
+				totals.rxFill = 0;
+			}
              
 
         }
@@ -1386,38 +1571,42 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
 				
                  for (var s in tempStringArray)
 			     {
-                	 
-					
-					 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
-					 
-					 divTable = divTable.concat(rowCellString);
-					 
-					 rowCellValue = tempStringArray[s];					
-					 
-					 if(typeof elementFormatterArray[s] ==='function')
+                	 if(selected == "ALL"   ||
+					    (s == 0 || s==1 || s==2 || s==3 || s==4) ||
+					   (selected == "CS"    && (s==6 || s==8 || s==10 || s==12 || s==14 || s==16 || s==18 || s==20 || s==21) ) || 
+					   (selected == "NONCS" && (s==5 || s==7 || s==9 || s==11 || s==13 || s==15 || s==17 || s==19) ))
 					 {
-					   rowCellFormatterElement = elementFormatterArray[s];						   
-					   // call the formatter function.
-					   tempHyperlink = rowCellFormatterElement(rowCellValue);					   
-					   
-					   divTable = divTable.concat(tempHyperlink);
-					 }
-                     else
-                     {						 
-                    	 if(rowCellValue == null || rowCellValue ==="null")
-	                	 {
-	                		  rowCellValue ="";
-	                	 }	 
-                    	 
-                    	 divTable = divTable.concat(rowCellValue);
-					 }
-                     					 
-					 
-								
-					 divTable = divTable.concat(divTableRowCellEnd);
+					
+						 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
+						 
+						 divTable = divTable.concat(rowCellString);
+						 
+						 rowCellValue = tempStringArray[s];							 
+						 
+						 if(typeof elementFormatterArray[s] ==='function')
+						 {
+						   rowCellFormatterElement = elementFormatterArray[s];						   
+						   // call the formatter function.
+						   tempHyperlink = rowCellFormatterElement(rowCellValue);					   
+						   
+						   divTable = divTable.concat(tempHyperlink);
+						 }
+						 else
+						 {						 
+							 if(rowCellValue == null || rowCellValue ==="null")
+							 {
+								  rowCellValue ="";
+							 }	 
+							 
+							 divTable = divTable.concat(rowCellValue);
+						 }
+											 
+						 
+									
+						 divTable = divTable.concat(divTableRowCellEnd);
 					 
 					
-					
+					 }
 				 }
 				
               
@@ -1655,3 +1844,10 @@ function generateDummyDivTable(layout, gridData, dataGridDivId) {
 				
 		
   }
+  
+  // drop down selection.
+function getSelected(selectBox) {
+	var selectedIndex = selectBox.options.selectedIndex;
+	var selected = selectBox.options[selectedIndex].value;
+	return selected;
+}

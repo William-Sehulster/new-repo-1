@@ -110,7 +110,7 @@ dojo.ready(function() {
 		
 	});
 	
-
+/*
     //M. Bolden - 5.0 - when eRx Type is selected different columns are available to view
 	dojo.connect(eRxWidjitID, "onchange", null, function(event) {
 		
@@ -121,7 +121,7 @@ dojo.ready(function() {
 		
 		var grid_obj = dijit.byId("summaryReportGrid4");
 		//var grid_obj_totals = dijit.byId("summaryReportTotals");
-		console.log("created Grid Object from SummaryReportGrid4");
+		console.log("created Grid Object from summaryReport");
 		grid_obj.beginUpdate();
 		//grid_obj_totals.beginUpdate();
 		
@@ -219,10 +219,10 @@ dojo.ready(function() {
 		}
 		grid_obj.endUpdate();
 		//grid_obj_totals.endUpdate();
-		buildErxSummaryReportTotalsGrid("summaryReportTotals", selected_eRx) 
+		//buildErxSummaryReportTotalsGrid("summaryReportTotals", selected_eRx) 
 	});	
 	
-	
+*/	
 	
 });	
 
