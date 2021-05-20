@@ -1000,17 +1000,10 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
-	try {
-		
-		//M. Bolden - 5.0 -  After master merge eRx Filter no longer work as intended as the widget
-		//                   being dynamically manipulated was removed. I will manipulate the table
-		//                   directly here everytime the table is called to be generated.  First I 
-		//                   need to know the value of the filter.
-		
+	try {	
 		var eRx_selectbox = dojo.byId("erxTypeSelection");
-		console.log("before selection Widget ID: : Data Grid Init Summary Report");
 		var selected_eRx = getSelected(eRx_selectbox);
-		console.log("after selection: Data Grid Init Summary Report");
+
 					
 		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
 		
@@ -1064,94 +1057,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 				    summaryReportRecNumber.innerHTML= recordsTotal;
 	           }
 			
-/*
-            if (selected_eRx == "ALL")
-			{
-				console.log("You have selected an eRx type of ALL");
-				
-				//Adjust Main Grid
-				//When the selection is ALL, make sure all columns are visible
-				grid.layout.setColumnVisibility(0, true);         //visn
-				grid.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid.layout.setColumnVisibility(4, true);         //#New Rx
-				grid.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid.layout.setColumnVisibility(18, true);        //#RxFill
-				grid.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill
-			}
-			
-			if (selected_eRx == "CS")
-			{
-				console.log("You have selected an eRx type of CS");
-				
-				//Adjust Main Grid
-				//When the selection is CS, make sure all columns that are CS are visible and those not CS are hidden
-				grid.layout.setColumnVisibility(0, true);         //visn
-				grid.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid.layout.setColumnVisibility(4, false);        //#New Rx
-				grid.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid.layout.setColumnVisibility(6, false);        //#RxRenewal Request
-				grid.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(8, false);        //#RxRenewal Request
-				grid.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(10, false);       //#RxChange Request
-				grid.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid.layout.setColumnVisibility(12, false);       //#RxChange Response	
-				grid.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid.layout.setColumnVisibility(14, false);       //#Cancel Rx Request
-				grid.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid.layout.setColumnVisibility(16, false);       //#Cancel Response
-				grid.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid.layout.setColumnVisibility(18, false);       //#RxFill
-				grid.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill
-			}
-			
-			if (selected_eRx == "NONCS")
-			{
-				console.log("You have selected an eRx type of NONCS");
-				
-				//Adjust main Grid
-				//When the selection is CS, make sure all columns that are not CS are visible and those CS are hidden
-				grid.layout.setColumnVisibility(0, true);         //visn
-				grid.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid.layout.setColumnVisibility(4, true);         //#New Rx
-				grid.layout.setColumnVisibility(5, false);        //CS #New Rx
-				grid.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid.layout.setColumnVisibility(7, false);        //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid.layout.setColumnVisibility(9, false);        //CS #RxRenewal Request
-				grid.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid.layout.setColumnVisibility(11, false);       //CS #RxChange Request
-				grid.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid.layout.setColumnVisibility(13, false);       //CS #RxChange Response
-				grid.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid.layout.setColumnVisibility(15, false);       //CS #Cancel Rx Request
-				grid.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid.layout.setColumnVisibility(17, false);       //CS #Cancel Response
-				grid.layout.setColumnVisibility(18, true);        //#RxFill
-				grid.layout.setColumnVisibility(19, false);       //CS #RxFill
-				grid.layout.setColumnVisibility(20, false);       //CS #RxDoNotFill
-			}
-	*/		// remove the grid widget
+		// remove the grid widget
 			dojo.destroy(grid);
 			 
 	} catch (err) {
@@ -1571,6 +1477,7 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) 
 				
                  for (var s in tempStringArray)
 			     {
+					 //M. Bolden - 5.0 - adjusting the table shown based off the user's selection fromt he eRx Type Filter
                 	 if(selected == "ALL"   ||
 					    (s == 0 || s==1 || s==2 || s==3 || s==4) ||
 					   (selected == "CS"    && (s==6 || s==8 || s==10 || s==12 || s==14 || s==16 || s==18 || s==20 || s==21) ) || 

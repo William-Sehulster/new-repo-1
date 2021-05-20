@@ -343,11 +343,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Inbound")) {	
 		//TODO:pull this query out of the code into a resource file 
         sql = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
-		/*
+		
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
         		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
-       */ 		
+        		
         		"        		  x.message_id rx_messageId,  \r\n" + 
         		"        		  x.rel_to_message_id,  \r\n" + 
         		"        		  decode(x.message_type,'RefillResponse', 'RxRenewalResponse', x.message_type) message_type,  \r\n" + 
@@ -732,6 +732,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 	        sql = sql + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
 	        		"        		  decode(x.message_type,'RefillRequest', 'RxRenewalRequest', x.message_type) message_type,  \r\n" + 
@@ -1686,6 +1689,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 			sql2017071 = sql2017071 + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
 	        		"        		  x.message_type,  \r\n" + 

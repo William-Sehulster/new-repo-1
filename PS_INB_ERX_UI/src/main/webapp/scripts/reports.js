@@ -42,7 +42,7 @@ dojo.ready(function() {
 		
 		if (selected == "SUMMRPT") {
 
-			//M. Bolden - 5.0 - set eRx Visibility to visible
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
 			eRxWidjitID.style.display = "none";			
 			
 			var valid = getSummaryReport();
@@ -90,7 +90,7 @@ dojo.ready(function() {
 		else if (selected == "ERXSUMMRPT") {
 
             console.log("reportSelection - On Change - getErxSummaryReport()");
-			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			//M. Bolden - 5.0 - set eRx Visibility to visible
 			eRxWidjitID.style.display = "block";
 			
 			var valid = getErxSummaryReport();
@@ -108,121 +108,7 @@ dojo.ready(function() {
 			toggleDivs();
 		}
 		
-	});
-	
-/*
-    //M. Bolden - 5.0 - when eRx Type is selected different columns are available to view
-	dojo.connect(eRxWidjitID, "onchange", null, function(event) {
-		
-		var eRx_selectbox = dojo.byId("erxTypeSelection");
-		console.log("before selection Widget ID: " + eRx_selectbox);
-		selected_eRx = getSelected(eRx_selectbox);
-		console.log("after selection");
-		
-		var grid_obj = dijit.byId("summaryReportGrid4");
-		//var grid_obj_totals = dijit.byId("summaryReportTotals");
-		console.log("created Grid Object from summaryReport");
-		grid_obj.beginUpdate();
-		//grid_obj_totals.beginUpdate();
-		
-		if (selected_eRx == "ALL") {
-
-				console.log("eRx Type Selection - On Change - ALL");
-				
-				//Adjust Main Grid
-				//When the selection is ALL, make sure all columns are visible
-				grid_obj.layout.setColumnVisibility(0, true);         //visn
-				grid_obj.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid_obj.layout.setColumnVisibility(4, true);         //#New Rx
-				grid_obj.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid_obj.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid_obj.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid_obj.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid_obj.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid_obj.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid_obj.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid_obj.layout.setColumnVisibility(18, true);        //#RxFill
-				grid_obj.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid_obj.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill	
-            				
-			}
-			
-		else if (selected_eRx == "CS") {
-			
-                console.log("eRx Type Selection - On Change - CS");
-				
-				//Adjust Main Grid
-				//When the selection is CS, make sure all columns that are CS are visible and those not CS are hidden
-				grid_obj.layout.setColumnVisibility(0, true);         //visn
-				grid_obj.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid_obj.layout.setColumnVisibility(4, false);        //#New Rx
-				grid_obj.layout.setColumnVisibility(5, true);         //CS #New Rx
-				grid_obj.layout.setColumnVisibility(6, false);        //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(7, true);         //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(8, false);        //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(9, true);         //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(10, false);       //#RxChange Request
-				grid_obj.layout.setColumnVisibility(11, true);        //CS #RxChange Request
-				grid_obj.layout.setColumnVisibility(12, false);       //#RxChange Response	
-				grid_obj.layout.setColumnVisibility(13, true);        //CS #RxChange Response
-				grid_obj.layout.setColumnVisibility(14, false);       //#Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(15, true);        //CS #Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(16, false);       //#Cancel Response
-				grid_obj.layout.setColumnVisibility(17, true);        //CS #Cancel Response
-				grid_obj.layout.setColumnVisibility(18, false);       //#RxFill
-				grid_obj.layout.setColumnVisibility(19, true);        //CS #RxFill
-				grid_obj.layout.setColumnVisibility(20, true);        //CS #RxDoNotFill	
-				
-		}
-		else if (selected_eRx == "NONCS") {
-            
-                console.log("eRx Type Selection - On Change - NONCS");
-				
-				//Adjust main Grid
-				//When the selection is CS, make sure all columns that are not CS are visible and those CS are hidden
-				grid_obj.layout.setColumnVisibility(0, true);         //visn
-				grid_obj.layout.setColumnVisibility(1, true);         //VA Station ID
-				grid_obj.layout.setColumnVisibility(2, true);         //NCPDP ID
-				grid_obj.layout.setColumnVisibility(3, true);	      //Pharmacyy Name
-				grid_obj.layout.setColumnVisibility(4, true);         //#New Rx
-				grid_obj.layout.setColumnVisibility(5, false);        //CS #New Rx
-				grid_obj.layout.setColumnVisibility(6, true);         //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(7, false);        //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(8, true);         //#RxRenewal Request
-				grid_obj.layout.setColumnVisibility(9, false);        //CS #RxRenewal Request
-				grid_obj.layout.setColumnVisibility(10, true);        //#RxChange Request
-				grid_obj.layout.setColumnVisibility(11, false);       //CS #RxChange Request
-				grid_obj.layout.setColumnVisibility(12, true);        //#RxChange Response	
-				grid_obj.layout.setColumnVisibility(13, false);       //CS #RxChange Response
-				grid_obj.layout.setColumnVisibility(14, true);        //#Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(15, false);       //CS #Cancel Rx Request
-				grid_obj.layout.setColumnVisibility(16, true);        //#Cancel Response
-				grid_obj.layout.setColumnVisibility(17, false);       //CS #Cancel Response
-				grid_obj.layout.setColumnVisibility(18, true);        //#RxFill
-				grid_obj.layout.setColumnVisibility(19, false);       //CS #RxFill
-				grid_obj.layout.setColumnVisibility(20, false);       //CS #RxDoNotFill
-				
-		}
-
-		else{
-                 console.log("You shouldn't be here! Something went wrong!");
-		}
-		grid_obj.endUpdate();
-		//grid_obj_totals.endUpdate();
-		//buildErxSummaryReportTotalsGrid("summaryReportTotals", selected_eRx) 
 	});	
-	
-*/	
 	
 });	
 
