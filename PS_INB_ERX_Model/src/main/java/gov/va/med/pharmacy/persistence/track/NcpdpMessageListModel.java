@@ -29,11 +29,39 @@ public class NcpdpMessageListModel {
 	private String prescriberDEA;
 	private String patientDob;
 	private String patientSsn;
-	//M. Bolden - 5.0 - added new columns
-	private String digitalSignature;
+	private String erx_type;
 	private String schedule;
-	private String erxType;
+	private String digital_signature;
 	
+	
+	public String getSchedule() {
+		//Convert code stored in DB to corresponding Roman Numeral
+		if (schedule.compareTo("C48675") == 0)
+			return "II";
+		else if (schedule.compareTo("C48676") == 0)
+			return "III";
+		else if (schedule.compareTo("C48677") == 0)
+			return "IV";
+		else if (schedule.compareTo("C48679") == 0)
+			return "V";
+		else		
+		    return "";
+	}
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+	public String getDigital_signature() {
+		return digital_signature;
+	}
+	public void setDigital_signature(String digital_signature) {
+		this.digital_signature = digital_signature;
+	}
+	public String getErx_type() {
+		return erx_type;
+	}
+	public void setErx_type(String erx_type) {
+		this.erx_type = erx_type;
+	}
 	public Number getInboundNcpdpMsgId() {
 		return inboundNcpdpMsgId;
 	}
@@ -176,47 +204,23 @@ public class NcpdpMessageListModel {
 		this.prescriberDEA = prescriberDEA;
 	}
 	
-	//M. Bolden - 5.0 - add getters and setters for new columns
-	public String getDigitalSignature() {
-		return digitalSignature;
-	}
-		
-	public void setDigitalSignature(String DigSig) {
-		this.digitalSignature = DigSig;
-	}
-		
-	public String getSchedule() {
-		return schedule;
-	}
-		
-	public void setSchedule(String sched) {
-		this.schedule = sched;
-	}
-		
-	public String geteRxType() {
-		return erxType;
-	}
-		
-	public void seteRxType(String erx_type) {
-		this.erxType = erx_type;
-	}
-	
 	// for CSV, order must match the order of headers for csv.
 	
 		public String[] getStringArray(){
 
-			//M. Bolden - 5.0 - Added needed additional columns for Controlled Substances 			
 			if (this.getInboundNcpdpMsgId() != null){
-				String[] stringArray = {this.getInboundNcpdpMsgId().toString(),
-	                    this.geteRxType(),              //5.0
+				String[] stringArray = {
+						this.getReceivedDate(),
+						this.getInboundNcpdpMsgId().toString(),
+						this.getErx_type(),
 						this.getMessageType(),
 						this.getPatientName(),
 						this.getPatientDob(),
 						this.getPatientSsn(),
 						this.getRxDrugPrescribed(),
-						this.getSchedule(),             //5.0
+						this.getSchedule(),
 						this.getRxMessageId(),
-						this.getDigitalSignature(),     //5.0
+						this.getDigital_signature(),
 						this.getPrescriberName(),
 						this.getPrescriberNpi(),
 						this.getPrescriberDEA(),
@@ -224,8 +228,7 @@ public class NcpdpMessageListModel {
 						this.getVaStationId(),
 						this.getPharmacyName(),
 						this.getPharmacyAddr1(),			
-						this.getRelToMessageid(),				
-						this.getReceivedDate(),				
+						this.getRelToMessageid(),								
 						this.getPatient_chk_status(),
 						this.getProvider_chk_status(),
 						this.getDrug_chk_status(),
@@ -250,7 +253,7 @@ public class NcpdpMessageListModel {
 						"",
 						"",
 						"",
-						"",
+						"",						
 						"",
 						"",
 						"",

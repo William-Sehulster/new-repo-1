@@ -4,7 +4,6 @@
 
 <html lang="en">
 <head>
-<title>Inbound eRx</title>
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="-1" />

@@ -17,7 +17,7 @@
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 
 
-
+<title>Pharmacy Management</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -59,7 +59,7 @@
 <form:form id="pharmacyFilterForm"  name="pharmacyFilterForm">
  
 
- <div id="NCPDP_ID_DIV" class="pharmacyManagementNCPDPIDDiv" style="display: block; opacity: 1;">
+ <div id="NCPDP_ID_DIV" tabindex="0" class="pharmacyManagementNCPDPIDDiv" style="display: block; opacity: 1;">
   <label for="ncpdpId" class="pharmacyManagementNCPDPIDInputLabel">
 	NCPDP ID:	
 	</label>
@@ -67,14 +67,14 @@
   
   </div>	  
   
-  <div id="PHARM_NAME_DIV" class="pharmacyManagementPharmacyNameDiv" style="display: block; opacity: 1;">
+  <div id="PHARM_NAME_DIV" tabindex="0" class="pharmacyManagementPharmacyNameDiv" style="display: block; opacity: 1;">
      <label for="pharmacyName" class="pharmacyManagementPharmacyNameInputLabel">
 	 Pharmacy Name:	
 	 </label>
 	 <input id="pharmacyName" class="pharmacyManagementPharmacyNameInput" type="text" value=""  size="20" maxlength="35" style="display: block; opacity: 1;" name="pharmacyName">
    
    
-	    <div class="pharmacyManagementVisnSelect">
+	    <div tabindex="0" class="pharmacyManagementVisnSelect">
 	           <label for="pharmacyFilterFormVisnSelect">VISN:&nbsp;&nbsp; </label> 			
 				 
 			 <div id="pharmacyFilterFormVisnSelectDiv"  role="option" aria-labeledby="VISN" style="width: 60px; margin-top: 0px;">
@@ -88,7 +88,7 @@
 	          </div>      
 	    </div>
    
-	   <div  class="pharmacyManagementStationIDDiv">
+	   <div  tabindex="0" class="pharmacyManagementStationIDDiv">
 	     <label for="pharmacyFilterFormStationIdSelect">Station ID:&nbsp;&nbsp;</label> 
 			<div id="pharmacyFilterFormStationIdSelectDiv"  aria-labeledby="Station ID" style="width: 136px; margin-top: 0px;">
 			
@@ -105,22 +105,24 @@
 <%-- End Inputs --%> 
 
  <div id="pharmacyManagementButton" class="displayable" style="display: block; opacity: 1;">
- <button dojoType="dijit.form.Button" type="button" id="pharmSearchButton" onclick="pharmacyManagementActions(this.id);" autofocus>Search</button> 
+ <button dojoType="dijit.form.Button" type="button" id="pharmSearchButton" onclick="pharmacyManagementActions(this.id);" >Search</button> 
  
   <button dojoType="dijit.form.Button" type="button" id="pharmSearchClearButton" onclick="pharmacyManagementActions(this.id);">Clear</button> 
   
   <button dojoType="dijit.form.Button" type="button" id="pharmManagementExportButton" onclick="pharmacyManagementActions(this.id);">Export</button>
     
   <button dojoType="dijit.form.Button" type="button" id="newPharmAddButton" onclick="pharmacyManagementActions(this.id);">Add Pharmacy </button>
+   
   </div>
     <br/>
 </form:form>
 
 <div class="pharmacyManagementGrid">
-<span id="pharmacyList" aria-labeledby="Pharmacy List" style="width: 1125px; height: 300px; display:block;"></span>
+<div id="pharmacyList" aria-labeledby="Pharmacy List" class="generatedDivTableParent"></div>
 
 <span id="pharmacyListDummy" aria-labeledby="Pharmacy List" style="width: 1125px; height: 213px; display:none;"></span>
  </div> 
+
 <span id="pharmMgmtRecNumberTitle" style="width: 250px;padding-top:20px;display: none;">
 Number of Records:
 <span id="pharmMgmtRecNumber" style="position:relative;top:-14px;left:112px;display: none;">
@@ -128,6 +130,7 @@ Number of Records:
 </span>
 </div>
 </div>
-
+<%-- remove Pharmacy information added successfully  --%>
+<c:remove var="messageData" scope="session" />
 <%-- end body --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutEnd.jsp" />

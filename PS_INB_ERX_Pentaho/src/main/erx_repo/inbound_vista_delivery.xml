@@ -487,7 +487,7 @@
     <created_user>admin</created_user>
     <created_date>2017/03/26 23:43:30.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/09/24 13:07:01.000</modified_date>
+    <modified_date>2020/12/08 09:08:58.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -554,11 +554,6 @@
   </connection>
   <order>
     <hop>
-      <from>check for retry</from>
-      <to>To Vista Check Failure Allow Retry</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Set MESSAGE to ERROR</from>
       <to>Get Date_Time</to>
       <enabled>Y</enabled>
@@ -566,6 +561,11 @@
     <hop>
       <from>Format Date-Time</from>
       <to>Generate random value</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>check for retry</from>
+      <to>To Vista Check Failure Allow Retry</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -1710,7 +1710,7 @@ select (select value from app_configuration where key = 'ERX_URL')||
 (select value from app_configuration where key = 'TO_VISTA_RS_URI')as url,
 '{"xmlInboundMessageId":"'||t.inbound_ncpdp_msg_id||'","division":"'||
 (select substr(va_station_id,1,3) from pharmacy where t.pharmacy_id = pharmacy_id)||'"}' as body,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;vistaSends>&lt;/vistaSends>')),'//vistaSends'), 0)) + 1 as runCount,
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;vistaSends>&lt;/vistaSends>')),'//vistaSends'), 0)) + 1 as runCount,
 nvl((select value from app_configuration where key = 'VISTA_RETRY'),0) as retry,
 t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,
 t.message_from provider_npi,
@@ -1728,8 +1728,8 @@ t.message_type as message_type,
 '' as vistaMessage,
 '' as errorMessage,
 clinic_id,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;cancelRxDenied>&lt;/cancelRxDenied>')),'//cancelRxDenied'), null)) as cancelRxDenied,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;relToOutboundNcpdpMsgId>&lt;/relToOutboundNcpdpMsgId>')),'//relToOutboundNcpdpMsgId'), null)) as relToOutboundNcpdpMsgId
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;cancelRxDenied>&lt;/cancelRxDenied>')),'//cancelRxDenied'), null)) as cancelRxDenied,
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;relToOutboundNcpdpMsgId>&lt;/relToOutboundNcpdpMsgId>')),'//relToOutboundNcpdpMsgId'), null)) as relToOutboundNcpdpMsgId
 from inbound_ncpdp_msg t, xmltable('/Message'
     passing t.message
     columns
@@ -2679,7 +2679,7 @@ commit;</sql>
     <created_user>admin</created_user>
     <created_date>2017/03/26 23:43:30.000</created_date>
     <modified_user>admin</modified_user>
-    <modified_date>2020/11/30 20:02:34.000</modified_date>
+    <modified_date>2020/12/08 09:10:03.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -3922,8 +3922,8 @@ t.message_type as message_type,
 '' as vistaMessage,
 '' as errorMessage,
 clinic_id,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;cancelRxDenied>&lt;/cancelRxDenied>')),'//cancelRxDenied'), null)) as cancelRxDenied,
-(nvl(extractvalue(xmltype(nvl(message_status_details,'&lt;relToOutboundNcpdpMsgId>&lt;/relToOutboundNcpdpMsgId>')),'//relToOutboundNcpdpMsgId'), null)) as relToOutboundNcpdpMsgId
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;cancelRxDenied>&lt;/cancelRxDenied>')),'//cancelRxDenied'), null)) as cancelRxDenied,
+(nvl(extractvalue(xmltype(decode(isxml_func(message_status_details),1,message_status_details,0,'&lt;relToOutboundNcpdpMsgId>&lt;/relToOutboundNcpdpMsgId>')),'//relToOutboundNcpdpMsgId'), null)) as relToOutboundNcpdpMsgId
 from inbound_ncpdp_msg t, xmltable('/Message'
     passing t.message
     columns
@@ -4400,7 +4400,7 @@ commit;</sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/30 15:26:35.000</modified_date>
+  <modified_date>2021/01/25 13:35:46.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -4894,7 +4894,7 @@ and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'Ca
 and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
 and pharmacy_id in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
-where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
+where rownum &lt;= ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
       <maximum_timeout>0</maximum_timeout>
       <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>
@@ -4952,7 +4952,7 @@ where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
   <created_user>admin</created_user>
   <created_date>2017/03/26 23:43:30.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2020/11/30 19:56:26.000</modified_date>
+  <modified_date>2021/01/25 13:35:20.000</modified_date>
   <parameters>
     <parameter>
       <name>INBOUND_NCPDP_MSG_ID</name>
@@ -5434,7 +5434,7 @@ and message_type in ('NewRx','RxRenewalResponse','RxChangeResponse','Error', 'Ca
 and received_date between sysdate - nvl((select value from app_configuration where key = 'TO_VISTA_LB_DYS'),4) and sysdate
 and pharmacy_id not in (${DEDICATED_VISTA_DLVRY_JOB_SITE_LIST})
 order by inbound_ncpdp_msg_id)
-where rownum &lt; ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
+where rownum &lt;= ${VISTA_DLVRY_JOB_BATCH_SIZE}</custom_sql>
       <add_rows_result>Y</add_rows_result>
       <maximum_timeout>0</maximum_timeout>
       <check_cycle_time>${VISTA_JOB_CHECK_CYCLE_TIME}</check_cycle_time>

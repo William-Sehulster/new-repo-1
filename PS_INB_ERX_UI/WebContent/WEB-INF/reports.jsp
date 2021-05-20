@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 <script type="text/javascript" src="/inbound/scripts/reports.js"> </script>
 
-
+<title>Reports</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -27,9 +27,16 @@
 <h1 class="titleBar"><span class="headerText">Reports</span></h1>
 <br/>
 
+ <div id="reportDropDownInfo" style="display: none;">
+      		 Selecting a value from the drop down menu will run the report automatically, and it will take sometime to load the result.
+  </div>	
+  <div id="reportSearchButtonInfo" style="display: none;">
+      		 The report will take sometime to load the result.
+  </div>
+
 <div id="report">
 	<label for="reportSelection">Select Report:&nbsp;&nbsp;</label> 
-	<select  id="reportSelection">
+	<select  id="reportSelection"  aria-describedby="reportDropDownInfo">
 		<option value=""></option>
 		<option value="SUMMRPT">Summary Report New Rx Only</option>
 		<option value="AUTOCHECKRPT">Auto Check Details Report</option>
@@ -77,7 +84,7 @@
     data-dojo-type="dijit/form/DateTextBox" required="true" />
     
  
-  <button dojoType="dijit.form.Button" type="button">Run Report
+  <button dojoType="dijit.form.Button" type="button" aria-describedby="reportSearchButtonInfo">Run Report
   <script type="dojo/method" event="onClick" args="evt">		
 		getSummaryReport();
   </script>
@@ -87,7 +94,7 @@
     <br/>
     </form>
     
-<span id="summaryReport" tabindex="0"  style="width: 1125px; height: 213px;"></span>
+<div id="summaryReport" tabindex="0"  class="generatedReportsDivTableParent"></div>
 <div id="summaryReportTotals" tabindex="0" style="overflow-x:auto; white-space: nowrap;"></div>
 <span id="reportRecNumberTitle" style="width: 250px;padding-top:10px;display: none;">
 Number of Records:

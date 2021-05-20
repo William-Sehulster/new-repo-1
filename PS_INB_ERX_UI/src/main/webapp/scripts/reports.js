@@ -10,24 +10,6 @@ dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
 
 var reportsLoadingDialog;
 
-function scrollFunction() {
-	var topGrid = null;
-	var bottomGrid = document.getElementById("summaryReportTotals");
-    var scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-    
-	topGrid0 = scrollGrid[0];
-    if (topGrid0 != null){
-        topGrid0.scrollLeft = bottomGrid.scrollLeft;}
-    topGrid1 = scrollGrid[1];
-    if (topGrid1 != null){
-        topGrid1.scrollLeft = bottomGrid.scrollLeft;}
-    topGrid2 = scrollGrid[2];
-    if (topGrid2 != null){
-        topGrid2.scrollLeft = bottomGrid.scrollLeft;}
-    topGrid3 = scrollGrid[3];
-    if (topGrid3 != null){
-        topGrid3.scrollLeft = bottomGrid.scrollLeft;}
-}
 
 dojo.addOnLoad(function() {
 	dojo.style(dojo.byId('summaryReport'), "display", "none");
@@ -48,17 +30,18 @@ dojo.ready(function() {
 	var scrollGrid = null;
 	var topGrid = null;
 	var bottomGrid = null;
-	
+
 	//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
 	var eRxWidjitID = dojo.byId('erxFilter');	
 	var selected_eRx = null;
+	
+	
 	
 	dojo.connect(selectBox, "onchange", null, function(event) {
 		selected = getSelected(selectBox);
 		
 		if (selected == "SUMMRPT") {
 
-            console.log("reportSelection - On Change - getSummaryReport()");
 			//M. Bolden - 5.0 - set eRx Visibility to visible
 			eRxWidjitID.style.display = "none";			
 			
@@ -66,22 +49,25 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();						
 				
 			}
 			
 		}
 		else if (selected == "AUTOCHECKRPT") {
+
 			
             console.log("reportSelection - On Change - getAutoCheckReport()");
 			//M. Bolden - 5.0 - set eRx Visibility to not visible
 			eRxWidjitID.style.display = "none";
 			
 			var valid = getAutoCheckReport();
+
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();				
+				
 			}
 
 			
@@ -96,7 +82,8 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();			
+				
 			}
 
 		}
@@ -110,18 +97,20 @@ dojo.ready(function() {
 			
 			if(valid == true){
 				
-				toggleDivs(selected);
+				toggleDivs();
+				
+				
 			}
 
 			
 		}
 		else{
-			toggleDivs(selected);
+			toggleDivs();
 		}
 		
 	});
 	
-
+/*
     //M. Bolden - 5.0 - when eRx Type is selected different columns are available to view
 	dojo.connect(eRxWidjitID, "onchange", null, function(event) {
 		
@@ -132,7 +121,7 @@ dojo.ready(function() {
 		
 		var grid_obj = dijit.byId("summaryReportGrid4");
 		//var grid_obj_totals = dijit.byId("summaryReportTotals");
-		console.log("created Grid Object from SummaryReportGrid4");
+		console.log("created Grid Object from summaryReport");
 		grid_obj.beginUpdate();
 		//grid_obj_totals.beginUpdate();
 		
@@ -230,9 +219,10 @@ dojo.ready(function() {
 		}
 		grid_obj.endUpdate();
 		//grid_obj_totals.endUpdate();
-		buildErxSummaryReportTotalsGrid("summaryReportTotals", selected_eRx) 
+		//buildErxSummaryReportTotalsGrid("summaryReportTotals", selected_eRx) 
 	});	
 	
+*/	
 	
 });	
 
@@ -253,7 +243,6 @@ function getSummaryReport() {
 	var formObject = dojo.formToObject(formId);
 	var validation = true;
 	
-	console.log("start getSummaryReport()");
 	
 	// limit To/From future dates.
 	var startDate = dijit.byId('dateFrom');
@@ -293,13 +282,18 @@ function getSummaryReport() {
 		if (selected == "SUMMRPT") {
 			showModalWin();
 			
+
 			console.log("getSummaryReport: eRx Summary Report Selected");			
 			
-			summaryReportDataGridInit("inb-erx","summaryReport", "summaryReport/getSummary?json=" + dojo.toJson(formObject) );
-			buildSummaryReportTotalsGrid("summaryReportTotals");
+			buildGridDataSource("/inbound/inb-erx/"  + "summaryReport/getSummary?json=" + dojo.toJson(formObject),summaryReportDataGridInit,"summaryReport" );			
+			
 			dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 			
-			hideModalWin();
+			hideModalWin();			
+			
+			toggleDivs();	
+			
+			
 		}
 		if (selected == "AUTOCHECKRPT") {
 						
@@ -308,18 +302,21 @@ function getSummaryReport() {
 			var valid = getAutoCheckReport();
 			
 			if(valid == true){
-				toggleDivs(selected);
+				toggleDivs();			
+				
 			}
 	
 		}
 		if (selected == "REJECTRESNRPT") {
-						
+
 			console.log("getSummaryReport: Reject Reasons Report Selected");
 			
 			var valid = getRejectReasonsReport();
 			
 			if(valid == true){
-				toggleDivs(selected);	
+				toggleDivs();	
+				
+				
 			}
 			
 		}
@@ -329,11 +326,12 @@ function getSummaryReport() {
 			
 			dojo.style("erxFilter", "visibility", "visible");
 			
-			
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){			
-				toggleDivs(selected);
+				toggleDivs();
+				
+				
 			}
 			
 		}
@@ -367,109 +365,13 @@ function getVisnSelect() {
 
 	 
 
-function toggleDivs(selected){
+function toggleDivs(){
 
     
-  if( selected == "SUMMRPT"){
-	  dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block"); 
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      dojo.style(dojo.byId('summaryReportGrid'), "display", "block");
-
-      if (dojo.byId('summaryReportGrid2') != null){
-      dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-      }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-  } else if ( selected == "AUTOCHECKRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid2') != null){
-    	
-    	  dojo.style(dojo.byId('summaryReportGrid2'), "display", "block");
-      }
-      
-      
-  } else if ( selected == "REJECTRESNRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid2') != null){
-          dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid4') != null){
-          dojo.style(dojo.byId('summaryReportGrid4'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid3') != null){
-      	
-    	  dojo.style(dojo.byId('summaryReportGrid3'), "display", "block");
-      }
-      
+	 dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
+     dojo.style(dojo.byId('summaryReport'), "display", "block"); 
+     dojo.style(dojo.byId('summaryReportTotals'), "display", "block");  
      
-  } else if ( selected == "ERXSUMMRPT") {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "block");
-      dojo.style(dojo.byId('summaryReport'), "display", "block");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "block");
-      if (dojo.byId('summaryReportGrid') != null){
-          dojo.style(dojo.byId('summaryReportGrid'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid2') != null){
-          dojo.style(dojo.byId('summaryReportGrid2'), "display", "none");
-          }
-      if (dojo.byId('summaryReportGrid3') != null){
-          dojo.style(dojo.byId('summaryReportGrid3'), "display", "none");
-          }
-      
-      if (dojo.byId('summaryReportGrid4') != null){
-        	
-    	  dojo.style(dojo.byId('summaryReportGrid4'), "display", "block");
-      }
-      
-     
-  } else {
-      dojo.style(dojo.byId('summaryReportFilter'), "display", "none");
-      dojo.style(dojo.byId('summaryReport'), "display", "none");
-      dojo.style(dojo.byId('summaryReportTotals'), "display", "none");
-  }
-  
-  scrollGrid = document.getElementsByClassName("dojoxGridScrollbox");	
-	
-	topGrid0 = scrollGrid[0];
-  if (topGrid0 != null){
-  	topGrid0.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-  topGrid1 = scrollGrid[1];
-  if (topGrid1 != null){
-  	topGrid1.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-  topGrid2 = scrollGrid[2];
-  if (topGrid2 != null){
-  	topGrid2.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-  topGrid3 = scrollGrid[3];
-  if (topGrid3 != null){
-  	topGrid3.style.padding = '0 0 1.4em 0';} //overlap and hide topGrid horizontal scrollbar
-  
-	bottomGrid = document.getElementById("summaryReportTotals");
-  if (bottomGrid != null){
-  	bottomGrid.addEventListener("scroll", scrollFunction);}
-  
 }
 
 
@@ -582,56 +484,46 @@ function clearSearch() {
 	   endDate.constraints.max = new Date();
 	}
 	 
-	 // reset Totals
+	
+	 var gridLayout = null;
 	 
-	 var newStore = new  dojo.data.ItemFileReadStore({data: {  identifier: "",  items: []}}); // clears the Grid
+	 var dummyData = new  dojo.data.ItemFileReadStore({data: {  identifier: "",  items: []}}); // clears the Grid	
 	 
-	 if (dojo.byId('summaryReportGrid') != null){
-		 var reportGrid = dijit.byId('summaryReportGrid'); 
-			
-		 reportGrid.set("noDataMessage","")
-		 
-		 reportGrid.selection.clear();
-		 reportGrid.setStore(newStore);
-		 reportGrid.startup();
-		 resetReportTotalsGrid("summaryReportTotals");
-			
-	 }
 	 
-	 if (dojo.byId('summaryReportGrid2') != null){
-		 var reportGrid = dijit.byId('summaryReportGrid2'); 
-			
-		 reportGrid.set("noDataMessage","")
-		 
-		 reportGrid.selection.clear();
-		 reportGrid.setStore(newStore);
-		 reportGrid.startup();
-		 resetReportTotalsGrid("summaryReportTotals");
-	 }
+	 var selected = null;
+	 var selectBox = dojo.byId("reportSelection");
 	 
-	 if (dojo.byId('summaryReportGrid3') != null){
-		 var reportGrid = dijit.byId('summaryReportGrid3'); 
+	 selected = getSelected(selectBox);	
 			
-		 reportGrid.set("noDataMessage","")
-		 
-		 reportGrid.selection.clear();
-		 reportGrid.setStore(newStore);
-		 reportGrid.startup();
-		 resetReportTotalsGrid("summaryReportTotals");
+		if (selected == "SUMMRPT") 
+		{
 
-	 }
-	 
-	 if (dojo.byId('summaryReportGrid4') != null){
-		 var reportGrid = dijit.byId('summaryReportGrid4'); 
+			 gridLayout = buildSummaryReportLayout(null, "summaryReport");
 			
-		 reportGrid.set("noDataMessage","")
-		 
-		 reportGrid.selection.clear();
-		 reportGrid.setStore(newStore);
-		 reportGrid.startup();
-		 resetReportTotalsGrid("summaryReportTotals");
+			
+		}
+		else if (selected == "AUTOCHECKRPT") 
+		{
 
-	 }
+			gridLayout = buildAutoCheckReportLayout(null, "summaryReport");			
+		}
+		else if (selected == "REJECTRESNRPT") 
+		{
+
+			gridLayout = buildRejectReasonsReportLayout(null, "summaryReport");		
+
+		}
+		else if (selected == "ERXSUMMRPT")
+		{
+
+			 gridLayout = buildErxSummaryReportLayout(null, "summaryReport");		
+		}
+	
+     // genertae dummy table.
+	 generateDummyDivTable(gridLayout,dummyData,"summaryReport");
+	 
+	 // reset Totals		
+	 resetReportTotalsGrid("summaryReportTotals");
 	 	 
 	 dojo.byId("reportRunDateTime").innerHTML = "";
 	 
@@ -672,10 +564,10 @@ function getRejectReasonsReport() {
 		
 	}
 	
-    showModalWin();
-    
-	rejectReasonsReportDataGridInit("inb-erx","summaryReport", "rejectReasonsReport/getReport?json=" + dojo.toJson(formObject) );
-	buildRejectReasonsReportTotalsGrid("summaryReportTotals");
+    showModalWin();    
+	
+	buildGridDataSource("/inbound/inb-erx/"  + "rejectReasonsReport/getReport?json=" + dojo.toJson(formObject),rejectReasonsReportDataGridInit,"summaryReport" );
+		
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();
@@ -716,10 +608,10 @@ function getAutoCheckReport() {
 		
 	}
 	
-    showModalWin();
-    
-	autoCheckReportDataGridInit("inb-erx","summaryReport", "autoCheckReport/getReport?json=" + dojo.toJson(formObject) );
-	buildAutoCheckReportTotalsGrid("summaryReportTotals");
+    showModalWin();	
+	
+	buildGridDataSource("/inbound/inb-erx/"  + "autoCheckReport/getReport?json=" + dojo.toJson(formObject),autoCheckReportDataGridInit,"summaryReport" );	
+	
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	
 	hideModalWin();
@@ -740,9 +632,11 @@ function getErxSummaryReport() {
 	var eRxTypeFilter = dojo.byId('erxTypeSelection');
     var eRxselected = getSelected(eRxTypeFilter);
 	
-	
 	if(startDate!=null)
 	{	
+	
+	
+		
 	  startDate.constraints.max = new Date();
 	}
 	
@@ -764,13 +658,9 @@ function getErxSummaryReport() {
 	}
 	
 	
-    showModalWin();
-    
-	erxSummaryReportDataGridInit("inb-erx","summaryReport", "erxSummaryReport/getReport?json=" + dojo.toJson(formObject), eRxselected );
+    showModalWin();    
 	
-	//if(eRxselected = "ALL" || eRxselected == "CS" || eRxselected == "NONCS")
-		buildErxSummaryReportTotalsGrid("summaryReportTotals", eRxselected);
-	
+	buildGridDataSource("/inbound/inb-erx/"  + "erxSummaryReport/getReport?json=" + dojo.toJson(formObject),erxSummaryReportDataGridInit,"summaryReport" );
 	
 	dojo.byId("reportRunDateTime").innerHTML = "Report as of:  " + getCurrentDateTimeForDisplay();
 	

@@ -1,0 +1,1 @@
+This version (4.0.6.009) includes minor defect fixes including section 508 defects, log4j upgrade for TRM compliance since the last scanned and submitted version (4.0.5.006).  

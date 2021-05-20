@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.json.JsonObject;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +82,7 @@ public class PharmacyManagementController {
 	private UserService userService;
 
 	
-	final private String[] DISALLOWED_FIELDS = new String[]{"updatedDate", "createdDate"};
+	final private String[] DISALLOWED_FIELDS = new String[]{"updatedDate", "createdDate, _csrf"};
 	
 	//TO-DO update with fields not to bind from form.
 	@InitBinder
@@ -755,13 +756,43 @@ public class PharmacyManagementController {
 		try {
 			String jsonString = JsonSanitizer.sanitize(json);
 			
+			// remove _csrf			
+			String formValues[] = jsonString.split(",");
+			
+			StringBuffer tempBuffer = new StringBuffer();
+			
+			for(String formVal: formValues) {
+				
+				String pharmData[]= formVal.split(":");
+				
+				String key=pharmData[0].trim();
+				String val=pharmData[1].trim();
+				
+				if( !"\"_csrf\"".equals(key))	{
+					
+					
+					tempBuffer.append(key).append(":").append(val).append(",");
+				}				
+				
+			}			
+			
+			
+			jsonString = tempBuffer.toString();
+			
+			if(jsonString.endsWith(","))
+			{
+				jsonString = jsonString.substring(0, jsonString.length()-1);	
+			}
+			
+			jsonString+="}";
+			
 			String csvFileName = "PharmacyList.csv";
 			
 			String responseHeaderKey = "Content-Disposition";
 			
 			String responseHeaderValue = String.format("attachment; filename=\"%s\"",   csvFileName);
 			
-			ObjectMapper jsonMapper = new ObjectMapper();
+			ObjectMapper jsonMapper = new ObjectMapper();			
 			
 			ManagePharmacyFilter managePharmacyFilter = jsonMapper.readValue(jsonString, ManagePharmacyFilter.class);
 			

@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
 <script type="text/javascript" src="/inbound/scripts/trackeRx.js"> </script>
 
-
+<title>Track/Audit eRx</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
@@ -46,6 +46,12 @@
 	
 </div> 
 </div>
+ <div id="trackAuditFromDateInfo" style="display: none;">
+    Please select or enter From Date in MM/DD/YYYY Format.
+ </div>
+ <div id="trackAuditToDateInfo" style="display: none;">
+    Please select or To Date in MM/DD/YYYY Format.
+ </div>
 <div style="width: 233px; padding-left: 5px;" >
 <label for="pharmacyVaStationId" style="width: 90px;height: 20px;padding-top:2px;">VA Station ID:</label>
 <input id="pharmacyVaStationId" name="pharmacyVaStationId"  data-dojo-type="dijit/form/TextBox" value="" maxlength="20" style="width: 127px;padding-top:0px;" title="Station ID of the VA pharmacy"></input> 
@@ -56,12 +62,12 @@
 	<c:set var ="yesterdaysDateVal" value="<%=new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)%>"/>
 	<fmt:formatDate  pattern="yyyy-MM-dd" value="${yesterdaysDateVal}" var="yesterdayDateFormatted"/>
 	<input type="text" name="dateFrom" id="dateFrom" constraints="{max: new Date()}" value="${yesterdayDateFormatted}" 
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="From Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditFromDateInfo" style="padding-top:0px;"/>
 </div>
 <div style="width: 350px;" title="Ending date range">
 	<label for="dateTo" style="width: 125px;height: 20px;padding-top:2px; padding-right: 29px;">To Date:</label> 
 	<input type="text" name="dateTo" id="dateTo" constraints="{max: new Date()}" value="now"
-    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="To Date in MM/DD/YYYY Format" style="padding-top:0px;"/>
+    data-dojo-type="dijit/form/DateTextBox" required="true"  aria-describedby="trackAuditToDateInfo" style="padding-top:0px;"/>
 </div>
 </div>
 
@@ -88,6 +94,7 @@
 <input id="relatedMessageId2" name="relatedMessageId" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Related to Message Identifier"></input>
 </div>
 
+
 <div style="width: 1100px;" >
 <label for="patientSsn2" style="width: 125px;height: 20px;padding-top:2px;">Patient SSN:</label>
 <input id="patientSsn2" name="patientSsn" data-dojo-type="dijit/form/ValidationTextBox" value="" style="width: 200px;"
@@ -97,7 +104,7 @@
  		return true;
  		}
  		return dojox.validate.us.isSocialSecurityNumber(text);
- 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number"  ></input>    
+ 		}, invalidMessage: 'The SSN value must in the format of ###-##-#### or #########', required: false" title="Patient Social Security Number, maximum characters allowed is 11."  ></input>    
 <label for="patientLastName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient Last Name:</label>
 <input id="patientLastName2" name="patientLastName" data-dojo-type="dijit/form/TextBox" value="" style="width: 200px;" maxlength="35" title="Patient Last Name"></input>
 <label for="patientFirstName2" style="width: 125px;height: 20px;padding-top:2px;padding-left:10px;">Patient First Name:</label>
@@ -157,37 +164,41 @@
 
 
 </div>
+ <div id="trackAuditSearchButtonInfo" style="display: none;">
+     The search will take sometime to load the result.
+  </div>
 
 <div style="width: 190px;">
-<button id="searchButton" type="button"></button>
+<button id="searchButton" type="button" aria-describedby="trackAuditSearchButtonInfo"></button>
 <button id="clearButton"  type="button"></button>
 <button id="exportButton"  type="button"></button>
 </div>
-<div style="width: 150px;" >
+<div style="width: 200px;" >
 <label for="recordSize" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">Max Records:</label> 
 <div id="recordSize" name="recordSizeValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Record Size">
 	<span value="100">100</span>
 	<span value="7500">7500</span>
 	<span value="10000">10000</span>
+	<span value="50000">50000</span>
 	<span value="100000">100000</span>	
 </div> 
 </div>
 
-<div style="width: 135px;" >
-<label for="erx_type" style="width: 60px;height: 20px;padding-top:4px;text-align: left;">eRx Type:</label> 
+<div style="width: 200px;" >
+<label for="erx_type" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">eRx Type:</label> 
 <div id="erx_type" name="erx_typeValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="eRx Type">
-	<span value="0">All</span>
-	<span value="1">CS</span>
-	<span value="2">Non-CS</span>
+	<span value="ALL">All</span>
+	<span value="CS">CS</span>
+	<span value="NONCS">Non-CS</span>	
 </div> 
 </div>
 
 <div style="width: 200px;" >
-<label for="Schedule" style="width: 60px;height: 20px;padding-top:4px;text-align: left;">Schedule:</label> 
-<div id="Schedule" name="ScheduleValue" value="" style="width: 80px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Schedule">
-	<span value="1">Schedule II</span>
-	<span value="2">Schedule III-IV</span>
-	<span value="0">Schedule II-V</span>
+<label for="Schedule" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">Schedule:</label> 
+<div id="schedule" name="scheduleValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Schedule">
+	<span value="II-V">Schedule II-V</span>
+	<span value="II">Schedule II</span>
+	<span value="III-IV">Schedule III-IV</span>	
 </div> 
 </div>
 
@@ -202,7 +213,8 @@
 <h2 class="h2title"><span class="reportTitle"></span></h2>
 <div id="queryStatus" style="width: 900px;padding-left: 5px;"></div>
 
-<span id="messageList" tabindex="0"  style="width: 1125px; height: 290px; display: block;"></span><br/>
+<div id="messageList" tabindex="0"  class="generatedDivTableParent"></div><br/>
+
 <span id="trackRecNumberTitle" style="width: 250px;display: none;">
 Number of Records:
 <span id="trackRecNumber" style="position:relative;top:-14px;left:112px;display: none;">
@@ -211,7 +223,7 @@ Number of Records:
 
 <%-- Related Message Start --%>
 <span id="relatedMessagesParentInfo" tabindex="0"  style="width: 1125px;margin-top:-30px;margin-bottom:10px;  display: none;"></span> 
-<span id="relatedMessagesList" tabindex="0"  style="width: 1125px; height: 290px; display: none;"></span>
+<div id="relatedMessagesList" tabindex="0"  class="generatedDivTableParent" style="display: none;"></div>
 <span id="trackRelatedMessagesRecNumberTitle" style="width: 250px;display: none;">
 <br/>
 Number of Records:
@@ -421,7 +433,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSig" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -527,7 +539,7 @@ Number of Records:
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
 	  <div class="ColumnLbls"> 	  
-	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px;" class="trackDataRight"> </div>	   
+	   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigDispensed" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>	   
 	  </div>
 	  </div>	  
 	  <div role="row" class="trackRowGroup">
@@ -731,7 +743,7 @@ Number of Records:
   </div>
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px;" class="trackDataRight"> </div>     
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>     
   </div>
   </div>
     <div role="row" class="trackRowGroup">
@@ -790,7 +802,7 @@ Number of Records:
   
   <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested2" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -853,7 +865,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested3" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -916,7 +928,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested4" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   
@@ -988,7 +1000,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested5" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1051,7 +1063,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">    
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px;" class="trackDataRight"> </div>    
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested6" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>    
   </div>
   </div>
   
@@ -1114,7 +1126,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">  
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested7" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1178,7 +1190,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px;" class="trackDataRight"> </div>  
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested8" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>  
   </div>
   </div>
   
@@ -1242,7 +1254,7 @@ Number of Records:
   
     <div role="row" class="trackRowGroup">
   <div class="ColumnLbls">   
-   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px;" class="trackDataRight"> </div>   
+   <div role="rowheader" class="trackLbl">SIG: </div> <div role="cell" id="rxSigRequested9" style="width: 1000px; word-break: break-word;" class="trackDataRight"> </div>   
   </div>
   </div>
   

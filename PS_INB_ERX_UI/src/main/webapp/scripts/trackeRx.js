@@ -8,7 +8,6 @@ dojo.require("dijit.Dialog");
 
 dojo.ready(function() {
 
-	console.log("Dojo Ready");
 	
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
@@ -216,7 +215,6 @@ dojo.ready(function() {
 
 
 require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, dom){
-    console.log("Related Message Button");
     var myButton = new Button({
         label: "Show Related Messages",
         onClick: function(){
@@ -230,7 +228,6 @@ require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, do
 
 
 require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, dom){
-    console.log("Print Button");
     var myButton = new Button({
         label: "Print",
         onClick: function(){
@@ -248,7 +245,6 @@ require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, do
 
 
 function printContent() {
-    console.log("printContent"); 
       var DocumentContainer = document.getElementById('result1');
     var styleSheets = 
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"/inbound/inb-erx/resources/dojo/resources/dojo.css\">" 
@@ -271,7 +267,6 @@ function printContent() {
 
 function buildVisnSelectDataSource(dataSourceURL, query) {
 	try {
-		console.log("buildVisnSelectDataSource");
 		var dataSource = new dojox.data.JsonQueryRestStore({
 			target : dataSourceURL,
 			idAttribute : "id"
@@ -284,7 +279,6 @@ function buildVisnSelectDataSource(dataSourceURL, query) {
 
 function trackAuditVisnSelectInit(servlet, parentContainer, dataSourceURL) {
 	try {
-		console.log("trackAuditVisnSelectInit");
 		var selectData = buildVisnSelectDataSource("/inbound/" + servlet + "/" + dataSourceURL);
 			
 		var selectId = parentContainer + 'Select';
@@ -327,8 +321,6 @@ function trackAuditVisnSelectInit(servlet, parentContainer, dataSourceURL) {
 
 
 function clearDetail(){
-	
-	console.log("clearDetail");
 		toggleTrackDivs("false");
 		
 		dojo.byId("queryStatus").innerHTML = "&nbsp;";
@@ -606,7 +598,6 @@ function getMessage(id, inOut,relatedMsg){
      var trackMessageListGrid = dijit.byId("messageListGrid");
      var trackMainGridMsgStatus = null;
      
-
      if(trackMessageListGrid!=null)
   	 {
   		
@@ -627,14 +618,12 @@ function getMessage(id, inOut,relatedMsg){
   		}
   	 }
      
-
+     
      var relatedMessagesGrid = dijit.byId("relatedMessagesListGrid");
      
      // message status for related message grid. 
      var messageStatus = null;
-	 
-	 
-
+    
      // By default the get message is set to inbound, it should be change based on the message for related messages.
  	if(relatedMessagesGrid!=null)
  	{
@@ -658,7 +647,7 @@ function getMessage(id, inOut,relatedMsg){
  		}
  	}	
   
-
+ 	
     var relatedMsgSearch="";
     
     if(relatedMsg!="null"  && relatedMsg == "true" ){
@@ -666,15 +655,7 @@ function getMessage(id, inOut,relatedMsg){
     	relatedMsgSearch ="true";
     	
     }
-	
-	//The code assumes right now that if the variable "inOut" is not "Outbound" it is currently set to
-	//"Inbound" and does not account for the fact that "Both can also be a selection.  The below code
-	//corrects this.
-	if (inOut.localeCompare("Outbound") != 0)
-		inOut = "Inbound";
-	
-	
-    console.log("getMessage5");
+
     var param1 = id;
     var param2 = inOut;
     var param3= relatedMsgSearch;
@@ -686,15 +667,11 @@ function getMessage(id, inOut,relatedMsg){
     var jsonStr = JSON.stringify(paramObj);
     var token = document.querySelector("meta[name='_csrf']").getAttribute("content");
     var header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-    
 
     var xhrHeader = '{"' + header + '" : "' + token + '"}';
-    console.log(xhrHeader);
-
+    //console.log(xhrHeader);
     var xhrHeaderObj = JSON.parse(xhrHeader);
-    console.log(xhrHeaderObj);
-
-	
+    //console.log(xhrHeaderObj);
     var  xhrArgs = {
       url: "getMessage",
       postData: "json=" + jsonStr,
@@ -702,11 +679,8 @@ function getMessage(id, inOut,relatedMsg){
       headers: xhrHeaderObj ,
       load: function(jsondata){
        var data = JSON.parse(jsondata);
-	   
-
-		
+        
         if (data.dataError != null){
-			console.log("getMessage load function1 Error");
         	if (data.dataError.search("actual 0") != -1){
         		dojo.byId("queryStatus").innerHTML = "No match found.";
         	}
@@ -1974,7 +1948,6 @@ function getMessage(id, inOut,relatedMsg){
 
 
 function toggleTrackDivs(showIt){
-  console.log("toggleTrackDivs");
   if( showIt == "true"){
 	  dojo.style(dojo.byId('result1'), "display", "block");
 	  dojo.style(dojo.byId('messageList'), "display", "none");
@@ -1999,7 +1972,8 @@ function toggleTrackDivs(showIt){
   } else {
       dojo.style(dojo.byId('result1'), "display", "none");
       dojo.style(dojo.byId('messageList'), "display", "block");
-      dojo.style(dojo.byId('messageList'), "height", "290px");
+      dojo.style(dojo.byId('messageList'), "height", "600px");
+      
       dojo.style(dojo.byId('showButtonDiv'), "display", "none");
       dojo.style(dojo.byId('searchCriteriaForm'), "display", "block"); 
       
@@ -2026,7 +2000,6 @@ function toggleTrackDivs(showIt){
 
 function setTrackAuditYesterdaysDefaultDate() {
 	
-	console.log("setTrackAuditYesterdaysDefaultDate");
 	var startDate = dijit.byId("dateFrom");
 	
 	var twoDaysOld = new Date(); 
@@ -2043,15 +2016,12 @@ function setTrackAuditYesterdaysDefaultDate() {
 
 function showRelatedMessages(){
 	 
-	      console.log("showRelatedMessages");
 	      dojo.style(dojo.byId('result1'), "display", "none");
 	      dojo.style(dojo.byId('relatedMessagesList'), "display", "none");
 
-          console.log("showRelatedMessages");
 	      getTrackRelatedMessagesGrid();
 	      
-	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");
-	      dojo.style(dojo.byId('relatedMessagesList'), "height", "290px");
+	      dojo.style(dojo.byId('relatedMessagesList'), "display", "block");	     
 	      
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumberTitle'), "display", "none");
 	      dojo.style(dojo.byId('trackRelatedMessagesRecNumber'), "display", "none");
@@ -2062,7 +2032,6 @@ function showRelatedMessages(){
 
 function validateDates(startDateVal, endDateVal) {
     
-	console.log("validateDates");
 	var compareValue = 0;
 	
 	// earliest date is June 1 2017 When Inbound eRx rolled out.

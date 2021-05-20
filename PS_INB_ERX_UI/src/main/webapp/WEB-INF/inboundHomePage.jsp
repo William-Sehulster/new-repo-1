@@ -12,7 +12,7 @@
 <%-- add page specific js --%>
 
 <script type="text/javascript" src="/inbound/scripts/inbound.js"> </script>
-
+<title>Inbound eRx</title>
 <%-- page body start --%>
 <jsp:include page="/WEB-INF/layouts/bodyLayoutStart.jsp" />
 
