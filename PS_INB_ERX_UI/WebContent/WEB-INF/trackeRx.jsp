@@ -184,22 +184,22 @@
 </div> 
 </div>
 
-<div style="width: 200px;" >
-<label for="erx_type" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">eRx Type:</label> 
-<div id="erx_type" name="erx_typeValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="eRx Type">
-	<span value="ALL">All</span>
-	<span value="CS">CS</span>
-	<span value="NONCS">Non-CS</span>	
-</div> 
+<div id="erx_filter">
+	<label for="erx_type" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >eRx Type:&nbsp;&nbsp;</label> 
+	<select  id="erx_type" name = "erx_typeValue">
+		<option value="ALL">All</option>
+		<option value="CS">CS</option>
+		<option value="NONCS">Non-CS</option>		
+	</select>
 </div>
 
-<div style="width: 200px;" >
-<label for="Schedule" style="width: 75px;height: 20px;padding-top:4px;text-align: left;">Schedule:</label> 
-<div id="schedule" name="scheduleValue" value="" style="width: 60px; margin-top: 0px;" data-dojo-type="dijit/form/Select" title="Schedule">
-	<span value="II-V">Schedule II-V</span>
-	<span value="II">Schedule II</span>
-	<span value="III-IV">Schedule III-IV</span>	
-</div> 
+<div id="schedule_filter">
+	<label for="Schedule" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >Schedule:&nbsp;&nbsp;</label> 
+	<select id="Schedule" name = "ScheduleValue">
+		<option value="II-V">Schedule II-V</option>
+		<option value="II">Schedule II</option>
+		<option value="III-IV">Schedule III-IV</option>		
+	</select>
 </div>
 
 </div>

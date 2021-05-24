@@ -7,6 +7,36 @@ dojo.require("dijit.Dialog");
 
 
 dojo.ready(function() {
+	
+		//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
+		var eRxWidjitID = dojo.byId('erx_type');	
+		var selected_eRx = null;
+		
+		//default filter to be not visible
+		dojo.style(dojo.byId('schedule_filter'), "display", "none")
+		
+			dojo.connect(eRxWidjitID, "onchange", null, function(event) {
+				
+			selected_eRx = getSelected(eRxWidjitID);
+			
+			//Show Schedule Filter
+			if(selected_eRx == "CS")
+			{
+				console.log("eRx Type of CS has been Selected");
+				dojo.style(dojo.byId('schedule_filter'), "display", "block");
+				
+			}
+			
+			//Disable/Hide Schedule Filter
+			else
+			{
+				console.log("eRx Type of either NONCS or ALL has been Selected");
+				dojo.style(dojo.byId('schedule_filter'), "display", "none");
+				
+				
+			}
+		
+		});
 
 	
 	require(["dojo/on","dojo/domReady!"], function(on) {
@@ -655,7 +685,15 @@ function getMessage(id, inOut,relatedMsg){
     	relatedMsgSearch ="true";
     	
     }
-
+	
+	//The code assumes right now that if the variable "inOut" is not "Outbound" it is currently set to
+	//"Inbound" and does not account for the fact that "Both can also be a selection.  The below code
+	//corrects this.
+	if (inOut.localeCompare("Outbound") != 0)
+		inOut = "Inbound";
+	
+	
+    console.log("getMessage5");
     var param1 = id;
     var param2 = inOut;
     var param3= relatedMsgSearch;
@@ -2068,5 +2106,12 @@ function validateDates(startDateVal, endDateVal) {
 	
 	
 	
+}
+
+// drop down selection.
+function getSelected(selectBox) {
+	var selectedIndex = selectBox.options.selectedIndex;
+	var selected = selectBox.options[selectedIndex].value;
+	return selected;
 }
 
