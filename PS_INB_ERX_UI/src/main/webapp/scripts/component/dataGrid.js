@@ -1478,7 +1478,8 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) 
                  for (var s in tempStringArray)
 			     {
 					 //M. Bolden - 5.0 - adjusting the table shown based off the user's selection fromt he eRx Type Filter
-                	 if(selected == "ALL"   ||
+                	 if(reportType != "erxSummaryReport" ||
+					    selected == "ALL"   ||
 					    (s == 0 || s==1 || s==2 || s==3 || s==4) ||
 					   (selected == "CS"    && (s==6 || s==8 || s==10 || s==12 || s==14 || s==16 || s==18 || s==20 || s==21) ) || 
 					   (selected == "NONCS" && (s==5 || s==7 || s==9 || s==11 || s==13 || s==15 || s==17 || s==19) ))
