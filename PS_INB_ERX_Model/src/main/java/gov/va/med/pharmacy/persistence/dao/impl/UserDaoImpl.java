@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -85,30 +87,17 @@ public class UserDaoImpl extends BaseDao<Integer, VaUser> implements UserDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VaUser> findUsersByStationIds(String stationIds, List<String> stationIdsList) {
-
-		Criteria criteria = createEntityCriteria();
-		
-		List<VaUser> users = new ArrayList<VaUser>();
-		
-		// if more than one station id, to avoid duplicate results.
-		if(stationIdsList.size()> 1){
-			
-			criteria.add(buildStringInCriterion("vaStationIds", stationIdsList));
-			
-			users = (List<VaUser>) criteria.list();
-		}
-		
-		
-		Criteria criteriaEq = createEntityCriteria();
-		
-		criteriaEq.add(Restrictions.eq("vaStationIds", stationIds));
-		
-		List<VaUser> usersEq = (List<VaUser>) criteriaEq.list();
-		
-		users.addAll(usersEq);
-        
-        return users;
-	}
+	public List<VaUser> findUsersByStationIds(String stationIds, List<String> stationIdsList) 
+	{
+	    Criteria criteria = createEntityCriteria();
+	    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+	    List<VaUser> users = new ArrayList<>();
+	    Disjunction disjunction = Restrictions.disjunction();
+	    for (String stationId : stationIdsList)
+	      disjunction.add(Restrictions.ilike("vaStationIds", stationId, MatchMode.ANYWHERE)); 
+	    criteria.add(disjunction);
+	    users = criteria.list();
+	    return users;
+	  }
 
 }
