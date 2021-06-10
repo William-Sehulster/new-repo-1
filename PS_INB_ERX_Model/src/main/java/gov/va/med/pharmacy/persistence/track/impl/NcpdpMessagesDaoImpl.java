@@ -345,9 +345,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         sql = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
 		
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
-        		
         		"        		  x.message_id rx_messageId,  \r\n" + 
         		"        		  x.rel_to_message_id,  \r\n" + 
         		"        		  decode(x.message_type,'RefillResponse', 'RxRenewalResponse', x.message_type) message_type,  \r\n" + 
@@ -733,7 +732,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 	        sql = sql + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
@@ -1267,7 +1266,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			//TODO:pull this query out of the code into a resource file 
 			sql2017071 = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
 	        	"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-	        	"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+	        	"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
 	        	"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
         		"        		  x.message_id rx_messageId,  \r\n" + 
         		"        		  x.rel_to_message_id,  \r\n" + 
@@ -1690,7 +1689,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 			sql2017071 = sql2017071 + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
@@ -2349,13 +2348,14 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"    and nvl(upper(x.rx_Drug_Prescribed),' ') like ? \r\n";
 		
 		//erx_typeValue - eRxType - ERX_TYPE		
-				if (eRxType.length() > 0){
+				if  (eRxType.length() > 0)   {
 					sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";
 				}
 		//ScheduleValue - SCHEDULE - schedule	
-				if (schedule.length() > 0){
+		//		if ( (schedule.length() > 0 ) && (eRxType.equals("CS")) ){
+				if  (schedule.length() > 0 )  {
 				sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.SCHEDULE in " + schedule + " \r\n";
-				}
+						}
 		
 			
 			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both"))
@@ -2375,7 +2375,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			
         sql_inbound = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
                 "p.visn visn,\r\n" +
                 "p.va_station_id va_station_id,\r\n" +
@@ -2436,7 +2436,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		sql2017071_inbound = "    union all\r\n" +
         		"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-        		"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
         		"p.visn visn,\r\n" +
         		"p.va_station_id va_station_id,\r\n" +
@@ -2507,7 +2507,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"t.digital_signature digital_signature, \r\n" +
 */
 					"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-					"decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+					"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
 					"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
 	                "p.visn visn,\r\n" +
 	                "p.va_station_id va_station_id,\r\n" +
@@ -2572,7 +2572,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    t.digital_signature digital_signature, \r\n" +	 
 */
 					"    decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
-					"    decode(t.schedule, null, '-null-', t.schedule) schedule, \r\n" +
+					"    decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
 					"    decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
 	        		"    p.visn visn,\r\n" +
 	        		"    p.va_station_id va_station_id,\r\n" +
