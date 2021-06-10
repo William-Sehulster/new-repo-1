@@ -11,13 +11,17 @@ dojo.ready(function() {
 		//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
 		var eRxWidjitID = dojo.byId('erx_type');	
 		var selected_eRx = null;
+		// Elsa Chen -5.0 -populate the value of schedule selection
+		var scheduleWidjitID = dojo.byId('Schedule');	
+		var selected_schedule = null;
 		
 		//default filter to be not visible
-		dojo.style(dojo.byId('schedule_filter'), "display", "none")
+		dojo.style(dojo.byId('schedule_filter'), "display", "none");
 		
 			dojo.connect(eRxWidjitID, "onchange", null, function(event) {
 				
 			selected_eRx = getSelected(eRxWidjitID);
+			dijit.byId("erx_typeValue").set("value",selected_eRx);
 			
 			//Show Schedule Filter
 			if(selected_eRx == "CS")
@@ -32,12 +36,21 @@ dojo.ready(function() {
 			{
 				console.log("eRx Type of either NONCS or ALL has been Selected");
 				dojo.style(dojo.byId('schedule_filter'), "display", "none");
-				
+				dijit.byId("ScheduleValue").set("value","");
 				
 			}
 		
 		});
 
+// Elsa Chen -5.0 -populate the value of schedule selection
+		
+				dojo.connect(scheduleWidjitID, "onchange", null, function(event) {
+					
+				selected_schedule = getSelected(scheduleWidjitID);
+				dijit.byId("ScheduleValue").set("value",selected_schedule);
+						});
+			
+			
 	
 	require(["dojo/on","dojo/domReady!"], function(on) {
 	    on(document, "keyup", function(event) {
