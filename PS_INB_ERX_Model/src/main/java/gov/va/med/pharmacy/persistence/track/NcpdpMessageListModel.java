@@ -33,20 +33,9 @@ public class NcpdpMessageListModel {
 	private String schedule;
 	private String digital_signature;
 	
-	
 	public String getSchedule() {
-		//Convert code stored in DB to corresponding Roman Numeral
-		if (schedule.compareTo("C48675") == 0)
-			return "II";
-		else if (schedule.compareTo("C48676") == 0)
-			return "III";
-		else if (schedule.compareTo("C48677") == 0)
-			return "IV";
-		else if (schedule.compareTo("C48679") == 0)
-			return "V";
-		else		
-		    return "";
-	}
+		return schedule;
+	}	
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
 	}

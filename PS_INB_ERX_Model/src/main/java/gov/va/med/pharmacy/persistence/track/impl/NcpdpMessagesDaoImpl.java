@@ -2352,6 +2352,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 					sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";
 				}
 		//ScheduleValue - SCHEDULE - schedule	
+
 		//		if ( (schedule.length() > 0 ) && (eRxType.equals("CS")) ){
 				if  (schedule.length() > 0 )  {
 				sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.SCHEDULE in " + schedule + " \r\n";

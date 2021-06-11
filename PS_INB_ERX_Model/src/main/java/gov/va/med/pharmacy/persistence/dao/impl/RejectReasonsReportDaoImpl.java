@@ -88,6 +88,7 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxPrescriberCsCredInvalid").as("newRxPrescriberCsCredInvalid"))
 				.add(Projections.sum("newRxPatientAddrMissing").as("newRxPatientAddrMissing"))
 				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue"))
+				.add(Projections.sum("other").as("other"))
 				);
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
@@ -164,7 +165,8 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxInvalidCsDs").as("newRxInvalidCsDs"))
 				.add(Projections.sum("newRxPrescriberCsCredInvalid").as("newRxPrescriberCsCredInvalid"))
 				.add(Projections.sum("newRxPatientAddrMissing").as("newRxPatientAddrMissing"))
-				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue")));
+				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue"))
+				.add(Projections.sum("other").as("other")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
 		

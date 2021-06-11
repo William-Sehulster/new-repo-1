@@ -223,8 +223,8 @@ function buildTrackGridLayout(servlet, target) {
 	
 	var obj = new Object();
 	obj["field"] = 'digital_signature';
-	obj["name"] = 'Digital Signature';
-	obj["width"] = "120px";
+	obj["name"] = 'Prescriber DS';
+	obj["width"] = "100px";
 	//obj["noresize"] = 'true';
 	layout.push(obj);	
 	

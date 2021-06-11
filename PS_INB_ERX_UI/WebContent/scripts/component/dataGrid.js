@@ -264,7 +264,7 @@ function buildAutoCheckReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
-	obj["field"] = 'newRxPassAutoChkCs';
+	obj["field"] = 'newRxPassAutoChkCS';
 	obj["name"] = "#Passed Autocheck CS";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
@@ -280,7 +280,7 @@ function buildAutoCheckReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
-	obj["field"] = 'newRxFailAutoChkCs';
+	obj["field"] = 'newRxFailAutoChkCS';
 	obj["name"] = "#Failed Autocheck CS";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
@@ -558,6 +558,15 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'Other';
+	obj["name"] = "#Other";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 	return layout;
 }
 
@@ -1223,6 +1232,7 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) 
 			totals ["newRxPrescriberCsCredInvalid"] = 0;
 			totals ["newRxPatientAddrMissing"] = 0;
 			totals ["newRxCsDateIssue"] = 0;
+			totals ["Other"] = 0;
         		
         	totals.newRx  = 0;
         	totals.newRxInProcess  = 0;
@@ -1243,6 +1253,7 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) 
 			totals.newRxPrescriberCsCredInvalid = 0;
 			totals.newRxPatientAddrMissing = 0;
 			totals.newRxCsDateIssue = 0;
+			totals.Other = 0;
         	
              
         }

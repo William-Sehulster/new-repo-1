@@ -366,6 +366,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				inboundeRx.seterxtype("CS");
 				inboundeRx.setdigitalsignature("TRUE");
 				inboundeRx.setschedule(validateDS.getSchedule());
+				inboundeRx.setdonotfill(validateDS.getDoNotFill());
 				//Digital Signature Valid: set Digital Signature information
 				//StringBuffer responseBuffer_Ds = new StringBuffer(DIGITAL_SIGNATURE_START);
 				String emptyStr = new String("");
@@ -394,6 +395,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				inboundeRx.setdigitalsignature("VERIFIED");
 				 inb_checkpoint=20; //20
 				inboundeRx.setschedule(validateDS.getSchedule());
+				inboundeRx.setdonotfill(validateDS.getDoNotFill());
 				 inb_checkpoint++; //21
 				//HasDigitalSignature already and Varify Digital Signature successfully
 				String emptyStr = new String("");
@@ -420,6 +422,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 					inboundeRx.seterxtype("CS");
 					inboundeRx.setdigitalsignature("FAILED");
 					inboundeRx.setschedule(validateDS.getSchedule());
+					inboundeRx.setdonotfill(validateDS.getDoNotFill());
 					inboundeRx.setErxStatusByMessageStatus("3006"); //NCPDP_MSG_INVALID
 					inb_checkpoint++; //31
 					String emptyStr = new String("");
@@ -443,6 +446,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				inboundeRx.seterxtype("NONCS");
 				inboundeRx.setdigitalsignature("FALSE");
 				inboundeRx.setschedule(validateDS.getSchedule());
+				inboundeRx.setdonotfill(validateDS.getDoNotFill());
 //				inboundeRx.setErxStatusByMessageStatus("3006"); //NCPDP_MSG_INVALID
 				
 			}
@@ -452,6 +456,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				inboundeRx.seterxtype("NONCS");
 				inboundeRx.setdigitalsignature("NULL");
 				inboundeRx.setschedule(validateDS.getSchedule());
+				inboundeRx.setdonotfill(validateDS.getDoNotFill());
 			 }
 			
 			inb_checkpoint=40; //40 

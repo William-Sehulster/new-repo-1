@@ -53,6 +53,8 @@ public class ValidateDigitalSignature {
 	
 	private String schedule_code="";
 	
+	private String donotfill="";
+	
 	private String incomingMsg_digestMethod;
 	
 
@@ -92,6 +94,7 @@ public class ValidateDigitalSignature {
 		    	boolean bPatientHeader = false;
 		    	boolean bPrescriberHeader = false;
 		    	boolean bMedicationPrescribedHeader = false;
+		    	boolean bMedicationResponseHeader = false;		    
 		    	
 		    	// DS data.
 		    	boolean bDSIndicator = false;
@@ -117,6 +120,7 @@ public class ValidateDigitalSignature {
 			    boolean bDateTime = false;
 				boolean bSchedule = false;
 				boolean bScheduleCode = false;
+				boolean bDoNotFill = false;
 			    
 			    @Override
 			    public void startElement(String uri, String localName,String qName, 
@@ -132,6 +136,10 @@ public class ValidateDigitalSignature {
 			    	
 			    	if (qName.equalsIgnoreCase("MedicationPrescribed")) {
 			    		bMedicationPrescribedHeader = true;
+			        }
+			    	
+			    	if (qName.equalsIgnoreCase("MedicationResponse")) {
+			    		bMedicationResponseHeader = true;
 			        }
 			    	
 			    	if (qName.equalsIgnoreCase("DigitalSignatureIndicator")) {
@@ -211,6 +219,10 @@ public class ValidateDigitalSignature {
 					if (qName.equalsIgnoreCase("Code") && bMedicationPrescribedHeader == true && bSchedule == true ){
 						bScheduleCode = true;
 					}
+					
+					if (qName.equalsIgnoreCase("Code") && bMedicationResponseHeader == true && bSchedule == true ){
+						bScheduleCode = true;
+					}
 			        
 			        if (qName.equalsIgnoreCase("Value")) {
 			        	bValue = true;
@@ -223,7 +235,10 @@ public class ValidateDigitalSignature {
 			        if (qName.equalsIgnoreCase("DateTime")) {
 			        	bDateTime = true;
 			        }
-
+			        
+			        if (qName.equalsIgnoreCase("DoNotFill")) {
+			        	bDoNotFill = true;
+			        }
 			    }
 			    
 			    @Override
@@ -351,6 +366,12 @@ public class ValidateDigitalSignature {
 						schedule_code = new String(ch, start, length);
 						bSchedule = false;
 					}
+					
+					if (bDoNotFill) {
+						
+						donotfill = new String(ch, start, length);
+						bDoNotFill = false;
+					}					
 
 		            if (bValue) {
 		            	elementsToSignWith.add(new String(ch, start, length));
@@ -691,6 +712,11 @@ public class ValidateDigitalSignature {
 	public String getSchedule() {
 		
 		return schedule_code;
+	}
+	
+	public String getDoNotFill() {
+		
+		return donotfill;
 	}
  // Start ELSA
     public String getTestingPubKeyString() {
