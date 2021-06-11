@@ -207,8 +207,8 @@ public class TrackRxController {
 			String schedule_term = node.get("ScheduleValue").asText().toUpperCase().trim();
 			if ( schedule_term.equals("II") ){
 				schedule = "('C48675')"; }//Schedule II
-			else if ( schedule_term.equals("III-IV") ){
-				schedule = "('C48676','C48677')"; }//Schedule III-IV
+			else if ( schedule_term.equals("III-V") ){
+				schedule = "('C48676','C48677', 'C48679')"; }//Schedule III-V
 			else if ( schedule_term.equals("II-V") ){
 				schedule = "('C48675','C48676','C48677','C48679')"; }//Schedule II-V
 //			else if ( schedule_term.equals("ALL") ){
