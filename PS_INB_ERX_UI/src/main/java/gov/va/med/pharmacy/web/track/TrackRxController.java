@@ -81,7 +81,7 @@ public class TrackRxController {
 	
 	//M. Bolden - 5.0 - Added additional table header columns "eRx Type", "Schedule", and "Digital Signature"
 	
-	private static final String[] TRACK_AUDIT_HEADERS = { "Received Date", "eRx Reference #","eRx Type","Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Schedule", "Message Id", "Digital Signature", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
+	private static final String[] TRACK_AUDIT_HEADERS = { "Received Date", "eRx Reference #","eRx Type","Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Schedule", "Message Id", "Prescriber DS", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
             "Relates to Message ID", "Patient AutoCheck Status","Provider AutoCheck Status",
             "Drug AutoCheck Status","Message Status"};
 	

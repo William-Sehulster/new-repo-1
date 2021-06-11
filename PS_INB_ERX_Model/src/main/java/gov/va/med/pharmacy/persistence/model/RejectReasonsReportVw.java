@@ -44,6 +44,7 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	private long newRxPrescriberCsCredInvalid;
 	private long newRxPatientAddrMissing;
 	private long newRxCsDateIssue;
+	private long other;
 	private Date newRxMessageDate;
 	
 
@@ -61,7 +62,7 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 			String pharmacyAddress, long newRx, long newRxInProcess, long newRxRejectedByPharmacist, long newRxPatientNotElig,
 			long newRxPatientNotFound, long newRxProviderNotElig, long newRxProviderNotFound, long newRxNotEligRefills, long newRxNonFormulary, long newRxDuplicate,
 			long newRxInvalidQty, long newRxDupTheraClass, long newRxMultiErrCallPharm, long newRxIncorrectPharm, long newRxErrCallPharm, long newRxInvalidCsDs,
-			long newRxPrescriberCsCredInvalid, long newRxPatientAddrMissing, long newRxCsDateIssue, Date newRxMessageDate) {
+			long newRxPrescriberCsCredInvalid, long newRxPatientAddrMissing, long newRxCsDateIssue, long other, Date newRxMessageDate) {
 				
 		this.pharmacyNcpdpId = pharmacyNcpdpId;
 		this.pharmacyVaStationId = pharmacyVaStationId;
@@ -88,6 +89,7 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 		this.newRxPatientAddrMissing = newRxPatientAddrMissing;
 		this.newRxCsDateIssue = newRxCsDateIssue;
 		this.newRxMessageDate = newRxMessageDate;
+		this.other = other;
 	}
 
 	@Column(name = "PHARMACY_NCPDP_ID", nullable = false, length = 7)
@@ -299,6 +301,15 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	public void setNewRxCsDateIssue(long newRxCsDateIssue) {
 		this.newRxCsDateIssue = newRxCsDateIssue;
 	}
+	
+	@Column(name = "NEW_RX_OTHER", precision = 22, scale = 0)
+	public long getOther() {
+		return other;
+	}
+
+	public void setOther(long other) {
+		this.other = other;
+	}	
 
 	@Column(name = "NEW_RX_MESSAGE_DATE", length = 8)
 	public Date getNewRxMessageDate() {
@@ -346,7 +357,8 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 					String.valueOf(this.getNewRxInvalidCsDs()),
 					String.valueOf(this.getNewRxPrescriberCsCredInvalid()),
 					String.valueOf(this.getNewRxPatientAddrMissing()),
-					String.valueOf(this.getNewRxCsDateIssue())
+					String.valueOf(this.getNewRxCsDateIssue()),
+					String.valueOf(this.getOther())
 		};
 		
 		return stringArray;

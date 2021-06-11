@@ -44,12 +44,12 @@ public class RejectReasonsReportController {
 			"#NewRx", "#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
 			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", 
 			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)", "#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", 
-			"#CS eRx Date Problem"};
+			"#CS eRx Date Problem", "#Other"};
 
 	private static final String[] REJECT_REASONS_REPORT_TOTALS_HEADER = {"#NewRx", "#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
 			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", 
 			"#Incorrect Pharmacy", "#Contact Pharm (ERR03)", "#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", 
-			"#CS eRx Date Problem"};
+			"#CS eRx Date Problem", "#Other"};
 	
 	@Autowired
 	private RejectReasonsReportService rejectReasonsReportService;
@@ -235,7 +235,7 @@ public class RejectReasonsReportController {
 		
 		String[][] summaryReportHeaders = { {"#NewRx","#Accepted by Pharmacy", "#Rejected by Pharmacy", "#Patient Not Eligible", "#Cannot Resolve Patient", "#Provider Not Eligible", "#Cannot Resolve Provider",
 			"#Not Eligible for Refills", "#Non-formulary", "#Duplicate Rx", "#Invalid Qty", "#Duplicate Therapeutic Class", "#Contact Pharm (ERR01)", "#Incorrect Pharmacy", "#Contact Pharm (ERR03)", 
-			"#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", "#CS eRx Date Problem"}};
+			"#Missing/Bad CS DS", "#Prescriber's CS Credential Not Appropriate", "#Patient's Address Missing/Mismatched", "#CS eRx Date Problem", "#Other"}};
 		
 		int sumVal = 0;
 		
