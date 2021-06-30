@@ -94,7 +94,10 @@ public class UserDaoImpl extends BaseDao<Integer, VaUser> implements UserDao{
 	    List<VaUser> users = new ArrayList<>();
 	    Disjunction disjunction = Restrictions.disjunction();
 	    for (String stationId : stationIdsList)
-	      disjunction.add(Restrictions.ilike("vaStationIds", stationId, MatchMode.ANYWHERE)); 
+	    {
+	    	disjunction.add(Restrictions.ilike("vaStationIds", stationId, MatchMode.START)); 
+	    	disjunction.add(Restrictions.ilike("vaStationIds", ","+stationId, MatchMode.ANYWHERE)); 
+	    }
 	    criteria.add(disjunction);
 	    users = criteria.list();
 	    return users;
