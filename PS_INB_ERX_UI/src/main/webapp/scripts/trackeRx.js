@@ -216,7 +216,10 @@ dojo.ready(function() {
 			 inboundNcpdpMessageIdBox.set("value", "");
 			 
 			 dojo.style(dojo.byId('messageList'), "display", "none");
-			 
+			 // clear erx_type
+			 var eRxTypeSelection = dojo.byId('erx_type');
+			 eRxTypeSelection.selectedIndex = 0;
+			 dojo.style(dojo.byId('schedule_filter'), "display", "none");
 	           }
 	        }, "clearButton").startup();
 	        
