@@ -84,6 +84,9 @@ public class ValidateDigitalSignature {
 		try {
 
 		    SAXParserFactory factory = SAXParserFactory.newInstance();
+		    //Elsa.Chen - Fortify-An XML parser should be configured securely so that it does not allow external entities as part of an incoming XML document
+		    factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+		    factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);	
 		    SAXParser saxParser = factory.newSAXParser();
 		    XMLReader xmlReader = saxParser.getXMLReader();
 
