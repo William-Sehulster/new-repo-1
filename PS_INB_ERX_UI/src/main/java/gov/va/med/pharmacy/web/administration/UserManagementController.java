@@ -136,53 +136,34 @@ public class UserManagementController {
 	}
 
 	private List<UserManagementModel> getUsersAndRoles() {
-		
-		// Filter user list by the logged in user's station ids.
-		
-		Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-		
 		List<VaUser> userList;
-		
-		VaUser currentUser = userService.findByVAUserID((String)authentication.getPrincipal());
-		
-		
-		// All means load all users in all pharmacies..
-		
-		if(ALL_VALUE.equalsIgnoreCase(currentUser.getVaStationIds())){
-			
-			userList = userService.findAllUsers();
-		}
-		else{
-			
-			List<String> stationIdsList = new ArrayList<String>(Arrays.asList(currentUser.getVaStationIds().split(",")));
-			
-			userList = userService.getUsersByStationIds(currentUser.getVaStationIds(),stationIdsList);
-		}
-		
-		
-
-		List<UserManagementModel> userRoles = new ArrayList<UserManagementModel>();
-
-		for (VaUser user : userList) {
-
-			UserManagementModel userModel = new UserManagementModel();
-
-			userModel.setFirstName(StringUtils.isEmpty(user.getFirstName())?"":user.getFirstName());
-			userModel.setLastName(StringUtils.isEmpty(user.getLastName())?"":user.getLastName());
-			userModel.setUserName(user.getVaUserid());
-			userModel.setPharmMgr(user.getIsPharmMgr());
-			userModel.setPbmAdmn(user.getIsPbmAdmn());
-			userModel.setPharmUser(user.getIsPharmUser());
-			userModel.setSystemAdmn(user.getIsSystemAdmn());
-			userModel.setUserEnabled(user.getIsEnabled());
-			
-			userModel.setStationIds(user.getVaStationIds());
-			
-			userModel.setRecId(String.valueOf(user.getUsersId()));// this  shouldn't  null.
-
-			userRoles.add(userModel);
-		}
-		return userRoles;
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    VaUser currentUser = this.userService.findByVAUserID((String)authentication.getPrincipal());
+	    
+	    if ("All".equalsIgnoreCase(currentUser.getVaStationIds())) 
+	    {
+	      userList = this.userService.findAllUsers();
+	    } else {
+	      List<String> stationIdsList = new ArrayList<>(Arrays.asList(currentUser.getVaStationIds().split(",")));
+	      userList = this.userService.getUsersByStationIds(currentUser.getVaStationIds(), stationIdsList);
+	    } 
+	    
+	    List<UserManagementModel> userRoles = new ArrayList<>();
+	    for (VaUser user : userList) {
+	      UserManagementModel userModel = new UserManagementModel();
+	      userModel.setFirstName(StringUtils.isEmpty(user.getFirstName()) ? "" : user.getFirstName());
+	      userModel.setLastName(StringUtils.isEmpty(user.getLastName()) ? "" : user.getLastName());
+	      userModel.setUserName(user.getVaUserid());
+	      userModel.setPharmMgr(user.getIsPharmMgr().booleanValue());
+	      userModel.setPbmAdmn(user.getIsPbmAdmn().booleanValue());
+	      userModel.setPharmUser(user.getIsPharmUser().booleanValue());
+	      userModel.setSystemAdmn(user.getIsSystemAdmn().booleanValue());
+	      userModel.setUserEnabled(user.getIsEnabled().booleanValue());
+	      userModel.setStationIds(user.getVaStationIds());
+	      userModel.setRecId(String.valueOf(user.getUsersId()));
+	      userRoles.add(userModel);
+	    } 
+	    return userRoles;
 	}
 
 	/**
