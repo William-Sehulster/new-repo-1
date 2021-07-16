@@ -57,6 +57,7 @@ public class DrugSearchImpl implements DrugSearch {
 			searchResponse.setErrorMessage("Error while searching drug: " + e.getMessage());
 			
 			LOG.error("Error in DrugSearchImpl:"+e.getMessage());
+			LOG.error("FULL STACK TRACE:" + e);
 		}
 
 		return searchResponse;

@@ -136,6 +136,16 @@ function gotoRelatedMessages(element, elementId) {
 function buildTrackGridLayout(servlet, target) {
 	var layout = new Array();
 	
+	console.log("buildTrackGridLayout");
+	
+	obj = new Object();
+	obj["field"] = 'receivedDate';
+	obj["name"] = "Received Date";
+	obj["width"] = '80px';
+	//obj["noresize"] = 'false';
+	//obj["formatter"] = formatSelectable;
+	layout.push(obj);	
+	
 	obj = new Object();
 	obj["field"] = 'inboundNcpdpMsgId';
 	obj["name"] = "eRx Reference #";
@@ -150,6 +160,14 @@ function buildTrackGridLayout(servlet, target) {
 	obj["formatter"] = createLinkRefNum;
 	}
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'erx_type';
+	obj["name"] = "eRx Type";
+	obj["width"] = '80px';
+	//obj["noresize"] = 'false';
+	//obj["formatter"] = formatSelectable;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'messageType';
@@ -187,6 +205,13 @@ function buildTrackGridLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
+	var obj = new Object();
+	obj["field"] = 'schedule';
+	obj["name"] = 'Schedule';
+	obj["width"] = "120px";
+	//obj["noresize"] = 'true';
+	layout.push(obj);	
+	
 	obj = new Object();
 	obj["field"] = 'rxMessageId';
 	//obj["fields"] = ["inboundNcpdpMsgId", "rxMessageId"];
@@ -196,6 +221,12 @@ function buildTrackGridLayout(servlet, target) {
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
 	
+	var obj = new Object();
+	obj["field"] = 'digital_signature';
+	obj["name"] = 'Prescriber DS';
+	obj["width"] = "100px";
+	//obj["noresize"] = 'true';
+	layout.push(obj);	
 	
 	var obj = new Object();
 	obj["field"] = 'prescriberName';
@@ -255,14 +286,6 @@ function buildTrackGridLayout(servlet, target) {
 
 	layout.push(obj);
 	
-
-	obj = new Object();
-	obj["field"] = 'receivedDate';
-	obj["name"] = "Received Date";
-	obj["width"] = '80px';
-	//obj["noresize"] = 'false';
-	//obj["formatter"] = formatSelectable;
-	layout.push(obj);
 	
 	obj = new Object();
 	obj["field"] = 'patient_chk_status';

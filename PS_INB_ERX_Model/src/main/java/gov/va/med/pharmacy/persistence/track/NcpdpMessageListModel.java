@@ -29,8 +29,28 @@ public class NcpdpMessageListModel {
 	private String prescriberDEA;
 	private String patientDob;
 	private String patientSsn;
+	private String erx_type;
+	private String schedule;
+	private String digital_signature;
 	
-	
+	public String getSchedule() {
+		return schedule;
+	}	
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+	public String getDigital_signature() {
+		return digital_signature;
+	}
+	public void setDigital_signature(String digital_signature) {
+		this.digital_signature = digital_signature;
+	}
+	public String getErx_type() {
+		return erx_type;
+	}
+	public void setErx_type(String erx_type) {
+		this.erx_type = erx_type;
+	}
 	public Number getInboundNcpdpMsgId() {
 		return inboundNcpdpMsgId;
 	}
@@ -178,13 +198,18 @@ public class NcpdpMessageListModel {
 		public String[] getStringArray(){
 
 			if (this.getInboundNcpdpMsgId() != null){
-				String[] stringArray = {this.getInboundNcpdpMsgId().toString(),
+				String[] stringArray = {
+						this.getReceivedDate(),
+						this.getInboundNcpdpMsgId().toString(),
+						this.getErx_type(),
 						this.getMessageType(),
 						this.getPatientName(),
 						this.getPatientDob(),
 						this.getPatientSsn(),
 						this.getRxDrugPrescribed(),
+						this.getSchedule(),
 						this.getRxMessageId(),
+						this.getDigital_signature(),
 						this.getPrescriberName(),
 						this.getPrescriberNpi(),
 						this.getPrescriberDEA(),
@@ -192,8 +217,7 @@ public class NcpdpMessageListModel {
 						this.getVaStationId(),
 						this.getPharmacyName(),
 						this.getPharmacyAddr1(),			
-						this.getRelToMessageid(),				
-						this.getReceivedDate(),				
+						this.getRelToMessageid(),								
 						this.getPatient_chk_status(),
 						this.getProvider_chk_status(),
 						this.getDrug_chk_status(),
@@ -216,6 +240,9 @@ public class NcpdpMessageListModel {
 						"",
 						"",
 						"",
+						"",
+						"",
+						"",						
 						"",
 						"",
 						"",

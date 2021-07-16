@@ -79,9 +79,10 @@ public class TrackRxController {
 		return view;
 	}
 	
+	//M. Bolden - 5.0 - Added additional table header columns "eRx Type", "Schedule", and "Digital Signature"
 	
-	private static final String[] TRACK_AUDIT_HEADERS = { "eRx Reference #", "Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Message Id", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
-            "Relates to Message ID", "Received Date","Patient AutoCheck Status","Provider AutoCheck Status",
+	private static final String[] TRACK_AUDIT_HEADERS = { "Received Date", "eRx Reference #","eRx Type","Message Type", "Patient Name", "Patient DOB", "Patient SSN", "Drug Prescribed", "Schedule", "Message Id", "Prescriber DS", "Prescriber Name", "Prescriber NPI","Prescriber DEA", "VISN", "Station ID", "Pharmacy Name", "Address", 
+            "Relates to Message ID", "Patient AutoCheck Status","Provider AutoCheck Status",
             "Drug AutoCheck Status","Message Status"};
 	
 	@RequestMapping(value = "/getMessage", method = RequestMethod.POST, produces = "application/json")
@@ -148,6 +149,9 @@ public class TrackRxController {
 		String inboundNcpdpMsgId = "%";
 		String inboundOutbound = "";
 		String numberOfRecords = "100"; // set default value to 100 records.
+		String eRxType="";
+		String schedule="";
+
 		
 		JsonNode node = jsonMapper.readValue(jsonString, JsonNode.class);
 		if (node.get("inboundNcpdpMessageId") != null){
@@ -190,6 +194,26 @@ public class TrackRxController {
 			prescribedDrug = node.get("prescribedDrug").asText().toUpperCase().trim() + '%';}
 		if (node.get("messageStatus") != null){
 			messageStatus = node.get("messageStatus").asText();}
+		if (node.get("erx_typeValue") != null){
+			String in_eRxType = node.get("erx_typeValue").asText().toUpperCase().trim();
+			if ( in_eRxType.equals("ALL") ){
+				eRxType = ""; }//ALL
+			else if ( in_eRxType.equals("CS") ){
+				eRxType = "'CS'"; }//CS
+			else if ( in_eRxType.equals("NONCS") ){
+				eRxType = "'NONCS'"; }//NON-CS			
+		} 
+		if (node.get("ScheduleValue") != null){
+			String schedule_term = node.get("ScheduleValue").asText().toUpperCase().trim();
+			if ( schedule_term.equals("II") ){
+				schedule = "('C48675')"; }//Schedule II
+			else if ( schedule_term.equals("III-V") ){
+				schedule = "('C48676','C48677', 'C48679')"; }//Schedule III-V
+			else if ( schedule_term.equals("II-V") ){
+				schedule = "('C48675','C48676','C48677','C48679')"; }//Schedule II-V
+//			else if ( schedule_term.equals("ALL") ){
+//				schedule = ""; }//All
+		}
 		if (node.get("inboundOutbound") != null){
 			inboundOutbound = node.get("inboundOutbound").asText();	
 		}
@@ -229,7 +253,7 @@ public class TrackRxController {
 		}
 			eRxMessageList = trackMessageService.searchMessages(messageType, messageId, relatesToId, visn, vaStationId, fromDate, toDate, patientSsn, patientLastName,
 						patientFirstName, patientDob, prescriberNpi, prescriberLastName, prescriberFirstName, prescriberDEA2, prescribedDrug, messageStatus, inboundNcpdpMsgId,
-						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071);
+						inboundOutbound, mbmSearchAllowed, numberOfRecords, patientSSN2017071, eRxType, schedule);
 			
 		
 		return eRxMessageList;

@@ -44,9 +44,9 @@
 	</repositories>
 
 	<properties>
-		<version.major>4</version.major>
+		<version.major>5</version.major>
 		<version.minor>0</version.minor>
-		<version.revision>7</version.revision>
+		<version.revision>5</version.revision>
 		<version.number>${version.major}.${version.minor}.${version.revision}.${build.number}</version.number>
 		<inberx.build.timestamp>${maven.build.timestamp}</inberx.build.timestamp>
 		<inberx.baseline.name>PS_INB_ERX_BASELINE</inberx.baseline.name>
@@ -121,7 +121,8 @@
 		<!-- Javax cache -->
 		<javax.cache.version>1.1.1</javax.cache.version>
 
-		<build.number>002</build.number>
+		<build.number>009</build.number>
+
 
 	</properties>
 
