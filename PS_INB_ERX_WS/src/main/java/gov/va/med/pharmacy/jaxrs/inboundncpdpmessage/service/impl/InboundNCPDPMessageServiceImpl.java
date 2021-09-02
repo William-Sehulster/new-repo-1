@@ -50,7 +50,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 
 	private static final String SENDER_SOFTWARE_PRODUCT_ELEMENT = "<SenderSoftwareProduct>Inbound ePrescribing</SenderSoftwareProduct>";
 
-	private static final String SENDER_SOFTWARE_DEVELOPER_ELEMENT = "<SenderSoftwareDeveloper>TECHNATOMY</SenderSoftwareDeveloper>";
+	private static final String SENDER_SOFTWARE_DEVELOPER_ELEMENT = "<SenderSoftwareDeveloper>LIBERTY ITS</SenderSoftwareDeveloper>";
 
 	private static final String SENDER_SOFTWARE_START = "<SenderSoftware>";
 
@@ -82,6 +82,8 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 	private static final String VA_EMD_NCPDP_SCRIPT_10_6_XSD = "VA_EMD_NCPDP_SCRIPT_10_6.xsd";
 
 	private static final String ERROR_DESCRIPTION_APPLICATION_ERROR = "<Description>Application Error</Description>";
+	
+	private static final String ERROR_DESCRIPTION_DS_FAIL = "<Description>Digital Signature Verification Failure</Description>";
 
 	private static final String MESSAGE_ERROR_END = "</Error>";
 
@@ -166,6 +168,8 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(InboundNCPDPMessageServiceImpl.class);
 
 	private static final String SCRIPT_VERSION = "2017071";
+	
+	private boolean DS_failure = false;
 
 	@Autowired
 	private InboundNcpdpMsgService inboundNcpdpMsgService;
@@ -399,7 +403,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				 inb_checkpoint++; //21
 				//HasDigitalSignature already and Varify Digital Signature successfully
 				String emptyStr = new String("");
-				responseBuffer.append(DIGITAL_SIGNATURE_START);
+				responseBuffer_Ds.append(DIGITAL_SIGNATURE_START);
 				responseBuffer_Ds.append(DIGEST_METHOD_START);
 				responseBuffer_Ds.append((validateDS.getIncomingMsg_DigestMethod() == null)? emptyStr:validateDS.getIncomingMsg_DigestMethod());
 				responseBuffer_Ds.append(DIGEST_METHOD_END);
@@ -412,7 +416,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				responseBuffer_Ds.append(X509_DATA_START);
 				responseBuffer_Ds.append((validateDS.geteRxX509DataString()==null)? emptyStr : validateDS.geteRxX509DataString());
 				responseBuffer_Ds.append(X509_DATA_END);
-				responseBuffer.append(DIGITAL_SIGNATURE_END);
+				responseBuffer_Ds.append(DIGITAL_SIGNATURE_END);
 				 inb_checkpoint++; //22
 				
 				}		 
@@ -426,7 +430,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 					inboundeRx.setErxStatusByMessageStatus("3006"); //NCPDP_MSG_INVALID
 					inb_checkpoint++; //31
 					String emptyStr = new String("");
-					responseBuffer.append(DIGITAL_SIGNATURE_START);
+					responseBuffer_Ds.append(DIGITAL_SIGNATURE_START);
 					responseBuffer_Ds.append(DIGEST_METHOD_START);
 					responseBuffer_Ds.append((validateDS.getIncomingMsg_DigestMethod()==null)? emptyStr:validateDS.getIncomingMsg_DigestMethod());
 					responseBuffer_Ds.append(DIGEST_METHOD_END);
@@ -439,7 +443,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 					responseBuffer_Ds.append(X509_DATA_START);
 					responseBuffer_Ds.append((validateDS.geteRxX509DataString()==null)? emptyStr : validateDS.geteRxX509DataString());
 					responseBuffer_Ds.append(X509_DATA_END);
-					responseBuffer.append(DIGITAL_SIGNATURE_END);
+					responseBuffer_Ds.append(DIGITAL_SIGNATURE_END);
 					inb_checkpoint++; //32
 			 }
 			else if ( (validateDS.getDSIndicator() == true) && (validateDS.getHasDSIndicator() == false) && ( validateDS.getHasDigitalSignature() == false)) {
@@ -459,16 +463,23 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				inboundeRx.setdonotfill(validateDS.getDoNotFill());
 			 }
 			
-			inb_checkpoint=40; //40 
+			//inb_checkpoint=40; //40 
 			inboundeRx.setMessage(incomingMessage);
-			inb_checkpoint++; //41
+			//inb_checkpoint++; //41
 			inboundNcpdpMsgService.saveInboundERx(inboundeRx);
-			inb_checkpoint++; //42
+			//inb_checkpoint++; //42
+			
 /* CS DS indicator is false - throw exception */
 			if  (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false ))
 			{
+				
+				//inb_checkpoint = 98;
+				DS_failure = true;
 				throw new Exception("Digital Signature Invalid");
+				
 			}
+			
+			//inb_checkpoint = 99;
 /*			
 			if    ( (validateDS.getDSIndicator() == true) && (validateDS.getHasDSIndicator() == false) && ( validateDS.getHasDigitalSignature() == false))  
 			{
@@ -500,6 +511,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(SENDER_SOFTWARE_END);
 			// sender software end.
 			//DS 
+			/*
 			if (validateDS.getHasDSIndicator() && validateDS.getDs_created())
 				{
 				inb_checkpoint++; //43
@@ -511,7 +523,12 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			{
 				responseBuffer.append(responseBuffer_Ds);
 			}
-
+			
+			responseBuffer.append("ElementsToSignWith:");
+			responseBuffer.append(validateDS.getElementsToSignWith());
+			responseBuffer.append(" Checkpoint:");
+			responseBuffer.append(validateDS.getCheckpoint());
+            */
 			responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_STATUS_START);
@@ -559,7 +576,9 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(SENDER_SOFTWARE_END);
 			// sender software end.
 			
+	/*		//DEBUG CODE
 			// Append SAXParseDS for testing 
+			String emptyStr = new String("");
     		responseBuffer.append("SAXParseDS and CheckPoint:");
   			responseBuffer.append(validateDS.getCheckpoint());
   			responseBuffer.append("inb_checkpoint:");
@@ -572,9 +591,11 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append((validateDS.getCreatedeRxDigestString()==null)? "-null-" : validateDS.getCreatedeRxDigestString());
 			responseBuffer.append("CreatedDigitalSignature:");
 			responseBuffer.append((validateDS.getCreatedDigitalSignatureString()==null)? "-null" : validateDS.getCreatedDigitalSignatureString());
+			responseBuffer.append("X509 Data:");
+			responseBuffer_Ds.append((validateDS.geteRxX509DataString()==null)? emptyStr : validateDS.geteRxX509DataString());
 			responseBuffer.append("ElementsToSignWith:");
 			responseBuffer.append(validateDS.getElementsToSignWith());
-			/*	*/		
+	*/		
 			
 			responseBuffer.append(MESSAGE_HEADER_END);
 			
@@ -622,30 +643,51 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
   			responseBuffer.append(validateDS.getCheckpoint());
   			responseBuffer.append("inb_checkpoint:");
   			responseBuffer.append(inb_checkpoint);
-*/  			
+ 			
+  		
+			//DEBUG CODE
+			String emptyStr = new String("");	
 			responseBuffer.append(DIGITAL_SIGNATURE_START);
 			responseBuffer.append(DIGEST_METHOD_START);
 			responseBuffer.append((validateDS.getIncomingMsg_DigestMethod()==null)? "-null-" :validateDS.getIncomingMsg_DigestMethod());
 			responseBuffer.append(DIGEST_METHOD_END);
 			responseBuffer.append(DIGEST_VALUE_START);
-			responseBuffer.append((validateDS.getCreatedeRxDigestString()==null)? "-null-" : validateDS.getCreatedeRxDigestString());
+			//responseBuffer.append((validateDS.getCreatedeRxDigestString()==null)? "-null-" : validateDS.getCreatedeRxDigestString());
+			responseBuffer.append(validateDS.getDigestValueString());
 			responseBuffer.append(DIGEST_VALUE_END);
 			responseBuffer.append(SIGNATURE_VALUE_START);
-			responseBuffer.append((validateDS.getCreatedDigitalSignatureString()==null)? "-null-" : validateDS.getCreatedDigitalSignatureString());
+			//responseBuffer.append((validateDS.getCreatedDigitalSignatureString()==null)? "-null-" : validateDS.getCreatedDigitalSignatureString());
+			responseBuffer.append(validateDS.getSigToVerifyString());
 			responseBuffer.append(SIGNATURE_VALUE_END);
 			responseBuffer.append(X509_DATA_START);
-			responseBuffer.append((validateDS.getTestingPubKeyString()==null)? "-null-" : validateDS.getTestingPubKeyString());
+			//responseBuffer.append((validateDS.getTestingPubKeyString()==null)? "-null-" : validateDS.getTestingPubKeyString());
+			//responseBuffer_Ds.append((validateDS.geteRxX509DataString()==null)? emptyStr : validateDS.geteRxX509DataString());
+			responseBuffer.append(validateDS.geteRxX509DataString());
+			responseBuffer.append(" ERROR: " + validateDS.getErrorMessage());
 			responseBuffer.append(X509_DATA_END);
 			responseBuffer.append(DIGITAL_SIGNATURE_END);
-/*			responseBuffer.append("ElementsToSignWith:");
-			responseBuffer.append(validateDS.getElementsToSignWith());*/
-
+			responseBuffer.append("ElementsToSignWith:");
+			responseBuffer.append(validateDS.getElementsToSignWith());
+			responseBuffer.append(" Checkpoint:");
+			responseBuffer.append(validateDS.getCheckpoint());
+			//responseBuffer.append(" inbound Checkpoint:");
+			//responseBuffer.append(inb_checkpoint);
+	 */		
 		    responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_ERROR_START);
-/*			responseBuffer.append(ERROR_CODE_602);  */
-			responseBuffer.append(ERROR_CODE_900);
-			responseBuffer.append(ERROR_DESCRIPTION_APPLICATION_ERROR);
+			
+			if(DS_failure) {
+				responseBuffer.append(ERROR_CODE_602);
+				responseBuffer.append(ERROR_DESCRIPTION_DS_FAIL);
+			}
+			
+			else {
+				responseBuffer.append(ERROR_CODE_900);
+				responseBuffer.append(ERROR_DESCRIPTION_APPLICATION_ERROR);
+			}
+			
+			
 			responseBuffer.append(MESSAGE_ERROR_END);
 			responseBuffer.append(MESSAGE_BODY_END);
 			responseBuffer.append(MESSAGE_END);
