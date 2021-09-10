@@ -84,6 +84,8 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 	private static final String ERROR_DESCRIPTION_APPLICATION_ERROR = "<Description>Application Error</Description>";
 	
 	private static final String ERROR_DESCRIPTION_DS_FAIL = "<Description>Digital Signature Verification Failure</Description>";
+	
+	private static final String ERROR_DESCRIPTION_CERT_REVOKED  = "<Description>Certificate Has Been Revoked</Description>";
 
 	private static final String MESSAGE_ERROR_END = "</Error>";
 
@@ -504,6 +506,11 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(sentDateString);
 			responseBuffer.append(SENT_TIME_END);
 			// sender software start 201707
+			
+			//responseBuffer.append("CA URLs: ");
+			//responseBuffer.append(validateDS.getCRL_URL());
+			
+			
 			responseBuffer.append(SENDER_SOFTWARE_START);
 			responseBuffer.append(SENDER_SOFTWARE_DEVELOPER_ELEMENT);
 			responseBuffer.append(SENDER_SOFTWARE_PRODUCT_ELEMENT);
@@ -595,8 +602,10 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer_Ds.append((validateDS.geteRxX509DataString()==null)? emptyStr : validateDS.geteRxX509DataString());
 			responseBuffer.append("ElementsToSignWith:");
 			responseBuffer.append(validateDS.getElementsToSignWith());
+			responseBuffer.append("CA URLs: ");
+			responseBuffer.append(validateDS.getCRL_URL());
+			responseBuffer.append(" ERROR: " + validateDS.getErrorMessage());
 	*/		
-			
 			responseBuffer.append(MESSAGE_HEADER_END);
 			
 			responseBuffer.append(MESSAGE_BODY_START);
@@ -668,16 +677,23 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			responseBuffer.append(DIGITAL_SIGNATURE_END);
 			responseBuffer.append("ElementsToSignWith:");
 			responseBuffer.append(validateDS.getElementsToSignWith());
-			responseBuffer.append(" Checkpoint:");
+	 		responseBuffer.append(" Checkpoint:");
 			responseBuffer.append(validateDS.getCheckpoint());
-			//responseBuffer.append(" inbound Checkpoint:");
+		*/	//responseBuffer.append(" inbound Checkpoint:");
 			//responseBuffer.append(inb_checkpoint);
-	 */		
+			
 		    responseBuffer.append(MESSAGE_HEADER_END);
 			responseBuffer.append(MESSAGE_BODY_START);
 			responseBuffer.append(MESSAGE_ERROR_START);
 			
-			if(DS_failure) {
+			//<SenderSoftwareVersionRelease>V5.0</SenderSoftwareVersionRelease>
+			if(validateDS.isCertRevoked())
+			{
+				responseBuffer.append(ERROR_CODE_602);
+				responseBuffer.append(ERROR_DESCRIPTION_CERT_REVOKED);				
+			}
+				
+			else if(DS_failure) {
 				responseBuffer.append(ERROR_CODE_602);
 				responseBuffer.append(ERROR_DESCRIPTION_DS_FAIL);
 			}
@@ -686,8 +702,16 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				responseBuffer.append(ERROR_CODE_900);
 				responseBuffer.append(ERROR_DESCRIPTION_APPLICATION_ERROR);
 			}
-			
-			
+		
+			//Additional Debug code
+	/*		responseBuffer.append("CA URLs: ");
+			responseBuffer.append(validateDS.getCRL_URL());
+			responseBuffer.append(" ERROR: " + validateDS.getErrorMessage());
+			responseBuffer.append(" Cert Serial #: ");
+			responseBuffer.append(validateDS.getCertSerialNumber());
+			responseBuffer.append(" REVOKE REASON: ");
+			responseBuffer.append(validateDS.getRevokeReason());
+	*/
 			responseBuffer.append(MESSAGE_ERROR_END);
 			responseBuffer.append(MESSAGE_BODY_END);
 			responseBuffer.append(MESSAGE_END);

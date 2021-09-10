@@ -7,7 +7,7 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class NcpdpMessageListModel {
 	
-	private Long inboundNcpdpMsgId;
+	private String inboundNcpdpMsgId;
 	private String rxMessageId;
 	private String relToMessageid;
 	private String messageType;
@@ -51,10 +51,10 @@ public class NcpdpMessageListModel {
 	public void setErx_type(String erx_type) {
 		this.erx_type = erx_type;
 	}
-	public Number getInboundNcpdpMsgId() {
+	public String getInboundNcpdpMsgId() {	
 		return inboundNcpdpMsgId;
 	}
-	public void setInboundNcpdpMsgId(Long inboundNcpdpMsgId) {
+	public void setInboundNcpdpMsgId(String inboundNcpdpMsgId) {	
 		this.inboundNcpdpMsgId = inboundNcpdpMsgId;
 	}
 	public String getRxMessageId() {
@@ -200,7 +200,7 @@ public class NcpdpMessageListModel {
 			if (this.getInboundNcpdpMsgId() != null){
 				String[] stringArray = {
 						this.getReceivedDate(),
-						this.getInboundNcpdpMsgId().toString(),
+						this.getInboundNcpdpMsgId(),
 						this.getErx_type(),
 						this.getMessageType(),
 						this.getPatientName(),
