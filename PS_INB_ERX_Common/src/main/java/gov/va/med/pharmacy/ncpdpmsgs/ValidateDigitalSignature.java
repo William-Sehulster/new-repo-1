@@ -23,6 +23,29 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+//import java.io.ByteArrayInputStream;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+//import java.util.ArrayList;
+import java.util.List;
+
+import org.bouncycastle.asn1.ASN1InputStream;
+import org.bouncycastle.asn1.ASN1Primitive;
+import org.bouncycastle.asn1.DERIA5String;
+import org.bouncycastle.asn1.DEROctetString;
+import org.bouncycastle.asn1.x509.CRLDistPoint;
+import org.bouncycastle.asn1.x509.DistributionPoint;
+import org.bouncycastle.asn1.x509.DistributionPointName;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.GeneralNames;
+
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.DataInputStream;
+
 
 public class ValidateDigitalSignature {
 	
@@ -70,6 +93,8 @@ public class ValidateDigitalSignature {
 	private String date_month_tmp="";
 	private String date_day_tmp="";
 	
+	private boolean certificate_revoked = false;
+	
 	boolean compound_exists = false;
 	
 	private String ErrorMessage = "Initial State";
@@ -111,6 +136,13 @@ public class ValidateDigitalSignature {
 	private String donotfill="";
 	
 	private String incomingMsg_digestMethod;
+
+	
+	
+	//List of URLs extracted from X509 certificate used to verify if or if not the certificate has been placed on CRL
+	private List<String> crlUrls = new ArrayList<String>();
+	private String certSerialNumber = "";
+	private String certRevokeReason = "";
 	
 
 	// Built-in logger for Inbound eRx: taken from InboundNCPDPMessageServiceImpl.java.
@@ -711,7 +743,7 @@ public class ValidateDigitalSignature {
 		}
 		
 		catch(Exception e) {
-			checkpoint = 6000;
+			//checkpoint = 6000;
 			ErrorMessage = e.getMessage();
 			//LOG.error("Error in ValidateDigitalSignature.parseERXMessage():" + e.getMessage());
 		}    
@@ -723,6 +755,15 @@ public class ValidateDigitalSignature {
 		//LOG.debug("Entering verifyDigitalSignature method...");
     
 		try {	        
+			
+			//Extract CRL URLs from the X509 certificate 
+			CRLExtraction(eRxX509Data);
+			
+			//Check to see if their Certificate within the message is contained within the CA's CRL
+			//Will return True if Certificate is contained within CRL and will no longer continue to 
+			//process DS
+			if(CertVerification(eRxX509Data)) return false;
+			
 			
 			//checkpoint = 9000;
 			//Verify Digest
@@ -824,6 +865,8 @@ public class ValidateDigitalSignature {
 		
 		catch(Exception e) {
 		    
+			
+			ErrorMessage = e.getMessage();
 			//checkpoint = 9004;
 			// General exceptions
 			//LOG.error("Error in ValidateDigitalSignature.verifyDigitalSignature():" + e.getMessage());
@@ -1072,6 +1115,160 @@ public class ValidateDigitalSignature {
     }
     
 
+	private void CRLExtraction(byte[] x509)
+	{
+		
+		try
+        {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+
+            //X509Certificate certificate = (X509Certificate) certificateFactory.generateCertificate(new FileInputStream(new File("CERT_FILE_PATH")));
+            X509Certificate certificate = (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(eRxX509Data));
+
+            byte[] crlDistributionPointDerEncodedArray = certificate.getExtensionValue(Extension.cRLDistributionPoints.getId());
+
+            ASN1InputStream oAsnInStream = new ASN1InputStream(new ByteArrayInputStream(crlDistributionPointDerEncodedArray));
+            ASN1Primitive derObjCrlDP = oAsnInStream.readObject();
+            DEROctetString dosCrlDP = (DEROctetString) derObjCrlDP;
+
+            oAsnInStream.close();
+
+            byte[] crldpExtOctets = dosCrlDP.getOctets();
+            ASN1InputStream oAsnInStream2 = new ASN1InputStream(new ByteArrayInputStream(crldpExtOctets));
+            ASN1Primitive derObj2 = oAsnInStream2.readObject();
+            CRLDistPoint distPoint = CRLDistPoint.getInstance(derObj2);
+
+            oAsnInStream2.close();
+
+            //List<String> crlUrls = new ArrayList<String>();
+            for (DistributionPoint dp : distPoint.getDistributionPoints())
+            {
+                DistributionPointName dpn = dp.getDistributionPoint();
+                // Look for URIs in fullName
+                if (dpn != null)
+                {
+                    if (dpn.getType() == DistributionPointName.FULL_NAME)
+                    {
+                        GeneralName[] genNames = GeneralNames.getInstance(dpn.getName()).getNames();
+                        // Look for an URI
+                        for (int j = 0; j < genNames.length; j++)
+                        {
+                            if (genNames[j].getTagNo() == GeneralName.uniformResourceIdentifier)
+                            {
+                                String url = DERIA5String.getInstance(genNames[j].getName()).getString();
+                                crlUrls.add(url);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //for (String url : crlUrls)
+                //System.out.println(url);
+        }
+        catch (Throwable e)
+        {
+        	ErrorMessage = e.getMessage();
+        }
+    }		
+	
+	//CertVerification method checks whether a certificate is contained within its CA's CRL.
+	//If it is contained within the CRL that means the certificate is revoked and should not 
+	//be processed further.
+	//Input:  X509 Certificate
+	//Output: TRUE/FALSE   TRUE-Cert is revoked    FALSE-Cert was not found in CRL
+	private boolean CertVerification(byte[] x509)
+	{
+        //String certificatePath = "C:\\Users\\user1\\Desktop\\test.cer";
+		//boolean revoked = false;
+		
+        try {
+        	checkpoint = 9000;
+		        CertificateFactory cf = CertificateFactory.getInstance("X509");
+		        checkpoint = 9001;
+		        X509Certificate certificate = null;
+		        checkpoint = 9002;
+		        X509CRLEntry revokedCertificate = null;
+		        checkpoint = 9003;
+		        X509CRL crl = null;
+		        checkpoint = 9004;
+		        
+		        //boolean revoked = false;
+		
+		        certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(eRxX509Data));
+		        //certSerialNumber = certificate.getSerialNumber().toString();
+		        checkpoint = 9005;
+		        for (String url_crl : crlUrls)
+		        {
+		        	checkpoint = 9006;
+			        URL url = new URL(url_crl);
+			        checkpoint = 9007;
+			        URLConnection connection = url.openConnection();
+			        checkpoint = 9008;
+			
+			        try(DataInputStream inStream = new DataInputStream(connection.getInputStream())){
+			
+			        	checkpoint = 9009;
+			            crl = (X509CRL)cf.generateCRL(inStream);
+			            checkpoint = 9010;
+			        }
+			
+			        checkpoint = 9011;
+			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber());
+			        
+			        checkpoint = 9012;
+			        certSerialNumber = revokedCertificate.getSerialNumber().toString();
+			        checkpoint = 9013;
+			       // certRevokeReason = revokedCertificate.getRevocationReason().toString();
+			        //checkpoint = 9014;
+			
+			        if(revokedCertificate !=null){
+			        	certificate_revoked = true;
+			        	checkpoint = 999999;
+			        }
+		
+		        }
+        
+		        
+           }
+        catch (Throwable e)
+        {
+        	ErrorMessage = e.getMessage();
+        }
+        
+        checkpoint = 9014;
+        return certificate_revoked;
+		
+	}
+	
+	public String getRevokeReason()
+	{
+		return certRevokeReason;
+		
+	}
+	public String getCertSerialNumber()
+	{
+		
+		return certSerialNumber;
+	}
+
+	//Returns whether the cert contained within the digital signature has been revoked
+	public boolean isCertRevoked()
+	{
+		
+		return certificate_revoked;
+	}
+	
+	//Return all URLs extracted from the certificate
+	public String getCRL_URL()
+	{
+		String CA_URL = "";
+		
+		for (String url : crlUrls)
+			CA_URL = CA_URL + url + " ";
+		
+		return CA_URL;
+	}
 	// Getters for the created digital signature so that it may be appended onto the 
     // response buffer in InboundNCPDPMessageServiceImpl.java.
 	public boolean getDSIndicator() {
