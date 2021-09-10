@@ -3246,13 +3246,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 
 							renewalRequestMsgBuffer.append("<SenderSoftware>");
 							renewalRequestMsgBuffer.append("<SenderSoftwareDeveloper>");
-							renewalRequestMsgBuffer.append("TECHNATOMY");
+							renewalRequestMsgBuffer.append("LIBERTY ITS");
 							renewalRequestMsgBuffer.append("</SenderSoftwareDeveloper>");
 							renewalRequestMsgBuffer.append("<SenderSoftwareProduct>");
 							renewalRequestMsgBuffer.append("Inbound ePrescribing");
 							renewalRequestMsgBuffer.append("</SenderSoftwareProduct>");
 							renewalRequestMsgBuffer.append("<SenderSoftwareVersionRelease>");
-							renewalRequestMsgBuffer.append("v4.0");
+							renewalRequestMsgBuffer.append("v5.0");
 							renewalRequestMsgBuffer.append("</SenderSoftwareVersionRelease>");
 							renewalRequestMsgBuffer.append("</SenderSoftware>");
 						}
