@@ -38,11 +38,17 @@ function createLinkRefNum(entry) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
-	
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-
+	var inboundOutbound = "Inbound";
+	 if ( entry.indexOf("inb") != -1 )
+	 {
+	 	inboundOutbound = "Inbound";
+	 	entry = entry.replace("inb-", "");
+	 	}
+	  else if ( entry.indexOf("outb") != -1 )
+	 {
+	 	inboundOutbound = "Outbound";
+	 	entry = entry.replace("outb-", "");
+	 	}
 	var relatedMsg = null; 
 		
 	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\" onkeyup=gotoMessageDetails(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
@@ -65,20 +71,17 @@ function createRelatedMsgLinkRefNum(entry, inbOutVal) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
-	
-	var inboundOutbound = "Unknown";
-	
-	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
-		
-		inboundOutbound = inbOutVal;
-	}
-	else
-	{
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-	}
-
+	var inboundOutbound = "Inbound";
+	 if ( entry.indexOf("inb") != -1 )
+	 {
+	 	inboundOutbound = "Inbound";
+	 	entry = entry.replace("inb-", "");
+	 	}
+	  else if ( entry.indexOf("outb") != -1 )
+	 {
+	 	inboundOutbound = "Outbound";
+	 	entry = entry.replace("outb-", "");
+	 	}
 	
 	var relatedMsg = true;
 
@@ -107,21 +110,19 @@ function createLinkRefNumRelated(entry, inbOutVal) {
 	var relatedMessageGridId = 'relatedMessagesListGrid';
 	var relatedMessageGrid = dijit.byId(relatedMessageGridId);
 	
-	var inboundOutbound = "Unknown";
-	
-	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
-		
-		inboundOutbound = inbOutVal;
-	}
-	else
-	{
-		
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-	}
-	
-	var relatedMsg = null;
+	var inboundOutbound = "Inbound";
+	 if ( entry.indexOf("inb") != -1 )
+	 {
+	 	inboundOutbound = "Inbound";
+	 	entry = entry.replace("inb-", "");
+	 	}
+	  else if ( entry.indexOf("outb") != -1 )
+	 {
+	 	inboundOutbound = "Outbound";
+	 	entry = entry.replace("outb-", "");
+	 	}
+
+	 var relatedMsg = null;
 	
 	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessages(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }

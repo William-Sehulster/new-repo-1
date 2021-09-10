@@ -41,7 +41,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			public NcpdpMessageListModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 				NcpdpMessageListModel ncpdpMessageListModel = new NcpdpMessageListModel();
 
-				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getLong("inbound_ncpdp_msg_id")));
+				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getString("inbound_ncpdp_msg_id")));
 				ncpdpMessageListModel.setRxMessageId(rs.getString("rx_messageId"));
 				ncpdpMessageListModel.setRelToMessageid(rs.getString("rel_to_message_id"));
 				ncpdpMessageListModel.setMessageType(rs.getString("message_type"));
@@ -2374,7 +2374,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			
 			//TODO:pull this query out of the code into a resource file 
 			
-        sql_inbound = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
+        sql_inbound = "select * from (select 'inb-'||t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
         		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
@@ -2433,9 +2433,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		if (patientSsn.length() != 0) {
         			sql_inbound = sql_inbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
         		}
-        		
         		sql2017071_inbound = "    union all\r\n" +
-        		"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+        		"select 'inb-' || t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
         		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
         		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
         		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
@@ -2502,7 +2501,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				
 		} 
 		if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both")){
-			sql_outbound = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+			sql_outbound = "select * from (select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 /*	        		"t.erx_type erx_type, \r\n" +
 	        		"t.schedule schedule, \r\n" +
 	        		"t.digital_signature digital_signature, \r\n" +
@@ -2567,7 +2566,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		}
 	        		
 	        		sql2017071_outbound = "union all \r\n" +
-	        		"    select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+	        		"    select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
 /*	        		"    t.erx_type erx_type, \r\n" +
 	        		"    t.schedule schedule, \r\n" +
 	        		"    t.digital_signature digital_signature, \r\n" +	 
@@ -2710,7 +2709,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		
 		StringBuffer sqlBuffer = new StringBuffer();
 //TODO:pull this query out of the code into a resource file 
-				sqlBuffer.append("select inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 
+				sqlBuffer.append("select 'inb-'|| inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 		
 			    		"erx_type erx_type,\r\n" ).append( 
 			    		"schedule schedule,\r\n" ).append( 
 			    		"digital_signature digital_signature,\r\n" ).append(
@@ -2789,7 +2788,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 				"and t.script_version is null \r\n" ).append(
 				"UNION ALL \r\n" ).append(
-				"select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+				"select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
 				"                t.erx_type erx_type, \r\n" ).append(
 				"                t.schedule schedule, \r\n" ).append(
 				"                t.digital_signature digital_signature, \r\n" ).append(						
@@ -2844,7 +2843,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 						"						and t.script_version is null \r\n" ).append(
 								"UNION ALL \r\n" ).append(
-										"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+									"select 'inb-' || t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(												
 									"t.erx_type erx_type, \r\n" ).append(
 									"t.schedule schedule, \r\n" ).append(
 									"t.digital_signature digital_signature, \r\n" ).append(						            
@@ -2900,7 +2899,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 						" and t.message_status not in ('3006') \r\n" ).append(
 						" and t.script_version = '2017071'\r\n" ).append(
 						" UNION ALL \r\n" ).append(
-						"select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+						"select 'outb-' || t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(								
 						"                t.erx_type erx_type, \r\n" ).append(
 						"                t.schedule schedule, \r\n" ).append(
 						"                t.digital_signature digital_signature, \r\n" ).append(
