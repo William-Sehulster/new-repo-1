@@ -1031,7 +1031,7 @@ public class ValidateDigitalSignature {
 			checkpoint++;//2
 			
 			
-			keyGen.initialize(1024, random);
+			keyGen.initialize(2048, random);
 			checkpoint++;//3
 			KeyPair pair = keyGen.generateKeyPair();
 			checkpoint++;//4
@@ -1214,7 +1214,8 @@ public class ValidateDigitalSignature {
 			        }
 			
 			        checkpoint = 9011;
-			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber());
+				if ( (certificate !=null) && ((certificate.getSerialNumber()) !=null ) &&  (crl != null) ) {
+			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber()); }
 			        
 			        checkpoint = 9012;
 			        certSerialNumber = revokedCertificate.getSerialNumber().toString();
