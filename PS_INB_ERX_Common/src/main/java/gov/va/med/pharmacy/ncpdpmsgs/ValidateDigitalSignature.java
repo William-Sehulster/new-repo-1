@@ -1218,7 +1218,8 @@ public class ValidateDigitalSignature {
 			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber()); }
 			        
 			        checkpoint = 9012;
-			        certSerialNumber = revokedCertificate.getSerialNumber().toString();
+				if(revokedCertificate !=null){
+			        certSerialNumber = revokedCertificate.getSerialNumber().toString();}
 			        checkpoint = 9013;
 			       // certRevokeReason = revokedCertificate.getRevocationReason().toString();
 			        //checkpoint = 9014;
