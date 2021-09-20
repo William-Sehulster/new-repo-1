@@ -14,7 +14,7 @@ hostname = m.group(3)
 git_user = m.group(4)
 repo_name = m.group(5)
 
-url = f'https://{hostname}/api/v3/repos/{git_user}/{repo_name}/statuses/{sha}'
+url = f'https://api.{hostname}/repos/{git_user}/{repo_name}/statuses/{sha}'
 
 print(url)
 
