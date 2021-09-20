@@ -6,7 +6,7 @@ pipeline {
     options {
         // Only necessary if custom git config setup is required for a successful checkout
         // Usually indicated by git lfs errors with the default checkout
-        // skipDefaultCheckout true
+        skipDefaultCheckout true
 
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
@@ -15,38 +15,38 @@ pipeline {
         REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt'
 
         // If using skipDefaultCheckout these will need to be set during/after that checkout instead of here
-        SANITIZED_BRANCH_NAME = sh(returnStdout: true, script: "echo $GIT_BRANCH | sed 's/[_/]/-/g' | sed 's/[^[:alnum:]-]//g' | sed 's/\\(-\\+\\)/-/g' | sed 's/feature/f/g' | sed 's/hotfix/hf/g' | sed 's/release/r/g' ").trim().take(40).toLowerCase()
-        SHORT_COMMIT_HASH = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-        REPO_URL = sh(returnStdout: true, script: "git remote get-url origin").trim()
+        // SANITIZED_BRANCH_NAME = sh(returnStdout: true, script: "echo $GIT_BRANCH | sed 's/[_/]/-/g' | sed 's/[^[:alnum:]-]//g' | sed 's/\\(-\\+\\)/-/g' | sed 's/feature/f/g' | sed 's/hotfix/hf/g' | sed 's/release/r/g' ").trim().take(40).toLowerCase()
+        // SHORT_COMMIT_HASH = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+        // REPO_URL = sh(returnStdout: true, script: "git remote get-url origin").trim()
     }
     stages {
         // Only necessary if custom git config setup is required for a successful checkout
         // Use in combination with 'skipDefaultCheckout' option
-        // stage('Prepare git') {
-        //     steps {
-        //         sh '''
-        //             git config --list
-        //             git config --global http.postBuffer 1048576000
+         stage('Prepare git') {
+             steps {
+                 sh '''
+                     git config --list
+                     git config --global http.postBuffer 1048576000
 
-        //             git config --global filter.lfs.smudge "git-lfs smudge --skip -- %f"
-        //             git config --global filter.lfs.process "git-lfs filter-process --skip"
-        //             git config --list
-        //         '''
-        //     }
-        // }
-        // stage('Checkout') {
-        //     steps {
-        //         script {
-        //             def scmVars = checkout scm
+                     git config --global filter.lfs.smudge "git-lfs smudge --skip -- %f"
+                     git config --global filter.lfs.process "git-lfs filter-process --skip"
+                     git config --list
+                 '''
+             }
+         }
+         stage('Checkout') {
+             steps {
+                 script {
+                     def scmVars = checkout scm
 
-        //             env.GIT_COMMIT = scmVars.GIT_COMMIT
-        //             env.GIT_BRANCH = scmVars.GIT_BRANCH
-        //             env.SANITIZED_BRANCH_NAME = sh(returnStdout: true, script: "echo $GIT_BRANCH | sed 's/[_/]/-/g' | sed 's/[^[:alnum:]-]//g' | sed 's/\\(-\\+\\)/-/g' | sed 's/feature/f/g' | sed 's/hotfix/hf/g' | sed 's/release/r/g' ").trim().take(40).toLowerCase()
-        //             env.SHORT_COMMIT_HASH = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-        //             env.REPO_URL = sh(returnStdout: true, script: "git remote get-url origin").trim()
-        //         }
-        //     }
-        // }
+                     env.GIT_COMMIT = scmVars.GIT_COMMIT
+                     env.GIT_BRANCH = scmVars.GIT_BRANCH
+                     env.SANITIZED_BRANCH_NAME = sh(returnStdout: true, script: "echo $GIT_BRANCH | sed 's/[_/]/-/g' | sed 's/[^[:alnum:]-]//g' | sed 's/\\(-\\+\\)/-/g' | sed 's/feature/f/g' | sed 's/hotfix/hf/g' | sed 's/release/r/g' ").trim().take(40).toLowerCase()
+                     env.SHORT_COMMIT_HASH = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                     env.REPO_URL = sh(returnStdout: true, script: "git remote get-url origin").trim()
+                 }
+             }
+         }
 
         stage('CI Initialize') {
             steps {
