@@ -6,7 +6,7 @@
 	<groupId>gov.va.med.pharmacy</groupId>
 	<artifactId>PS_INB_ERX</artifactId>
 	<packaging>pom</packaging>
-	<version>${version.number}${changelist}</version>
+	<version>${version.number}</version>
 	<name>PS_INB_ERX</name>
 
 	<modules>
@@ -60,9 +60,11 @@
 		<version.major>4</version.major>
 		<version.minor>0</version.minor>
 		<version.revision>7</version.revision>
-		<version.number>${version.major}.${version.minor}.${version.revision}.${build.number}</version.number>
 		<!-- In general should not be changed except by the Jenkins build scripts -->
-        <changelist>.DEV-SNAPSHOT</changelist>
+		<changelist>.DEV-SNAPSHOT</changelist>
+		<version.number>${version.major}.${version.minor}.${version.revision}.${build.number}${changelist}</version.number>
+	
+      
 		<inberx.build.timestamp>${maven.build.timestamp}</inberx.build.timestamp>
 		<inberx.baseline.name>PS_INB_ERX_BASELINE</inberx.baseline.name>
 
