@@ -74,7 +74,7 @@ pipeline {
 
                 echo "Set commit state as 'pending'"
                 container('dots-utility') {
-                    withCredentials([usernamePassword(credentialsId: 'jenkins-status', passwordVariable: 'status_pw', usernameVariable: 'status_user')]) {
+                    withCredentials([usernamePassword(credentialsId: 'jenkins-github-status', passwordVariable: 'status_pw', usernameVariable: 'status_user')]) {
                         sh '''
                             export STATUS_TOKEN=${status_pw}
                             export BUILD_STATE=pending
@@ -225,7 +225,7 @@ pipeline {
         cleanup {
             echo "Set commit state in GitHub"
             container('dots-utility') {
-                withCredentials([usernamePassword(credentialsId: 'jenkins-status', passwordVariable: 'status_pw', usernameVariable: 'status_user')]) {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-github-status', passwordVariable: 'status_pw', usernameVariable: 'status_user')]) {
                     sh '''
                         export STATUS_TOKEN=${status_pw}
                         export BUILD_STATE=\$(cat ${WORKSPACE}/result)
