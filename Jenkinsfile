@@ -47,7 +47,7 @@ pipeline {
                  }
              }
          }
-
+		//CI initialize  
         stage('CI Initialize') {
             steps {
                 container('maven-3-8-1') {
