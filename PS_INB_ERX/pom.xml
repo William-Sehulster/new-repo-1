@@ -6,7 +6,7 @@
 	<groupId>gov.va.med.pharmacy</groupId>
 	<artifactId>PS_INB_ERX</artifactId>
 	<packaging>pom</packaging>
-	<version>${version.number}</version>
+	<version>${version.number}${changelist}</version>
 	<name>PS_INB_ERX</name>
 
 	<modules>
@@ -42,12 +42,27 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshot</id>
+			<name>DOTS Nexus snapshot</name>
+			<url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-snapshot/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus-release</id>
+			<name>DOTS Nexus release</name>
+			<url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-release/</url>
+		</repository>
+	</distributionManagement>
 
 	<properties>
 		<version.major>4</version.major>
 		<version.minor>0</version.minor>
 		<version.revision>7</version.revision>
 		<version.number>${version.major}.${version.minor}.${version.revision}.${build.number}</version.number>
+		<!-- In general should not be changed except by the Jenkins build scripts -->
+        <changelist>.DEV-SNAPSHOT</changelist>
 		<inberx.build.timestamp>${maven.build.timestamp}</inberx.build.timestamp>
 		<inberx.baseline.name>PS_INB_ERX_BASELINE</inberx.baseline.name>
 
@@ -580,6 +595,31 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.8.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>1.2.7</version>
+					<configuration>
+						<updatePomFile>true</updatePomFile>
+						<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					</configuration>
+					<executions>
+						<execution>
+							<id>flatten</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>flatten</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>flatten.clean</id>
+							<phase>clean</phase>
+							<goals>
+								<goal>clean</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
