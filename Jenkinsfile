@@ -68,7 +68,7 @@ pipeline {
                     // !! IMPORTANT !! Set the main parent pom path HERE
                     sh '''
                         mkdir .mvn
-                        echo '-Djavax.net.ssl.trustStore=/etc/pki/ca-trust/extracted/java/cacerts --settings pipeline/settings.xml -B -e -f pom.xml' > .mvn/maven.config
+                        echo '-Djavax.net.ssl.trustStore=/etc/pki/ca-trust/extracted/java/cacerts --settings pipeline/settings.xml -B -e -f PS_INB_ERX/pom.xml' > .mvn/maven.config
                     '''
                 }
 
