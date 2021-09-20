@@ -206,7 +206,7 @@ pipeline {
             // default to error state - if success or failure will be overwritten below
             sh "echo 'error' > ${WORKSPACE}/result"
 
-            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+            // junit testResults: '**/target/surefire-reports/TEST-*.xml'
             
             discoverGitReferenceBuild defaultBranch : 'dev', latestBuildIfNotFound: true
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java()]
