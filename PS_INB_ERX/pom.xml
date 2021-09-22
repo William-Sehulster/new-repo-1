@@ -41,14 +41,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-
 	</repositories>
-	<pluginRepositories>
-	  <pluginRepository>
-		<id>maven.oracle.com</id>
-		<url>https://maven.oracle.com</url>
-	  </pluginRepository>
-	</pluginRepositories>
 	
 	<distributionManagement>
 		<snapshotRepository>
