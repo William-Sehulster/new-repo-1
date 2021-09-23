@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <servers>
+    <server>
+      <id>nexus-release</id>
+      <username>JENKINS_NEXUS_USER</username>
+      <password>JENKINS_NEXUS_PASSWORD</password>
+    </server>
+    <server>
+      <id>nexus-snapshot</id>
+      <username>JENKINS_NEXUS_USER</username>
+      <password>JENKINS_NEXUS_PASSWORD</password>
+    </server>
+  </servers>
+
+  <mirrors>
+  </mirrors>
+
+  <profiles>
+    <profile>
+      <id>nexus-hps</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>nexus-release</id>
+          <name>DOTS Nexus release</name>
+          <url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-release/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>nexus-snapshot</id>
+          <name>DOTS Nexus snapshot</name>
+          <url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-snapshot/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+</settings>
