@@ -260,9 +260,13 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				schema = schemaFactory.newSchema(xsdSource);
 
 				saxParserFactory = SAXParserFactory.newInstance();
-                               //Elsa.Chen-Fortify-An XML parser should be configured securely so that it does not allow external entities as part of an incoming XML document
-				saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-				saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+				
+               //Elsa.Chen-Fortify-An XML parser should be configured securely so that it does not allow external entities as part of an incoming XML document
+				//M. Bolden - commented out fortify fix due to it breaking 10.6 conversion to 20170715 fo RefillRequest messages
+				//TODO - different fix needs to be put in place
+				//saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+				//saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+				
 				saxParserFactory.setSchema(schema);
 
 				saxparser = saxParserFactory.newSAXParser();
@@ -297,8 +301,12 @@ public class VistaOutboundMsgImpl implements VistaOutboundMsg {
 				// Format String xml before parsing it.
 
 				transformerFactory = TransformerFactory.newInstance();
-                                //Elsa.Chen Fortify- To protect a TransformerFactory
-				transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+				
+                //Elsa.Chen Fortify- To protect a TransformerFactory
+				//M. Bolden - commented out fortify fix due to it breaking 10.6 conversion to 20170715 fo RefillRequest messages
+				//TODO - different fix needs to be put in place
+				//transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+				
 				transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
                            
 				// transformerFactory.setAttribute("http://javax.xml.XMLConstants/property/accessExternalDTD",

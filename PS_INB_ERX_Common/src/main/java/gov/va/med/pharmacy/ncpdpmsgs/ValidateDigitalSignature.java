@@ -1031,7 +1031,7 @@ public class ValidateDigitalSignature {
 			checkpoint++;//2
 			
 			
-			keyGen.initialize(1024, random);
+			keyGen.initialize(2048, random);
 			checkpoint++;//3
 			KeyPair pair = keyGen.generateKeyPair();
 			checkpoint++;//4
@@ -1183,60 +1183,60 @@ public class ValidateDigitalSignature {
 		//boolean revoked = false;
 		
         try {
-        	checkpoint = 9000;
+        	//checkpoint = 9000;
 		        CertificateFactory cf = CertificateFactory.getInstance("X509");
-		        checkpoint = 9001;
+		        //checkpoint = 9001;
 		        X509Certificate certificate = null;
-		        checkpoint = 9002;
+		        //checkpoint = 9002;
 		        X509CRLEntry revokedCertificate = null;
-		        checkpoint = 9003;
+		        //checkpoint = 9003;
 		        X509CRL crl = null;
-		        checkpoint = 9004;
+		        //checkpoint = 9004;
 		        
 		        //boolean revoked = false;
 		
 		        certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(eRxX509Data));
 		        //certSerialNumber = certificate.getSerialNumber().toString();
-		        checkpoint = 9005;
+		        //checkpoint = 9005;
 		        for (String url_crl : crlUrls)
 		        {
-		        	checkpoint = 9006;
+		        	//checkpoint = 9006;
 			        URL url = new URL(url_crl);
-			        checkpoint = 9007;
+			        //checkpoint = 9007;
 			        URLConnection connection = url.openConnection();
-			        checkpoint = 9008;
+			        //checkpoint = 9008;
 			
 			        try(DataInputStream inStream = new DataInputStream(connection.getInputStream())){
 			
-			        	checkpoint = 9009;
+			        	//checkpoint = 9009;
 			            crl = (X509CRL)cf.generateCRL(inStream);
-			            checkpoint = 9010;
+			            //checkpoint = 9010;
 			        }
 			
-			        checkpoint = 9011;
+			        //checkpoint = 9011;
 			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber());
 			        
-			        checkpoint = 9012;
-			        certSerialNumber = revokedCertificate.getSerialNumber().toString();
-			        checkpoint = 9013;
+			        //checkpoint = 9012;
+			        if(revokedCertificate !=null){
+			        certSerialNumber = revokedCertificate.getSerialNumber().toString();}
+			        //checkpoint = 9013;
 			       // certRevokeReason = revokedCertificate.getRevocationReason().toString();
 			        //checkpoint = 9014;
 			
 			        if(revokedCertificate !=null){
 			        	certificate_revoked = true;
-			        	checkpoint = 999999;
+			        	//checkpoint = 999999;
 			        }
 		
 		        }
-        
-		        
+        //http://javax.xml.XMLConstants/property/accessExternalDTD
            }
         catch (Throwable e)
         {
         	ErrorMessage = e.getMessage();
         }
         
-        checkpoint = 9014;
+        //checkpoint = 9014;
         return certificate_revoked;
 		
 	}
