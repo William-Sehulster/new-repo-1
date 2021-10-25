@@ -1213,6 +1213,7 @@ public class ValidateDigitalSignature {
 			            //checkpoint = 9010;
 			        }
 			
+
 			        //checkpoint = 9011;
 			        revokedCertificate = crl.getRevokedCertificate(certificate.getSerialNumber());
 			        
