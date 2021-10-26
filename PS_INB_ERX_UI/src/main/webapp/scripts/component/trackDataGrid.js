@@ -110,23 +110,12 @@ function createLinkRefNumRelated(entry, inbOutVal) {
 	var relatedMessageGridId = 'relatedMessagesListGrid';
 	var relatedMessageGrid = dijit.byId(relatedMessageGridId);
 	
-	var inboundOutbound = "Inbound";
-	 if ( entry.indexOf("inb") != -1 )
-	 {
-	 	inboundOutbound = "Inbound";
-	 	entry = entry.replace("inb-", "");
-	 	}
-	  else if ( entry.indexOf("outb") != -1 )
-	 {
-	 	inboundOutbound = "Outbound";
-	 	entry = entry.replace("outb-", "");
-	 	}
+	var inboundOutbound = "Unknown";
 
-	 var relatedMsg = null;
+	var relatedMsg = null;
 	
 	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessages(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
-
 
 function gotoRelatedMessages(element, elementId) {
 	

@@ -2709,7 +2709,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		
 		StringBuffer sqlBuffer = new StringBuffer();
 //TODO:pull this query out of the code into a resource file 
-				sqlBuffer.append("select 'inb-'|| inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 		
+				sqlBuffer.append("select inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 		
 			    		"erx_type erx_type,\r\n" ).append( 
 			    		"schedule schedule,\r\n" ).append( 
 			    		"digital_signature digital_signature,\r\n" ).append(
@@ -2788,7 +2788,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 				"and t.script_version is null \r\n" ).append(
 				"UNION ALL \r\n" ).append(
-				"select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+				"select  t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(		
 				"                t.erx_type erx_type, \r\n" ).append(
 				"                t.schedule schedule, \r\n" ).append(
 				"                t.digital_signature digital_signature, \r\n" ).append(						
@@ -2843,7 +2843,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 						"						and t.script_version is null \r\n" ).append(
 								"UNION ALL \r\n" ).append(
-									"select 'inb-' || t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(												
+									"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(		
 									"t.erx_type erx_type, \r\n" ).append(
 									"t.schedule schedule, \r\n" ).append(
 									"t.digital_signature digital_signature, \r\n" ).append(						            
@@ -2899,7 +2899,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 						" and t.message_status not in ('3006') \r\n" ).append(
 						" and t.script_version = '2017071'\r\n" ).append(
 						" UNION ALL \r\n" ).append(
-						"select 'outb-' || t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(								
+						"select  t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(			
 						"                t.erx_type erx_type, \r\n" ).append(
 						"                t.schedule schedule, \r\n" ).append(
 						"                t.digital_signature digital_signature, \r\n" ).append(

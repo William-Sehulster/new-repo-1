@@ -643,17 +643,47 @@ function getMessage(id, inOut,relatedMsg){
      
      var trackMessageListGrid = dijit.byId("messageListGrid");
      var trackMainGridMsgStatus = null;
+
      var relatedMessagesGrid = dijit.byId("relatedMessagesListGrid");
      
      // message status for related message grid. 
      var messageStatus = null;
-     var relatedMsgSearch="";
+    
+     // By default the get message is set to inbound, it should be change based on the message for related messages.
+  
+ 	if ( (relatedMessagesGrid!=null) && (inOut.indexOf("Unknown") !== -1 ) )
+ 	{
+ 		
+ 		
+ 		var gridStore = relatedMessagesGrid.store;
+ 		
+ 		gridStore.fetch( { query: { inboundNcpdpMsgId: id },  
+            onItem: function(item) {
+               //console.log( gridStore.getValue( item, 'message_status' ) );
+               
+               messageStatus = gridStore.getValue( item, 'message_status' );
+            }
+ 		});
+ 		
+ 		
+ 		if( messageStatus!=null && messageStatus.indexOf("OB_MSG")!== -1){
+ 			inOut = "Outbound";  		}
+ 		else { inOut= "Inbound";   }
+ 			
+ 	}	
+ 
+ 	
+    var relatedMsgSearch="";
     
     if(relatedMsg!="null"  && relatedMsg == "true" ){
     	
     	relatedMsgSearch ="true";
     	
     }
+	
+	//The code assumes right now that if the variable "inOut" is not "Outbound" it is currently set to
+	//"Inbound" and does not account for the fact that "Both can also be a selection.  The below code
+	//corrects this.
 	
     console.log("getMessage5");
     var param1 = id;
