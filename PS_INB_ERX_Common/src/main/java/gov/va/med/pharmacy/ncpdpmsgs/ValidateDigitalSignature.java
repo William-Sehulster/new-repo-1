@@ -54,6 +54,8 @@ public class ValidateDigitalSignature {
 	private ArrayList<String> elementsToSignWith = null;
 	private String elementsToSignWith_String = "";
 	
+	private boolean MbM_schedule_fault = false;
+	
 	//Below are all the elements used to create a Digital Signature as defined in Surescript's Implementation Guide v2017071
 	private String DEA_prescriber="";
 	private String SSN_prescriber="";
@@ -92,6 +94,8 @@ public class ValidateDigitalSignature {
 	private String date_year_tmp="";
 	private String date_month_tmp="";
 	private String date_day_tmp="";
+	
+	private String NCPDPID = "";
 	
 	private boolean certificate_revoked = false;
 	
@@ -223,6 +227,9 @@ public class ValidateDigitalSignature {
 				boolean bName = false;
 				boolean bOtherMedicationDate = false;
 				boolean bOtherMedicationDateQualifier = false;
+				
+				//Pharmacy Data
+				boolean bNCPDPID = false;
 			    
 			    @Override
 			    public void startElement(String uri, String localName,String qName, 
@@ -367,7 +374,10 @@ public class ValidateDigitalSignature {
 			        if (qName.equalsIgnoreCase("SigText")) {
 			        	bsigtext = true;
 			        }			        
-			        
+
+			        if (qName.equalsIgnoreCase("NCPDPID")) {
+			        	bNCPDPID = true;
+			        }
 			    }
 			    
 			    @Override
@@ -389,6 +399,9 @@ public class ValidateDigitalSignature {
 			        if (qName.equalsIgnoreCase("OtherMedicationDate")) {
 			        	bOtherMedicationDate = false;
 			        }			    	
+			        if (qName.equalsIgnoreCase("NCPDPID")) {
+			        	bNCPDPID = false;
+			        }
 
 			          	// Default method
 
@@ -681,6 +694,9 @@ public class ValidateDigitalSignature {
 						drug_name_compound.add(new String(ch, start, length));
 						bcompoundDescription = false;
 					}
+					if(bNCPDPID) {
+						NCPDPID = new String(ch, start, length);
+					}
 
 		        }
 
@@ -763,6 +779,10 @@ public class ValidateDigitalSignature {
 			//Will return True if Certificate is contained within CRL and will no longer continue to 
 			//process DS
 			if(CertVerification(eRxX509Data)) return false;
+			
+			//Check to see Pharmacy identified within the script is a Meds by Mail (MbM) pharmacy and 
+			//if it is check to see if the Schedule type of the drug is Scedule II, if so reject message.
+			if(MbM_Check()) return false;
 			
 			
 			//checkpoint = 9000;
@@ -1085,6 +1105,7 @@ public class ValidateDigitalSignature {
 
 		//LOG.debug("Entering getValidation method...");
 		//boolean invalid = true;
+		
 		boolean valid = false;
     	if(isDSIndicator) {
     		
@@ -1100,6 +1121,16 @@ public class ValidateDigitalSignature {
     		setDs_created (true);
     		valid = true;
     		checkpoint++;//12
+    		
+    		//Check to see Pharmacy identified within the script is a Meds by Mail (MbM) pharmacy and 
+    		//if it is check to see if the Schedule type of the drug is Schedule II, if so reject message.
+    		if(MbM_Check()) {
+    			
+    			setSignatureVerified (false);
+    			return false;
+    		}
+    		
+    		
     		//verify the newly created digital signature
     		//return verifyDigitalSignature();
     		//return true;
@@ -1240,6 +1271,24 @@ public class ValidateDigitalSignature {
         //checkpoint = 9014;
         return certificate_revoked;
 		
+	}
+	
+	private boolean MbM_Check()
+	{
+		//check incoming message against the below pharmacies
+	   String MbM_pharm_ncpdpid_1 = "1162700";
+	   String MbM_pharm_ncpdpid_2 = "5204437";
+	   
+	   if (NCPDPID.equalsIgnoreCase(MbM_pharm_ncpdpid_1) || NCPDPID.equalsIgnoreCase(MbM_pharm_ncpdpid_2))
+		   if(this.getSchedule().equalsIgnoreCase("C48675"))
+			   MbM_schedule_fault = true;
+	   
+	   return MbM_schedule_fault;
+			   
+	}
+	
+	public boolean getMbM_fault() {
+		return MbM_schedule_fault;
 	}
 	
 	public String getRevokeReason()

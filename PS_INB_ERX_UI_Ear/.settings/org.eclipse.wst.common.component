@@ -5,10 +5,10 @@
         <dependent-module archiveName="PS_INB_ERX_UI.war" deploy-path="/" handle="module:/resource/PS_INB_ERX_UI/PS_INB_ERX_UI">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Common-5.0.5.018.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
+        <dependent-module archiveName="PS_INB_ERX_Common-5.0.5.020.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Model-5.0.5.018.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
+        <dependent-module archiveName="PS_INB_ERX_Model-5.0.5.020.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-lang3-3.11.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar">
