@@ -87,6 +87,8 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 	
 	private static final String ERROR_DESCRIPTION_CERT_REVOKED  = "<Description>Certificate Has Been Revoked</Description>";
 
+	private static final String ERROR_DESCRIPTION_CS_MBM_FAULT = "<Description>This drug is assigned a DEA schedule II. The pharmacy does not fill Schedule II prescriptions.</Description>";
+	
 	private static final String MESSAGE_ERROR_END = "</Error>";
 
 	private static final String ERROR_DESCRIPTION_XSD_VALIDATION = "<Description>XSD Validation Error</Description>";
@@ -367,7 +369,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			//Check to see if script has Digital signature
 			//if(validateDS.getHasSignatureVerified()) {
 			//Digital Signature Valid: set inbound table columns to show CS script
-			 if (validateDS.getHasDSIndicator() && validateDS.getDs_created()) {
+			 if (validateDS.getHasDSIndicator() && validateDS.getDs_created() && !validateDS.getMbM_fault()) {
 				 inb_checkpoint=10; //10 
 				inboundeRx.seterxtype("CS");
 				inboundeRx.setdigitalsignature("TRUE");
@@ -423,13 +425,20 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				
 				}		 
 			//}
-			else if (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false )) {
+			else if (validateDS.getMbM_fault() || (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false ))) {
 				    inb_checkpoint=30; //30 
 					inboundeRx.seterxtype("CS");
 					inboundeRx.setdigitalsignature("FAILED");
 					inboundeRx.setschedule(validateDS.getSchedule());
 					inboundeRx.setdonotfill(validateDS.getDoNotFill());
 					inboundeRx.setErxStatusByMessageStatus("3006"); //NCPDP_MSG_INVALID
+					
+					if(validateDS.getMbM_fault())
+					{
+						//inboundeRx.setErxStatusByMessageStatus("30061");
+						//inboundeRx.setMessageType("Error");
+					}
+					
 					inb_checkpoint++; //31
 					String emptyStr = new String("");
 					responseBuffer_Ds.append(DIGITAL_SIGNATURE_START);
@@ -472,7 +481,7 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 			//inb_checkpoint++; //42
 			
 /* CS DS indicator is false - throw exception */
-			if  (validateDS.getHasDigitalSignature() && (validateDS.getSignatureVerified()==false ))
+			if  ((validateDS.getHasDigitalSignature() && validateDS.getSignatureVerified()==false)  || validateDS.getMbM_fault())
 			{
 				
 				//inb_checkpoint = 98;
@@ -693,6 +702,11 @@ public class InboundNCPDPMessageServiceImpl implements InboundNCPDPMessageServic
 				responseBuffer.append(ERROR_DESCRIPTION_CERT_REVOKED);				
 			}
 				
+			else if(validateDS.getMbM_fault()) {
+				responseBuffer.append(ERROR_CODE_602);
+				responseBuffer.append(ERROR_DESCRIPTION_CS_MBM_FAULT);
+			}
+			
 			else if(DS_failure) {
 				responseBuffer.append(ERROR_CODE_602);
 				responseBuffer.append(ERROR_DESCRIPTION_DS_FAIL);
