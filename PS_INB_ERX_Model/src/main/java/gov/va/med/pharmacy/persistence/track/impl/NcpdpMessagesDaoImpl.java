@@ -2349,7 +2349,10 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		
 		//erx_typeValue - eRxType - ERX_TYPE		
 				if  (eRxType.length() > 0)   {
-					sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";
+					if (eRxType.equals("'CS'"))
+					{	sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";}
+					else if (eRxType.equals("'NONCS'"))
+					{	sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and (t.ERX_TYPE = " + eRxType + "  or t.ERX_TYPE is Null) \r\n";}
 				}
 		//ScheduleValue - SCHEDULE - schedule	
 
