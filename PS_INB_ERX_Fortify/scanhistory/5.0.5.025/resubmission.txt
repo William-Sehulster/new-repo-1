@@ -1,0 +1,10 @@
+This version (5.0.0.025) includes fixes to the UI (Java, CSS and JS) since the last scanned and submitted version (5.0.0.024).  
+
+Summary
+1.	Using the most current rule rules_2021.3.0
+2. 	VA SwA Code Validation Pharmacy Reengineering Inbound ePrescribing v5.0.5.022 2021-12-08 PASS.pdf 
+3.	Included all libraries, framework and property files
+4.	Updated the most jar files having the Fortify compliance that reviewed with Known Critical Vulnerabilities and Known High Vulnerabilities
+(Based on the documentation: VA SwA Composition Analysis Pharmacy Reengineering Inbound ePrescribing v5.0.5.024 2021-12-17 Appendix.docx
+and VA SwA Composition Analysis Pharmacy Reengineering Inbound ePrescribing v5.0.5.024 2021-12-17 FAIL.pdf)
+5.	Re-generate Fpr canned file
