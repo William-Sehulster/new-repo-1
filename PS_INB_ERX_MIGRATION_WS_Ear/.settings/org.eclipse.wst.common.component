@@ -5,10 +5,10 @@
         <dependent-module archiveName="INB_ERX_MIGRATION_WS.war" deploy-path="/" handle="module:/resource/PS_INB_ERX_MIGRATION_WS/PS_INB_ERX_MIGRATION_WS">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Common-5.0.5.020.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
+        <dependent-module archiveName="PS_INB_ERX_Common-5.0.5.018.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Common/PS_INB_ERX_Common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="PS_INB_ERX_Model-5.0.5.020.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
+        <dependent-module archiveName="PS_INB_ERX_Model-5.0.5.018.jar" deploy-path="/lib" handle="module:/resource/PS_INB_ERX_Model/PS_INB_ERX_Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-lang3-3.11.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar">
@@ -20,7 +20,7 @@
         <dependent-module archiveName="commons-text-1.9.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-text/1.9/commons-text-1.9.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-core-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-core/3.3.7/cxf-core-3.3.7.jar">
+        <dependent-module archiveName="cxf-core-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-core/3.4.5/cxf-core-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jaxb-runtime-2.3.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar">
@@ -50,22 +50,22 @@
         <dependent-module archiveName="jakarta.xml.bind-api-2.3.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-ws-security-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-security/3.3.7/cxf-rt-ws-security-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-ws-security-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-security/3.4.5/cxf-rt-ws-security-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-bindings-soap-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-bindings-soap/3.3.7/cxf-rt-bindings-soap-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-bindings-soap-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-bindings-soap/3.4.5/cxf-rt-bindings-soap-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-wsdl-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-wsdl/3.3.7/cxf-rt-wsdl-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-wsdl-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-wsdl/3.4.5/cxf-rt-wsdl-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="wsdl4j-1.6.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/wsdl4j/wsdl4j/1.6.3/wsdl4j-1.6.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-databinding-jaxb-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-databinding-jaxb/3.3.7/cxf-rt-databinding-jaxb-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-databinding-jaxb-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-databinding-jaxb/3.4.5/cxf-rt-databinding-jaxb-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-security-saml-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-security-saml/3.3.7/cxf-rt-security-saml-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-security-saml-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-security-saml/3.4.5/cxf-rt-security-saml-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="ehcache-2.10.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/net/sf/ehcache/ehcache/2.10.6/ehcache-2.10.6.jar">
@@ -77,7 +77,7 @@
         <dependent-module archiveName="wss4j-ws-security-common-2.2.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/wss4j/wss4j-ws-security-common/2.2.5/wss4j-ws-security-common-2.2.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="xmlsec-2.1.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/santuario/xmlsec/2.1.5/xmlsec-2.1.5.jar">
+        <dependent-module archiveName="xmlsec-2.2.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/santuario/xmlsec/2.2.3/xmlsec-2.2.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="opensaml-saml-impl-3.3.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/opensaml/opensaml-saml-impl/3.3.1/opensaml-saml-impl-3.3.1.jar">
@@ -143,7 +143,7 @@
         <dependent-module archiveName="geronimo-javamail_1.4_mail-1.8.4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/geronimo/javamail/geronimo-javamail_1.4_mail/1.8.4/geronimo-javamail_1.4_mail-1.8.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="wss4j-policy-2.2.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/wss4j/wss4j-policy/2.2.5/wss4j-policy-2.2.5.jar">
+        <dependent-module archiveName="wss4j-policy-2.4.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/wss4j/wss4j-policy/2.4.0/wss4j-policy-2.4.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="neethi-3.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/neethi/neethi/3.1.1/neethi-3.1.1.jar">
@@ -164,7 +164,7 @@
         <dependent-module archiveName="wss4j-ws-security-policy-stax-2.2.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/wss4j/wss4j-ws-security-policy-stax/2.2.5/wss4j-ws-security-policy-stax-2.2.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-frontend-jaxws-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-jaxws/3.3.7/cxf-rt-frontend-jaxws-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-frontend-jaxws-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-jaxws/3.4.5/cxf-rt-frontend-jaxws-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="xml-resolver-1.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar">
@@ -173,22 +173,22 @@
         <dependent-module archiveName="asm-8.0.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/ow2/asm/asm/8.0.1/asm-8.0.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-bindings-xml-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-bindings-xml/3.3.7/cxf-rt-bindings-xml-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-bindings-xml-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-bindings-xml/3.4.5/cxf-rt-bindings-xml-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-frontend-simple-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-simple/3.3.7/cxf-rt-frontend-simple-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-frontend-simple-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-simple/3.4.5/cxf-rt-frontend-simple-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-ws-addr-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-addr/3.3.7/cxf-rt-ws-addr-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-ws-addr-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-addr/3.4.5/cxf-rt-ws-addr-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-ws-policy-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-policy/3.3.7/cxf-rt-ws-policy-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-ws-policy-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-ws-policy/3.4.5/cxf-rt-ws-policy-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-transports-http-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-transports-http/3.3.7/cxf-rt-transports-http-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-transports-http-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-transports-http/3.4.5/cxf-rt-transports-http-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-frontend-jaxrs-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-jaxrs/3.3.7/cxf-rt-frontend-jaxrs-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-frontend-jaxrs-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-frontend-jaxrs/3.4.5/cxf-rt-frontend-jaxrs-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jakarta.ws.rs-api-2.1.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/jakarta/ws/rs/jakarta.ws.rs-api/2.1.5/jakarta.ws.rs-api-2.1.5.jar">
@@ -197,13 +197,13 @@
         <dependent-module archiveName="javax.annotation-api-1.3.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-security-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-security/3.3.7/cxf-rt-security-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-security-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-security/3.4.5/cxf-rt-security-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-transports-http-jetty-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-transports-http-jetty/3.3.7/cxf-rt-transports-http-jetty-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-transports-http-jetty-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-transports-http-jetty/3.4.5/cxf-rt-transports-http-jetty-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="jetty-server-9.4.29.v20200521.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-server/9.4.29.v20200521/jetty-server-9.4.29.v20200521.jar">
+        <dependent-module archiveName="jetty-server-9.4.43.v20210629.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-server/9.4.43.v20210629/jetty-server-9.4.43.v20210629.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="javax.servlet-api-3.1.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar">
@@ -212,7 +212,7 @@
         <dependent-module archiveName="jetty-util-9.4.29.v20200521.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-util/9.4.29.v20200521/jetty-util-9.4.29.v20200521.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="jetty-io-9.4.29.v20200521.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-io/9.4.29.v20200521/jetty-io-9.4.29.v20200521.jar">
+        <dependent-module archiveName="jetty-io-9.4.44.v20210927.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-io/9.4.44.v20210927/jetty-io-9.4.44.v20210927.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jetty-security-9.4.29.v20200521.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/jetty/jetty-security/9.4.29.v20200521/jetty-security-9.4.29.v20200521.jar">
@@ -227,55 +227,55 @@
         <dependent-module archiveName="slf4j-api-1.7.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cxf-rt-rs-client-3.3.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-rs-client/3.3.7/cxf-rt-rs-client-3.3.7.jar">
+        <dependent-module archiveName="cxf-rt-rs-client-3.4.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-rs-client/3.4.5/cxf-rt-rs-client-3.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-beans-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-beans/5.2.8.RELEASE/spring-beans-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-beans-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-beans/5.2.15.RELEASE/spring-beans-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-core-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-core/5.2.8.RELEASE/spring-core-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-core-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-core/5.2.15.RELEASE/spring-core-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-jcl-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-jcl/5.2.8.RELEASE/spring-jcl-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-jcl-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-jcl/5.2.15.RELEASE/spring-jcl-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-context-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-context/5.2.8.RELEASE/spring-context-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-context-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-context/5.2.15.RELEASE/spring-context-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-aop-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-aop/5.2.8.RELEASE/spring-aop-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-aop-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-aop/5.2.15.RELEASE/spring-aop-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-expression-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-expression/5.2.8.RELEASE/spring-expression-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-expression-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-expression/5.2.15.RELEASE/spring-expression-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-context-support-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-context-support/5.2.8.RELEASE/spring-context-support-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-context-support-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-context-support/5.2.15.RELEASE/spring-context-support-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-jdbc-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-jdbc/5.2.8.RELEASE/spring-jdbc-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-jdbc-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-jdbc/5.2.15.RELEASE/spring-jdbc-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-orm-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-orm/5.2.8.RELEASE/spring-orm-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-orm-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-orm/5.2.15.RELEASE/spring-orm-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-oxm-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-oxm/5.2.8.RELEASE/spring-oxm-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-oxm-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-oxm/5.2.15.RELEASE/spring-oxm-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-tx-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-tx/5.2.8.RELEASE/spring-tx-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-tx-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-tx/5.2.15.RELEASE/spring-tx-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-web-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-web/5.2.8.RELEASE/spring-web-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-web-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-web/5.2.15.RELEASE/spring-web-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-test-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-test/5.2.8.RELEASE/spring-test-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-test-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-test/5.2.15.RELEASE/spring-test-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-security-config-5.3.4.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-config/5.3.4.RELEASE/spring-security-config-5.3.4.RELEASE.jar">
+        <dependent-module archiveName="spring-security-config-5.3.10.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-config/5.3.10.RELEASE/spring-security-config-5.3.10.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-security-core-5.3.4.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-core/5.3.4.RELEASE/spring-security-core-5.3.4.RELEASE.jar">
+        <dependent-module archiveName="spring-security-core-5.3.10.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-core/5.3.10.RELEASE/spring-security-core-5.3.10.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-security-web-5.3.4.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-web/5.3.4.RELEASE/spring-security-web-5.3.4.RELEASE.jar">
+        <dependent-module archiveName="spring-security-web-5.3.10.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/security/spring-security-web/5.3.10.RELEASE/spring-security-web-5.3.10.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="javaee-web-api-8.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/javaee-web-api/8.0/javaee-web-api-8.0.jar">
@@ -287,7 +287,7 @@
         <dependent-module archiveName="jackson-annotations-2.10.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/fasterxml/jackson/core/jackson-annotations/2.10.0/jackson-annotations-2.10.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="jackson-core-2.10.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/fasterxml/jackson/core/jackson-core/2.10.0/jackson-core-2.10.0.jar">
+        <dependent-module archiveName="jackson-core-2.12.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/fasterxml/jackson/core/jackson-core/2.12.1/jackson-core-2.12.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jackson-dataformat-xml-2.10.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.10.0/jackson-dataformat-xml-2.10.0.jar">
@@ -338,18 +338,18 @@
         <dependent-module archiveName="commons-logging-1.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="commons-beanutils-core-1.8.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-beanutils/commons-beanutils-core/1.8.3/commons-beanutils-core-1.8.3.jar">
+        <dependent-module archiveName="commons-beanutils-1.9.4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="commons-fileupload-1.3.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-fileupload/commons-fileupload/1.3.1/commons-fileupload-1.3.1.jar">
+        <dependent-module archiveName="commons-fileupload-1.3.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-fileupload/commons-fileupload/1.3.3/commons-fileupload-1.3.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-collections-3.2.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-1.2.17.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar">
+        <!--EcFortify  dependent-module archiveName="log4j-1.2.17.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar">
             <dependency-type>uses</dependency-type>
-        </dependent-module>
+        </dependent-module>-->
         <dependent-module archiveName="xom-1.2.5.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xom/xom/1.2.5/xom-1.2.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -359,7 +359,7 @@
         <dependent-module archiveName="xercesImpl-2.12.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xerces/xercesImpl/2.12.0/xercesImpl-2.12.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="xalan-2.7.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xalan/xalan/2.7.0/xalan-2.7.0.jar">
+        <dependent-module archiveName="xalan-2.7.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xalan/xalan/2.7.2/xalan-2.7.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bsh-core-2.0b4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/beanshell/bsh-core/2.0b4/bsh-core-2.0b4.jar">
@@ -377,7 +377,7 @@
         <dependent-module archiveName="commons-codec-1.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-codec/commons-codec/1.2/commons-codec-1.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="batik-css-1.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/xmlgraphics/batik-css/1.8/batik-css-1.8.jar">
+        <dependent-module archiveName="batik-css-1.10.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/xmlgraphics/batik-css/1.10/batik-css-1.10.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="batik-ext-1.8.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/xmlgraphics/batik-ext/1.8/batik-ext-1.8.jar">
@@ -389,7 +389,7 @@
         <dependent-module archiveName="xml-apis-ext-1.3.04.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xml-apis/xml-apis-ext/1.3.04/xml-apis-ext-1.3.04.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="hibernate-core-5.4.8.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-core/5.4.8.Final/hibernate-core-5.4.8.Final.jar">
+        <dependent-module archiveName="hibernate-core-5.4.32.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-core/5.4.32.Final/hibernate-core-5.4.32.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="javax.persistence-api-2.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar">
@@ -413,16 +413,16 @@
         <dependent-module archiveName="javax.activation-api-1.2.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="dom4j-2.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/dom4j/dom4j/2.1.1/dom4j-2.1.1.jar">
+        <dependent-module archiveName="dom4j-2.1.3.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/dom4j/dom4j/2.1.3/dom4j-2.1.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="hibernate-commons-annotations-5.1.0.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/common/hibernate-commons-annotations/5.1.0.Final/hibernate-commons-annotations-5.1.0.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="hibernate-ehcache-5.4.8.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-ehcache/5.4.8.Final/hibernate-ehcache-5.4.8.Final.jar">
+        <dependent-module archiveName="hibernate-ehcache-5.4.32.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-ehcache/5.4.32.Final/hibernate-ehcache-5.4.32.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="hibernate-jcache-5.4.8.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-jcache/5.4.8.Final/hibernate-jcache-5.4.8.Final.jar">
+        <dependent-module archiveName="hibernate-jcache-5.4.32.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-jcache/5.4.32.Final/hibernate-jcache-5.4.32.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="hibernate-validator-6.0.18.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/validator/hibernate-validator/6.0.18.Final/hibernate-validator-6.0.18.Final.jar">
@@ -446,16 +446,16 @@
         <dependent-module archiveName="jandex-2.1.1.Final.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jboss/jandex/2.1.1.Final/jandex-2.1.1.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-webmvc-5.2.8.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-webmvc/5.2.8.RELEASE/spring-webmvc-5.2.8.RELEASE.jar">
+        <dependent-module archiveName="spring-webmvc-5.2.15.RELEASE.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-webmvc/5.2.15.RELEASE/spring-webmvc-5.2.15.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-api-2.14.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-api/2.14.0/log4j-api-2.14.0.jar">
+        <dependent-module archiveName="log4j-api-2.17.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-api/2.17.0/log4j-api-2.17.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-core-2.14.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-core/2.14.0/log4j-core-2.14.0.jar">
+        <dependent-module archiveName="log4j-core-2.17.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-core/2.17.0/log4j-core-2.17.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="log4j-web-2.14.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-web/2.14.0/log4j-web-2.14.0.jar">
+        <dependent-module archiveName="log4j-web-2.17.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-web/2.17.0/log4j-web-2.17.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="ojdbc8-12.2.0.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar">
