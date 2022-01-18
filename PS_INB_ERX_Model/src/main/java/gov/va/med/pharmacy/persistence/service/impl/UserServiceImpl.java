@@ -212,15 +212,10 @@ public  class UserServiceImpl implements UserService{
 
 	@Override
 	public List<VaUser> getUsersByStationIds(String stationIds, List<String> stationIdsList) {
-		
-		List<VaUser> users = userDao.findUsersByStationIds(stationIds, stationIdsList); 
-		
-		sortUserListByFirstName(users);
-		
-		
-		
-		return users;
-	}
+	    List<VaUser> users = this.userDao.findUsersByStationIds(stationIds, stationIdsList);
+	    sortUserListByFirstName(users);
+	    return users;
+	  }
 	
 	
 	private void sortUserListByFirstName(List<VaUser> users) {

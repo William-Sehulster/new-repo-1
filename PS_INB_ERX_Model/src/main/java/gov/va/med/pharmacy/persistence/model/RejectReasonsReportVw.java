@@ -11,13 +11,15 @@ import org.hibernate.annotations.Immutable;
 
 
 @Entity
-@Table(name = "REJECT_REASONS_REPORT_MVW", schema = "ERX")
+@Table(name = "REJECT_REASONS_REPORT_MVW1", schema = "ERX")
 @Immutable
 public class RejectReasonsReportVw implements java.io.Serializable {
 
 
 	private static final long serialVersionUID = -8976286905899369578L;
 	
+	// E.Carlson - Remove newRxCsNotAllowed per ERXCS1729 and added "newRxInvalidCsDs", "newRxPrescriberCsCredInvalid", "newRxPatientAddrMissing", 
+	//	"newRxCsDateProblem"
 	private String pharmacyNcpdpId;
 	private String pharmacyVaStationId;
 	private String pharmacyDivisionName;
@@ -35,10 +37,14 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	private long newRxDuplicate;
 	private long newRxInvalidQty;
 	private long newRxDupTheraClass;
-	private long newRxCsNotAllowed;
 	private long newRxMultiErrCallPharm;
 	private long newRxIncorrectPharm;
 	private long newRxErrCallPharm;
+	private long newRxInvalidCsDs;
+	private long newRxPrescriberCsCredInvalid;
+	private long newRxPatientAddrMissing;
+	private long newRxCsDateIssue;
+	private long other;
 	private Date newRxMessageDate;
 	
 
@@ -55,7 +61,9 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	public RejectReasonsReportVw(String pharmacyNcpdpId, String pharmacyVaStationId, String pharmacyDivisionName, String visn,
 			String pharmacyAddress, long newRx, long newRxInProcess, long newRxRejectedByPharmacist, long newRxPatientNotElig,
 			long newRxPatientNotFound, long newRxProviderNotElig, long newRxProviderNotFound, long newRxNotEligRefills, long newRxNonFormulary, long newRxDuplicate,
-			long newRxInvalidQty, long newRxDupTheraClass, long newRxCsNotAllowed, long newRxMultiErrCallPharm, long newRxIncorrectPharm, long newRxErrCallPharm,Date newRxMessageDate) {
+			long newRxInvalidQty, long newRxDupTheraClass, long newRxMultiErrCallPharm, long newRxIncorrectPharm, long newRxErrCallPharm, long newRxInvalidCsDs,
+			long newRxPrescriberCsCredInvalid, long newRxPatientAddrMissing, long newRxCsDateIssue, long other, Date newRxMessageDate) {
+				
 		this.pharmacyNcpdpId = pharmacyNcpdpId;
 		this.pharmacyVaStationId = pharmacyVaStationId;
 		this.pharmacyDivisionName = pharmacyDivisionName;
@@ -73,11 +81,15 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 		this.newRxDuplicate = newRxDuplicate;
 		this.newRxInvalidQty = newRxInvalidQty;
 		this.newRxDupTheraClass = newRxDupTheraClass;
-		this.newRxCsNotAllowed = newRxCsNotAllowed;
 		this.newRxMultiErrCallPharm = newRxMultiErrCallPharm;
 		this.newRxIncorrectPharm = newRxIncorrectPharm;
 		this.newRxErrCallPharm = newRxErrCallPharm;
+		this.newRxInvalidCsDs = newRxInvalidCsDs;
+		this.newRxPrescriberCsCredInvalid = newRxPrescriberCsCredInvalid;
+		this.newRxPatientAddrMissing = newRxPatientAddrMissing;
+		this.newRxCsDateIssue = newRxCsDateIssue;
 		this.newRxMessageDate = newRxMessageDate;
+		this.other = other;
 	}
 
 	@Column(name = "PHARMACY_NCPDP_ID", nullable = false, length = 7)
@@ -226,15 +238,6 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 		this.newRxDupTheraClass = newRxDupTheraClass;
 	}
 
-	@Column(name = "NEW_RX_CS_NOT_ALLOWED", precision = 22, scale = 0)
-	public long getNewRxCsNotAllowed() {
-		return newRxCsNotAllowed;
-	}
-
-	public void setNewRxCsNotAllowed(long newRxCsNotAllowed) {
-		this.newRxCsNotAllowed = newRxCsNotAllowed;
-	}
-
 	@Column(name = "NEW_RX_ERR_MULTI_CALL_PHARM", precision = 22, scale = 0)
 	public long getNewRxMultiErrCallPharm() {
 		return newRxMultiErrCallPharm;
@@ -261,6 +264,52 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	public void setNewRxErrCallPharm(long newRxErrCallPharm) {
 		this.newRxErrCallPharm = newRxErrCallPharm;
 	}
+	
+	// E.Carlson - Added new columns per ERXCS1729 for CS.
+	@Column(name = "NEW_RX_MISSING_CS_DS", precision = 22, scale = 0)
+	public long getNewRxInvalidCsDs() {
+		return newRxInvalidCsDs;
+	}
+
+	public void setNewRxInvalidCsDs(long newRxInvalidCsDs) {
+		this.newRxInvalidCsDs = newRxInvalidCsDs;
+	}
+	
+	@Column(name = "NEW_RX_PRES_CS_CRED_INVALID", precision = 22, scale = 0)
+	public long getNewRxPrescriberCsCredInvalid() {
+		return newRxPrescriberCsCredInvalid;
+	}
+
+	public void setNewRxPrescriberCsCredInvalid(long newRxPrescriberCsCredInvalid) {
+		this.newRxPrescriberCsCredInvalid = newRxPrescriberCsCredInvalid;
+	}
+	
+	@Column(name = "NEW_RX_PATIENT_ADDR_MISSING", precision = 22, scale = 0)
+	public long getNewRxPatientAddrMissing() {
+		return newRxPatientAddrMissing;
+	}
+
+	public void setNewRxPatientAddrMissing(long newRxPatientAddrMissing) {
+		this.newRxPatientAddrMissing = newRxPatientAddrMissing;
+	}
+	
+	@Column(name = "NEW_RX_CS_DATE_ISSUE", precision = 22, scale = 0)
+	public long getNewRxCsDateIssue() {
+		return newRxCsDateIssue;
+	}
+
+	public void setNewRxCsDateIssue(long newRxCsDateIssue) {
+		this.newRxCsDateIssue = newRxCsDateIssue;
+	}
+	
+	@Column(name = "NEW_RX_OTHER", precision = 22, scale = 0)
+	public long getOther() {
+		return other;
+	}
+
+	public void setOther(long other) {
+		this.other = other;
+	}	
 
 	@Column(name = "NEW_RX_MESSAGE_DATE", length = 8)
 	public Date getNewRxMessageDate() {
@@ -281,6 +330,8 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 	}
 
 	// for csv, not to be removed, needs to match the header order.
+	// E.Carlson - Remove newRxCsNotAllowed per ERXCS1729 and added "newRxInvalidCsDs", "newRxPrescriberCsCredInvalid", "newRxPatientAddrMissing", 
+	//	"newRxCsDateProblem"
 	@javax.persistence.Transient
 	public String[] getStringArray(){
 		String[] stringArray = {this.getVisn(),
@@ -300,10 +351,14 @@ public class RejectReasonsReportVw implements java.io.Serializable {
 					String.valueOf(this.getNewRxDuplicate()),
 					String.valueOf(this.getNewRxInvalidQty()),
 					String.valueOf(this.getNewRxDupTheraClass()),
-					String.valueOf(this.getNewRxCsNotAllowed()),
 					String.valueOf(this.getNewRxMultiErrCallPharm()),
 					String.valueOf(this.getNewRxIncorrectPharm()),
-					String.valueOf(this.getNewRxErrCallPharm())
+					String.valueOf(this.getNewRxErrCallPharm()),
+					String.valueOf(this.getNewRxInvalidCsDs()),
+					String.valueOf(this.getNewRxPrescriberCsCredInvalid()),
+					String.valueOf(this.getNewRxPatientAddrMissing()),
+					String.valueOf(this.getNewRxCsDateIssue()),
+					String.valueOf(this.getOther())
 		};
 		
 		return stringArray;

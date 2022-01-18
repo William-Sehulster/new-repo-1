@@ -15,7 +15,7 @@ public interface TrackMessageService {
 			String patientFirstName, String patientDob, String prescriberNpi, String prescriberLastName,
 			String prescriberFirstName, String prescriberDEA, String prescribedDrug, String messageStatus,
 			String inboundNcpdpMsgId, String inboundOutbound, boolean mbmAllowed, String numberOfRecords,
-			String patientSSN2017071);
+			String patientSSN2017071,String eRxType, String schedule);
 
 	public List<VisnSelectModel> getVisns();
 

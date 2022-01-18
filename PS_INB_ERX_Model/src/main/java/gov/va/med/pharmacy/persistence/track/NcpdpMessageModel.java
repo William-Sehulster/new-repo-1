@@ -10,6 +10,11 @@ public class NcpdpMessageModel {
 	private Long inboundNcpdpMsgId;
 	private String rxMessageId;
 	private String relToMessageid;
+/* eRx5.0 CS DS begin*/
+	private String erx_type;
+	private String schedule;
+	private String digital_signature;
+/* eRx5.0 CS DS begin*/
 	private String messageType;
 	private String receivedDate;
 	private String pharmacyName;
@@ -269,6 +274,24 @@ public class NcpdpMessageModel {
 	}
 	public void setRelToMessageid(String relToMessageid) {
 		this.relToMessageid = relToMessageid;
+	}
+	public String getErx_type() {
+		return erx_type;
+	}
+	public void setErx_type(String erx_type) {
+		this.erx_type = erx_type;
+	}
+	public String getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+	public String getDigital_signature() {
+		return digital_signature;
+	}
+	public void setDigital_signature(String digital_signature) {
+		this.digital_signature = digital_signature;
 	}
 	public String getMessageType() {
 		return messageType;

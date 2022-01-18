@@ -4,6 +4,9 @@ dojo.require("dojo.date");
 dojo.require("dijit.Dialog");
 dojo.require("dojo.Deferred");
 dojo.require("dojo.parser");
+dojo.require("dojox.grid.Selection");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
 
 var reportsLoadingDialog;
 
@@ -27,7 +30,10 @@ dojo.ready(function() {
 	var scrollGrid = null;
 	var topGrid = null;
 	var bottomGrid = null;
-	
+
+	//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
+	var eRxWidjitID = dojo.byId('erxFilter');	
+	var selected_eRx = null;
 	
 	
 	
@@ -36,6 +42,9 @@ dojo.ready(function() {
 		
 		if (selected == "SUMMRPT") {
 
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			eRxWidjitID.style.display = "none";			
+			
 			var valid = getSummaryReport();
 			
 			if(valid == true){
@@ -47,7 +56,13 @@ dojo.ready(function() {
 		}
 		else if (selected == "AUTOCHECKRPT") {
 
-			var valid = getAutoCheckReport();	
+			
+            console.log("reportSelection - On Change - getAutoCheckReport()");
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			eRxWidjitID.style.display = "none";
+			
+			var valid = getAutoCheckReport();
+
 			
 			if(valid == true){
 				
@@ -59,6 +74,10 @@ dojo.ready(function() {
 		}
 		else if (selected == "REJECTRESNRPT") {
 
+            console.log("reportSelection - On Change - getRejectReasonsReport()");
+			//M. Bolden - 5.0 - set eRx Visibility to not visible
+			eRxWidjitID.style.display = "none";
+			
 			var valid = getRejectReasonsReport();
 			
 			if(valid == true){
@@ -70,6 +89,10 @@ dojo.ready(function() {
 		}
 		else if (selected == "ERXSUMMRPT") {
 
+            console.log("reportSelection - On Change - getErxSummaryReport()");
+			//M. Bolden - 5.0 - set eRx Visibility to visible
+			eRxWidjitID.style.display = "block";
+			
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){
@@ -85,10 +108,7 @@ dojo.ready(function() {
 			toggleDivs();
 		}
 		
-	});
-	
-	
-	
+	});	
 	
 });	
 
@@ -142,11 +162,14 @@ function getSummaryReport() {
 
 	selected = getSelected(selectBox);
 	
-		
-		
+	//M. Bolden - 5.0 - set visibility of eRx Type Filter based off of Report selected.	
+	var eRxWidjitID = dojo.byId('erxFilter');
+	
 		if (selected == "SUMMRPT") {
 			showModalWin();
 			
+
+			console.log("getSummaryReport: eRx Summary Report Selected");			
 			
 			buildGridDataSource("/inbound/inb-erx/"  + "summaryReport/getSummary?json=" + dojo.toJson(formObject),summaryReportDataGridInit,"summaryReport" );			
 			
@@ -159,6 +182,9 @@ function getSummaryReport() {
 			
 		}
 		if (selected == "AUTOCHECKRPT") {
+						
+			console.log("getSummaryReport: Autocheck Report Selected");
+			
 			var valid = getAutoCheckReport();
 			
 			if(valid == true){
@@ -168,6 +194,8 @@ function getSummaryReport() {
 	
 		}
 		if (selected == "REJECTRESNRPT") {
+
+			console.log("getSummaryReport: Reject Reasons Report Selected");
 			
 			var valid = getRejectReasonsReport();
 			
@@ -179,6 +207,11 @@ function getSummaryReport() {
 			
 		}
 		if (selected == "ERXSUMMRPT") {
+			
+			console.log("getSummaryReport: New eRx Only Summary Report Selected");
+			
+			dojo.style("erxFilter", "visibility", "visible");
+			
 			var valid = getErxSummaryReport();
 			
 			if(valid == true){			
@@ -190,7 +223,7 @@ function getSummaryReport() {
 		}
 		
 		
-				
+		console.log("End getSummaryReport()");		
 		return true;
 }
 
@@ -480,6 +513,10 @@ function getErxSummaryReport() {
 	// limit To/From future dates.
 	var startDate = dijit.byId('dateFrom');
 	var endDate = dijit.byId('dateTo');
+	
+	//M. Bolden - 5.0 - added variable to capture value of eRx Type filter value.
+	var eRxTypeFilter = dojo.byId('erxTypeSelection');
+    var eRxselected = getSelected(eRxTypeFilter);
 	
 	if(startDate!=null)
 	{	

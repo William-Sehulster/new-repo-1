@@ -41,7 +41,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			public NcpdpMessageListModel mapRow(ResultSet rs, int rowNum) throws SQLException{
 				NcpdpMessageListModel ncpdpMessageListModel = new NcpdpMessageListModel();
 
-				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getLong("inbound_ncpdp_msg_id")));
+				ncpdpMessageListModel.setInboundNcpdpMsgId((rs.getString("inbound_ncpdp_msg_id")));
 				ncpdpMessageListModel.setRxMessageId(rs.getString("rx_messageId"));
 				ncpdpMessageListModel.setRelToMessageid(rs.getString("rel_to_message_id"));
 				ncpdpMessageListModel.setMessageType(rs.getString("message_type"));
@@ -61,6 +61,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				ncpdpMessageListModel.setMessage_status(rs.getString("message_status"));
 				ncpdpMessageListModel.setPatientDob(rs.getString("patient_dob"));
 				ncpdpMessageListModel.setPatientSsn(rs.getString("patient_ssn"));
+				
+				//M. Bolden - 5.0 - Add calls to new setters to fetch additional data from query
+				ncpdpMessageListModel.setErx_type(rs.getString("erx_type"));
+				ncpdpMessageListModel.setSchedule(rs.getString("schedule"));
+				ncpdpMessageListModel.setDigital_signature(rs.getString("digital_signature"));	
 
 	    		return ncpdpMessageListModel;
 			}
@@ -116,6 +121,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			ncpdpMessageModel.setRxSig(rs.getString("rx_Sig"));
 			ncpdpMessageModel.setRxDispenseNotes(rs.getString("rx_Dispense_Notes"));
 			ncpdpMessageModel.setRxComments(rs.getString("rx_Comments"));
+/*** Add for eRx5.0 begin ***/
+			ncpdpMessageModel.setErx_type(rs.getString("erx_type"));
+			ncpdpMessageModel.setSchedule(rs.getString("schedule"));
+			ncpdpMessageModel.setDigital_signature(rs.getString("digital_signature"));	
+/*** Add for eRx5.0 end ***/
 			
 			//Observation
 			ncpdpMessageModel.setPatientWeight(rs.getString("patient_weight"));
@@ -333,6 +343,10 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Inbound")) {	
 		//TODO:pull this query out of the code into a resource file 
         sql = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+		
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
         		"        		  x.message_id rx_messageId,  \r\n" + 
         		"        		  x.rel_to_message_id,  \r\n" + 
         		"        		  decode(x.message_type,'RefillResponse', 'RxRenewalResponse', x.message_type) message_type,  \r\n" + 
@@ -717,6 +731,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 	        sql = sql + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
 	        		"        		  decode(x.message_type,'RefillRequest', 'RxRenewalRequest', x.message_type) message_type,  \r\n" + 
@@ -1248,6 +1265,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Inbound")) {	
 			//TODO:pull this query out of the code into a resource file 
 			sql2017071 = "select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+	        	"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+	        	"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+	        	"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
         		"        		  x.message_id rx_messageId,  \r\n" + 
         		"        		  x.rel_to_message_id,  \r\n" + 
         		"        		  x.message_type,  \r\n" + 
@@ -1668,6 +1688,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         
 		if (relatedMsg == true||inboundOutbound.equalsIgnoreCase("Outbound")) {
 			sql2017071 = sql2017071 + " select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,  \r\n" + 
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +			
 	        		"        		  x.message_id rx_messageId,  \r\n" + 
 	        		"        		  x.rel_to_message_id,  \r\n" + 
 	        		"        		  x.message_type,  \r\n" + 
@@ -2246,16 +2269,23 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 
 	}
 	
+	//M. Bolden - 5.0 - Added additional filters for Controlled Substance as well as adjusted query to include
+	//                  Digital Signature and CS columns
 	@Override
 	public List<NcpdpMessageListModel> searchMessages(String messageType, String messageId, String relatesToId, String visn, String vaStationId,
 			String fromDate, String toDate, String patientSsn, String patientLastName, String patientFirstName, String patientDob, String prescriberNpi,
 			String prescriberLastName, String prescriberFirstName, String prescriberDEA,  String prescribedDrug, String messageStatus, String inboundNcpdpMsgId,
-			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071) {
+			String inboundOutbound, boolean mbmAllowed, String numberOfRecords, String patientSSN2017071, String eRxType, String schedule) {
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "";
+		String sql_outbound = "";
+		String sql_inbound = "";
 		String sqlWhere = "";
-		String sql2017071 = "";
+		String sqlWhere_onlyInb ="";
+		String sqlWhere_inbound = "";
+		String sqlWhere_outbound = "";
+		String sql2017071_outbound = "";
+		String sql2017071_inbound = "";
 		
 		
 		
@@ -2275,9 +2305,14 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		}
 		if (messageStatus.length() != 0){
 			sqlWhere = sqlWhere +	"    and t.message_status = '" + messageStatus + "' \r\n";
+
 		} else { //excluding the 3006 status messages because they are invalid XML
 			sqlWhere = sqlWhere +	"    and t.message_status not in ('3006') \r\n"; 
 		}
+
+//recordSize  recordSizeValue	numberOfRecords
+//		sqlWhere = sqlWhere +  "ROWNUM <= " + numberOfRecords + " \r\n";		
+		
 		if (visn.length() != 0 && !"All".equals(visn)) {
 			sqlWhere = sqlWhere + "    and t.pharmacy_id in (select pharmacy_id from pharmacy where visn = '" + visn + "')\r\n";
 		}
@@ -2296,9 +2331,6 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			
 		}
 		
-		   
-			   			
-		
 		sqlWhere = sqlWhere +	
 				"    and nvl(upper(x.patient_last_name),' ') like ?\r\n" + 
 				"    and nvl(upper(x.patient_first_name),' ') like ?\r\n"; 
@@ -2314,20 +2346,41 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		sqlWhere = sqlWhere +
 				"    and nvl(x.npi1, ' ') like ? \r\n" + 
 				"    and nvl(upper(x.rx_Drug_Prescribed),' ') like ? \r\n";
+		
+		//erx_typeValue - eRxType - ERX_TYPE		
+				if  (eRxType.length() > 0)   {
+					if (eRxType.equals("'CS'"))
+					{	sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.ERX_TYPE = " + eRxType + " \r\n";}
+					else if (eRxType.equals("'NONCS'"))
+					{	sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and (t.ERX_TYPE = " + eRxType + "  or t.ERX_TYPE is Null) \r\n";}
+				}
+		//ScheduleValue - SCHEDULE - schedule	
+
+		//		if ( (schedule.length() > 0 ) && (eRxType.equals("CS")) ){
+				if  (schedule.length() > 0 )  {
+				sqlWhere_onlyInb = sqlWhere_onlyInb +   "    and t.SCHEDULE in " + schedule + " \r\n";
+						}
+		
 			
-			if (inboundOutbound.equalsIgnoreCase("Inbound")){
-				sqlWhere = sqlWhere +	"    and t.inbound_ncpdp_msg_id like ? \r\n";
-			} else {
-				sqlWhere = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_inbound = sqlWhere + sqlWhere_onlyInb + "    and t.inbound_ncpdp_msg_id like ? \r\n";
+			} 
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both"))
+			{
+				sqlWhere_outbound = sqlWhere +	"    and t.outbound_ncpdp_msg_id like ? \r\n";
 			}
 			
 			
 			
-		if (inboundOutbound.equalsIgnoreCase("Inbound")) {	
+		if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both")) {	
 			
 			//TODO:pull this query out of the code into a resource file 
 			
-        sql = "select * from (select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" + 
+        sql_inbound = "select * from (select 'inb-'||t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +
                 "p.visn visn,\r\n" +
                 "p.va_station_id va_station_id,\r\n" +
                 "x.npi1 prescriber_npi,\r\n" +
@@ -2378,14 +2431,16 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
         		"    ) x";
         		
-        		sql = sql + sqlWhere ;
+        		sql_inbound = sql_inbound + sqlWhere_inbound ;
         		
         		if (patientSsn.length() != 0) {
-        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+        			sql_inbound = sql_inbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
         		}
-        		
-        		sql2017071 = "    union all\r\n" +
-        		"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+        		sql2017071_inbound = "    union all\r\n" +
+        		"select 'inb-' || t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+        		"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+        		"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+        		"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
         		"p.visn visn,\r\n" +
         		"p.va_station_id va_station_id,\r\n" +
         		"x.npi1 prescriber_npi,\r\n" +
@@ -2435,15 +2490,28 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
         		    "patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
         		    "rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription',\r\n" +
 	        		"rx_Drug_Response varchar2(105) path '//MedicationResponse/DrugDescription' \r\n" +
-        		    ") x" + sqlWhere;
+        		    ") x" + sqlWhere_inbound;
         		
         		//patientSSN2017071
         		if (patientSsn.length() != 0) {
-        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+        			sql2017071_inbound = sql2017071_inbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
         		}
+				
+				sql_inbound = sql_inbound +	sql2017071_inbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
         		
-		} else {
-			sql = "select * from (select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+				LOG.debug("NCPDP INBOUND message details Sql is:" + sql_inbound);
+    			//System.out.println("sql is:" + sql);
+				
+		} 
+		if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both")){
+			sql_outbound = "select * from (select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+/*	        		"t.erx_type erx_type, \r\n" +
+	        		"t.schedule schedule, \r\n" +
+	        		"t.digital_signature digital_signature, \r\n" +
+*/
+					"decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+					"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+					"decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
 	                "p.visn visn,\r\n" +
 	                "p.va_station_id va_station_id,\r\n" +
 	                "x.npi1 prescriber_npi,\r\n" +
@@ -2494,14 +2562,21 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    rx_Drug_Prescribed varchar2(105) path '//ns:MedicationPrescribed/ns:DrugDescription'\r\n" + 
 	        		"    ) x";
 			
-	        		sql = sql + sqlWhere;
+	        		sql_outbound = sql_outbound + sqlWhere_outbound;
 	        		
 	        		if (patientSsn.length() != 0) {
-	        			sql = sql + " and x.patient_ssn = '" + patientSsn + "'\r\n";
+	        			sql_outbound = sql_outbound + " and x.patient_ssn = '" + patientSsn + "'\r\n";
 	        		}
 	        		
-	        		sql2017071 = "union all \r\n" +
-	        		"    select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+	        		sql2017071_outbound = "union all \r\n" +
+	        		"    select 'outb-'|| t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" +
+/*	        		"    t.erx_type erx_type, \r\n" +
+	        		"    t.schedule schedule, \r\n" +
+	        		"    t.digital_signature digital_signature, \r\n" +	 
+*/
+					"    decode(t.erx_type, null, '-null-', t.erx_type) erx_type, \r\n" +
+					"    decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n" +
+					"    decode(t.digital_signature, null, '-null-', t.digital_signature) digital_signature, \r\n" +	
 	        		"    p.visn visn,\r\n" +
 	        		"    p.va_station_id va_station_id,\r\n" +
 	        		"    x.npi1 prescriber_npi,\r\n" +
@@ -2550,21 +2625,23 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 	        		"    	patient_dob varchar2(30) path '//Patient/HumanPatient/DateOfBirth/Date', \r\n" +
 	        		"    	patient_ssn varchar2(11) path '//Patient/HumanPatient/Identification/SocialSecurity',\r\n" +
 	        		"    	rx_Drug_Prescribed varchar2(105) path '//MedicationPrescribed/DrugDescription' \r\n" +
-	        		"    ) x" + sqlWhere;
+	        		"    ) x" + sqlWhere_outbound;
 	        		
 	        		
 	        		//patientSSN2017071
 	        		if (patientSsn.length() != 0) {
-	        			sql2017071 = sql2017071 + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
+	        			sql2017071_outbound = sql2017071_outbound + " and x.patient_ssn = '" + patientSSN2017071 + "'\r\n";
 	        		}
+		    		
+        			sql_outbound = sql_outbound +	sql2017071_outbound + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
+        
+        			LOG.debug("NCPDP Outbound message details Sql is:" + sql_outbound);
 		}
         		
-        			sql = sql +	sql2017071 + " order by RECEIVED_DATE DESC )  where ROWNUM <="+numberOfRecords+"  ";
-        
-        			LOG.debug("NCPDP message details Sql is:" + sql);
-        			//System.out.println("sql is:" + sql);
-        			
         List<NcpdpMessageListModel> ncpdpMsgList = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_inbound = new ArrayList<NcpdpMessageListModel>();
+        List<NcpdpMessageListModel> ncpdpMsgList_outbound = new ArrayList<NcpdpMessageListModel>();
+        
         
 		// Strip any leading V as seen in VistA HQ when search Outbound (Sent) 
 		if (inboundNcpdpMsgId != null && inboundNcpdpMsgId.length() > 0) {
@@ -2574,12 +2651,50 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		}
 		
 		try {
-			//LOG.info("Retrieving NCPDP message details.");
+			LOG.info("Retrieving NCPDP message details.");
 			//System.out.println("Retrieving NCPDP message details.");
-			 ncpdpMsgList = jdbcTemplate.query(sql,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
-					 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
-					 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
-					 inboundNcpdpMsgId);
+			
+			if (inboundOutbound.equalsIgnoreCase("Inbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_inbound = jdbcTemplate.query(sql_inbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);
+			}
+			
+			if (inboundOutbound.equalsIgnoreCase("Outbound") || inboundOutbound.equalsIgnoreCase("Both") )
+			{
+				 ncpdpMsgList_outbound = jdbcTemplate.query(sql_outbound,new NcpdpMsgListRowMapper(),messageId, relatesToId,  patientLastName, patientFirstName,
+						 prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug, inboundNcpdpMsgId,messageId, relatesToId,
+						 patientLastName, patientFirstName, prescriberLastName, prescriberFirstName, prescriberDEA, prescriberNpi, prescribedDrug,
+						 inboundNcpdpMsgId);
+			}
+			
+			if (inboundOutbound.equalsIgnoreCase("Inbound") ) {
+				ncpdpMsgList.addAll(ncpdpMsgList_inbound);
+			}
+			else if (inboundOutbound.equalsIgnoreCase("Outbound") ) {
+				ncpdpMsgList.addAll(ncpdpMsgList_outbound);
+			}
+			else if ( inboundOutbound.equalsIgnoreCase("Both") ) {
+				ncpdpMsgList.addAll(ncpdpMsgList_inbound);
+				ncpdpMsgList.addAll(ncpdpMsgList_outbound);
+			}
+
+			
+	        //M. Bolden - need to check the combined list to make sure it is within the bounds of the max records.  If it exceeds the max selected
+	        //records the list is then reduced to the max selected.
+			
+			if(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords))
+			{
+				
+				while(ncpdpMsgList.size() > Integer.parseInt(numberOfRecords) )
+				{
+					ncpdpMsgList.remove(ncpdpMsgList.size() - 1);
+				}
+				
+			}
+			
 		} catch (DataAccessException e) {
 			//ncpdpMsg.setDataError(e.getMessage());
 			//System.out.println("data error is:" + e.getMessage());
@@ -2597,8 +2712,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 		
 		StringBuffer sqlBuffer = new StringBuffer();
 //TODO:pull this query out of the code into a resource file 
-				sqlBuffer.append("select inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 
-			    		"rx_messageid rx_messageId,\r\n" ).append( 
+				sqlBuffer.append("select inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 		
+			    		"erx_type erx_type,\r\n" ).append( 
+			    		"schedule schedule,\r\n" ).append( 
+			    		"digital_signature digital_signature,\r\n" ).append(
+						"rx_messageid rx_messageId,\r\n" ).append( 
 					    "rel_to_message_id rel_to_message_id,\r\n" ).append( 
 					    "message_type message_type,\r\n" ).append(  
 					    "received_date received_date,\r\n" ).append(     		
@@ -2619,6 +2737,9 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			            "patient_ssn patient_ssn\r\n" ).append( 
 			    		" from \r\n" ).append(  
 				"		(select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append(
+				"            t.erx_type erx_type, \r\n" ).append(
+				"            t.schedule schedule, \r\n" ).append(
+				"            t.digital_signature digital_signature, \r\n" ).append(						
 				"            t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 				"            t.message_id rx_messageId, \r\n" ).append(
 				"            decode(t.message_type,'RefillResponse', 'RxRenewalResponse', t.message_type) message_type, \r\n" ).append(
@@ -2670,7 +2791,10 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 				"and t.script_version is null \r\n" ).append(
 				"UNION ALL \r\n" ).append(
-				"select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+				"select  t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(		
+				"                t.erx_type erx_type, \r\n" ).append(
+				"                t.schedule schedule, \r\n" ).append(
+				"                t.digital_signature digital_signature, \r\n" ).append(						
 				"                t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 				"                t.message_id rx_messageId, \r\n" ).append(
 				"        		 decode(t.message_type,'RefillRequest', 'RxRenewalRequest', t.message_type) message_type, \r\n" ).append(
@@ -2722,8 +2846,11 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				"and t.message_status not in ('3006') \r\n" ).append(
 						"						and t.script_version is null \r\n" ).append(
 								"UNION ALL \r\n" ).append(
-										"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
-						            "t.rel_to_message_id rel_to_message_id, \r\n" ).append(
+									"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(		
+									"t.erx_type erx_type, \r\n" ).append(
+									"t.schedule schedule, \r\n" ).append(
+									"t.digital_signature digital_signature, \r\n" ).append(						            
+									"t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 						            "t.message_id rx_messageId, \r\n" ).append(
 						            "t.message_type message_type, \r\n" ).append(
 						            "p.visn visn,\r\n" ).append(
@@ -2775,7 +2902,10 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 						" and t.message_status not in ('3006') \r\n" ).append(
 						" and t.script_version = '2017071'\r\n" ).append(
 						" UNION ALL \r\n" ).append(
-						"select t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(
+						"select  t.outbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(			
+						"                t.erx_type erx_type, \r\n" ).append(
+						"                t.schedule schedule, \r\n" ).append(
+						"                t.digital_signature digital_signature, \r\n" ).append(
 						"                t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 						"                t.message_id rx_messageId, \r\n" ).append(
 						"                t.message_type message_type, \r\n" ).append(

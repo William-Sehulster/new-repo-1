@@ -91,6 +91,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxCntCS';
+	obj["name"] = "CS #New Rx";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxPharmDisabledAtHub';
@@ -107,6 +115,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedAtHubCS';
+	obj["name"] = "CS #Rejected at Hub";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxPassAutoChk';
@@ -115,6 +131,14 @@ function buildSummaryReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxPassAutoChkCS';
+	obj["name"] = "CS #Passed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	obj = new Object();
 	obj["field"] = 'newRxFailAutoChk';
@@ -125,12 +149,28 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFailAutoChkCS';
+	obj["name"] = "CS #Failed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxRejectedByPharmacist';
 	obj["name"] = "#Rejected by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxRejectedByPharmacistCS';
+	obj["name"] = "CS #Rejected by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'newRxFilled';
@@ -141,16 +181,33 @@ function buildSummaryReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
+	obj["field"] = 'newRxFilledCS';
+	obj["name"] = "CS #Rx Filled";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
+	
+	obj = new Object();
 	obj["field"] = 'newRxInProcess';
 	obj["name"] = "#Accepted by Pharmacy";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxInProcessCS';
+	obj["name"] = "CS #Accepted by Pharmacy";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 
 	return layout;
 }
 
+//E.Carlson - Added "#Passed Autocheck CS" and "#Failed Autocheck CS" columns per ERXCS1738.
 function buildAutoCheckReportLayout(servlet, target) {
 	var layout = new Array();
 	
@@ -205,10 +262,26 @@ function buildAutoCheckReportLayout(servlet, target) {
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxPassAutoChkCS';
+	obj["name"] = "#Passed Autocheck CS";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
 
 	obj = new Object();
 	obj["field"] = 'newRxFailAutoChk';
 	obj["name"] = "#Failed Autocheck";
+	obj["width"] = '156px';
+	obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'newRxFailAutoChkCS';
+	obj["name"] = "#Failed Autocheck CS";
 	obj["width"] = '156px';
 	obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
@@ -289,6 +362,8 @@ function buildAutoCheckReportLayout(servlet, target) {
 	return layout;
 }
 
+// E.Carlson - Removed "newRxCsNotAllowed" per ERXCS-1729. Added newRxInvalidCsDs; newRxPrescriberCsCredInvalid;
+// newRxPatientAddrMissing; newRxCsDateIssue.
 function buildRejectReasonsReportLayout(servlet, target) {
 	var layout = new Array();
 	
@@ -425,14 +500,6 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	layout.push(obj);
 	
 	obj = new Object();
-	obj["field"] = 'newRxCsNotAllowed';
-	obj["name"] = "#CS Not Allowed";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
-	
-	obj = new Object();
 	obj["field"] = 'newRxMultiErrCallPharm';
 	obj["name"] = "#Contact Pharmacy (ERR01)";
 	obj["width"] = '170px';
@@ -455,11 +522,56 @@ function buildRejectReasonsReportLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	obj["formatter"] = numberFormat;
 	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxInvalidCsDs';
+	obj["name"] = "#Missing/Bad CS DS";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxPrescriberCsCredInvalid';
+	obj["name"] = "#Prescriber's CS Credential Invalid";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxPatientAddrMissing';
+	obj["name"] = "#Patient's Address Missing/Mismatched";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'newRxCsDateIssue';
+	obj["name"] = "#CS eRx Date Problem";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);
+	
+	// Added per above
+	obj = new Object();
+	obj["field"] = 'Other';
+	obj["name"] = "#Other";
+	obj["width"] = '156px';
+	//obj["noresize"] = 'true';
+	obj["formatter"] = numberFormat;
+	layout.push(obj);	
 	return layout;
 }
 
 
-function buildErxSummaryReportLayout(servlet, target) {
+function buildErxSummaryReportLayout(servlet, target, selected) {
 	var layout = new Array();
 	
 	var obj = new Object();
@@ -498,69 +610,189 @@ function buildErxSummaryReportLayout(servlet, target) {
 	//obj["formatter"] = numberFormat;
 	layout.push(obj);
 
-	obj = new Object();
-	obj["field"] = 'newRxCnt';
-	obj["name"] = "#New Rx";
-	obj["width"] = '156px';
-//	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "NONCS")
+	{
+		obj = new Object();
+		obj["field"] = 'newRxCnt';
+		obj["name"] = "#New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'refillRequest';
-	obj["name"] = "#RxRenewal Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{	
+		obj = new Object();
+		obj["field"] = 'newRxCntCS';
+		obj["name"] = "CS #New Rx";
+		obj["width"] = '156px';
+	//	//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+	
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillRequest';
+		obj["name"] = "#RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
-	obj = new Object();
-	obj["field"] = 'refillResponse';
-	obj["name"] = "#RxRenewal Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
-	
-	obj = new Object();
-	obj["field"] = 'rxChangeRequest';
-	obj["name"] = "#RxChange Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillRequestCS';
+		obj["name"] = "CS #RxRenewal Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	}
 
-	obj = new Object();
-	obj["field"] = 'rxChangeResponse';
-	obj["name"] = "#RxChange Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillResponse';
+		obj["name"] = "#RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
-	obj = new Object();
-	obj["field"] = 'cancelRx';
-	obj["name"] = "#CancelRx Request";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'refillResponseCS';
+		obj["name"] = "CS #RxRenewal Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);	
+	}
+
+	if (selected == "ALL" || selected == "NONCS")
+	{	
+		obj = new Object();
+		obj["field"] = 'rxChangeRequest';
+		obj["name"] = "#RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeRequestCS';
+		obj["name"] = "CS #RxChange Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'cancelRxResponse';
-	obj["name"] = "#CancelRx Response";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+   if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponse';
+		obj["name"] = "#RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 	
-	obj = new Object();
-	obj["field"] = 'rxFill';
-	obj["name"] = "#RxFill";
-	obj["width"] = '156px';
-	//obj["noresize"] = 'true';
-	obj["formatter"] = numberFormat;
-	layout.push(obj);
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxChangeResponseCS';
+		obj["name"] = "CS #RxChange Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{	
+		obj = new Object();
+		obj["field"] = 'cancelRx';
+		obj["name"] = "#CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxCS';
+		obj["name"] = "CS #CancelRx Request";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponse';
+		obj["name"] = "#CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'cancelRxResponseCS';
+		obj["name"] = "CS #CancelRx Response";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+
+    if (selected == "ALL" || selected == "NONCS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxFill';
+		obj["name"] = "#RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
+	
+    if (selected == "ALL" || selected == "CS")
+	{		
+		obj = new Object();
+		obj["field"] = 'rxFillCS';
+		obj["name"] = "CS #RxFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+
+		obj = new Object();
+		obj["field"] = 'rxDoNotFillCS';
+		obj["name"] = "CS #RxDoNotFill";
+		obj["width"] = '156px';
+		//obj["noresize"] = 'true';
+		obj["formatter"] = numberFormat;
+		layout.push(obj);
+	}
 
 	return layout;
 }
@@ -777,7 +1009,10 @@ function rejectReasonsReportDataGridInit(responseData, parentContainer) {
 
 
 function erxSummaryReportDataGridInit(responseData, parentContainer) {
-	try {
+	try {	
+		var eRx_selectbox = dojo.byId("erxTypeSelection");
+		var selected_eRx = getSelected(eRx_selectbox);
+
 					
 		var gridData = new dojo.data.ItemFileWriteStore({data: {items : responseData.items}} );
 		
@@ -786,7 +1021,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 	
 		var grid = dijit.byId(gridId);
 		
-		var gridLayout = buildErxSummaryReportLayout(null, parentContainer);
+		var gridLayout = buildErxSummaryReportLayout(null, parentContainer, selected_eRx);
 
 		// If the DataGrid already exists, just clear any selected rows and
 		// replace the store.
@@ -810,7 +1045,7 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 			
 		}	
 			// generate the table.
-			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport");	
+			generateDivTable(gridLayout,gridData,parentContainer, "erxSummaryReport", selected_eRx);	
 			
 			var recordsTotal = responseData.items.length;	
 			
@@ -830,8 +1065,8 @@ function erxSummaryReportDataGridInit(responseData, parentContainer) {
 					
 				    summaryReportRecNumber.innerHTML= recordsTotal;
 	           }
-			 
-			// remove the grid widget
+			
+		// remove the grid widget
 			dojo.destroy(grid);
 			 
 	} catch (err) {
@@ -898,7 +1133,7 @@ var comparer = function(idx, asc) {
 
 
 // div table generation.
-function generateDivTable(layout, gridData, dataGridDivId,reportType) {
+function generateDivTable(layout, gridData, dataGridDivId,reportType, selected) {
 
 	    // clear the parent div first.
         dojo.byId(dataGridDivId).innerHTML ="";
@@ -910,22 +1145,36 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         {
 
             totals ["newRxCnt"] = 0;
+			totals ["newRxCntCS"] = 0;
         	totals ["newRxPharmDisabledAtHub"] = 0;
         	totals ["newRxRejectedAtHub"] = 0;
+			totals ["newRxRejectedAtHubCS"] = 0;
         	totals ["newRxPassAutoChk"] = 0;
+			totals ["newRxPassAutoChkCS"] = 0;
         	totals ["newRxFailAutoChk"] = 0;
+			totals ["newRxFailAutoChkCS"] = 0;
         	totals ["newRxRejectedByPharmacist"] = 0;
+			totals ["newRxRejectedByPharmacistCS"] = 0;
         	totals ["newRxFilled"] = 0;
+			totals ["newRxFilledCS"] = 0;
         	totals ["newRxInProcess"] = 0;
+			totals ["newRxInProcessCS"] = 0;
         	
         	totals.newRxCnt  = 0;
+			totals.newRxCntCS  = 0;
         	totals.newRxPharmDisabledAtHub  = 0;
         	totals.newRxRejectedAtHub  = 0;
+			totals.newRxRejectedAtHubCS  = 0;
         	totals.newRxPassAutoChk  = 0;
+			totals.newRxPassAutoChkCS  = 0;
         	totals.newRxFailAutoChk  = 0;
+			totals.newRxFailAutoChkCS  = 0;
         	totals.newRxRejectedByPharmacist  = 0;
+			totals.newRxRejectedByPharmacistCS  = 0;
         	totals.newRxFilled  = 0;
+			totals.newRxFilledCS  = 0;
         	totals.newRxInProcess  = 0;
+			totals.newRxInProcessCS  = 0;
             
         }
         else if(reportType === "autoCheckReport")
@@ -933,7 +1182,9 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
 
             totals ["newRxCnt"] = 0;
         	totals ["newRxPassAutoChk"] = 0;
+			totals ["newRxPassAutoChkCS"] = 0;
         	totals ["newRxFailAutoChk"] = 0;
+			totals ["newRxFailAutoChkCS"] = 0;
         	totals ["newRxMviPatFound"] = 0;
         	totals ["newRxMviPatNotFound"] = 0;
         	totals ["newRxEneElgbEnrl"] = 0;
@@ -947,7 +1198,9 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         		
         	totals.newRxCnt  = 0;
         	totals.newRxPassAutoChk  = 0;
+			totals.newRxPassAutoChkCS  = 0;
         	totals.newRxFailAutoChk  = 0;
+			totals.newRxFailAutoChkCS  = 0;
         	totals.newRxMviPatFound  = 0;
         	totals.newRxMviPatNotFound  = 0;
         	totals.newRxEneElgbEnrl  = 0;
@@ -972,10 +1225,14 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         	totals ["newRxDuplicate"] = 0;
         	totals ["newRxInvalidQty"] = 0;
         	totals ["newRxDupTheraClass"] = 0;
-        	totals ["newRxCsNotAllowed"] = 0;
         	totals ["newRxMultiErrCallPharm"] = 0;
         	totals ["newRxIncorrectPharm"] = 0;
         	totals ["newRxErrCallPharm"] = 0;
+			totals ["newRxInvalidCsDs"] = 0;
+			totals ["newRxPrescriberCsCredInvalid"] = 0;
+			totals ["newRxPatientAddrMissing"] = 0;
+			totals ["newRxCsDateIssue"] = 0;
+			totals ["Other"] = 0;
         		
         	totals.newRx  = 0;
         	totals.newRxInProcess  = 0;
@@ -989,34 +1246,102 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
         	totals.newRxDuplicate  = 0;
         	totals.newRxInvalidQty  = 0;
         	totals.newRxDupTheraClass  = 0;
-        	totals.newRxCsNotAllowed  = 0;
         	totals.newRxMultiErrCallPharm  = 0;
         	totals.newRxIncorrectPharm  = 0;
         	totals.newRxErrCallPharm  = 0;
+			totals.newRxInvalidCsDs = 0;
+			totals.newRxPrescriberCsCredInvalid = 0;
+			totals.newRxPatientAddrMissing = 0;
+			totals.newRxCsDateIssue = 0;
+			totals.Other = 0;
         	
              
         }
         else if(reportType === "erxSummaryReport")
         {
 
-            
-        	totals ["newRxCnt"] = 0;
-        	totals ["refillRequest"] = 0;
-        	totals ["refillResponse"] = 0;
-        	totals ["rxChangeRequest"] = 0;
-        	totals ["rxChangeResponse"] = 0;
-        	totals ["cancelRx"] = 0;
-        	totals ["cancelRxResponse"] = 0;
-        	totals ["rxFill"] = 0;
-        		
-        	totals.newRxCnt  = 0;
-        	totals.refillRequest  = 0;
-        	totals.refillResponse  = 0;
-        	totals.rxChangeRequest  = 0;
-        	totals.rxChangeResponse  = 0;
-        	totals.cancelRx  = 0;
-        	totals.cancelRxResponse  = 0;
-        	totals.rxFill = 0;
+            if (selected == "ALL")
+			{
+				totals ["newRxCnt"] = 0;
+				totals ["newRxCntCS"] = 0;
+				totals ["refillRequest"] = 0;
+				totals ["refillRequestCS"] = 0;
+				totals ["refillResponse"] = 0;
+				totals ["refillResponseCS"] = 0;
+				totals ["rxChangeRequest"] = 0;
+				totals ["rxChangeRequestCS"] = 0;
+				totals ["rxChangeResponse"] = 0;
+				totals ["rxChangeResponseCS"] = 0;
+				totals ["cancelRx"] = 0;
+				totals ["cancelRxCS"] = 0;
+				totals ["cancelRxResponse"] = 0;
+				totals ["cancelRxResponseCS"] = 0;
+				totals ["rxFill"] = 0;
+				totals ["rxFillCS"] = 0;
+				totals ["rxDoNotFillCS"] = 0;
+					
+				totals.newRxCnt  = 0;
+				totals.newRxCntCS  = 0;
+				totals.refillRequest  = 0;
+				totals.refillRequestCS  = 0;
+				totals.refillResponse  = 0;
+				totals.refillResponseCS  = 0;
+				totals.rxChangeRequest  = 0;
+				totals.rxChangeRequestCS  = 0;
+				totals.rxChangeResponse  = 0;
+				totals.rxChangeResponseCS  = 0;
+				totals.cancelRx  = 0;
+				totals.cancelRxCS  = 0;
+				totals.cancelRxResponse  = 0;
+				totals.cancelRxResponseCS  = 0;
+				totals.rxFill = 0;
+				totals.rxFillCS = 0;
+				totals.rxDoNotFillCS = 0;
+			}
+			
+			else if (selected == "CS")
+			{
+				totals ["newRxCntCS"] = 0;
+				totals ["refillRequestCS"] = 0;
+				totals ["refillResponseCS"] = 0;
+				totals ["rxChangeRequestCS"] = 0;
+				totals ["rxChangeResponseCS"] = 0;
+				totals ["cancelRxCS"] = 0;
+				totals ["cancelRxResponseCS"] = 0;
+				totals ["rxFillCS"] = 0;
+				totals ["rxDoNotFillCS"] = 0;
+					
+				totals.newRxCntCS  = 0;
+				totals.refillRequestCS  = 0;
+				totals.refillResponseCS  = 0;
+				totals.rxChangeRequestCS  = 0;
+				totals.rxChangeResponseCS  = 0;
+				totals.cancelRxCS  = 0;
+				totals.cancelRxResponseCS  = 0;
+				totals.rxFillCS = 0;
+				totals.rxDoNotFillCS = 0;
+			}
+			
+			else if (selected == "NONCS")
+			{
+				totals ["newRxCnt"] = 0;
+				totals ["refillRequest"] = 0;
+				totals ["refillResponse"] = 0;
+				totals ["rxChangeRequest"] = 0;
+				totals ["rxChangeResponse"] = 0;
+				totals ["cancelRx"] = 0;
+				totals ["cancelRxResponse"] = 0;
+				totals ["rxFill"] = 0;
+					
+				totals.newRxCnt  = 0;
+				totals.refillRequest  = 0;
+				totals.refillResponse  = 0;
+				totals.rxChangeRequest  = 0;
+				totals.rxChangeResponse  = 0;
+				totals.cancelRx  = 0;
+				totals.cancelRxResponse  = 0;
+				totals.rxFill = 0;
+			}
              
 
         }
@@ -1163,38 +1488,44 @@ function generateDivTable(layout, gridData, dataGridDivId,reportType) {
 				
                  for (var s in tempStringArray)
 			     {
-                	 
-					
-					 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
-					 
-					 divTable = divTable.concat(rowCellString);
-					 
-					 rowCellValue = tempStringArray[s];					
-					 
-					 if(typeof elementFormatterArray[s] ==='function')
+					 //M. Bolden - 5.0 - adjusting the table shown based off the user's selection fromt he eRx Type Filter
+                	 if(reportType != "erxSummaryReport" ||
+					    selected == "ALL"   ||
+					    (s == 0 || s==1 || s==2 || s==3 || s==4) ||
+					   (selected == "CS"    && (s==6 || s==8 || s==10 || s==12 || s==14 || s==16 || s==18 || s==20 || s==21) ) || 
+					   (selected == "NONCS" && (s==5 || s==7 || s==9 || s==11 || s==13 || s==15 || s==17 || s==19) ))
 					 {
-					   rowCellFormatterElement = elementFormatterArray[s];						   
-					   // call the formatter function.
-					   tempHyperlink = rowCellFormatterElement(rowCellValue);					   
-					   
-					   divTable = divTable.concat(tempHyperlink);
-					 }
-                     else
-                     {						 
-                    	 if(rowCellValue == null || rowCellValue ==="null")
-	                	 {
-	                		  rowCellValue ="";
-	                	 }	 
-                    	 
-                    	 divTable = divTable.concat(rowCellValue);
-					 }
-                     					 
-					 
-								
-					 divTable = divTable.concat(divTableRowCellEnd);
+					
+						 rowCellString = divTableRowCellStart + "style=\"width:" + " " + elementWidthArray[s] + ";\">";
+						 
+						 divTable = divTable.concat(rowCellString);
+						 
+						 rowCellValue = tempStringArray[s];							 
+						 
+						 if(typeof elementFormatterArray[s] ==='function')
+						 {
+						   rowCellFormatterElement = elementFormatterArray[s];						   
+						   // call the formatter function.
+						   tempHyperlink = rowCellFormatterElement(rowCellValue);					   
+						   
+						   divTable = divTable.concat(tempHyperlink);
+						 }
+						 else
+						 {						 
+							 if(rowCellValue == null || rowCellValue ==="null")
+							 {
+								  rowCellValue ="";
+							 }	 
+							 
+							 divTable = divTable.concat(rowCellValue);
+						 }
+											 
+						 
+									
+						 divTable = divTable.concat(divTableRowCellEnd);
 					 
 					
-					
+					 }
 				 }
 				
               
@@ -1432,3 +1763,10 @@ function generateDummyDivTable(layout, gridData, dataGridDivId) {
 				
 		
   }
+  
+  // drop down selection.
+function getSelected(selectBox) {
+	var selectedIndex = selectBox.options.selectedIndex;
+	var selected = selectBox.options[selectedIndex].value;
+	return selected;
+}
