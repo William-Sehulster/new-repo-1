@@ -93,7 +93,19 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 	
 	@Column(name = "SCRIPT_VERSION", length = 10)
 	private String scriptVersion;
-
+	
+	@Column (name = "ERX_TYPE", length = 10)
+	private String erx_type;
+	
+	@Column (name = "SCHEDULE", length = 10)
+	private String schedule;
+	
+	@Column (name = "DIGITAL_SIGNATURE", length = 10)
+    private String digital_signature;
+	
+	@Column (name = "DONOTFILL", length = 10)
+    private String donotfill;
+	
 	public InboundNcpdpMsgEntity() {
 	}
 
@@ -114,7 +126,8 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 			String erxStatusByMessageStatus, String erxStatusByProviderChkStatus,
 			String erxStatusByDrugChkStatus, long pharmacyId, String messageId, String relToMessageId,
 			String messageFrom,String messageType, String message, String patientMatchDetails, String providerMatchDetails,
-			String drugMatchDetails, Date receivedDate, Date updatedDate, Date createdDate, String scriptVersion) {
+			String drugMatchDetails, Date receivedDate, Date updatedDate, Date createdDate, String scriptVersion, String erx_type, 
+			String schedule, String digital_signature, String donotfill) {
 		this.inboundNcpdpMsgId = inboundNcpdpMsgId;
 		this.erxStatusByPatientChkStatus = erxStatusByPatientChkStatus;
 		this.erxStatusByMessageStatus = erxStatusByMessageStatus;
@@ -133,7 +146,11 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 		this.updatedDate = updatedDate;
 		this.createdDate = createdDate;
 		this.scriptVersion = scriptVersion;
-		
+		this.erx_type= erx_type;
+		this.schedule= schedule;
+		this.digital_signature=digital_signature;
+		this.donotfill=donotfill;
+				
 	}
 	
 	
@@ -305,4 +322,36 @@ public class InboundNcpdpMsgEntity implements java.io.Serializable {
 	public void setScriptVersion(String scriptVersion) {
 		this.scriptVersion = scriptVersion;
 	}
+	
+	public void seterxtype(String erxtype) {
+		this.erx_type = erxtype;
+	}
+	
+	public String geterxtype() {
+		return this.erx_type;
+	}
+	
+	public void setschedule(String schdl) {
+		this.schedule = schdl;
+	}
+	
+	public String getschedule() {
+		return this.schedule;
+	}
+	
+	public void setdigitalsignature(String digital_signature) {
+		this.digital_signature = digital_signature;
+	}
+	
+	public String getdigitalsignature() {
+		return this.digital_signature;
+	}
+	
+	public void setdonotfill(String donotfill) {
+		this.donotfill = donotfill;
+	}
+	
+	public String getdonotfill() {
+		return this.donotfill;
+	}	
 }

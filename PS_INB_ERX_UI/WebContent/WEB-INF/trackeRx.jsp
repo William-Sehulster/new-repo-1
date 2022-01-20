@@ -135,7 +135,8 @@
 
 <div style="width: 330px;" title="Received (Inbound messages) or Sent (Outbound messages)" >
 <label for="inboundOutbound" style="width: 125px;height: 20px;padding-top:2px;padding-left: 10px;">Sent or Received:</label>
-<div id="inboundOutbound" name="inboundOutbound" value="Inbound" style="width: 180px;" data-dojo-type="dijit/form/Select">
+<div id="inboundOutbound" name="inboundOutbound" value="Both" style="width: 180px;" data-dojo-type="dijit/form/Select">
+	<span value="Both">Both</span>
 	<span value="Inbound">Received</span>
 	<span value="Outbound">Sent</span>
 </div>
@@ -155,6 +156,8 @@
     <span value="4001">OB_MSG_SEND_COMPLETED</span>
     <span value="4005">OB_MSG_DELIVERY_RETRIES_EXCEEDED</span>
     <span value="4009">OB_MSG_SEND_IN_PROGRESS</span>
+	<span value="0000">READY_FOR_AUTOCHECK</span>
+	<span value="3006">NCPDP_MSG_INVALID</span>
 </div>
 </div> 
 
@@ -176,7 +179,30 @@
 	<span value="100">100</span>
 	<span value="7500">7500</span>
 	<span value="10000">10000</span>
+	<span value="50000">50000</span>
+	<span value="100000">100000</span>	
 </div> 
+</div>
+<!-- Elsa Chen -eRx 5.0 Populate erx_type and schedule value once selected -->
+<div>
+<input id="erx_typeValue" name="erx_typeValue" data-dojo-type="dijit/form/TextBox" value="" type="hidden"></input>
+<input id="ScheduleValue" name="ScheduleValue" data-dojo-type="dijit/form/TextBox" value="" type="hidden"></input>
+</div>
+<div id="erx_filter">
+	<label for="erx_type" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >eRx Type:&nbsp;&nbsp;</label> 
+	<select  id="erx_type" name = "erx_type">
+		<option value="ALL">All</option>
+		<option value="CS">CS</option>
+		<option value="NONCS">Non-CS</option>		
+	</select>
+</div>
+<div id="schedule_filter">
+	<label for="Schedule" style="width: 75px;height: 20px;padding-top:4px;text-align: left;" >Schedule:&nbsp;&nbsp;</label> 
+	<select id="Schedule" name = "Schedule">
+		<option value="II-V">Schedule II-V</option>
+		<option value="II">Schedule II</option>
+		<option value="III-V">Schedule III-V</option>		
+	</select>
 </div>
 
 </div>

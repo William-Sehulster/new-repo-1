@@ -63,6 +63,8 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				criteria.add(Restrictions.eq("pharmacyVaStationId", summaryReportFilter.getStationId()));
 			}
 		}
+		
+		//M. Bolden - 5.0 - Updated below to include new fields for Controlled Substance
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.groupProperty("visn").as("visn"))
 				.add(Projections.groupProperty("pharmacyNcpdpId").as("pharmacyNcpdpId"))
@@ -70,13 +72,23 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("refillRequest").as("refillRequest"))
+				.add(Projections.sum("refillRequestCS").as("refillRequestCS"))
 				.add(Projections.sum("refillResponse").as("refillResponse"))
+				.add(Projections.sum("refillResponseCS").as("refillResponseCS"))
 				.add(Projections.sum("rxChangeRequest").as("rxChangeRequest"))
+				.add(Projections.sum("rxChangeRequestCS").as("rxChangeRequestCS"))
 				.add(Projections.sum("rxChangeResponse").as("rxChangeResponse"))
+				.add(Projections.sum("rxChangeResponseCS").as("rxChangeResponseCS"))
 				.add(Projections.sum("cancelRx").as("cancelRx"))
+				.add(Projections.sum("cancelRxCS").as("cancelRxCS"))
 				.add(Projections.sum("cancelRxResponse").as("cancelRxResponse"))
-				.add(Projections.sum("rxFill").as("rxFill")));
+				.add(Projections.sum("cancelRxResponseCS").as("cancelRxResponseCS"))
+				.add(Projections.sum("rxFill").as("rxFill"))
+				.add(Projections.sum("rxFillCS").as("rxFillCS"))
+				.add(Projections.sum("rxDoNotFillCS").as("rxDoNotFillCS"))
+				);
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
 		
@@ -128,6 +140,8 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				criteria.add(Restrictions.eq("pharmacyVaStationId", summaryReportFilter.getStationId()));
 			}
 		}
+		
+		//M. Bolden - 5.0 - Updated below to include new fields for Controlled Substance
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.groupProperty("visn").as("visn"))
 				.add(Projections.groupProperty("pharmacyNcpdpId").as("pharmacyNcpdpId"))
@@ -135,13 +149,24 @@ public class ErxSummaryReportDaoImpl extends BaseDao<Integer, ErxSummaryReportVw
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("refillRequest").as("refillRequest"))
+				.add(Projections.sum("refillRequestCS").as("refillRequestCS"))
 				.add(Projections.sum("refillResponse").as("refillResponse"))
+				.add(Projections.sum("refillResponseCS").as("refillResponseCS"))
 				.add(Projections.sum("rxChangeRequest").as("rxChangeRequest"))
+				.add(Projections.sum("rxChangeRequestCS").as("rxChangeRequestCS"))
 				.add(Projections.sum("rxChangeResponse").as("rxChangeResponse"))
+				.add(Projections.sum("rxChangeResponseCS").as("rxChangeResponseCS"))
 				.add(Projections.sum("cancelRx").as("cancelRx"))
+				.add(Projections.sum("cancelRxCS").as("cancelRxCS"))
 				.add(Projections.sum("cancelRxResponse").as("cancelRxResponse"))
-				.add(Projections.sum("rxFill").as("rxFill")));
+				.add(Projections.sum("cancelRxResponseCS").as("cancelRxResponseCS"))
+				.add(Projections.sum("rxFill").as("rxFill"))
+				.add(Projections.sum("rxFillCS").as("rxFillCS"))
+				.add(Projections.sum("rxDoNotFillCS").as("rxDoNotFillCS"))
+				);
+
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(ErxSummaryReportVw.class));
 		

@@ -38,12 +38,12 @@ import net.rossillo.spring.web.mvc.CachePolicy;
 public class SummaryReportController {
 	
 	
-	private static final String[] SUMMARY_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", 
-			                                               "#Pharmacy Disabled", "#Rejected at Hub", "#Passed Autocheck","#Failed Autocheck","#Rejected by Pharmacy",
-			                                               "#Rx Filled","#Accepted by Pharmacy"};
+	private static final String[] SUMMARY_REPORT_HEADER = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name", "Address", "#New Rx", "CS #New Rx",
+			                                               "#Pharmacy Disabled", "#Rejected at Hub", "CS #Rejected at Hub", "#Passed Autocheck", "CS #Passed Autocheck", "#Failed Autocheck", "CS #Failed Autocheck", "#Rejected by Pharmacy", "CS #Rejected by Pharmacy",
+			                                               "#Rx Filled", "CS #Rx Filled", "#Accepted by Pharmacy", "CS #Accepted by Pharmacy"};
 	
-	private static final String[] SUMMARY_REPORT_TOTALS_HEADER = { "#New Rx", "#Pharmacy Disabled",	"#Rejected at Hub", "#Passed Autocheck", "#Failed Autocheck", "#Rejected by Pharmacy", 
-            "#Rx Filled", "#Accepted by Pharmacy"};
+	private static final String[] SUMMARY_REPORT_TOTALS_HEADER = { "#New Rx", "CS #New Rx", "#Pharmacy Disabled", "#Rejected at Hub", "CS #Rejected at Hub", "#Passed Autocheck", "CS #Passed Autocheck", "#Failed Autocheck", "CS #Failed Autocheck", "#Rejected by Pharmacy", "CS #Rejected by Pharmacy", 
+            "#Rx Filled", "CS #Rx Filled", "#Accepted by Pharmacy", "CS #Accepted by Pharmacy"};
 	
 
 	@Autowired
@@ -229,8 +229,8 @@ public class SummaryReportController {
 		
 		String[][] dataRows = new String[1][totalHeaders.length];
 		
-		String[][] summaryReportHeaders = { {"#New Rx", "#Pharmacy Disabled",	"#Rejected at Hub", "#Passed Autocheck", "#Failed Autocheck", "#Rejected by Pharmacy", 
-				"#Rx Filled", "#Accepted by Pharmacy"}};
+		String[][] summaryReportHeaders = { {"#New Rx", "CS #New Rx", "#Pharmacy Disabled", "#Rejected at Hub", "CS #Rejected at Hub", "#Passed Autocheck", "CS #Passed Autocheck", "#Failed Autocheck", "CS #Failed Autocheck", "#Rejected by Pharmacy", "CS #Rejected by Pharmacy", 
+            "#Rx Filled", "CS #Rx Filled", "#Accepted by Pharmacy", "CS #Accepted by Pharmacy"}};
 		
 		int sumVal = 0;
 		

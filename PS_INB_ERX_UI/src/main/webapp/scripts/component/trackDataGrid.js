@@ -38,11 +38,17 @@ function createLinkRefNum(entry) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
-	
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-
+	var inboundOutbound = "Inbound";
+	 if ( entry.indexOf("inb") != -1 )
+	 {
+	 	inboundOutbound = "Inbound";
+	 	entry = entry.replace("inb-", "");
+	 	}
+	  else if ( entry.indexOf("outb") != -1 )
+	 {
+	 	inboundOutbound = "Outbound";
+	 	entry = entry.replace("outb-", "");
+	 	}
 	var relatedMsg = null; 
 		
 	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\" onkeyup=gotoMessageDetails(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
@@ -65,20 +71,17 @@ function createRelatedMsgLinkRefNum(entry, inbOutVal) {
 	if (entry == null || entry == "null" || entry == "") {
 		return "";
 	}
-	
-	var inboundOutbound = "Unknown";
-	
-	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
-		
-		inboundOutbound = inbOutVal;
-	}
-	else
-	{
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-	}
-
+	var inboundOutbound = "Inbound";
+	 if ( entry.indexOf("inb") != -1 )
+	 {
+	 	inboundOutbound = "Inbound";
+	 	entry = entry.replace("inb-", "");
+	 	}
+	  else if ( entry.indexOf("outb") != -1 )
+	 {
+	 	inboundOutbound = "Outbound";
+	 	entry = entry.replace("outb-", "");
+	 	}
 	
 	var relatedMsg = true;
 
@@ -108,24 +111,11 @@ function createLinkRefNumRelated(entry, inbOutVal) {
 	var relatedMessageGrid = dijit.byId(relatedMessageGridId);
 	
 	var inboundOutbound = "Unknown";
-	
-	if (typeof inbOutVal != 'undefined'  && inbOutVal!=null && inbOutVal.length>1){
-		
-		inboundOutbound = inbOutVal;
-	}
-	else
-	{
-		
-    var inboundOutboundBox2 = dijit.byId("inboundOutbound");
-	
-	inboundOutbound = inboundOutboundBox2.get("value");
-	}
-	
+
 	var relatedMsg = null;
 	
 	return "<a aria-label=\"eRx Reference Number "+ entry +"\" href=\"#\"  onkeyup=gotoRelatedMessages(this,\"" + entry+ "\"); id=\""+entry+"\" onclick=\"getMessage('" + entry + "', '" + inboundOutbound+ "', '"+ relatedMsg + "')\">" + entry	+ "</a>";
 }
-
 
 function gotoRelatedMessages(element, elementId) {
 	
@@ -135,6 +125,16 @@ function gotoRelatedMessages(element, elementId) {
 
 function buildTrackGridLayout(servlet, target) {
 	var layout = new Array();
+	
+	console.log("buildTrackGridLayout");
+	
+	obj = new Object();
+	obj["field"] = 'receivedDate';
+	obj["name"] = "Received Date";
+	obj["width"] = '80px';
+	//obj["noresize"] = 'false';
+	//obj["formatter"] = formatSelectable;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'inboundNcpdpMsgId';
@@ -150,6 +150,14 @@ function buildTrackGridLayout(servlet, target) {
 	obj["formatter"] = createLinkRefNum;
 	}
 	layout.push(obj);
+	
+	obj = new Object();
+	obj["field"] = 'erx_type';
+	obj["name"] = "eRx Type";
+	obj["width"] = '80px';
+	//obj["noresize"] = 'false';
+	//obj["formatter"] = formatSelectable;
+	layout.push(obj);	
 	
 	obj = new Object();
 	obj["field"] = 'messageType';
@@ -187,6 +195,13 @@ function buildTrackGridLayout(servlet, target) {
 	//obj["noresize"] = 'true';
 	layout.push(obj);
 	
+	var obj = new Object();
+	obj["field"] = 'schedule';
+	obj["name"] = 'Schedule';
+	obj["width"] = "120px";
+	//obj["noresize"] = 'true';
+	layout.push(obj);	
+	
 	obj = new Object();
 	obj["field"] = 'rxMessageId';
 	//obj["fields"] = ["inboundNcpdpMsgId", "rxMessageId"];
@@ -196,6 +211,12 @@ function buildTrackGridLayout(servlet, target) {
 	//obj["formatter"] = formatSelectable;
 	layout.push(obj);
 	
+	var obj = new Object();
+	obj["field"] = 'digital_signature';
+	obj["name"] = 'Prescriber DS';
+	obj["width"] = "100px";
+	//obj["noresize"] = 'true';
+	layout.push(obj);	
 	
 	var obj = new Object();
 	obj["field"] = 'prescriberName';
@@ -255,14 +276,6 @@ function buildTrackGridLayout(servlet, target) {
 
 	layout.push(obj);
 	
-
-	obj = new Object();
-	obj["field"] = 'receivedDate';
-	obj["name"] = "Received Date";
-	obj["width"] = '80px';
-	//obj["noresize"] = 'false';
-	//obj["formatter"] = formatSelectable;
-	layout.push(obj);
 	
 	obj = new Object();
 	obj["field"] = 'patient_chk_status';

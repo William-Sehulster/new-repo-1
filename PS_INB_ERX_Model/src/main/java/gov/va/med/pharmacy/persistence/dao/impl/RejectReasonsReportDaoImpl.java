@@ -81,10 +81,14 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxDuplicate").as("newRxDuplicate"))
 				.add(Projections.sum("newRxInvalidQty").as("newRxInvalidQty"))
 				.add(Projections.sum("newRxDupTheraClass").as("newRxDupTheraClass"))
-				.add(Projections.sum("newRxCsNotAllowed").as("newRxCsNotAllowed"))
 				.add(Projections.sum("newRxMultiErrCallPharm").as("newRxMultiErrCallPharm"))
 				.add(Projections.sum("newRxIncorrectPharm").as("newRxIncorrectPharm"))
 				.add(Projections.sum("newRxErrCallPharm").as("newRxErrCallPharm"))
+				.add(Projections.sum("newRxInvalidCsDs").as("newRxInvalidCsDs"))
+				.add(Projections.sum("newRxPrescriberCsCredInvalid").as("newRxPrescriberCsCredInvalid"))
+				.add(Projections.sum("newRxPatientAddrMissing").as("newRxPatientAddrMissing"))
+				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue"))
+				.add(Projections.sum("other").as("other"))
 				);
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
@@ -155,10 +159,14 @@ public class RejectReasonsReportDaoImpl extends BaseDao<Integer, RejectReasonsRe
 				.add(Projections.sum("newRxDuplicate").as("newRxDuplicate"))
 				.add(Projections.sum("newRxInvalidQty").as("newRxInvalidQty"))
 				.add(Projections.sum("newRxDupTheraClass").as("newRxDupTheraClass"))
-				.add(Projections.sum("newRxCsNotAllowed").as("newRxCsNotAllowed"))
 				.add(Projections.sum("newRxMultiErrCallPharm").as("newRxMultiErrCallPharm"))
 				.add(Projections.sum("newRxIncorrectPharm").as("newRxIncorrectPharm"))
-				.add(Projections.sum("newRxErrCallPharm").as("newRxErrCallPharm")));
+				.add(Projections.sum("newRxErrCallPharm").as("newRxErrCallPharm"))
+				.add(Projections.sum("newRxInvalidCsDs").as("newRxInvalidCsDs"))
+				.add(Projections.sum("newRxPrescriberCsCredInvalid").as("newRxPrescriberCsCredInvalid"))
+				.add(Projections.sum("newRxPatientAddrMissing").as("newRxPatientAddrMissing"))
+				.add(Projections.sum("newRxCsDateIssue").as("newRxCsDateIssue"))
+				.add(Projections.sum("other").as("other")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(RejectReasonsReportVw.class));
 		

@@ -130,13 +130,20 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("newRxPharmDisabledAtHub").as("newRxPharmDisabledAtHub"))
 				.add(Projections.sum("newRxRejectedAtHub").as("newRxRejectedAtHub"))
+				.add(Projections.sum("newRxRejectedAtHubCS").as("newRxRejectedAtHubCS"))
 				.add(Projections.sum("newRxPassAutoChk").as("newRxPassAutoChk"))
+				.add(Projections.sum("newRxPassAutoChkCS").as("newRxPassAutoChkCS"))
 				.add(Projections.sum("newRxFailAutoChk").as("newRxFailAutoChk"))
+				.add(Projections.sum("newRxFailAutoChkCS").as("newRxFailAutoChkCS"))
 				.add(Projections.sum("newRxRejectedByPharmacist").as("newRxRejectedByPharmacist"))
+				.add(Projections.sum("newRxRejectedByPharmacistCS").as("newRxRejectedByPharmacistCS"))
 				.add(Projections.sum("newRxFilled").as("newRxFilled"))
-				.add(Projections.sum("newRxInProcess").as("newRxInProcess")));
+				.add(Projections.sum("newRxFilledCS").as("newRxFilledCS"))
+				.add(Projections.sum("newRxInProcess").as("newRxInProcess"))
+				.add(Projections.sum("newRxInProcessCS").as("newRxInProcessCS")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(SummaryReportVw.class));
 		
@@ -195,13 +202,20 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 				.add(Projections.groupProperty("pharmacyDivisionName").as("pharmacyDivisionName"))
 				.add(Projections.groupProperty("pharmacyAddress").as("pharmacyAddress"))
 				.add(Projections.sum("newRxCnt").as("newRxCnt"))
+				.add(Projections.sum("newRxCntCS").as("newRxCntCS"))
 				.add(Projections.sum("newRxPharmDisabledAtHub").as("newRxPharmDisabledAtHub"))
 				.add(Projections.sum("newRxRejectedAtHub").as("newRxRejectedAtHub"))
+				.add(Projections.sum("newRxRejectedAtHubCS").as("newRxRejectedAtHubCS"))
 				.add(Projections.sum("newRxPassAutoChk").as("newRxPassAutoChk"))
+				.add(Projections.sum("newRxPassAutoChkCS").as("newRxPassAutoChkCS"))
 				.add(Projections.sum("newRxFailAutoChk").as("newRxFailAutoChk"))
+				.add(Projections.sum("newRxFailAutoChkCS").as("newRxFailAutoChkCS"))
 				.add(Projections.sum("newRxRejectedByPharmacist").as("newRxRejectedByPharmacist"))
+				.add(Projections.sum("newRxRejectedByPharmacistCS").as("newRxRejectedByPharmacistCS"))
 				.add(Projections.sum("newRxFilled").as("newRxFilled"))
-				.add(Projections.sum("newRxInProcess").as("newRxInProcess")));
+				.add(Projections.sum("newRxFilledCS").as("newRxFilledCS"))
+				.add(Projections.sum("newRxInProcess").as("newRxInProcess"))
+				.add(Projections.sum("newRxInProcessCS").as("newRxInProcessCS")));
 
 		criteria.setResultTransformer(new AliasToBeanResultTransformer(SummaryReportVw.class));
 		
