@@ -2715,6 +2715,7 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 				sqlBuffer.append("select inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append( 		
 			    		"erx_type erx_type,\r\n" ).append( 
 			    		"schedule schedule,\r\n" ).append( 
+//			    		"decode(schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', schedule) schedule, \r\n"  ).append( 		
 			    		"digital_signature digital_signature,\r\n" ).append(
 						"rx_messageid rx_messageId,\r\n" ).append( 
 					    "rel_to_message_id rel_to_message_id,\r\n" ).append( 
@@ -2738,7 +2739,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 			    		" from \r\n" ).append(  
 				"		(select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id,\r\n" ).append(
 				"            t.erx_type erx_type, \r\n" ).append(
-				"            t.schedule schedule, \r\n" ).append(
+//				"            t.schedule schedule, \r\n" ).append(
+				"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n"  ).append(		
 				"            t.digital_signature digital_signature, \r\n" ).append(						
 				"            t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 				"            t.message_id rx_messageId, \r\n" ).append(
@@ -2848,7 +2850,8 @@ public class NcpdpMessagesDaoImpl implements NcpdpMessagesDao {
 								"UNION ALL \r\n" ).append(
 									"select t.inbound_ncpdp_msg_id inbound_ncpdp_msg_id, \r\n" ).append(		
 									"t.erx_type erx_type, \r\n" ).append(
-									"t.schedule schedule, \r\n" ).append(
+//									"t.schedule schedule, \r\n" ).append(
+									"decode(t.schedule, 'C48675', 'II', 'C48676', 'III', 'C48677', 'IV', 'C48679', 'V', NULL, '', t.schedule) schedule, \r\n"  ).append(				
 									"t.digital_signature digital_signature, \r\n" ).append(						            
 									"t.rel_to_message_id rel_to_message_id, \r\n" ).append(
 						            "t.message_id rx_messageId, \r\n" ).append(
