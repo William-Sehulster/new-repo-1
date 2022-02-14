@@ -270,6 +270,7 @@
 		<baseline.name>${project.artifactId}-${project.version}.${build.number}</baseline.name>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
+	
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
@@ -308,6 +309,17 @@
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 						<webappDirectory>${project.basedir}/WebContent</webappDirectory>
+					</configuration>
+				</plugin>
+				
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>WebContent</directory>
+							</fileset>
+						</filesets>
 					</configuration>
 				</plugin>
 			</plugins>

@@ -110,7 +110,7 @@
 		<hibernate.version>5.4.32.Final</hibernate.version>
 
 		<!-- Hibernate Validator -->
-		<hibernate.validator.version>6.0.18.Final</hibernate.validator.version>
+		<hibernate.validator.version>6.0.20.Final</hibernate.validator.version>
 
 
 		<!-- EHCACHE -->
@@ -118,14 +118,14 @@
 		<ehcache.web.version>2.0.4</ehcache.web.version>
 
 		<!-- Xerces -->
-		<xerces.version>2.12.0</xerces.version>
+		<xerces.version>2.12.2</xerces.version>
 
 		<!-- <build.number>DEV</build.number> -->
 
 		<!-- Javax cache -->
 		<javax.cache.version>1.1.1</javax.cache.version>
 		<!--   Prod test fixed schedule code -->
-		<build.number>025</build.number>
+		<build.number>026</build.number>
 
 
 	</properties>
