@@ -693,7 +693,7 @@ public class PharmacyManagementController {
 		List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
 		
 		// All means load all users in all pharmacies..
-		if(ALL_VALUE.equalsIgnoreCase(userStationIds)){
+		if (ALL_VALUE.equalsIgnoreCase(userStationIds)) {
 			// Return all Station Ids that the user is assigned.
 			if (visn.equalsIgnoreCase(ALL_VALUE)) {
 				for(String stationId: stationIdsList){
@@ -709,6 +709,22 @@ public class PharmacyManagementController {
 					if (stationIdsList.contains(stationIdModel.getId())) {
 						stationIdSelectModelList.add(stationIdModel);
 					}
+				}
+			}
+		} else if (visn.equalsIgnoreCase(ALL_VALUE)) {
+			// Return all Station Ids that the user is assigned.
+			for (String stationId : stationIdsList) {
+				StationIdSelectModel stationIdModel = new StationIdSelectModel();
+				stationIdModel.setId(stationId);
+				stationIdModel.setLabel(stationId);
+				stationIdSelectModelList.add(stationIdModel);
+			}
+		} else if (!visn.isEmpty()) {
+			// Return only the Station Ids assigned to the user that is also tied to the provided VISN.
+			List<StationIdSelectModel> stationIds = this.summaryReportDao.getStationIDs(Integer.valueOf(visn)); // all station ids of that visn
+			for (StationIdSelectModel stationIdModel : stationIds) {
+				if (stationIdsList.contains(stationIdModel.getId())) {
+					stationIdSelectModelList.add(stationIdModel);
 				}
 			}
 		}
