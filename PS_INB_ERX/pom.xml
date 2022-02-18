@@ -527,26 +527,26 @@
 			<dependency>
 				<groupId>gov.va.med.pharmacy</groupId>
 				<artifactId>PS_INB_ERX_Common</artifactId>
-				<version>${version.number}</version>
+				<version>${project.version}</version>
 				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>gov.va.med.pharmacy</groupId>
 				<artifactId>PS_INB_ERX_Common</artifactId>
-				<version>${version.number}</version>
+				<version>${project.version}</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>gov.va.med.pharmacy</groupId>
 				<artifactId>PS_INB_ERX_Model</artifactId>
-				<version>${version.number}</version>
+				<version>${project.version}</version>
 				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>gov.va.med.pharmacy</groupId>
 				<artifactId>PS_INB_ERX_Model</artifactId>
-				<version>${version.number}</version>
+				<version>${project.version}</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
