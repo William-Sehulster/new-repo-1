@@ -236,9 +236,8 @@
 
 	<properties>
 		<skipTests>true</skipTests>
-		<build.version.full>${version.number}</build.version.full>
 		<build.date>${maven.build.timestamp}</build.date>
-		<baseline.name>${project.artifactId}-${project.version}.${build.number}</baseline.name>
+		<baseline.name>${project.artifactId}_${project.version}</baseline.name>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 	
