@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>gov.va.med.pharmacy</groupId>
 		<artifactId>PS_INB_ERX</artifactId>
-		<version>${version.number}</version>
+		<version>${revision}${changelist}</version>
 		<relativePath>../PS_INB_ERX/pom.xml</relativePath>
 	</parent>
 
