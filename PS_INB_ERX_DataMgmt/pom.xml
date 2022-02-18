@@ -15,7 +15,7 @@
 
 
 	<properties>
-		<zip.file.name>PS_INB_ERX_DataMgmt-${version.number}</zip.file.name>
+		<zip.file.name>PS_INB_ERX_DataMgmt_${project.version}</zip.file.name>
 	</properties>
 
 	<build>
