@@ -143,8 +143,7 @@ pipeline {
                         not { anyOf {
                             branch 'master'
                             branch 'sus-dev'
-                            branch 'release/*'
-			    branch 'feature/*'	
+                            branch 'release/*'	
                             branch 'hotfix/*'
                         } }
                     }
@@ -187,7 +186,6 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'sus-dev'
-		    branch 'feature/*'
                     branch 'release/*'
                     branch 'hotfix/*'
                 }
