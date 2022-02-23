@@ -42,6 +42,19 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
+	<distributionManagement>
+		<snapshotRepository>
+		    <id>nexus-snapshot</id>
+		    <name>DOTS Nexus snapshot</name>
+		    <url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-snapshot/</url>
+		</snapshotRepository>
+		<repository>
+		    <id>nexus-release</id>
+		    <name>DOTS Nexus release</name>
+		    <url>https://devops.va.gov/dots-nexus/repository/hps-maven-4842376-4842393-4842397-4842399-release/</url>
+		</repository>
+        </distributionManagement>
 
 	<properties>
 		<version.major>5</version.major>
