@@ -126,9 +126,9 @@ pipeline {
                         }
                     }
                 }
-                stage('Set Version (dev)') {
+                stage('Set Version (sus-dev)') {
                     when {
-                        branch 'dev'
+                        branch 'sus-dev'
                     }
                     steps {
                         container('maven-3-8-1') {
@@ -142,8 +142,8 @@ pipeline {
                     when {
                         not { anyOf {
                             branch 'master'
-                            branch 'dev'
-                            branch 'release/*'
+                            branch 'sus-dev'
+                            branch 'release/*'	
                             branch 'hotfix/*'
                         } }
                     }
@@ -185,7 +185,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'dev'
+                    branch 'sus-dev'
                     branch 'release/*'
                     branch 'hotfix/*'
                 }
@@ -208,7 +208,7 @@ pipeline {
 
             // junit testResults: '**/target/surefire-reports/TEST-*.xml'
             
-            discoverGitReferenceBuild defaultBranch : 'dev', latestBuildIfNotFound: true
+            discoverGitReferenceBuild defaultBranch : 'sus-dev', latestBuildIfNotFound: true
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java()]
             
             // For Checkstyle
