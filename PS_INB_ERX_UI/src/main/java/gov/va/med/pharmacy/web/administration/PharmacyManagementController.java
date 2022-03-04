@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.json.JsonObject;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +17,6 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -41,6 +39,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
 
+import gov.va.med.pharmacy.persistence.dao.impl.SummaryReportDaoImpl;
 import gov.va.med.pharmacy.persistence.managepharmacy.ManagePharmacyFilter;
 import gov.va.med.pharmacy.persistence.model.PharmacyEntity;
 import gov.va.med.pharmacy.persistence.model.VaUser;
@@ -61,7 +60,6 @@ import net.rossillo.spring.web.mvc.CachePolicy;
 @Controller
 @RequestMapping(value = "/managePharm")
 public class PharmacyManagementController {
-
 	private static final String Y_STRING_VAL = "Y";
 
 	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(PharmacyManagementController.class);
@@ -69,18 +67,19 @@ public class PharmacyManagementController {
 	private static final String[] PHARM_LIST_HEADERS = { "VISN", "VA Station ID",	"NCPDP ID", "Pharmacy Name (Published)", "Pharmacy Name (Internal)", "Address", 
             "City", "State", "Phone Number","eRx Enabled"};
 	
-	
 	private static final String ALL_VALUE = "All";
 	
 	@Autowired
 	private PharmacyService pharmacyService;
 	
 	@Autowired
+	private SummaryReportDaoImpl summaryReportDao;
+	
+	@Autowired
 	private TrackMessageService trackMessageService;
 	
 	@Autowired
 	private UserService userService;
-
 	
 	final private String[] DISALLOWED_FIELDS = new String[]{"updatedDate", "createdDate, _csrf"};
 	
@@ -89,177 +88,121 @@ public class PharmacyManagementController {
 	public void initBinderFields(WebDataBinder binder) {
 	    binder.setDisallowedFields(DISALLOWED_FIELDS);
 	}
-
 	
 	@RequestMapping(value = "/main")
 	public ModelAndView getMainPage(HttpServletRequest request) {
-		
 		Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-		
 		VaUser currentUser = userService.findByVAUserID((String)authentication.getPrincipal());
 		
 		HttpSession session = request.getSession(false);
-		
 		session.removeAttribute("USER_STATIONS_IDS");
-		 
 		session.setAttribute("USER_STATIONS_IDS", currentUser.getVaStationIds());
 
 		ModelAndView view = new ModelAndView("managepharmacy");
-		
 		List<VisnSelectModel>  visnList = getVisnSelect(currentUser.getVaStationIds());
-		
 		view.addObject("visnList", visnList);
 		
 		// when redirected after add pharmacy.
-		if(null!=session.getAttribute("messageData")){
-			
+		if (null!=session.getAttribute("messageData")) {
 			ResponseMessage responseMessage = (ResponseMessage) session.getAttribute("messageData");
-			
-			view.addObject("messageData",responseMessage);		
-			
+			view.addObject("messageData", responseMessage);		
 			session.removeAttribute("messageData");
 		}
 		
-		
-
 		return view;
 	}
 
 	@RequestMapping(value = "/getPharmacyList",  method = RequestMethod.GET)	
 	public ModelAndView getPharmacyList(HttpServletRequest request, @RequestParam("json") String json) throws JsonParseException, JsonMappingException, IOException {
-
 		ModelAndView mav = new ModelAndView(new org.springframework.web.servlet.view.json.MappingJackson2JsonView());
-		
 		List<PharmacyEntity> pharmacyList = new ArrayList<PharmacyEntity>();
 		
 		String jsonString = JsonSanitizer.sanitize(json); // Sanitize the JSON coming from client
-		
 		ObjectMapper jsonMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		ManagePharmacyFilter managePharmacyFilter = jsonMapper.readValue(jsonString, ManagePharmacyFilter.class);
-		
 		String userStationIds = getUserStationIds(request);
 		
-
 		try {
-			
-			if(ALL_VALUE.equalsIgnoreCase(userStationIds)){
-				
-				
+			if (ALL_VALUE.equalsIgnoreCase(userStationIds)) {
 				pharmacyList = pharmacyService.find(managePharmacyFilter);
-				
-			}
-			else
-			{
-				
+			} else {
 				 List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-				
 				 pharmacyList =  pharmacyService.findSelectedPharmacies(managePharmacyFilter,stationIdsList);
 			}
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		mav.addObject("items", pharmacyList);
 
 		return mav;
 	}
 	
-	
 	@RequestMapping(value = "/editPharmacy/{ncpdpID}",  method = RequestMethod.GET)	
 	public ModelAndView editPharmacy(HttpServletRequest request, @PathVariable(value="ncpdpID") String NCPDPId) throws JsonParseException, JsonMappingException, IOException {
-
 		//System.out.println("NCPDP Id is: "+NCPDPId);
 		
 		ModelAndView view = new ModelAndView("editpharmacy");
 		
 		PharmacyEntity pharmacyInfo = pharmacyService.findByNCPDPId(NCPDPId);
-				
-		view.addObject("pharmacyInfo",pharmacyInfo );
+		view.addObject("pharmacyInfo",pharmacyInfo);
 		
 		Map<String, String> statesMap = getStatesHashMap();
-		
         Map<Long, String> specialityMap = getSpecialityHashMap();
-		
 		Map<String, String> serviceLevelMap = getServiceLevelHashMap();
 
-		view.addObject("statesMap",statesMap );
-		
-        view.addObject("specialityMap",specialityMap );
-		
-		view.addObject("serviceLevelMap",serviceLevelMap );
+		view.addObject("statesMap",statesMap);
+        view.addObject("specialityMap",specialityMap);
+		view.addObject("serviceLevelMap",serviceLevelMap);
 		
 		return view;
-		
 	}
-	
 	
 	@RequestMapping(value = "/updatePharmacy",  method = RequestMethod.POST)	
 	public ModelAndView updatePharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyEditForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
-
 		LOG.info("Trying to persist pharmacy information.");
 		
 		ResponseMessage responseMessage = new ResponseMessage();
 		List<String> errorsList = new ArrayList<String>();
 		
 		// validation
-		
-		 if (bindingResult.hasErrors()) {
-			 List<ObjectError> errors = bindingResult.getAllErrors();
-			 
-			 for (ObjectError objectError : errors) {
-				 errorsList.add(objectError.getDefaultMessage());
-		 }
-		
-       
+		if (bindingResult.hasErrors()) {
+			List<ObjectError> errors = bindingResult.getAllErrors();
+			
+			for (ObjectError objectError : errors) {
+				errorsList.add(objectError.getDefaultMessage());
+			}
         }
-				
 		ModelAndView view = new ModelAndView("editpharmacy");
 		
 		// we need to use find by id as NCPDP ID can change and findByNCPDPId wont work.
 		PharmacyEntity pharmacyInfo = null;
 		
-			
 		try {
-			
-			
 			// Fortify fix.
 			String userStationIds = getUserStationIds(request);
-			
 			boolean  stationIdFound = false;
 			
-			if(!"All".equalsIgnoreCase(userStationIds)){
-				 
+			if (!ALL_VALUE.equalsIgnoreCase(userStationIds)) {
 				List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
 				
 				// search the station id.
-				
 				for (String str: stationIdsList) {
-					
-					if(str.contains(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()))) {						
+					if (str.contains(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()))) {						
 						// allow update.
 						stationIdFound = true;
 						break;
 					}
 				}
-				 
-				 
 			}
 			
-			if(("All".equalsIgnoreCase(userStationIds)) || (stationIdFound == true)) {
-				
-				
+			if ((ALL_VALUE.equalsIgnoreCase(userStationIds)) || (stationIdFound == true)) {
 				// needed for fortify scan issue for access db violation.
 				String pharmacyId = ESAPIValidator.validateStringInput(pharmacyForm.getPharmacyId(), ESAPIValidationType.ACCESS_CONTROL_DB);
-				
 				pharmacyInfo = pharmacyService.findById(Long.valueOf(pharmacyId));	
-					
-					
-				Date updatedDate = new Date();
 				
-							
+				Date updatedDate = new Date();
 				
 				pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
 				pharmacyInfo.setNcpdpId(HtmlUtils.htmlEscape(pharmacyForm.getNcpdpId()));
@@ -282,127 +225,79 @@ public class PharmacyManagementController {
 				
 				pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
 				
-				if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
-				
+				if ((StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))) {
 					pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
 				}
-				
 				pharmacyInfo.setDivisionName(HtmlUtils.htmlEscape(pharmacyForm.getDivisionName()));
-				
 				pharmacyInfo.setInboundErxEnabled(Long.valueOf(pharmacyForm.getPharmacyEnabledDisabled()));
 				
-				if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
-					
+				if ((StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))) {
 					pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
 				}
 				
-				
-				if(!bindingResult.hasErrors() ) {
-				
-			    // get logged in user.
-				Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-				
-				if(authentication!=null){
+				if (!bindingResult.hasErrors()) {
+				    // get logged in user.
+					Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
 					
-					String userName = (String)authentication.getPrincipal();
-					pharmacyInfo.setUpdatedBy(userName);
+					if (authentication!=null) {
+						String userName = (String)authentication.getPrincipal();
+						pharmacyInfo.setUpdatedBy(userName);
+					}
+				    pharmacyService.updatePharmacyInfo(pharmacyInfo);
 				}
-						
-			    pharmacyService.updatePharmacyInfo(pharmacyInfo);
-			    
-				}
-			}
-			
-			else if(stationIdFound == false)
-			{
+			} else if (stationIdFound == false) {
 				errorsList.add("You are not allowed to update this pharamcy.");
 			}
-			
-		
-			
-			
 		} catch (PersistenceException e) {
-			
 			e.printStackTrace();
+			Throwable cause = e.getCause();
 			
-			Throwable  cause = e.getCause();
-			
-			if(cause instanceof ConstraintViolationException){
-				
-				
+			if (cause instanceof ConstraintViolationException) {
 				String constraintName = ((ConstraintViolationException) cause).getConstraintName();
 				
-				if(constraintName.contains("NCPDP_ID")){
-				
+				if (constraintName.contains("NCPDP_ID")) {
 					errorsList.add("Please use unique value for NCPDP ID.");
 				}
 				
-				if(constraintName.contains("DIVISION_NAME")){
-					
+				if (constraintName.contains("DIVISION_NAME")) {
 					errorsList.add("Please use unique value for Division Name.");
 				}
 				
-				if(constraintName.contains("NPI")){
-					
+				if (constraintName.contains("NPI")) {
 					errorsList.add("Please use unique value for NPI.");
 				}
 				
-				if(constraintName.contains("VA_STATION_ID")){
-					
+				if (constraintName.contains("VA_STATION_ID")) {
 					errorsList.add("Please use unique value for VA Station ID.");
 				}
-				
-				
-			}
-			else{
-				
+			} else {
 				errorsList.add("Update Failed. Unable to save record. Please contact production support.");
 			}
-		}
-		catch (Exception e) {
-			
-			e.printStackTrace();			
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 			errorsList.add("Update Failed. Unable to save record. Please contact production support.");
-			
-			
-		  }
-		
-		
+		}
 		responseMessage.setErrorMessage(errorsList);
 		
 		// set success message only if everything is successful.		
-		if( responseMessage.getErrorMessage().isEmpty()){
-			
+		if (responseMessage.getErrorMessage().isEmpty()) {
 			responseMessage.setSuccessMessage("Pharmacy information updated successfully.");	
 		}
-		
-	    
-		view.addObject("pharmacyInfo",pharmacyInfo );
+		view.addObject("pharmacyInfo", pharmacyInfo);
 		
 		Map<String, String> statesMap = getStatesHashMap();
-		
 		Map<Long, String> specialityMap = getSpecialityHashMap();
-		
 		Map<String, String> serviceLevelMap = getServiceLevelHashMap();
 		
-		view.addObject("statesMap",statesMap );
+		view.addObject("statesMap", statesMap);
+		view.addObject("specialityMap", specialityMap);
+		view.addObject("serviceLevelMap", serviceLevelMap);
+		view.addObject("messageData", responseMessage);		
 		
-		view.addObject("specialityMap",specialityMap );
-		
-		view.addObject("serviceLevelMap",serviceLevelMap );
-		
-		view.addObject("messageData",responseMessage);		
-		
-		return view;	
-		
+		return view;
 	}
-
-	
-	
 	
 	private Map<String, String> getServiceLevelHashMap() {
-		
 		Map<String, String> serviceLevelMap = new LinkedHashMap<String, String>();
 		
 		serviceLevelMap.put("1", "New Rx");
@@ -430,6 +325,7 @@ public class PharmacyManagementController {
 		specialityMap.put(new Long(16), "Speciality Pharmacy");
 		specialityMap.put(new Long(32), "Long-Term Care Pharmacy");
 		specialityMap.put(new Long(64), "24 Hour Pharmacy");
+		
 		return specialityMap;
 	}
 
@@ -488,65 +384,48 @@ public class PharmacyManagementController {
 		statesMap.put("WV","West Virginia");
 		statesMap.put("WI","Wisconsin");
 		statesMap.put("WY","Wyoming");
+		
 		return statesMap;
 	}
 
 	@RequestMapping(value = "/addPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView newPharmacy(HttpServletRequest request) throws IOException {
-
 		ModelAndView view = new ModelAndView("addpharmacy");
 		
 		Map<String, String> statesMap = getStatesHashMap();
-		
         Map<Long, String> specialityMap = getSpecialityHashMap();
-		
 		Map<String, String> serviceLevelMap = getServiceLevelHashMap();
 		
 		view.addObject("statesMap",statesMap );
-		
         view.addObject("specialityMap",specialityMap );
-		
 		view.addObject("serviceLevelMap",serviceLevelMap );
 		
 		return view;
-		
 	}
-	
 	
 	@RequestMapping(value = "/addNewPharmacy",  method = RequestMethod.POST)	
 	public ModelAndView addNewPharmacy(HttpServletRequest request,@Valid @ModelAttribute("pharmacyAddForm") PharmacyForm pharmacyForm, BindingResult bindingResult) throws  IOException {
-
 		LOG.info("Trying to persist pharmacy information.");
 		
 		ResponseMessage responseMessage = new ResponseMessage();
 		List<String> errorsList = new ArrayList<String>();
 		
 		// validation
-		
 		boolean hasErrors = false;
 		
-		 if (bindingResult.hasErrors()) {
-			 List<ObjectError> errors = bindingResult.getAllErrors();
-			 
-			 for (ObjectError objectError : errors) {
-				 errorsList.add(objectError.getDefaultMessage());
-		 }
-		
-       
-			 hasErrors = true;
+		if (bindingResult.hasErrors()) {
+			List<ObjectError> errors = bindingResult.getAllErrors();
+			for (ObjectError objectError : errors) {
+				errorsList.add(objectError.getDefaultMessage());
+			}
+			hasErrors = true;
         }
-				
 		ModelAndView view = null;
-		
-		
 		
 		// we need to use find by id as NCPDP ID can change and findByNCPDPId wont work.
 		PharmacyEntity pharmacyInfo = new PharmacyEntity();
 		
-			
 		try {
-		
-				
 			Date updatedDate = new Date();
 			
 			pharmacyInfo.setVaStationId(HtmlUtils.htmlEscape(pharmacyForm.getVaStationId()));
@@ -576,177 +455,116 @@ public class PharmacyManagementController {
 			
 			pharmacyInfo.setEandeCheck(Boolean.valueOf(Y_STRING_VAL.equalsIgnoreCase(HtmlUtils.htmlEscape(pharmacyForm.geteAndeCheckEnabled()))?true:false));
 			
-
-            if( (StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))){
-				
+            if ((StringUtils.isNotBlank(pharmacyForm.getVisn())) && (StringUtils.isNumeric(pharmacyForm.getVisn()))) {
 				pharmacyInfo.setVisn(Long.valueOf(pharmacyForm.getVisn()));
 			}
 			
-            if( (StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))){
-				
+            if ((StringUtils.isNotBlank(pharmacyForm.getNpi())) && (StringUtils.isNumeric(pharmacyForm.getNpi()))) {
 				pharmacyInfo.setNpi(Long.valueOf(pharmacyForm.getNpi()));
 			}
 			
-			
-			if(!bindingResult.hasErrors() ) {
-				
+			if (!bindingResult.hasErrors() ) {
 				// Now check if the user is trying to add a pharmacy outside their station id.
 				String userStationIds = getUserStationIds(request);
-				
-				if(!"All".equalsIgnoreCase(userStationIds)){
-					
+				if (!ALL_VALUE.equalsIgnoreCase(userStationIds)) {
 					List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-					
 					String stationId = pharmacyForm.getVaStationId();
-					
 					boolean allowStationId = false;
 					
-					for( String str: stationIdsList ){
-						
-						if(str.trim().contains(stationId)){
-							
+					for (String str: stationIdsList) {
+						if (str.trim().contains(stationId)) {
 							allowStationId = true;
 						}
 					}
 					
-					
-					
-					if(allowStationId == false){
-						
+					if (allowStationId == false) {
 						hasErrors = true;
-						
 						errorsList.add("You can not add a new pharmacy outside of your assigned Station ID.");
 					}
-					
 				}
-				
-				
-				
-				 // get logged in user.
+				// get logged in user.
 				Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
 				
-				if(authentication!=null){
-					
+				if (authentication != null) {
 					String userName = (String)authentication.getPrincipal();
 					pharmacyInfo.setUpdatedBy(userName);
 					pharmacyInfo.setCreatedBy(userName);
 				}	
 			
-			if(hasErrors == false){
-				
-				pharmacyService.savePharmacyInfo(pharmacyInfo);				
-			}
-		    
-		    
-			}
-			else
-			{
+				if (hasErrors == false) {
+					pharmacyService.savePharmacyInfo(pharmacyInfo);				
+				}
+			} else {
 				hasErrors = true;
 			}
-			
 		} catch (PersistenceException e) {
-			
 			e.printStackTrace();
+			Throwable cause = e.getCause();
 			
-			Throwable  cause = e.getCause();
-			
-			if(cause instanceof ConstraintViolationException){
-				
-				
+			if (cause instanceof ConstraintViolationException) {
 				String constraintName = ((ConstraintViolationException) cause).getConstraintName();
 				
-				if(constraintName.contains("NCPDP_ID")){
-				
+				if (constraintName.contains("NCPDP_ID")) {
 					errorsList.add("Please use unique value for NCPDP ID.");
 				}
 				
-				if(constraintName.contains("DIVISION_NAME")){
-					
+				if (constraintName.contains("DIVISION_NAME")) {
 					errorsList.add("Please use unique value for Division Name.");
 				}
 				
-				if(constraintName.contains("NPI")){
-					
+				if (constraintName.contains("NPI")) {
 					errorsList.add("Please use unique value for NPI.");
 				}
 				
-				if(constraintName.contains("VA_STATION_ID")){
-					
+				if (constraintName.contains("VA_STATION_ID")) {
 					errorsList.add("Please use unique value for VA Station ID.");
 				}
-				
-			}
-			else{
-				
+			} else {
 				errorsList.add("Add Failed. Unable to save record. Please contact production support.");
 			}
-			
 			hasErrors = true;
-		}
-		catch (Exception e) {
-			
-			e.printStackTrace();			
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 			errorsList.add("Add Failed. Unable to save record. Please contact production support.");
-			
-            hasErrors = true;
-			
-		  }
-		
-		finally{
-			
-			if(hasErrors== true){
+			hasErrors = true;
+		} finally {
+			if (hasErrors== true) {
 				view = new ModelAndView("addpharmacy");
-			}
-			else{
+			} else {
 				view = new ModelAndView("managepharmacy");
-				
 				String userStationIds = "";
-						
 				HttpSession session = request.getSession(false);			
 				
-				if(null!=session.getAttribute("USER_STATIONS_IDS")){
-					
+				if (null!=session.getAttribute("USER_STATIONS_IDS")) {
 					userStationIds = (String) session.getAttribute("USER_STATIONS_IDS");
 				}
 				
 				List<VisnSelectModel>  visnList = getVisnSelect(userStationIds);
-				
 				view.addObject("visnList", visnList);
 			}
 		}
-		
 		responseMessage.setErrorMessage(errorsList);
 		
 		// set success message only if everything is successful.		
-		if( responseMessage.getErrorMessage().isEmpty()){
-			
+		if (responseMessage.getErrorMessage().isEmpty()) {
 			responseMessage.setSuccessMessage("Pharmacy information added successfully.");	
 			
-			// set in seession as this will redirect to the pharmacy management and we need to display the success message.
+			// set in session as this will redirect to the pharmacy management and we need to display the success message.
 			HttpSession session = request.getSession(false);
-			
 			session.setAttribute("messageData", responseMessage);
 		}
-		
 		view.addObject("pharmacyInfo",pharmacyInfo );
 		
 		Map<String, String> statesMap = getStatesHashMap();
-		
 		Map<Long, String> specialityMap = getSpecialityHashMap();
-		
 		Map<String, String> serviceLevelMap = getServiceLevelHashMap();
 
 		view.addObject("statesMap",statesMap );
-		
 		view.addObject("specialityMap",specialityMap );
-		
 		view.addObject("serviceLevelMap",serviceLevelMap );
-		
 		view.addObject("messageData",responseMessage );
 		
-		return view;	
-		
+		return view;
 	}
 	
 	@RequestMapping(value = "/getPharmacyListCSV", method = {RequestMethod.GET, RequestMethod.POST})
@@ -758,144 +576,96 @@ public class PharmacyManagementController {
 			
 			// remove _csrf			
 			String formValues[] = jsonString.split(",");
-			
 			StringBuffer tempBuffer = new StringBuffer();
 			
-			for(String formVal: formValues) {
-				
+			for (String formVal: formValues) {
 				String pharmData[]= formVal.split(":");
-				
 				String key=pharmData[0].trim();
 				String val=pharmData[1].trim();
 				
-				if( !"\"_csrf\"".equals(key))	{
-					
-					
+				if (!"\"_csrf\"".equals(key)) {
 					tempBuffer.append(key).append(":").append(val).append(",");
-				}				
-				
-			}			
-			
-			
+				}
+			}
 			jsonString = tempBuffer.toString();
 			
-			if(jsonString.endsWith(","))
-			{
+			if (jsonString.endsWith(",")) {
 				jsonString = jsonString.substring(0, jsonString.length()-1);	
 			}
-			
 			jsonString+="}";
 			
 			String csvFileName = "PharmacyList.csv";
-			
 			String responseHeaderKey = "Content-Disposition";
-			
 			String responseHeaderValue = String.format("attachment; filename=\"%s\"",   csvFileName);
 			
 			ObjectMapper jsonMapper = new ObjectMapper();			
 			
 			ManagePharmacyFilter managePharmacyFilter = jsonMapper.readValue(jsonString, ManagePharmacyFilter.class);
-			
 			String userStationIds = getUserStationIds(request);
-			
 			List<PharmacyEntity> pharmacyList;
 
-			if(ALL_VALUE.equalsIgnoreCase(userStationIds)){
-				
-				 pharmacyList = pharmacyService.queryForExport(managePharmacyFilter, null);
-			}
-			else{
-				
-				 List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-				
-				 pharmacyList = pharmacyService.queryForExport(managePharmacyFilter,stationIdsList);
+			if (ALL_VALUE.equalsIgnoreCase(userStationIds)) {
+				pharmacyList = pharmacyService.queryForExport(managePharmacyFilter, null);
+			} else {
+				List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
+				pharmacyList = pharmacyService.queryForExport(managePharmacyFilter,stationIdsList);
 			}
 			
 			String[][] csvData = null;
-			
-			if(null!= pharmacyList && pharmacyList.size()>0){
-				
+			if (null!= pharmacyList && pharmacyList.size() > 0) {
 				csvData = populateDataRows(pharmacyList,	PHARM_LIST_HEADERS);		
-				
-				
-			}
-			else{
-				
+			} else {
 				List<PharmacyEntity> pharmacyEmptyList = new ArrayList<PharmacyEntity>();
-				
 				PharmacyEntity  emptyBean = new PharmacyEntity();
-				pharmacyEmptyList.add(emptyBean);				
+				pharmacyEmptyList.add(emptyBean);	
 				
 				csvData = populateDataRows(pharmacyEmptyList,	PHARM_LIST_HEADERS);
-				
 			}
-			
 			response.setContentType("text/csv");
-			
 			response.setHeader(responseHeaderKey, responseHeaderValue);
 			
 			CSVSupportBean csvSupportBean = new CSVSupportBean();
-			
 			csvSupportBean.setHeaderRow(PHARM_LIST_HEADERS);
-
 			csvSupportBean.setDataRows(csvData);
 			
 			Map<String,Object> csvModel = csvSupportBean.createModel();
-			
 			CSVView view = new CSVView();
-			
 			String data = view.getStringRepresentation(csvModel);
 			
 			response.getOutputStream().print(data);
-			
 			response.getOutputStream().flush();
-			
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private String[][] populateDataRows(List<PharmacyEntity> rows, String[] headers) {
 		// + 1 for the totals as the last row
 		String[][] dataRows = new String[rows.size()+1][headers.length];
 		for (int i = 0; i < rows.size(); i++) {
-			
 			String[] row = ((PharmacyEntity) rows.get(i)).getStringArray();
-						
 			for (int j = 0; j < headers.length; j++) {
-				
 				dataRows[i][j] = row[j];
-				
 			}
 		}
 		
 		return dataRows;
-		
 	}
 	
-		
 	private List<VisnSelectModel> getVisnSelect(String userStationIds) {
-		
 		List<VisnSelectModel> visnSelectModelList = new ArrayList<VisnSelectModel>();
 		
 		VisnSelectModel visnSelectModel = new VisnSelectModel();
-		visnSelectModel.setId("All");
-		visnSelectModel.setLabel("All");
+		visnSelectModel.setId(ALL_VALUE);
+		visnSelectModel.setLabel(ALL_VALUE);
 		visnSelectModelList.add(visnSelectModel);
 
 		// All means load all users in all pharmacies..
-		
-		if(ALL_VALUE.equalsIgnoreCase(userStationIds)){
-			
+		if (ALL_VALUE.equalsIgnoreCase(userStationIds)) {
 			visnSelectModelList.addAll(trackMessageService.getVisns());
-		}
-		else{
-			
+		} else {
 			List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-			
 			visnSelectModelList.addAll(trackMessageService.getSelectedVisns(stationIdsList));
 		}
 		
@@ -908,82 +678,74 @@ public class PharmacyManagementController {
 	public List<StationIdSelectModel> getStationIdsForSelect(HttpServletRequest request, @RequestParam("visn") String visn)
 			throws JsonParseException, JsonMappingException, IOException {
 		
-
 		List<StationIdSelectModel> stationIdSelectModelList = new ArrayList<StationIdSelectModel>();
 		
 		StationIdSelectModel stationIdSelectModel = new StationIdSelectModel();
-		
-		stationIdSelectModel.setId("All");
-		
-		stationIdSelectModel.setLabel("All");
-		
+		stationIdSelectModel.setId(ALL_VALUE);
+		stationIdSelectModel.setLabel(ALL_VALUE);
 		stationIdSelectModelList.add(stationIdSelectModel);
-		
-		
-		
 		
 		if (visn.equalsIgnoreCase("/")) {
 			visn = "";
 		}
 		
-		
-		List<PharmacyEntity> pharmacyStationIdsList = null;
-		
 		String userStationIds = getUserStationIds(request);
+		List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
 		
 		// All means load all users in all pharmacies..
-		
-		if(ALL_VALUE.equalsIgnoreCase(userStationIds)){
-			
-			 pharmacyStationIdsList = pharmacyService.getStationIdsByVisn(visn);
+		if (ALL_VALUE.equalsIgnoreCase(userStationIds)) {
+			// Return all Station Ids that the user is assigned.
+			if (visn.equalsIgnoreCase(ALL_VALUE)) {
+				for(String stationId: stationIdsList){
+					StationIdSelectModel stationIdModel = new StationIdSelectModel();
+					stationIdModel.setId(stationId);
+					stationIdModel.setLabel(stationId);
+					stationIdSelectModelList.add(stationIdModel);
+				}
+			} else if (!visn.isEmpty()) {
+				// Return only the Station Ids assigned to the user that is also tied to the provided VISN.
+				List<StationIdSelectModel> stationIds = summaryReportDao.getStationIDs(Integer.valueOf(visn)); // all station ids of that visn
+				for (StationIdSelectModel stationIdModel : stationIds) {
+					if (stationIdsList.contains(stationIdModel.getId())) {
+						stationIdSelectModelList.add(stationIdModel);
+					}
+				}
+			}
+		} else if (visn.equalsIgnoreCase(ALL_VALUE)) {
+			// Return all Station Ids that the user is assigned.
+			for (String stationId : stationIdsList) {
+				StationIdSelectModel stationIdModel = new StationIdSelectModel();
+				stationIdModel.setId(stationId);
+				stationIdModel.setLabel(stationId);
+				stationIdSelectModelList.add(stationIdModel);
+			}
+		} else if (!visn.isEmpty()) {
+			// Return only the Station Ids assigned to the user that is also tied to the provided VISN.
+			List<StationIdSelectModel> stationIds = this.summaryReportDao.getStationIDs(Integer.valueOf(visn)); // all station ids of that visn
+			for (StationIdSelectModel stationIdModel : stationIds) {
+				if (stationIdsList.contains(stationIdModel.getId())) {
+					stationIdSelectModelList.add(stationIdModel);
+				}
+			}
 		}
-		else{
-			
-			List<String> stationIdsList = new ArrayList<String>(Arrays.asList(userStationIds.split(",")));
-			
-			pharmacyStationIdsList = pharmacyService.getSelectedStationIdsByVisn(visn, stationIdsList);
-		}
-				
-		
-		for(PharmacyEntity pharm: pharmacyStationIdsList){
-			
-			StationIdSelectModel stationIdModel = new StationIdSelectModel();
-			
-			stationIdModel.setId(pharm.getVaStationId());
-			stationIdModel.setLabel(pharm.getVaStationId());
-			stationIdSelectModelList.add(stationIdModel);
-		}
-		
-		
-		
 		
 		return stationIdSelectModelList;
 	}
 	
-	private String getUserStationIds( HttpServletRequest request){
-		
+	private String getUserStationIds( HttpServletRequest request) {
 		String userStationIds = "";// Empty String to avoid NPE.
-		
 		HttpSession session = request.getSession(false);
 		
-		if(null!=session.getAttribute("USER_STATIONS_IDS")){
-			
+		if (null!=session.getAttribute("USER_STATIONS_IDS")) {
 			userStationIds = (String)session.getAttribute("USER_STATIONS_IDS");
 		}
 		
-		if(StringUtils.isBlank(userStationIds)){
-		
+		if (StringUtils.isBlank(userStationIds)) {
 			Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();	
-					
 			VaUser currentUser = userService.findByVAUserID((String)authentication.getPrincipal());
-			
 			userStationIds = currentUser.getVaStationIds();
-			
 		}
-		
 		
 		return userStationIds;
 	}
-	
-	
 }

@@ -61,8 +61,7 @@ public class SummaryReportDaoImpl extends BaseDao<Integer, SummaryReportVw> impl
 		
 		String sql = "";
 		
-
-		sql = "select distinct va_station_id from pharmacy where visn in (:visn) order by va_station_id"; 
+		sql = "select distinct va_station_id from pharmacy where visn in (:visn) order by va_station_id";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		
